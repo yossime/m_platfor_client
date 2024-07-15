@@ -1,0 +1,29 @@
+{
+    "name": "fghj",
+    "id": "d",
+    "environment": "Office",
+    "boardCount": 2,
+    "boards": [
+      {
+        "id": "1",
+        "type": "Board",
+        "image": "path/to/image1.jpg",
+        "text": "This is the first board",
+        "material": "Wood",
+        "position": [1, 1, 1],
+        "scale": [1, 1, 1],
+        "rotation": [0, 0, 0]
+      },
+      {
+        "id": "2",
+        "name": "Board2",
+        "image": "path/to/image2.jpg",
+        "text": "This is the second board",
+        "material": "Plastic",
+        "position": [0, 0, 0],
+        "scale": [1, 1, 1],
+        "rotation": [0, 0, 0]
+      }
+    ]
+  }
+  

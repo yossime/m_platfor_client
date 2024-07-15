@@ -1,0 +1,10 @@
+.test {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(149, 190, 126);
+}
