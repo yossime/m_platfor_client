@@ -1,174 +1,191 @@
 import React, { useState } from 'react';
-import Board from '@/components/questionnaire/boxes/board/Board';
+import BoardBox from '@/components/Library/boxes/boardBox/BoardBox';
 import Text from '@components/Library/text/Text';
 import { useQuestionnaireIndex } from '@/context/useQuestionnaire';
-import { Container, ContentWrapper, TextContainer, ItemsContainer } from './CommonStyles';
-import styled from 'styled-components';
+import { Container, TextContainer, ItemsContainer, IndexContainer, ContentWrapper } from './CommonStyles';
 import { IconName, IconSize, IconColor } from '@constants/icon';
+import QuestionnaireIndexContainer from '../../questionnaireIndexContainer/QuestionnaireIndexContainer';
+import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
 
 
 
 interface BoxData {
-	title: string;
-	body: string;
-	iconName: keyof typeof IconName;
-	iconSize: keyof typeof IconSize;
-	iconColor: keyof typeof IconColor;
+    title: string;
+    body: string;
+    iconName: any;
+    iconSize: any;
+    iconColor: any;
 }
 
-
-
 const data: BoxData[] = [
-	{
-		title: "Header",
-		body: "introduce your business with media or 3D objects",
-		iconName: "HOME",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "About us",
-		body: "tell people about your business",
-		iconName: "HOME",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "Contact information",
-		body: "Let your visitors contact you easily",
-		iconName: "HOME",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "Socials",
-		body: "Clickable social media icons",
-		iconName: "HOME",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	},
+    {
+        title: "Header",
+        body: "Clickable social media icons",
+        iconName: IconName.CODE,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "Form",
+        body: "promote easy subscription",
+        iconName: IconName.INFO,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "Testimonials",
+        body: "quote your customers",
+        iconName: IconName.PHONE,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "Image",
+        body: "Display an image",
+        iconName: IconName.SHARE,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
 ];
 
 const data2: BoxData[] = [
-	{
-		title: "Testemonials",
-		body: "Show what Clients have said about your business",
-		iconName: "STAR",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "Features",
-		body: "Showcase your best features",
-		iconName: "STAR",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "3D object",
-		body: "Display a 3D object with interaction",
-		iconName: "STAR",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "Media",
-		body: "Display image or video with a description",
-		iconName: "STAR",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "Article",
-		body: "Add textual content with media",
-		iconName: "STAR",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "FAQ",
-		body: "Display frequently asked questions about your business",
-		iconName: "STAR",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "Team",
-		body: "Show your team",
-		iconName: "STAR",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "Image Gallery",
-		body: "Display images atmosphere",
-		iconName: "STAR",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	}, {
-		title: "Testemonials",
-		body: "Show what Clients have said about your business",
-		iconName: "STAR",
-		iconSize: "MEDIUM",
-		iconColor: "primary_icon"
-	},
+    {
+        title: "Testimonials",
+        body: "Show what Clients have said about your business",
+        iconName: IconName.STAR,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "Features",
+        body: "Showcase your best features",
+        iconName: IconName.PAUSE,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "3D object",
+        body: "Display a 3D object with interaction",
+        iconName: IconName.STOP,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "Media",
+        body: "Display image or video with a description",
+        iconName: IconName.TRASH,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "Article",
+        body: "Add textual content with media",
+        iconName: IconName.VOLUME,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "FAQ",
+        body: "Display frequently asked questions about your business",
+        iconName: IconName.QUESTION,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "Team",
+        body: "Show your team",
+        iconName: IconName.X,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "Image Gallery",
+        body: "Display images atmosphere",
+        iconName: IconName.STAR,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
+    {
+        title: "Testimonials",
+        body: "Show what Clients have said about your business",
+        iconName: IconName.STAR,
+        iconSize: IconSize.MEDIUM,
+        iconColor: IconColor.PRIMARY
+    },
 ];
-
 const Boards: React.FC = () => {
-	const { contextData, setContextData } = useQuestionnaireIndex();
-	const [selected, setSelected] = useState<string[]>(contextData.Boards.value);
+    const { contextData, setContextData } = useQuestionnaireIndex();
+    const [selected, setSelected] = useState<string[]>(contextData.Boards.value);
 
-	const handleClick = (type: string) => {
-		const newSelected = selected.includes(type)
-			? selected.filter(item => item !== type)
-			: [...selected, type];
-		setSelected(newSelected);
-		const isValid = newSelected.length > 0;
+    const handleClick = (type: string) => {
+        const newSelected = selected.includes(type)
+            ? selected.filter(item => item !== type)
+            : [...selected, type];
+        setSelected(newSelected);
+        const isValid = newSelected.length > 0;
 
-		setContextData({
-			...contextData,
-			Boards: {
-				...contextData.Boards,
-				value: newSelected,
-				valid: isValid
-			}
-		});
-	};
+        setContextData({
+            ...contextData,
+            Boards: {
+                ...contextData.Boards,
+                value: newSelected,
+                valid: isValid
+            }
+        });
+    };
 
-	return (
-		<Container>
-			<ContentWrapper>
-				<TextContainer>
-					<Text size="H1" weight="SEMIBLOB" color="primary_text">Choose boards to feature in your 3D environment</Text>
-					<Text size="TEXT1" weight="NORMAL" color="primary_text">Display your information on 3D interface boards</Text>
-				</TextContainer>
-			</ContentWrapper>
-			<div>
-				<Text size="TEXT1" weight="SEMIBLOB" color="primary_text">Recommended for you:</Text>
-				<ItemsContainer>
-					{data.map((item, index) => (
-						<Board
-							key={index}
-							title={item.title}
-							body={item.body}
-							onClick={() => handleClick(item.title)}
-							clicked={selected.includes(item.title)}
-							iconName={item.iconName}
-							iconSize={item.iconSize}
-							iconColor={item.iconColor}
-						/>
-					))}
-				</ItemsContainer>
-			</div>
-			<div>
-				<Text size="TEXT1" weight="SEMIBLOB" color="primary_text">Discover more boards:</Text>
-				<ItemsContainer>
-					{data2.map((item, index) => (
-						<Board
-							key={index}
-							title={item.title}
-							body={item.body}
-							onClick={() => handleClick(item.title)}
-							clicked={selected.includes(item.title)}
-							iconName={item.iconName}
-							iconSize={item.iconSize}
-							iconColor={item.iconColor}
-						/>
-					))}
-				</ItemsContainer>
-			</div>
-		</Container>
-	);
+    return (
+        <Container>
+            <IndexContainer>
+                <QuestionnaireIndexContainer />
+            </IndexContainer>
+            <TextContainer>
+                <Text size={TextSize.D1} family={FontFamily.Poppins} weight={FontWeight.SEMI_BOLD}
+                    color={TextColor.PRIMARY_TEXT}>    Choose widgets you’d like to add</Text>
+                <Text size={TextSize.H3} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
+                    color={TextColor.PRIMARY_TEXT}>  Give your site more functionality with Mocart business solutions.</Text>
+            </TextContainer>
+            <ContentWrapper>
+                <TextContainer>
+                    <Text size={TextSize.H3} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
+                        color={TextColor.PRIMARY_TEXT}>  Recommended for you</Text>
+                </TextContainer>
+                <ItemsContainer>
+                    {data.map((item, index) => (
+                        <BoardBox
+                            key={index}
+                            title={item.title}
+                            body={item.body}
+                            onClick={() => handleClick(item.title)}
+                            clicked={selected.includes(item.title)}
+                            iconName={item.iconName}
+                            iconSize={item.iconSize}
+                            iconColor={item.iconColor}
+                            disabled={false}
+                        />
+                    ))}
+                </ItemsContainer>
+                <TextContainer>
+                    <Text size={TextSize.H3} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
+                        color={TextColor.PRIMARY_TEXT}>  Discover more boards</Text>
+                </TextContainer>
+                <ItemsContainer>
+                    {data2.map((item, index) => (
+                        <BoardBox
+                            key={index}
+                            title={item.title}
+                            body={item.body}
+                            onClick={() => handleClick(item.title)}
+                            clicked={selected.includes(item.title)}
+                            iconName={item.iconName}
+                            iconSize={item.iconSize}
+                            iconColor={item.iconColor}
+                        />
+                    ))}
+                </ItemsContainer>
+            </ContentWrapper>
+        </Container>
+    );
 };
 
 export default Boards;

@@ -18,7 +18,7 @@ const Editor = () => {
                 <>
                     <ThreeDEditor setEditorMode={setEditorMode} />
                     {/* <EditMediaPopup /> */}
-                    <SideBar />
+                    {/* <SideBar /> */}
                 </>
             ) : (
                 <UnityViewer projectId={currentProject as string} setEditorMode={setEditorMode} />

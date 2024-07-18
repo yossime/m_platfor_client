@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { ButtonType, ButtonVariant, ButtonSize, ButtonMode, ButtonSizeConfig, getButtonColors } from '@constants/buttton';
+import { ButtonType, ButtonVariant, ButtonSize, ButtonMode, ButtonSizeConfig, getButtonColors } from '@constants/button';
 
 interface StyledButtonProps {
   buttonType: ButtonType;

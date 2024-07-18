@@ -36,3 +36,22 @@ export const createProject = async (projectData: any, user: User | null) => {
 
   return response.data;
 };
+
+
+export const deleteProject = async (projectId: string, user: User | null) => {
+  if (!user) throw new Error('User not authenticated');
+
+  try {
+    const token = await user.getIdToken(true);
+    const response = await axios.delete(`/project/${projectId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+console.log("response: " + response.status);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting project:', error);
+    throw error;
+  }
+};

@@ -1,11 +1,8 @@
 import { QuestionnaireProvider } from '@context/useQuestionnaire';
-// import "./test.css"
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    // <QuestionnaireProvider>
-      <div className="test">
+    <QuestionnaireProvider>
         {children}
-      </div>
-    // </QuestionnaireProvider>
+    </QuestionnaireProvider>
   );
 }

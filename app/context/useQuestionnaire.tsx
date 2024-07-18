@@ -5,7 +5,7 @@ import React, { createContext, useState, ReactNode, useContext } from 'react';
 export enum QuestionnaireStatus {
   WebsiteType = 'WebsiteType',
   QuestionnaireBusinessName = 'QuestionnaireBusinessName',
-  QuestionnaireApps = 'QuestionnaireApps',
+  // QuestionnaireApps = 'QuestionnaireApps',
   QuestionnaireBoards = 'QuestionnaireBoards',
   QuestionnaireTemplates = 'QuestionnaireTemplates',
   // QuestionnaireProcessing = 'QuestionnaireProcessing',

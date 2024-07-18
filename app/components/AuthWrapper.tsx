@@ -1,22 +1,49 @@
+// 'use client';
+
+// import { AuthProvider } from "../context/AuthContext";
+// import Navbar from "./Library/navbar/Navbar";
+
+// export default function AuthWrapper({ children }: { children: React.ReactNode }) {
+
+//   return (
+//     <>
+//       <AuthProvider>
+//         <Navbar/>
+//         {children}
+//       </AuthProvider>
+
+//     </>
+//   );
+// }
+
 'use client';
 
+import React from 'react';
 import { AuthProvider, useAuth } from "../context/AuthContext";
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "./Library/navbar/Navbar";
+import { handleSignOut } from '@/services/login';
 
-export default function AuthWrapper({ children }: { children: React.ReactNode }) {
-  // const { user, loading } = useAuth();
+const NavbarWithAuth = () => {
+  const { user } = useAuth();
 
-  //   if (loading) {
-  //     return <div>loading...</div>;
-  //   }
+  function setError(error: string): void {
+    console.error('Sign out error:', error);
+  }
 
   return (
-    <>
-      <AuthProvider>
-        <Navbar/>
-        {children}
-      </AuthProvider>
+    <Navbar
+      logo={null}
+      userName={user?.displayName || user?.email}
+      onSignOut={() => handleSignOut(setError)}
+    />
+  );
+};
 
-    </>
+export default function AuthWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <AuthProvider>
+      <NavbarWithAuth />
+      {children}
+    </AuthProvider>
   );
 }

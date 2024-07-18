@@ -1,62 +1,99 @@
-// ProjectListStyles.ts
 import styled from 'styled-components';
+import { SCREEN_SIZES, MEDIA_QUERIES, NAVBAR_HEIGHTS }  from '@constants/screenSizes';
 
 export const Container = styled.div`
-  max-width: 1200px;
+  width: 50%;
   margin: 0 auto;
   padding: 20px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  @media ${MEDIA_QUERIES.LAPTOP} {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 80%;
+    margin-top: ${NAVBAR_HEIGHTS.LAPTOP};
+    max-height: calc(100vh - ${NAVBAR_HEIGHTS.LAPTOP});
+    overflow-y: auto;
+  }
+
+  @media ${MEDIA_QUERIES.TABLET} {
+    width: 90%;
+    margin-top: ${NAVBAR_HEIGHTS.TABLET};
+  }
+
+  @media ${MEDIA_QUERIES.MOBILE} {
+    width: 95%;
+    margin-top: ${NAVBAR_HEIGHTS.MOBILE};
+  }
+
+  @media ${MEDIA_QUERIES.SMALL_MOBILE} {
+    width: 98%;
+    margin-top: ${NAVBAR_HEIGHTS.SMALL_MOBILE};
+  }
 `;
 
 export const ProjectGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  justify-content: flex-start;
+  gap: 32px;
+  justify-content: center;
+
+  @media ${MEDIA_QUERIES.LAPTOP} {
+    gap: 24px;
+  }
+
+  @media ${MEDIA_QUERIES.MOBILE} {
+    gap: 20px;
+  }
+
+  @media ${MEDIA_QUERIES.SMALL_MOBILE} {
+    gap: 16px;
+  }
 `;
 
-export const ProjectCube = styled.div`
-  width: 200px;
-  height: 200px;
-  border: 1px solid #ddd;
-  background-color: #f9f9f9;
-  cursor: pointer;
-  transition: background-color 0.3s;
+export const ContentWrapper = styled.div`
+  align-self: stretch;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  padding: 15px;
-  box-sizing: border-box;
-  overflow: hidden;
-
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
-
-export const CreateProjectCube = styled(ProjectCube)`
-  background-color: #e6f7ff;
   justify-content: center;
-  
-  &:hover {
-    background-color: #bfe6ff;
+  padding: 56px 0;
+
+  @media ${MEDIA_QUERIES.LAPTOP} {
+    padding: 20px 0;
   }
-`;
 
-export const ProjectTitle = styled.div`
-  width: 100%;
-  margin-bottom: 10px;
-  text-align: center;
-`;
+  @media ${MEDIA_QUERIES.TABLET} {
+    padding: 32px 0;
+  }
 
-export const ProjectDetails = styled.div`
-  width: 100%;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-  text-align: center;
+  @media ${MEDIA_QUERIES.MOBILE} {
+    padding: 24px 0;
+  }
+
+  @media ${MEDIA_QUERIES.SMALL_MOBILE} {
+    padding: 16px 0;
+  }
 `;
 
 export const ErrorMessage = styled.div`
   margin-bottom: 20px;
+
+  @media ${MEDIA_QUERIES.LAPTOP} {
+    margin-bottom: 16px;
+  }
+
+  @media ${MEDIA_QUERIES.MOBILE} {
+    margin-bottom: 14px;
+  }
+
+  @media ${MEDIA_QUERIES.SMALL_MOBILE} {
+    margin-bottom: 12px;
+  }
 `;

@@ -1,44 +1,62 @@
-
-
-import React from 'react';
+import React, { useState } from 'react';
 import Text from '@components/Library/text/Text';
 import Input from '@components/Library/input/Input';
 import { useQuestionnaireIndex } from '@/context/useQuestionnaire';
-import { Container, ContentWrapper, TextContainer } from './CommonStyles';
+import { Container, IndexContainer, InputWrapper, TextContainer } from './CommonStyles';
 import { InputSize, InputMode } from '@constants/input';
-import styled from 'styled-components';
+import { useProject } from '@/context/useProjectContext';
+import QuestionnaireIndexContainer from '../../questionnaireIndexContainer/QuestionnaireIndexContainer';
+import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
 
 
 const BusinessName: React.FC = () => {
   const { contextData, setContextData } = useQuestionnaireIndex();
+  const { projects } = useProject();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (value: string) => {
+    const nameExists = projects.some(project => project?.projectName?.toLowerCase() === value.toLowerCase());
+
+    if (nameExists) {
+      setErrorMessage('This business name already exists. Please choose a different name.');
+    } else {
+      setErrorMessage(null);
+    }
+
     setContextData({
       ...contextData,
       Name: {
         ...contextData.Name,
         value: value,
-        valid: value !== ''
+        valid: value !== '' && !nameExists
       }
     });
   };
 
   return (
     <Container>
-      <ContentWrapper>
-        <TextContainer>
-          <Text size="H1" weight="SEMIBLOB" color="primary_text">What's the name of your business?</Text>
-          <Text size="TEXT1" weight="NORMAL" color="primary_text">You can add your existing restaurant or brand name, or create a new one.</Text>
-        </TextContainer>
-      </ContentWrapper>
+      <IndexContainer>
+        <QuestionnaireIndexContainer />
+      </IndexContainer>
+      <TextContainer>
+        <Text size={TextSize.D1} family={FontFamily.Poppins} weight={FontWeight.SEMI_BOLD}
+          color={TextColor.PRIMARY_TEXT}>
+          What's the name of your business?</Text>
+        <Text size={TextSize.H3} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
+          color={TextColor.PRIMARY_TEXT}>
+          You can add your existing restaurant or brand name, or create a new one.</Text>
+      </TextContainer>
+      <InputWrapper>
         <Input
           size={InputSize.LARGE}
-          mode={InputMode.NORMAL}
+          mode={errorMessage ? InputMode.ERROR : InputMode.NORMAL}
           placeholder="Enter your business name"
           value={contextData.Name.value || ''}
           onChange={handleChange}
+          helperText={errorMessage || undefined}
           fullWidth
         />
+      </InputWrapper>
     </Container>
   );
 };

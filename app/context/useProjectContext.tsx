@@ -7,6 +7,8 @@ interface ProjectContextType {
   setCurrentProject: (project: string | null) => void;
   dataParameters: any;
   setDataParameters: (dataParameters: any) => void;
+  projects: any[];
+  setProjects: (projects: any[]) => void;
 }
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
@@ -15,10 +17,13 @@ const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [currentProject, setCurrentProject] = useState<string | null>(null);
     const [dataParameters, setDataParameters] = useState<any>(null);
+    const [projects, setProjects] = useState<any[]>([]);
 
 
 
   const value = {
+    projects,
+    setProjects,
     currentProject,
     setCurrentProject,
     dataParameters,

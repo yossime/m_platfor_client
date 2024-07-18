@@ -1,16 +1,14 @@
 import styled from 'styled-components';
 
 export const ContainerWrapper = styled.div`
-  height: 90%;
-  width: 80%;
+  height: 93%;
+  width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow-y: auto;
   /* background-color: green; */
-
-  
 
   &::-webkit-scrollbar {
     display: none;

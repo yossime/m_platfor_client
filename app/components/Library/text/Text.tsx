@@ -1,23 +1,45 @@
+import { createTextStyle, FontFamily, FontWeight, TextColor, TextSize, TextStyleProps } from '@constants/text';
 import React from 'react';
-import styled from 'styled-components';
-import { TextSize, FontWeight, TextFont, TextColor } from '@constants/text'
 
-interface TextProps {
-    size: keyof typeof TextSize;
-    weight: keyof typeof FontWeight;
-    color: keyof typeof TextColor;
-    children: React.ReactNode;
+interface TextComponentProps extends TextStyleProps {
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
 }
 
-const StyledText = styled.span<TextProps>`
-    font-size: ${props => TextSize[props.size]};
-    font-weight: ${props => FontWeight[props.weight]};
-    font-family: ${props => TextFont[props.size]};
-    color: ${props => TextColor[props.color]};
-`;
+const Text: React.FC<TextComponentProps> = ({
+  size = TextSize.TEXT2,
+  family = FontFamily.Figtree,
+  weight = FontWeight.NORMAL,
+  color = TextColor.PRIMARY_TEXT,
+  children,
+  className,
+  onClick
+}) => {
+  const getFunt = () => {
+    if (size == TextSize.TEXT2 || TextSize.TEXT2) return FontFamily.Figtree
+    else return FontFamily.Poppins
+  }
+  family = getFunt()
+  const style = createTextStyle({ size, family, weight, color });
 
-const Text: React.FC<TextProps> = ({ size, weight, color, children }) => {
-    return <StyledText size={size} weight={weight} color={color}>{children}</StyledText>;
+  return (
+    <span
+      style={style}
+      className={className}
+      onClick={onClick}
+    >
+      {children}
+    </span>
+  );
 };
 
 export default Text;
+
+{/* <Text 
+size={TextSize.TEXT1} 
+family={FontFamily.Figtree} 
+weight={FontWeight.NORMAL} 
+color={TextColor.SECONDARY_TEXT}
+>
+</Text> */}

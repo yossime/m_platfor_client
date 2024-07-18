@@ -1,15 +1,10 @@
 "use client"
-import CreateProjectViaQuestionnaire from './Questionnaire'
-import { QuestionnaireProvider } from '@context/useQuestionnaire';
+import Questionnaire from '@/components/questionnaire/Questionnaire'
 
-const Questionnaire = () => {
+const QuestionnairePage = () => {
     return (
-        <>
-        <QuestionnaireProvider>
-        <CreateProjectViaQuestionnaire/>
-        </QuestionnaireProvider>
-        </>
+        <Questionnaire/>
     );
 };
 
-export default Questionnaire;
+export default QuestionnairePage;
