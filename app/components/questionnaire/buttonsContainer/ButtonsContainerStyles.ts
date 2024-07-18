@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  height: 7%;
   width: 100%;
 `;
 

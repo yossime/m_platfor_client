@@ -1,25 +1,22 @@
-// ProjectList.tsx
 "use client"
-
 import { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import { useProject } from '@/context/useProjectContext';
 import { useAuth } from '@/context/AuthContext';
-import { fetchProjects, fetchProject } from '@/services/projectService';
+import { fetchProjects, fetchProject, deleteProject } from '@/services/projectService';
 import Text from '@components/Library/text/Text';
-import { 
-  Container, 
-  ProjectGrid, 
-  ProjectCube, 
-  CreateProjectCube, 
-  ProjectTitle,
-  ProjectDetails,
-  ErrorMessage 
+import {
+  Container,
+  ProjectGrid,
+  ErrorMessage,
+  ContentWrapper,
 } from './ProjectListStyles';
+import CreateProjectBox from '../Library/boxes/projectBox/createProjectBox/CreateProjectBox';
+import ProjectBox from '../Library/boxes/projectBox/projectBox/ProjectBox';
+import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
 
 const ProjectList: React.FC = () => {
-  const { setCurrentProject, setDataParameters } = useProject();
-  const [projects, setProjects] = useState<any[]>([]);
+  const { setCurrentProject, setDataParameters, projects, setProjects } = useProject();
   const [error, setError] = useState<string>('');
 
   const { user } = useAuth();
@@ -38,7 +35,7 @@ const ProjectList: React.FC = () => {
     };
 
     loadProjects();
-  }, [user]);
+  }, [user, setProjects]);
 
   const selectProject = async (projectId: string) => {
     try {
@@ -54,29 +51,45 @@ const ProjectList: React.FC = () => {
 
   const handleCreateProject = () => {
     router.push('createProject/create-via-questionnaire');
-    console.log('Create new project');
   };
+
+  const handleDeleteProject = async (projectId: string) => {
+    if (!user) return;
+
+    try {
+      await deleteProject(projectId, user);
+      setProjects(projects.filter(project => project.id !== projectId));
+    } catch (error) {
+      console.error('Error deleting project:', error);
+      setError('Failed to delete project');
+    }
+  };
+
+  const hasProjects = projects.length > 0;
 
   return (
     <Container>
-      {error && (
-        <ErrorMessage>
-          <Text size="TEXT1" weight="NORMAL" color="negative">{error}</Text>
-        </ErrorMessage>
-      )}
+      <ContentWrapper>
+      <Text size={TextSize.H2} weight={FontWeight.NORMAL} color={TextColor.SECONDARY_TEXT} family={FontFamily.Poppins}>
+      {hasProjects ? `Welcome Back ${user?.displayName || 'User'}!` : "Let's get started!"}
+        </Text>
+        <Text size={TextSize.D1} weight={FontWeight.SEMI_BOLD} color={TextColor.PRIMARY_TEXT} family={FontFamily.Poppins}>
+          {hasProjects ? 'My Web Spaces' : 'Start creating your 3D web space'}
+        </Text>
+      </ContentWrapper>
+
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       <ProjectGrid>
-        <CreateProjectCube onClick={handleCreateProject}>
-          <Text size="TEXT1" weight="NORMAL" color="primary_text">Create Project</Text>
-        </CreateProjectCube>
+        <CreateProjectBox onClick={handleCreateProject} text="New Project" />
+        <CreateProjectBox disabled={true} onClick={() => {/* handle URL creation */}} text="Create with URL" />
+        <CreateProjectBox disabled={true} onClick={() => {/* handle AI creation */}} text="Create with AI" />
         {projects.map(project => (
-          <ProjectCube key={project.id} onClick={() => selectProject(project.id)}>
-            <ProjectTitle>
-              <Text size="TEXT1" weight="SEMIBLOB" color="primary_text">{project.projectName}</Text>
-            </ProjectTitle>
-            <ProjectDetails>
-              <Text size="TEXT2" weight="NORMAL" color="secondary_text">{project.projectDetails}</Text>
-            </ProjectDetails>
-          </ProjectCube>
+          <ProjectBox
+            key={project.id}
+            project={project}
+            onSelect={selectProject}
+            onDelete={handleDeleteProject}
+          />
         ))}
       </ProjectGrid>
     </Container>

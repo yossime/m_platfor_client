@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Text from '../text/Text';
-import colors from '@constants/colors.json';
-import { InputSize, InputMode, InputSizeConfig, getInputColors, TextColorKey } from '@constants/input';
-import { TextSize, FontWeight, TextColor } from '@constants/text';
+import { InputSize, InputMode, InputSizeConfig, getInputColors } from '@constants/input';
+import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
 
 export interface InputProps {
   size: InputSize;
@@ -18,6 +17,7 @@ export interface InputProps {
 
 const InputWrapper = styled.div<{ fullWidth: boolean }>`
   width: ${props => props.fullWidth ? '100%' : 'auto'};
+  max-width: 900px; 
 `;
 
 const StyledInput = styled.input<{ size: InputSize; mode: InputMode; fullWidth: boolean }>`
@@ -25,16 +25,26 @@ const StyledInput = styled.input<{ size: InputSize; mode: InputMode; fullWidth: 
     const { height, padding, fontSize } = InputSizeConfig[props.size];
     const { background, text, border } = getInputColors(props.mode);
     return `
-      height: ${height}px;
+      height: ${height};
       padding: ${padding};
       background-color: ${background};
       color: ${text};
       border: 1px solid ${border};
       border-radius: 4px;
       width: ${props.fullWidth ? '100%' : 'auto'};
-      font-size: ${colors.text_colors[fontSize as TextColorKey]};
+      font-size: ${TextSize[fontSize]};
+      font-family: ${FontFamily.Figtree};
+      margin: 8px 0; 
     `;
   }}
+`;
+
+const LabelText = styled(Text)`
+  margin-bottom: 8px;
+`;
+
+const HelperText = styled(Text)`
+  margin-top: 8px; 
 `;
 
 const Input: React.FC<InputProps> = ({
@@ -54,13 +64,14 @@ const Input: React.FC<InputProps> = ({
   return (
     <InputWrapper fullWidth={fullWidth}>
       {label && (
-        <Text
-          size={'TEXT1'}
-          weight={'NORMAL'}
-          color={mode === InputMode.DISABLED ? 'disabled_text' : 'primary_text'}
+        <LabelText
+          family={FontFamily.Poppins}
+          size={TextSize.TEXT2}
+          weight={FontWeight.NORMAL}
+          color={mode === InputMode.DISABLED ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT}
         >
           {label}
-        </Text>
+        </LabelText>
       )}
       <StyledInput
         size={size}
@@ -72,16 +83,28 @@ const Input: React.FC<InputProps> = ({
         fullWidth={fullWidth}
       />
       {helperText && (
-        <Text
-          size={'TEXT1'}
-          weight={'NORMAL'}
-          color={mode === InputMode.ERROR ? 'negative' : 'secondary_text'}
+        <HelperText
+          family={FontFamily.Poppins}
+          size={TextSize.TEXT2}
+          weight={FontWeight.NORMAL}
+          color={mode === InputMode.ERROR ? TextColor.NEGATIVE : TextColor.SECONDARY_TEXT}
         >
           {helperText}
-        </Text>
+        </HelperText>
       )}
     </InputWrapper>
   );
 };
 
 export default Input;
+
+
+{/* <Input
+  size={InputSize.MEDIUM}
+  mode={InputMode.NORMAL}
+  value={value}
+  onChange={(newValue) => setValue(newValue)}
+  label="Email Address"
+  placeholder="example@example.com"
+  helperText="Please enter a valid email address"
+/> */}

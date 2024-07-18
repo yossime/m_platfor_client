@@ -1,4 +1,6 @@
-import colors from './colors.json';
+// textConstants.ts
+
+import { overlay } from "three/examples/jsm/nodes/Nodes.js";
 
 export enum TextSize {
     D1 = '57px',
@@ -16,22 +18,41 @@ export enum FontFamily {
     Figtree = 'Figtree, sans-serif',
 }
 
-export enum TextFont {
-    D1 = FontFamily.Poppins,
-    D2 = FontFamily.Poppins,
-    D3 = FontFamily.Poppins,
-    H1 = FontFamily.Poppins,
-    H2 = FontFamily.Poppins,
-    H3 = FontFamily.Poppins,
-    TEXT1 = FontFamily.Figtree,
-    TEXT2 = FontFamily.Figtree,
-}
-
 export enum FontWeight {
-    BLOB = 700,
-    SEMIBLOB = 600,
+    BOLD = 700,
+    SEMI_BOLD = 600,
     NORMAL = 500,
     LIGHT = 400,
 }
 
-export const TextColor = colors.text_colors;
+export enum TextColor {
+    POSITIVE = '#147B6F',
+    NEGATIVE = '#FF474A',
+    PRIMARY_TEXT = '#323338',
+    SECONDARY_TEXT = '#676879',
+    TEXT_ON_INVERTED = '#FFFFFF',
+    TEXT_ON_PRIMARY = '#FFFFFF',
+    DISABLED_TEXT = '#676879',
+    PLACEHOLDER = '#676879',
+    LINK = '#1877F2',
+    BLACK = '#000000',
+}
+
+export interface TextStyleProps {
+    size: TextSize;
+    family?: FontFamily;
+    weight?: FontWeight;
+    color?: TextColor;
+}
+
+export const createTextStyle = ({
+    size,
+    family,
+    weight,
+    color
+}: TextStyleProps) => ({
+    fontSize: size,
+    fontFamily: family,
+    fontWeight: weight,
+    color: color,
+});

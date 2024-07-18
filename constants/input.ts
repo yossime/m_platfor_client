@@ -1,6 +1,5 @@
-// input.ts
-
-import colors from './colors.json';
+import { BackgroundColor, BorderColor, SemanticColors } from './colors';
+import { TextColor } from './text';
 
 export enum InputSize {
   SMALL = 'small',
@@ -23,32 +22,28 @@ export const InputSizeConfig = {
   [InputSize.LARGE]: { height: '48px', padding: '12px 16px', fontSize: 'TEXT1' as const },
 };
 
-const semantic_colors = colors.semantic_colors;
-const text_colors = colors.text_colors;
-
-export type TextColorKey = keyof typeof text_colors;
-
 export const getInputColors = (mode: InputMode) => {
   const colors = {
-    background: 'transparent',
-    text: text_colors.primary_text,
-    border: semantic_colors.ui_border,
+    background: BackgroundColor.PRIMARY_BACKGROUND,
+    text: TextColor.PRIMARY_TEXT,
+    border: BorderColor.UI_BORDER,
   };
 
   switch (mode) {
     case InputMode.ACTIVE:
-      colors.border = semantic_colors.primary;
+      colors.border = BorderColor.PRIMARY;
+      colors.text = TextColor.PRIMARY_TEXT;
       break;
     case InputMode.DISABLED:
-      colors.background = semantic_colors.disabled_background;
-      colors.text = text_colors.disabled_text;
-      colors.border = semantic_colors.disabled_background;
+      colors.background = BackgroundColor.DISABLED_BACKGROUND;
+      colors.text = TextColor.DISABLED_TEXT;
+      colors.border = BorderColor.TRANSPARENT;
       break;
     case InputMode.POSITIVE:
-      colors.border = semantic_colors.positive;
+      colors.border = BorderColor.POSITIVE;
       break;
     case InputMode.ERROR:
-      colors.border = semantic_colors.negative;
+      colors.border = BorderColor.NEGATIVE;
       break;
   }
 

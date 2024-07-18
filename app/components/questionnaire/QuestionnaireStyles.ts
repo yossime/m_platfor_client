@@ -6,9 +6,8 @@ export const QuestionnaireWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 8px;
-  width: 95%;
-  max-width: 1500px;
+  width: 100%;
+  max-width: 1900px;
   min-width: 600px;
   height: 100%;
   min-height: 200px;
@@ -18,7 +17,6 @@ export const QuestionnaireWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  /* background-color: pink; */
 `;
 
 export const HorizontalLine = styled.div`

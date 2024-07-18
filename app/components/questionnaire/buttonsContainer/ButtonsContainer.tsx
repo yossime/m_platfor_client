@@ -6,13 +6,19 @@ import { useAuth } from '@/context/AuthContext';
 import { createProject } from '@/services/projectService';
 import { getNextIndex, isCurrentPageValid } from '@utils/questionnaireUtils';
 import Button from '@components/Library/button/Button';
-import { ButtonType, ButtonVariant, ButtonSize, ButtonMode } from '@constants/buttton';
+import { ButtonType, ButtonVariant, ButtonSize, ButtonMode } from '@constants/button';
 import { ButtonsWrapper, LeftButtonContainer, RightButtonContainer } from './ButtonsContainerStyles';
 import { toast } from 'react-toastify'; // Assuming you're using react-toastify for notifications
+import { useProject } from '@/context/useProjectContext';
+import { useRouter } from "next/navigation";
+
 
 const ButtonsContainer: React.FC = () => {
   const { currentIndex, setIndex, contextData } = useQuestionnaireIndex();
   const { user } = useAuth();
+  const {setProjects, projects} = useProject();
+  const router = useRouter();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChangeIndex = (move: number) => {
@@ -29,10 +35,13 @@ const ButtonsContainer: React.FC = () => {
         projectName: contextData.Name.value,
         projectParams: contextData
       };
-      await createProject(newProject, user);
+      const result = await createProject(newProject, user);
       toast.success('Project created successfully!');
-      // Navigate to the next page or dashboard
-      // You might want to add navigation logic here
+      setProjects([...projects, { id: result.projectId, projectName: contextData.Name.value }]);
+      router.push('/userPage');
+
+      console.log(projects);
+    
     } catch (error) {
       console.error('Error creating project:', error);
       toast.error('Failed to create project. Please try again.');
@@ -64,7 +73,7 @@ const ButtonsContainer: React.FC = () => {
             type={ButtonType.PRIMARY}
             variant={ButtonVariant.PRIMARY}
             size={ButtonSize.MEDIUM}
-            mode={isSubmitting ? ButtonMode.DISABLED : ButtonMode.NORMAL}
+            mode={isCurrentPageValid(currentIndex, contextData) ? ButtonMode.NORMAL : ButtonMode.DISABLED}
             text={isSubmitting ? "Submitting..." : "Submit"}
             onClick={handleSubmit}
             aria-label="Submit project"

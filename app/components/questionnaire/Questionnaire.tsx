@@ -2,20 +2,17 @@
 import React, { ReactNode } from 'react';
 import {
   QuestionnaireWrapper,
-  HorizontalLine,
-  VerticalLine
 } from './QuestionnaireStyles';
+import QuestionnaireContainer from './questionnaireContainer/QuestionnaireContainer';
+import ButtonsContainer from './buttonsContainer/ButtonsContainer';
 
-interface QuestionnaireProps {
-  children: ReactNode;
-}
 
-const Questionnaire: React.FC<QuestionnaireProps> = ({ children }) => {
+
+const Questionnaire: React.FC = () => {
   return (
     <QuestionnaireWrapper>
-      <HorizontalLine />
-      <VerticalLine />
-      {children}
+      <QuestionnaireContainer />
+      <ButtonsContainer />
     </QuestionnaireWrapper>
   );
 };

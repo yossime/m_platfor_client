@@ -76,7 +76,7 @@ const getFbx = async () =>  {
           ))}
           {/* <VideoObject/> */}
           {/* <AddImage /> */}
-          <LoadModel type={'FBX'} url={`https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/project/fbx/1dxd87kpcKWUQo4mSxYl`} position={[0, 0, 0]} />
+          {/* <LoadModel type={'FBX'} url={`https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/project/fbx/1dxd87kpcKWUQo4mSxYl`} position={[0, 0, 0]} /> */}
         </Suspense>
       </Canvas>
       <ControlsPanel />

@@ -1,6 +1,6 @@
 "use client"
-import LoginComponent from '@/components/login/login';
-import SignUpComponent from '@/components/login/SignUp';
+import LoginComponent from '@/components/connection/login/login';
+import SignUpComponent from '@/components/connection/signUp/SignUp';
 import { auth } from '@/services/firebase';
 import { LoginProvider } from '@context/useLogin';
 import { useRouter } from 'next/navigation';

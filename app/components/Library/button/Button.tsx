@@ -1,14 +1,10 @@
 import React from 'react';
 import Text from '@components/Library/text/Text'
-import { ButtonType, ButtonVariant, ButtonSize, ButtonMode, getButtonColors } from '@constants/buttton';
-import { TextSize, TextColor } from '@constants/text';
+import { ButtonType, ButtonVariant, ButtonSize, ButtonMode, getButtonColors } from '@constants/button';
+import { TextSize, TextColor, FontWeight, FontFamily } from '@constants/text';
 import { StyledButton, IconWrapper } from './ButtonStyles';
 import Icon from '@/components/Library/icon/Icon';
-import { IconName, IconSize, IconColor } from '@constants/icon';
-
-type IconNameType = keyof typeof IconName;
-type IconSizeType = keyof typeof IconSize;
-type IconColorType = keyof typeof IconColor;
+import { IconColor, IconName, IconSize } from '@constants/icon';
 
 export interface ButtonProps {
   type: ButtonType;
@@ -16,10 +12,10 @@ export interface ButtonProps {
   size: ButtonSize;
   mode?: ButtonMode;
   text?: string;
-  icon?: IconNameType;
+  icon?: IconName;
   iconPosition?: 'left' | 'right';
   fullWidth?: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -35,23 +31,30 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const { text: textColor } = getButtonColors(type, variant, mode);
 
-  const iconSize: IconSizeType = size === ButtonSize.LARGE || size === ButtonSize.MEDIUM ? 'MEDIUM' : 'SMALL';
-
-  const getTextSize = (buttonSize: ButtonSize): keyof typeof TextSize => {
+  const getIconSize = (buttonSize: ButtonSize): IconSize => {
     switch (buttonSize) {
       case ButtonSize.LARGE:
       case ButtonSize.MEDIUM:
-        return 'TEXT1';
+        return IconSize.MEDIUM;
       case ButtonSize.SMALL:
       case ButtonSize.XS:
-        return 'TEXT2';
+        return IconSize.SMALL;
       default:
-        return 'TEXT1';
+        return IconSize.MEDIUM;
     }
   };
 
-  const getTextColorKey = (color: string): keyof typeof TextColor => {
-    return Object.keys(TextColor).find(key => TextColor[key as keyof typeof TextColor] === color) as keyof typeof TextColor || 'primary_text';
+  const getTextSize = (buttonSize: ButtonSize): TextSize => {
+    switch (buttonSize) {
+      case ButtonSize.LARGE:
+      case ButtonSize.MEDIUM:
+        return TextSize.TEXT1;
+      case ButtonSize.SMALL:
+      case ButtonSize.XS:
+        return TextSize.TEXT2;
+      default:
+        return TextSize.TEXT1;
+    }
   };
 
   return (
@@ -65,21 +68,23 @@ const Button: React.FC<ButtonProps> = ({
     >
       {icon && iconPosition === 'left' && (
         <IconWrapper position="left">
-          <Icon name={icon} size={iconSize} color={textColor as IconColorType} />
+          <Icon name={icon} size={getIconSize(size)} color={textColor as IconColor} />
         </IconWrapper>
       )}
       {text && (
         <Text
           size={getTextSize(size)}
-          weight="NORMAL"
-          color={getTextColorKey(textColor)}
+          weight={FontWeight.NORMAL}
+          color={textColor as  TextColor}
+          family={FontFamily.Figtree} 
+
         >
           {text}
         </Text>
       )}
       {icon && iconPosition === 'right' && (
         <IconWrapper position="right">
-          <Icon name={icon} size={iconSize} color={textColor as IconColorType} />
+          <Icon name={icon} size={getIconSize(size)} color={textColor as IconColor} />
         </IconWrapper>
       )}
     </StyledButton>
