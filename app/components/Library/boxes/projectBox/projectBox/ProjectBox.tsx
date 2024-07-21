@@ -15,7 +15,7 @@ import { TextSize } from '@constants/text';
 interface ProjectBoxProps {
     project: {
         id: string;
-        name: string;
+        projectName: string;
         imageUrl: string;
     };
     clicked?: boolean;
@@ -26,7 +26,6 @@ interface ProjectBoxProps {
 
 const ProjectBox: React.FC<ProjectBoxProps> = ({ project, clicked = false, onSelect, onDelete, disabled = false }) => {
     project.imageUrl = 'images/Forest.jpg'
-    
     return (
         <ProjectBoxContainer clicked={clicked} onClick={() => onSelect(project.id)} disabled={disabled}>
             <DeleteIconWrapper>
@@ -42,10 +41,10 @@ const ProjectBox: React.FC<ProjectBoxProps> = ({ project, clicked = false, onSel
                 />
             </DeleteIconWrapper>
             <ProjectImageContainer>
-                <ProjectImage src={project.imageUrl} alt={project.name} />
+                <ProjectImage src={project.imageUrl} alt={project.projectName} />
             </ProjectImageContainer>
             <ProjectTitle>
-            <Text size={TextSize.TEXT1}>{project.name}</Text>
+            <Text size={TextSize.TEXT2}>{project.projectName}</Text>
             </ProjectTitle>
         </ProjectBoxContainer>
     );

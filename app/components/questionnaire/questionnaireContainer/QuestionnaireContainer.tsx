@@ -13,7 +13,6 @@ import QuestionnaireIndexContainer from '../questionnaireIndexContainer/Question
 const componentMap: { [key in QuestionnaireStatus]: ReactNode } = {
   [QuestionnaireStatus.QuestionnaireTemplates]: <Design />,
   [QuestionnaireStatus.QuestionnaireBoards]: <Boards />,
-  // [QuestionnaireStatus.QuestionnaireApps]: <Apps />,
   [QuestionnaireStatus.QuestionnaireBusinessName]: <BusinessName />,
   [QuestionnaireStatus.WebsiteType]: <WebsiteType />,
 };

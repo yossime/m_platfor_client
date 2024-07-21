@@ -12,6 +12,7 @@ const Text: React.FC<TextComponentProps> = ({
   family = FontFamily.Figtree,
   weight = FontWeight.NORMAL,
   color = TextColor.PRIMARY_TEXT,
+  cursorStyle = 'default',
   children,
   className,
   onClick
@@ -21,7 +22,7 @@ const Text: React.FC<TextComponentProps> = ({
     else return FontFamily.Poppins
   }
   family = getFunt()
-  const style = createTextStyle({ size, family, weight, color });
+  const style = createTextStyle({ size, family, weight, color, cursorStyle });
 
   return (
     <span

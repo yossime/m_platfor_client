@@ -1,21 +1,3 @@
-// 'use client';
-
-// import { AuthProvider } from "../context/AuthContext";
-// import Navbar from "./Library/navbar/Navbar";
-
-// export default function AuthWrapper({ children }: { children: React.ReactNode }) {
-
-//   return (
-//     <>
-//       <AuthProvider>
-//         <Navbar/>
-//         {children}
-//       </AuthProvider>
-
-//     </>
-//   );
-// }
-
 'use client';
 
 import React from 'react';

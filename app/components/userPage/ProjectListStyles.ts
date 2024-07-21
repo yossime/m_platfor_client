@@ -2,13 +2,11 @@ import styled from 'styled-components';
 import { SCREEN_SIZES, MEDIA_QUERIES, NAVBAR_HEIGHTS }  from '@constants/screenSizes';
 
 export const Container = styled.div`
-  width: 50%;
+  width: 658px;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
   position: absolute;
-  top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
 
   @media ${MEDIA_QUERIES.LAPTOP} {
@@ -20,6 +18,10 @@ export const Container = styled.div`
     margin-top: ${NAVBAR_HEIGHTS.LAPTOP};
     max-height: calc(100vh - ${NAVBAR_HEIGHTS.LAPTOP});
     overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #DEDCFF transparent;
+ 
   }
 
   @media ${MEDIA_QUERIES.TABLET} {

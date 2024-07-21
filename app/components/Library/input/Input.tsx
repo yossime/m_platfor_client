@@ -1,8 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import Text from '../text/Text';
-import { InputSize, InputMode, InputSizeConfig, getInputColors } from '@constants/input';
+import { InputSize, InputMode } from '@constants/input';
 import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
+import { InputWrapper, StyledInput, LabelText, HelperText } from './InputStyles';
 
 export interface InputProps {
   size: InputSize;
@@ -15,38 +15,6 @@ export interface InputProps {
   fullWidth?: boolean;
 }
 
-const InputWrapper = styled.div<{ fullWidth: boolean }>`
-  width: ${props => props.fullWidth ? '100%' : 'auto'};
-  max-width: 900px; 
-`;
-
-const StyledInput = styled.input<{ size: InputSize; mode: InputMode; fullWidth: boolean }>`
-  ${props => {
-    const { height, padding, fontSize } = InputSizeConfig[props.size];
-    const { background, text, border } = getInputColors(props.mode);
-    return `
-      height: ${height};
-      padding: ${padding};
-      background-color: ${background};
-      color: ${text};
-      border: 1px solid ${border};
-      border-radius: 4px;
-      width: ${props.fullWidth ? '100%' : 'auto'};
-      font-size: ${TextSize[fontSize]};
-      font-family: ${FontFamily.Figtree};
-      margin: 8px 0; 
-    `;
-  }}
-`;
-
-const LabelText = styled(Text)`
-  margin-bottom: 8px;
-`;
-
-const HelperText = styled(Text)`
-  margin-top: 8px; 
-`;
-
 const Input: React.FC<InputProps> = ({
   size,
   mode,
@@ -56,13 +24,14 @@ const Input: React.FC<InputProps> = ({
   value,
   onChange,
   fullWidth = true,
+  ...props
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
 
   return (
-    <InputWrapper fullWidth={fullWidth}>
+    <InputWrapper $fullWidth={fullWidth}>
       {label && (
         <LabelText
           family={FontFamily.Poppins}
@@ -74,13 +43,14 @@ const Input: React.FC<InputProps> = ({
         </LabelText>
       )}
       <StyledInput
-        size={size}
-        mode={mode}
+        $size={size}
+        $mode={mode}
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
         disabled={mode === InputMode.DISABLED}
-        fullWidth={fullWidth}
+        $fullWidth={fullWidth}
+        {...props}
       />
       {helperText && (
         <HelperText
@@ -97,14 +67,3 @@ const Input: React.FC<InputProps> = ({
 };
 
 export default Input;
-
-
-{/* <Input
-  size={InputSize.MEDIUM}
-  mode={InputMode.NORMAL}
-  value={value}
-  onChange={(newValue) => setValue(newValue)}
-  label="Email Address"
-  placeholder="example@example.com"
-  helperText="Please enter a valid email address"
-/> */}

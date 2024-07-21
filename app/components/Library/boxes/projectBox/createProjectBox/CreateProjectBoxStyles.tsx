@@ -18,3 +18,11 @@ export const CreateProjectText = styled.div`
   text-align: center;
   padding: 15px;
 `;
+
+export const ComingSoon = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  background-color: #584CEC;
+  top: 20px;
+`

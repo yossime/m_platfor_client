@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { ButtonType, ButtonVariant, ButtonSize } from '@constants/button';
+import { ButtonType, ButtonVariant, ButtonSize, ButtonMode } from '@constants/button';
 import Text from '@components/Library/text/Text';
 import LogoIcon from './LogoIcon.svg';
 import {
@@ -20,9 +20,6 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ logo = null, userName, onSignOut }) => {
-  function setError(error: string): void {
-    console.error('Sign out error:', error);
-  }
 
   return (
     <NavbarWrapper>
@@ -34,7 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({ logo = null, userName, onSignOut }) => 
           {userName && (
             <WelcomeText>
               <Text
-               size={TextSize.TEXT1}
+                size={TextSize.TEXT1}
                 weight={FontWeight.NORMAL}
                 color={TextColor.PRIMARY_TEXT}
                 family={FontFamily.Figtree}
@@ -43,13 +40,16 @@ const Navbar: React.FC<NavbarProps> = ({ logo = null, userName, onSignOut }) => 
               </Text>
             </WelcomeText>
           )}
-          <Button
-            type={ButtonType.PRIMARY}
-            variant={ButtonVariant.SECONDARY}
-            size={ButtonSize.SMALL}
-            text="Sign out"
-            onClick={onSignOut || (() => console.log('Sign out clicked'))}
-          />
+          {userName &&
+            <Button
+              type={ButtonType.PRIMARY}
+              variant={ButtonVariant.SECONDARY}
+              size={ButtonSize.SMALL}
+              text="Sign out"
+              onClick={onSignOut || (() => console.log('Sign out clicked'))}
+            />
+          }
+
         </UserContainer>
       </NavbarContainer>
     </NavbarWrapper>

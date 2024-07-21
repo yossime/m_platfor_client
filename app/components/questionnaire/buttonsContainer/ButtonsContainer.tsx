@@ -1,32 +1,32 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useQuestionnaireIndex } from '@context/useQuestionnaire';
 import { useAuth } from '@/context/AuthContext';
 import { createProject } from '@/services/projectService';
 import { getNextIndex, isCurrentPageValid } from '@utils/questionnaireUtils';
 import Button from '@components/Library/button/Button';
 import { ButtonType, ButtonVariant, ButtonSize, ButtonMode } from '@constants/button';
-import { ButtonsWrapper, LeftButtonContainer, RightButtonContainer } from './ButtonsContainerStyles';
-import { toast } from 'react-toastify'; // Assuming you're using react-toastify for notifications
+import { ButtonsWrapper, ButtonsContainer as StyledButtonsContainer, LeftButtonContainer, RightButtonContainer } from './ButtonsContainerStyles';
+import { toast } from 'react-toastify';
 import { useProject } from '@/context/useProjectContext';
 import { useRouter } from "next/navigation";
-
+import { IconName } from '@constants/icon';
 
 const ButtonsContainer: React.FC = () => {
   const { currentIndex, setIndex, contextData } = useQuestionnaireIndex();
   const { user } = useAuth();
-  const {setProjects, projects} = useProject();
+  const { setProjects, projects } = useProject();
   const router = useRouter();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChangeIndex = (move: number) => {
+  const handleChangeIndex = useCallback((move: number) => {
     if ((move > 0 && isCurrentPageValid(currentIndex, contextData)) || move < 0) {
       const newIndex = getNextIndex(currentIndex, move);
       setIndex(newIndex);
     }
-  };
+  }, [currentIndex, contextData, setIndex]);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
@@ -39,9 +39,6 @@ const ButtonsContainer: React.FC = () => {
       toast.success('Project created successfully!');
       setProjects([...projects, { id: result.projectId, projectName: contextData.Name.value }]);
       router.push('/userPage');
-
-      console.log(projects);
-    
     } catch (error) {
       console.error('Error creating project:', error);
       toast.error('Failed to create project. Please try again.');
@@ -50,45 +47,68 @@ const ButtonsContainer: React.FC = () => {
     }
   };
 
-  const isFirstPage = currentIndex === null || currentIndex === 'WebsiteType';
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Enter' && isCurrentPageValid(currentIndex, contextData)) {
+      if (currentIndex === 'QuestionnaireTemplates') {
+        handleSubmit();
+      } else {
+        handleChangeIndex(1);
+      }
+    }
+  }, [currentIndex, contextData, handleChangeIndex, handleSubmit]);
+
+  useEffect(() => {
+    window.addEventListener('keypress', handleKeyPress);
+    return () => {
+      window.removeEventListener('keypress', handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
+  const handleBack = () => {
+    router.push('/userPage');
+  };
+
+  const isFirstPage = currentIndex === 'WebsiteType';
   const isLastPage = currentIndex === 'QuestionnaireTemplates';
 
   return (
     <ButtonsWrapper>
-      <LeftButtonContainer>
-        {!isFirstPage && (
+      <StyledButtonsContainer>
+        <LeftButtonContainer>
           <Button
+            icon={IconName.ARROWLEFT}
+            iconPosition='left'
             type={ButtonType.PRIMARY}
             variant={ButtonVariant.TERTIARY}
             size={ButtonSize.MEDIUM}
             mode={ButtonMode.NORMAL}
             text="Back"
-            onClick={() => handleChangeIndex(-1)}
+            onClick={isFirstPage ? handleBack : () => handleChangeIndex(-1)}
           />
-        )}
-      </LeftButtonContainer>
-      <RightButtonContainer>
-        {isLastPage ? (
-          <Button
-            type={ButtonType.PRIMARY}
-            variant={ButtonVariant.PRIMARY}
-            size={ButtonSize.MEDIUM}
-            mode={isCurrentPageValid(currentIndex, contextData) ? ButtonMode.NORMAL : ButtonMode.DISABLED}
-            text={isSubmitting ? "Submitting..." : "Submit"}
-            onClick={handleSubmit}
-            aria-label="Submit project"
-          />
-        ) : (
-          <Button
-            type={ButtonType.PRIMARY}
-            variant={ButtonVariant.PRIMARY}
-            size={ButtonSize.MEDIUM}
-            mode={isCurrentPageValid(currentIndex, contextData) ? ButtonMode.NORMAL : ButtonMode.DISABLED}
-            text="Continue"
-            onClick={() => handleChangeIndex(1)}
-          />
-        )}
-      </RightButtonContainer>
+        </LeftButtonContainer>
+        <RightButtonContainer>
+          {isLastPage ? (
+            <Button
+              type={ButtonType.PRIMARY}
+              variant={ButtonVariant.PRIMARY}
+              size={ButtonSize.SMALL}
+              mode={isCurrentPageValid(currentIndex, contextData) ? ButtonMode.NORMAL : ButtonMode.DISABLED}
+              text={isSubmitting ? "Submitting..." : "Submit"}
+              onClick={handleSubmit}
+              aria-label="Submit project"
+            />
+          ) : (
+            <Button
+              type={ButtonType.PRIMARY}
+              variant={ButtonVariant.PRIMARY}
+              size={ButtonSize.SMALL}
+              mode={isCurrentPageValid(currentIndex, contextData) ? ButtonMode.NORMAL : ButtonMode.DISABLED}
+              text="Continue"
+              onClick={() => handleChangeIndex(1)}
+            />
+          )}
+        </RightButtonContainer>
+      </StyledButtonsContainer>
     </ButtonsWrapper>
   );
 }

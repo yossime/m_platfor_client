@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { BackgroundColor, BorderColor, TextColor } from '@constants/colors'; 
+import { BackgroundColor, BorderColor, SemanticColors, TextColor } from '@constants/colors'; 
 
 export const BaseBox = styled.div<{ clicked: boolean; disabled: boolean }>`
   position: relative;
@@ -13,18 +13,24 @@ export const BaseBox = styled.div<{ clicked: boolean; disabled: boolean }>`
   /* color: ${TextColor.SECONDARY_TEXT}; */
 
   &:hover:not(:disabled) {
-    background-color: ${BackgroundColor.PRIMARY_BACKGROUND_HOVER};
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    ${props => !props.clicked && css`
+      background-color: ${BackgroundColor.PRIMARY_BACKGROUND_HOVER};
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    `}
   }
 
   &:active:not(:disabled) {
-    background-color: ${BackgroundColor.PRIMARY_SELECTED};
-    border: 1px solid ${BorderColor.PRIMARY};
+    background-color: ${SemanticColors.PRIMARY_SELECTED};
+    border: 1px solid ${SemanticColors.PRIMARY};
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   }
 
   ${props => props.clicked && !props.disabled && css`
-    background-color: ${BackgroundColor.PRIMARY_SELECTED};
-    border: 1px solid ${BorderColor.PRIMARY};
+    background-color: ${SemanticColors.PRIMARY_SELECTED};
+    border: 1px solid ${SemanticColors.PRIMARY};
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   `}
 
   ${props => props.disabled && css`

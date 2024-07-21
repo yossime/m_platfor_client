@@ -28,6 +28,7 @@ const Button: React.FC<ButtonProps> = ({
   iconPosition = 'left',
   fullWidth = false,
   onClick,
+  ...props
 }) => {
   const { text: textColor } = getButtonColors(type, variant, mode);
 
@@ -35,7 +36,7 @@ const Button: React.FC<ButtonProps> = ({
     switch (buttonSize) {
       case ButtonSize.LARGE:
       case ButtonSize.MEDIUM:
-        return IconSize.MEDIUM;
+        return IconSize.SMALL;
       case ButtonSize.SMALL:
       case ButtonSize.XS:
         return IconSize.SMALL;
@@ -59,32 +60,32 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <StyledButton
-      buttonType={type}
-      variant={variant}
-      size={size}
-      mode={mode}
-      fullWidth={fullWidth}
+      $type={type}
+      $variant={variant}
+      $size={size}
+      $mode={mode}
+      $fullWidth={fullWidth}
       onClick={mode !== ButtonMode.DISABLED ? onClick : undefined}
+      {...props}
     >
       {icon && iconPosition === 'left' && (
         <IconWrapper position="left">
-          <Icon name={icon} size={getIconSize(size)} color={textColor as IconColor} />
+          <Icon name={icon} size={getIconSize(size)} />
         </IconWrapper>
       )}
       {text && (
         <Text
           size={getTextSize(size)}
           weight={FontWeight.NORMAL}
-          color={textColor as  TextColor}
+          color={textColor as TextColor}
           family={FontFamily.Figtree} 
-
         >
           {text}
         </Text>
       )}
       {icon && iconPosition === 'right' && (
         <IconWrapper position="right">
-          <Icon name={icon} size={getIconSize(size)} color={textColor as IconColor} />
+          <Icon name={icon} size={getIconSize(size)} />
         </IconWrapper>
       )}
     </StyledButton>
