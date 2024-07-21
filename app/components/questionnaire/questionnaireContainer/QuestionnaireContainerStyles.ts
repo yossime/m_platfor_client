@@ -7,13 +7,5 @@ export const ContainerWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-y: auto;
-  /* background-color: green; */
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  overflow: hidden;
 `;

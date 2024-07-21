@@ -8,8 +8,8 @@ export const NavbarWrapper = styled.nav`
   right: 0;
   color: #0e0000;
   z-index: 1000;
-  height: ${NAVBAR_HEIGHTS.DESKTOP};
-
+  height: ${NAVBAR_HEIGHTS.LAPTOP};
+/* 
   @media ${MEDIA_QUERIES.TABLET} {
     height: ${NAVBAR_HEIGHTS.TABLET};
   }
@@ -28,7 +28,7 @@ export const NavbarWrapper = styled.nav`
 
   @media ${MEDIA_QUERIES.TV} {
     height: ${NAVBAR_HEIGHTS.TV};
-  }
+  } */
 `;
 
 export const NavbarContainer = styled.div`
@@ -40,7 +40,7 @@ export const NavbarContainer = styled.div`
   margin: 0 auto;
   padding: 0 20px;
 
-  @media ${MEDIA_QUERIES.TABLET} {
+  /* @media ${MEDIA_QUERIES.TABLET} {
     padding: 0 15px;
   }
 
@@ -55,7 +55,7 @@ export const NavbarContainer = styled.div`
   @media ${MEDIA_QUERIES.TV} {
     max-width: ${SCREEN_SIZES.TV};
     padding: 0 40px;
-  }
+  } */
 `;
 
 export const LogoContainer = styled.div`

@@ -1,6 +1,3 @@
-// screenSizes.ts
-
-// Screen breakpoints
 export const SCREEN_SIZES = {
     SMALL_MOBILE: '320px',
     MOBILE: '480px',
@@ -11,7 +8,6 @@ export const SCREEN_SIZES = {
     TV: '1920px',
   };
   
-  // Navbar heights for different screen sizes
   export const NAVBAR_HEIGHTS = {
     SMALL_MOBILE: '36px',
     MOBILE: '40px',
@@ -21,7 +17,6 @@ export const SCREEN_SIZES = {
     TV: '80px',
   };
   
-  // Media queries
   export const MEDIA_QUERIES = {
     SMALL_MOBILE: `(max-width: ${SCREEN_SIZES.SMALL_MOBILE})`,
     MOBILE: `(max-width: ${SCREEN_SIZES.MOBILE})`,

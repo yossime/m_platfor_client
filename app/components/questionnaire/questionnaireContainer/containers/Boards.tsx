@@ -13,105 +13,122 @@ interface BoxData {
     title: string;
     body: string;
     iconName: any;
-    iconSize: any;
-    iconColor: any;
+    disabled : boolean;
 }
 
 const data: BoxData[] = [
     {
         title: "Header",
         body: "Clickable social media icons",
-        iconName: IconName.CODE,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
+        iconName: IconName.ALIGNTOP,
+        disabled: false,
     },
     {
         title: "Form",
         body: "promote easy subscription",
-        iconName: IconName.INFO,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
-    },
-    {
-        title: "Testimonials",
-        body: "quote your customers",
-        iconName: IconName.PHONE,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
+        iconName: IconName.TABLE,
+        disabled: false,
+
     },
     {
         title: "Image",
         body: "Display an image",
-        iconName: IconName.SHARE,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
-    },
+        iconName: IconName.IMAGE,
+        disabled: false,
+
+    }
+
 ];
 
 const data2: BoxData[] = [
     {
         title: "Testimonials",
-        body: "Show what Clients have said about your business",
-        iconName: IconName.STAR,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
+        body: "quote your customers",
+        iconName: IconName.QUOTES,
+        disabled: false,
+
     },
     {
-        title: "Features",
-        body: "Showcase your best features",
-        iconName: IconName.PAUSE,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
-    },
-    {
-        title: "3D object",
-        body: "Display a 3D object with interaction",
-        iconName: IconName.STOP,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
-    },
-    {
-        title: "Media",
-        body: "Display image or video with a description",
-        iconName: IconName.TRASH,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
+        title: "Video",
+        body: "show a video including 360°",
+        iconName: IconName.VIDEO,
+        disabled: false,
+
     },
     {
         title: "Article",
-        body: "Add textual content with media",
-        iconName: IconName.VOLUME,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
+        body: "Add textual content",
+        iconName: IconName.ARTICLE,
+        disabled: false,
+
     },
     {
-        title: "FAQ",
-        body: "Display frequently asked questions about your business",
-        iconName: IconName.QUESTION,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
+        title: "eComm",
+        body: "Create and display products",
+        iconName: IconName.STOREFRONT,
+        disabled: false,
+
+    },
+    {
+        title: "Services",
+        body: "Showcase your best features",
+        iconName: IconName.SQUARESFOUR,
+        disabled: false,
+
+    },
+    {
+        title: "Slider",
+        body: "Display content with a slider",
+        iconName: IconName.SLIDESHOW,
+        disabled: false,
+
+    },
+    {
+        title: "Socials",
+        body: "Make it easy to contact with you",
+        iconName: IconName.SMILEY,
+        disabled: false,
+
+    },
+    {
+        title: "Gamification",
+        body: "Add a captivating  interaction",
+        iconName: IconName.GAMECONTROLLER,
+        disabled: true,
+
     },
     {
         title: "Team",
-        body: "Show your team",
-        iconName: IconName.X,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
+        body: "show your team members",
+        iconName: IconName.USERSTHREE,
+        disabled: true,
+
     },
     {
-        title: "Image Gallery",
-        body: "Display images atmosphere",
-        iconName: IconName.STAR,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
-    },
-    {
-        title: "Testimonials",
-        body: "Show what Clients have said about your business",
-        iconName: IconName.STAR,
-        iconSize: IconSize.MEDIUM,
-        iconColor: IconColor.PRIMARY
-    },
+        title: "Showroom",
+        body: "Create and display models",
+        iconName: IconName.BANK,
+        disabled: true,
+
+    },  {
+        title: "Blog",
+        body: "Display updating  content",
+        iconName: IconName.BOOKOPENTEXT,
+        disabled: true,
+
+    },  {
+        title: "Menu/Catalogue",
+        body: "Create and display products",
+        iconName: IconName.COOKIE,
+        disabled: true,
+
+    },  {
+        title: "events Schedule ",
+        body: "Show a calendar, Promote booking ",
+        iconName: IconName.CHEERS,
+        disabled: true,
+
+    }
 ];
 const Boards: React.FC = () => {
     const { contextData, setContextData } = useQuestionnaireIndex();
@@ -159,9 +176,7 @@ const Boards: React.FC = () => {
                             onClick={() => handleClick(item.title)}
                             clicked={selected.includes(item.title)}
                             iconName={item.iconName}
-                            iconSize={item.iconSize}
-                            iconColor={item.iconColor}
-                            disabled={false}
+                            disabled={item.disabled}
                         />
                     ))}
                 </ItemsContainer>
@@ -178,8 +193,7 @@ const Boards: React.FC = () => {
                             onClick={() => handleClick(item.title)}
                             clicked={selected.includes(item.title)}
                             iconName={item.iconName}
-                            iconSize={item.iconSize}
-                            iconColor={item.iconColor}
+                            disabled={item.disabled}
                         />
                     ))}
                 </ItemsContainer>

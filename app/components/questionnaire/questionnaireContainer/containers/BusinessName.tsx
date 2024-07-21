@@ -41,16 +41,16 @@ const BusinessName: React.FC = () => {
       <TextContainer>
         <Text size={TextSize.D1} family={FontFamily.Poppins} weight={FontWeight.SEMI_BOLD}
           color={TextColor.PRIMARY_TEXT}>
-          What's the name of your business?</Text>
+         Enter Your Business Name</Text>
         <Text size={TextSize.H3} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}>
-          You can add your existing restaurant or brand name, or create a new one.</Text>
+         Input your current brand name, or come up with a new one</Text>
       </TextContainer>
       <InputWrapper>
         <Input
-          size={InputSize.LARGE}
+          size={InputSize.MEDIUM}
           mode={errorMessage ? InputMode.ERROR : InputMode.NORMAL}
-          placeholder="Enter your business name"
+          placeholder="Business name"
           value={contextData.Name.value || ''}
           onChange={handleChange}
           helperText={errorMessage || undefined}

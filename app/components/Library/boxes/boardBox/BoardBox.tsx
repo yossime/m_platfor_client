@@ -27,7 +27,7 @@ const BoardBox: React.FC<BoardProps> = ({
   clicked,
   onClick,
   iconName,
-  iconSize = IconSize.LARGE,
+  iconSize = IconSize.MEDIUM,
   iconColor = IconColor.ICONCOLOR,
   disabled = false
 }) => {

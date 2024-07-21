@@ -5,7 +5,6 @@ export const IndexContainerWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px 0;
-  overflow: hidden;
 `;
 
 export const IndexWrapper = styled.div`
@@ -13,37 +12,53 @@ export const IndexWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 8px;
   max-width: 1200px;
-  overflow-x: auto;
-  /* background-color:lime; */
 `;
 
 export const StageWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
 `;
 
-export const StageFrame = styled.div<{ isActive: boolean }>`
+export const StageIndicator = styled.div<{ status: 'completed' | 'current' | 'upcoming' }>`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: ${props => props.isActive ? '#594ded' : '#919191'};
-  font-weight: ${props => props.isActive ? 'bold' : 'normal'};
+  background-color: ${props => {
+    switch (props.status) {
+      case 'completed': return '#594ded';
+      case 'current': return 'white';
+      default: return 'transparent';
+    }
+  }};
+  border: 1px solid ${props => {
+    switch (props.status) {
+      case 'completed': return 'transparent';
+      case 'current': return '#594ded';
+      default: return '#C5C7D0';
+    }
+  }};
+`;
+
+export const InnerCircle = styled.div`
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #594ded;
+  color: white;
 `;
 
 export const Connector = styled.div`
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const ConnectorLine = styled.div`
-  width: 100%;
+  width: 20px;
   height: 1px;
-  background-color: #919191;
+  background-color:gray ;
 `;

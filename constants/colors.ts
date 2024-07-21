@@ -1,29 +1,21 @@
 export enum BackgroundColor {
     PRIMARY_BACKGROUND = '#FFFFFF',
     SECONDARY_BACKGROUND = '#ECEDF5',
-    PRIMARY_BACKGROUND_HOVER = '#E6E9EF',
+    PRIMARY_BACKGROUND_HOVER = '#ECEDF5',
     DISABLED_BACKGROUND = '#ECEDF5',
     INVERTED_COLOR_BACKGROUND = '#323338',
     GREY_BACKGROUND = '#ECEDF5',
-    ALL_GREY_BACKGROUND = '#ECEDF5',
-    PRIMARY_SELECTED = "#CAC7FA",
-
+    ALL_GREY_BACKGROUND = '#ECEDF5'
 }
 
 export enum BorderColor {
     UI_BORDER = '#C5C7D0',
     DIVIDER = '#E6E6E6',
     LAYOUT_BORDER = '#E6E9EF',
-    PRIMARY = "#594DED",
-    POSITIVE = "#147B6F",
-    NEGATIVE = "#FF474A",
-    WARNING = "#FFC247",
-    TRANSPARENT = 'transparent',
-    PRIMARY_SELECTED = "#CAC7FA",
-
 }
 
 export enum SemanticColors {
+    TRANSPARENT = 'transparent',
     PRIMARY = "#594DED",
     POSITIVE = "#147B6F",
     NEGATIVE = "#FF474A",

@@ -71,7 +71,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
                             mode={ButtonMode.NORMAL}
                             text="Continue with Google"
                             onClick={() => handleGoogleLogin(setError)}
-                            fullWidth
+                            fullWidth={true}
                         />
                     </>
                 )}
@@ -84,7 +84,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
                             size={ButtonSize.LARGE}
                             mode={ButtonMode.NORMAL}
                             text="We couldn't find this email. Would you like to sign up with this email address?"
-                            fullWidth
+                            fullWidth={true}
                         />
                     </>
                 )}
@@ -109,7 +109,6 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
                             value={password}
                             onChange={setPassword}
                             helperText="Enter your password"
-                            // type="password"
                         />
                     </>
                 )}
@@ -121,7 +120,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
                     mode={ButtonMode.NORMAL}
                     text="Continue"
                     onClick={handleLogin}
-                    fullWidth
+                    fullWidth={true}
                 />
             </Form>
         </Container>

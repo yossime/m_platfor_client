@@ -1,12 +1,12 @@
 import styled, { css } from 'styled-components';
-import { ButtonType, ButtonVariant, ButtonSize, ButtonMode, ButtonSizeConfig, getButtonColors } from '@constants/button';
+import { ButtonType, ButtonVariant, ButtonSize, ButtonMode, ButtonSizeConfig, getButtonColors, getButtonColorsHover } from '@constants/button';
 
 interface StyledButtonProps {
-  buttonType: ButtonType;
-  variant: ButtonVariant;
-  size: ButtonSize;
-  mode: ButtonMode;
-  fullWidth: boolean;
+  $type: ButtonType;
+  $variant: ButtonVariant;
+  $size: ButtonSize;
+  $mode: ButtonMode;
+  $fullWidth: boolean;
 }
 
 export const StyledButton = styled.button<StyledButtonProps>`
@@ -14,12 +14,17 @@ export const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  cursor: ${props => props.mode === ButtonMode.DISABLED ? 'not-allowed' : 'pointer'};
-  width: ${props => props.fullWidth ? '100%' : 'auto'};
+  width: ${props => props.$fullWidth ? '100%' : 'auto'};
 
+  ${props => props.$mode !== 'disabled' && css`
+    &:hover:not(:disabled) {
+      background-color: ${getButtonColorsHover(props.$type, props.$variant, props.$mode)};
+    }
+  `}
+  
   ${props => {
-    const { height, padding } = ButtonSizeConfig[props.size];
-    const { background, text, border } = getButtonColors(props.buttonType, props.variant, props.mode);
+    const { height, padding } = ButtonSizeConfig[props.$size];
+    const { background, text, border } = getButtonColors(props.$type, props.$variant, props.$mode);
     
     return css`
       height: ${height}px;
