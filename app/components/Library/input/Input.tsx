@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { ChangeEvent, forwardRef } from 'react';
 import Text from '../text/Text';
 import { InputSize, InputMode } from '@constants/input';
-import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
+import { FontFamily, FontWeight, TextSize } from '@constants/text';
 import { InputWrapper, StyledInput, LabelText, HelperText } from './InputStyles';
+import { TextColor } from '@constants/colors';
 
-export interface InputProps {
-  size: InputSize;
+type InputPropsCustom = {
+  inputSize: InputSize;
   mode: InputMode;
   label?: string;
-  placeholder?: string;
   helperText?: string;
-  value: string;
-  onChange: (value: string) => void;
   fullWidth?: boolean;
-}
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+};
 
-const Input: React.FC<InputProps> = ({
-  size,
+export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & InputPropsCustom;
+
+const Input = forwardRef<HTMLInputElement, InputProps>(({
+  inputSize,
   mode,
   label,
   placeholder,
@@ -25,9 +26,9 @@ const Input: React.FC<InputProps> = ({
   onChange,
   fullWidth = true,
   ...props
-}) => {
+}, ref) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+    onChange?.(e);
   };
 
   return (
@@ -43,7 +44,8 @@ const Input: React.FC<InputProps> = ({
         </LabelText>
       )}
       <StyledInput
-        $size={size}
+        ref={ref}
+        $size={inputSize}
         $mode={mode}
         value={value}
         onChange={handleChange}
@@ -52,7 +54,7 @@ const Input: React.FC<InputProps> = ({
         $fullWidth={fullWidth}
         {...props}
       />
-      {helperText && (
+      {helperText && mode === InputMode.ERROR && (
         <HelperText
           family={FontFamily.Poppins}
           size={TextSize.TEXT2}
@@ -64,6 +66,6 @@ const Input: React.FC<InputProps> = ({
       )}
     </InputWrapper>
   );
-};
+});
 
 export default Input;

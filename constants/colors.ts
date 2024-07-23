@@ -46,8 +46,22 @@ export enum TextColor {
     SECONDARY_TEXT = '#676879',
     TEXT_ON_INVERTED = '#FFFFFF',
     TEXT_ON_PRIMARY = '#FFFFFF',
-    DISABLED_TEXT = '#676879',
+    DISABLED_TEXT = '#67687966',
     PLACEHOLDER = '#676879',
     LINK = '#1877F2',
     BLACK = '#000000',
 }
+
+export enum IconColor {
+    ICONCOLOR = '#676879',
+    PRIMARY = '#323338',
+    SECONDARY = '#676879',
+    SUCCESS = '#0C8D0A',
+    WARNING = '#FFCB00',
+    DANGER = '#E44258',
+    INFO = '#0073EA',
+    LIGHT = '#FFFFFF',
+    DARK = '#000000',
+    DISABLED = '#67687966',
+}
+

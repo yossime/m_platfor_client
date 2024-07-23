@@ -1,7 +1,8 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import Text  from './Text';
-import { TextSize, FontWeight, TextColor, FontFamily } from '@constants/text';
+import { TextSize, FontWeight, FontFamily } from '@constants/text';
+import { TextColor } from '@constants/colors';
 
 const meta: Meta<typeof Text> = {
   title: 'Components/Text',

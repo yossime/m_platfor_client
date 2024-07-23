@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { TextSize, FontWeight, FontFamily, TextColor } from '@constants/text';
+import { TextSize, FontWeight, FontFamily } from '@constants/text';
+import { TextColor } from '@constants/colors';
 
 export const AppContainer = styled.div<{ clicked: boolean, backgroundColor: string }>`
   width: 216px;

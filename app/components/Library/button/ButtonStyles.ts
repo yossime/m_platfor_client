@@ -23,12 +23,13 @@ export const StyledButton = styled.button<StyledButtonProps>`
   `}
   
   ${props => {
-    const { height, padding } = ButtonSizeConfig[props.$size];
+    const { height, padding, fontSize } = ButtonSizeConfig[props.$size];
     const { background, text, border } = getButtonColors(props.$type, props.$variant, props.$mode);
     
     return css`
-      height: ${height}px;
+      height: ${height};
       padding: ${padding};
+      font-size: ${fontSize};
       background-color: ${background};
       color: ${text};
       border: 1px solid ${border};

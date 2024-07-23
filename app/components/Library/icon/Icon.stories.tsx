@@ -1,7 +1,8 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { IconName, IconSize, IconColor, IconComponents } from '@constants/icon'; 
+import { IconName, IconSize, IconComponents } from '@constants/icon'; 
 import  Icon  from './Icon';
+import { IconColor } from '@constants/colors';
 
 const meta: Meta<typeof Icon> = {
   title: 'Components/Icon',

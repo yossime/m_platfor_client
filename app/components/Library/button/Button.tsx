@@ -1,10 +1,11 @@
 import React from 'react';
 import Text from '@components/Library/text/Text'
 import { ButtonType, ButtonVariant, ButtonSize, ButtonMode, getButtonColors } from '@constants/button';
-import { TextSize, TextColor, FontWeight, FontFamily } from '@constants/text';
+import { TextSize, FontWeight, FontFamily } from '@constants/text';
 import { StyledButton, IconWrapper } from './ButtonStyles';
 import Icon from '@/components/Library/icon/Icon';
-import { IconColor, IconName, IconSize } from '@constants/icon';
+import {  IconName, IconSize } from '@constants/icon';
+import { TextColor } from '@constants/colors';
 
 export interface ButtonProps {
   type: ButtonType;

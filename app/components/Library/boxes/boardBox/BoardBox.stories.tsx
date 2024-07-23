@@ -1,7 +1,8 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import BoardBox from './BoardBox';
-import { IconName, IconSize, IconColor } from '@constants/icon';
+import { IconName, IconSize } from '@constants/icon';
+import { IconColor } from '@constants/colors';
 
 const meta: Meta<typeof BoardBox> = {
   title: 'Components/BoardBox',

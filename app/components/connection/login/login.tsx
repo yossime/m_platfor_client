@@ -1,14 +1,16 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import Input from '@/components/Library/input/Input';
 import Text from '@components/Library/text/Text';
 import { ButtonType, ButtonVariant, ButtonSize, ButtonMode } from '@constants/button';
 import { InputSize, InputMode } from '@constants/input';
 import { useLogin } from '@context/useLogin';
 import { handleGoogleLogin, handleSignIn } from '@/services/login';
-import { Container, Form, Spacer, LinkContainer, Link } from './LoginStyles';
+import { Container, Spacer, LinkContainer, Link, TextContainer, BottomContainer } from './LoginStyles';
 import Button from '@/components/Library/button/Button';
-import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
+import { FontFamily, FontWeight, TextSize } from '@constants/text';
+import { TextColor } from '@constants/colors';
+import GoogleLoginButton from '@/components/Library/button/GoogleLoginButton';
 
 interface LoginComponentProps {
     setLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,30 +51,34 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
         }
     };
 
+    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    };
+
+    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
+    };
+
     return (
         <Container>
-            <Form>
+            <TextContainer>
             <Text size={TextSize.D1} weight={FontWeight.SEMI_BOLD} color={TextColor.BLACK} family={FontFamily.Poppins}>
-            Welcome</Text>
+                    Welcome
+                </Text>
                 <Spacer />
                 <LinkContainer>
-                <Text size={TextSize.TEXT1} weight={FontWeight.NORMAL} color={TextColor.PRIMARY_TEXT} family={FontFamily.Figtree}>
-                &quot;Don&apos;t have an account? &quot;
+                    <Text size={TextSize.TEXT1} weight={FontWeight.NORMAL} color={TextColor.PRIMARY_TEXT} family={FontFamily.Figtree}>
+                        "Don't have an account? "
                     </Text>
                     <Link onClick={handleLoginClick}>sign up</Link>
                 </LinkContainer>
+            </TextContainer>
+     <BottomContainer>
+
                 {googleButton && (
                     <>
                         <Spacer />
-                        <Button
-                            type={ButtonType.PRIMARY}
-                            variant={ButtonVariant.PRIMARY}
-                            size={ButtonSize.SMALL}
-                            mode={ButtonMode.NORMAL}
-                            text="Continue with Google"
-                            onClick={() => handleGoogleLogin(setError)}
-                            fullWidth={true}
-                        />
+                        <GoogleLoginButton onClick={() => handleGoogleLogin(setError)}/>
                     </>
                 )}
                 {userExists && (
@@ -81,7 +87,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
                         <Button
                             type={ButtonType.NEGATIVE}
                             variant={ButtonVariant.PRIMARY}
-                            size={ButtonSize.LARGE}
+                            size={ButtonSize.MEDIUM}
                             mode={ButtonMode.NORMAL}
                             text="We couldn't find this email. Would you like to sign up with this email address?"
                             fullWidth={true}
@@ -90,24 +96,24 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
                 )}
                 <Spacer />
                 <Input
-                    size={InputSize.SMALL}
+                    inputSize={InputSize.MEDIUM}
                     mode={InputMode.NORMAL}
                     label="Email"
                     placeholder="Name@example.com"
                     value={email}
-                    onChange={setEmail}
+                    onChange={handleEmailChange}
                     helperText="Enter a valid email address"
                 />
                 {inputPassword && (
                     <>
                         <Spacer />
                         <Input
-                            size={InputSize.SMALL}
+                            inputSize={InputSize.MEDIUM}
                             mode={InputMode.NORMAL}
                             label="Password"
                             placeholder="Enter at least 8 characters"
                             value={password}
-                            onChange={setPassword}
+                            onChange={handlePasswordChange}
                             helperText="Enter your password"
                         />
                     </>
@@ -116,13 +122,13 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
                 <Button
                     type={ButtonType.PRIMARY}
                     variant={ButtonVariant.PRIMARY}
-                    size={ButtonSize.SMALL}
+                    size={ButtonSize.MEDIUM}
                     mode={ButtonMode.NORMAL}
                     text="Continue"
                     onClick={handleLogin}
                     fullWidth={true}
                 />
-            </Form>
+     </BottomContainer>
         </Container>
     );
 };

@@ -11,7 +11,8 @@ import {
   WelcomeText
 } from './NavbarStyles';
 import Button from '../button/Button';
-import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
+import { FontFamily, FontWeight, TextSize } from '@constants/text';
+import { TextColor } from '@constants/colors';
 
 interface NavbarProps {
   userName?: string | null;

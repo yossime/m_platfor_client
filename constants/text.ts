@@ -1,6 +1,7 @@
 // textConstants.ts
 
 import { overlay } from "three/examples/jsm/nodes/Nodes.js";
+import { TextColor } from "./colors";
 
 export enum TextSize {
     D1 = '57px',
@@ -25,18 +26,7 @@ export enum FontWeight {
     LIGHT = 400,
 }
 
-export enum TextColor {
-    POSITIVE = '#147B6F',
-    NEGATIVE = '#FF474A',
-    PRIMARY_TEXT = '#323338',
-    SECONDARY_TEXT = '#676879',
-    TEXT_ON_INVERTED = '#FFFFFF',
-    TEXT_ON_PRIMARY = '#FFFFFF',
-    DISABLED_TEXT = '#676879',
-    PLACEHOLDER = '#676879',
-    LINK = '#1877F2',
-    BLACK = '#000000',
-}
+
 
 export interface TextStyleProps {
     size: TextSize;
@@ -57,5 +47,6 @@ export const createTextStyle = ({
     fontFamily: family,
     fontWeight: weight,
     color: color,
-    cursor: cursorStyle
+    cursor: cursorStyle,
+    whiteSpace: 'pre-wrap'
 });

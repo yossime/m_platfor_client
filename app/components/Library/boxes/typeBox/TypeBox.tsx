@@ -1,6 +1,6 @@
 import React from 'react';
 import { TypeContainer, TypeContent } from './TypeBoxStyles';
-import { TextSize , TextColor, FontFamily, FontWeight } from '@constants/text';
+import { TextSize , FontWeight } from '@constants/text';
 import  Text from '@components/Library/text/Text';
 
 interface TypeProps {

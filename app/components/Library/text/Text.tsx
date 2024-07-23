@@ -1,4 +1,5 @@
-import { createTextStyle, FontFamily, FontWeight, TextColor, TextSize, TextStyleProps } from '@constants/text';
+import { TextColor } from '@constants/colors';
+import { createTextStyle, FontFamily, FontWeight, TextSize, TextStyleProps } from '@constants/text';
 import React from 'react';
 
 interface TextComponentProps extends TextStyleProps {

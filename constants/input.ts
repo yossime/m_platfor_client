@@ -1,5 +1,4 @@
-import { BackgroundColor, BorderColor, SemanticColors } from './colors';
-import { TextColor } from './text';
+import { BackgroundColor, BorderColor, SemanticColors, TextColor } from './colors';
 
 export enum InputSize {
   SMALL = 'small',

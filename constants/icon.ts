@@ -154,17 +154,5 @@ export enum IconSize {
     XLARGE = '48px'
 }
 
-export enum IconColor {
-    ICONCOLOR = '#676879',
-    PRIMARY = '#323338',
-    SECONDARY = '#676879',
-    SUCCESS = '#0C8D0A',
-    WARNING = '#FFCB00',
-    DANGER = '#E44258',
-    INFO = '#0073EA',
-    LIGHT = '#FFFFFF',
-    DARK = '#000000',
-    DISABLED = '#676879',
 
-}
 

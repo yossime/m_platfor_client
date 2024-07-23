@@ -22,6 +22,16 @@ export const StyledInput = styled.input<{ $size: InputSize; $mode: InputMode; $f
       font-size: ${TextSize[fontSize]};
       font-family: ${FontFamily.Figtree};
       margin: 8px 0; 
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: #323338;
+      }
+
+      &:focus {
+        border-color: #0073EA;
+        outline: none;
+      }
     `;
   }}
 `;

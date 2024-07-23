@@ -5,7 +5,7 @@ export const TypeContainer = styled(BaseBox)`
   width: 144px;
   height: 72px;
   border-radius: 4px;
-  padding: 16px, 0px, 16px, 0px;
+  padding: 8px;
   gap:32px;
   align-items: center; 
   justify-content: center;

@@ -7,13 +7,14 @@ import { fetchProjects, fetchProject, deleteProject } from '@/services/projectSe
 import Text from '@components/Library/text/Text';
 import {
   Container,
-  ProjectGrid,
   ErrorMessage,
-  ContentWrapper,
+  TextContainer,
+  ItemsContainer,
 } from './ProjectListStyles';
 import CreateProjectBox from '../Library/boxes/projectBox/createProjectBox/CreateProjectBox';
 import ProjectBox from '../Library/boxes/projectBox/projectBox/ProjectBox';
-import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
+import { FontFamily, FontWeight, TextSize } from '@constants/text';
+import { TextColor } from '@constants/colors';
 
 const ProjectList: React.FC = () => {
   const { setCurrentProject, setDataParameters, projects, setProjects } = useProject();
@@ -70,17 +71,17 @@ const ProjectList: React.FC = () => {
 
   return (
     <Container>
-      <ContentWrapper>
+      <TextContainer>
       <Text size={TextSize.H2} weight={FontWeight.NORMAL} color={TextColor.SECONDARY_TEXT} family={FontFamily.Poppins}>
       {hasProjects ? `Welcome Back ${user?.displayName || 'User'}!` : "Let's get started!"}
         </Text>
         <Text size={TextSize.D1} weight={FontWeight.SEMI_BOLD} color={TextColor.PRIMARY_TEXT} family={FontFamily.Poppins}>
           {hasProjects ? 'My Web Spaces' : 'Start creating your 3D web space'}
         </Text>
-      </ContentWrapper>
+      </TextContainer>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
-      <ProjectGrid>
+      <ItemsContainer>
         <CreateProjectBox onClick={handleCreateProject} text="New Project" />
         <CreateProjectBox disabled={true} onClick={() => {/* handle URL creation */}} text="Create with URL" />
         <CreateProjectBox disabled={true} onClick={() => {/* handle AI creation */}} text="Create with AI" />
@@ -92,7 +93,7 @@ const ProjectList: React.FC = () => {
             onDelete={handleDeleteProject}
           />
         ))}
-      </ProjectGrid>
+      </ItemsContainer>
     </Container>
   );
 };

@@ -4,7 +4,8 @@ import Text from '@components/Library/text/Text';
 import { useQuestionnaireIndex } from '@/context/useQuestionnaire';
 import { Container, IndexContainer, TextContainer, ItemsContainer } from './CommonStyles';
 import QuestionnaireIndexContainer from '../../questionnaireIndexContainer/QuestionnaireIndexContainer';
-import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
+import { FontFamily, FontWeight,  TextSize } from '@constants/text';
+import { TextColor } from '@constants/colors';
 
 const data = [
   { "title": "Portfolio" },
@@ -15,7 +16,7 @@ const data = [
   { "title": "Food delivery /Restaurant" },
   { "title": "Event agency" },
   { "title": "Blog" }, 
-  { "title": "ServicesServices" },
+  { "title": "Services" },
   { "title": "Technology Company" }
 
 

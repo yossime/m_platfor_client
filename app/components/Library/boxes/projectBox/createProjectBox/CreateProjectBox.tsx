@@ -3,8 +3,9 @@ import React from 'react';
 import Text from '@components/Library/text/Text';
 import Icon from '@components/Library/icon/Icon';
 import { ComingSoon, CreateProjectBoxContainer, CreateProjectText } from './CreateProjectBoxStyles';
-import { IconColor, IconName, IconSize } from '@constants/icon';
-import { FontFamily, FontWeight, TextColor, TextSize } from '@constants/text';
+import {  IconName, IconSize } from '@constants/icon';
+import { FontFamily, FontWeight, TextSize } from '@constants/text';
+import { IconColor, TextColor } from '@constants/colors';
 
 interface CreateProjectBoxProps {
   onClick: () => void;

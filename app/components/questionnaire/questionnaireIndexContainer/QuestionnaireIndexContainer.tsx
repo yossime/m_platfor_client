@@ -1,7 +1,7 @@
 import React from 'react';
 import Text from '@components/Library/text/Text';
 import { useQuestionnaireIndex, QuestionnaireStatus } from '@context/useQuestionnaire';
-import { TextColor, TextSize } from '@constants/text';
+import {  TextSize } from '@constants/text';
 import {
   IndexContainerWrapper,
   IndexWrapper,
@@ -11,7 +11,8 @@ import {
   Connector
 } from './QuestionnaireIndexContainerStyles';
 import Icon from '@/components/Library/icon/Icon';
-import { IconColor, IconName, IconSize } from '@constants/icon';
+import {  IconName, IconSize } from '@constants/icon';
+import { IconColor, TextColor } from '@constants/colors';
 
 const enumValues = Object.values(QuestionnaireStatus);
 
