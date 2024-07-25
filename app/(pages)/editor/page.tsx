@@ -1,9 +1,8 @@
 "use client"
-import ThreeDEditor from '../../components/editor/ThreeDEditor'
-import SideBar from "@/components/editor/sideBar/SideBar";
 import { useState } from "react";
 import UnityViewer from '@/components/preView/UnityViewer';
 import { useProject } from '@/context/useProjectContext';
+import Viewport from '@/components/editor/viewport/Viewport';
 
 
 
@@ -14,15 +13,16 @@ const Editor = () => {
 
     return (
         <>
-            {editorMode ? (
+                <Viewport/>
+            {/* {editorMode ? (
                 <>
                     <ThreeDEditor setEditorMode={setEditorMode} />
-                    {/* <EditMediaPopup /> */}
-                    {/* <SideBar /> */}
+                    <EditMediaPopup />
+                    <SideBar />
                 </>
             ) : (
                 <UnityViewer projectId={currentProject as string} setEditorMode={setEditorMode} />
-            )}
+            )} */}
         </>
     );
 }
