@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useQuestionnaireIndex } from '@context/useQuestionnaire';
 import { useAuth } from '@/context/AuthContext';
-import { createProject } from '@/services/projectService';
+import { createProject, fetchProject } from '@/services/projectService';
 import { getNextIndex, isCurrentPageValid } from '@utils/questionnaireUtils';
 import Button from '@components/Library/button/Button';
 import { ButtonType, ButtonVariant, ButtonSize, ButtonMode } from '@constants/button';
@@ -12,13 +12,14 @@ import { toast } from 'react-toastify';
 import { useProject } from '@/context/useProjectContext';
 import { useRouter } from "next/navigation";
 import { IconName } from '@constants/icon';
+import { Params } from '@/context/editorTypes';
 
 const ButtonsContainer: React.FC = () => {
   const { currentIndex, setIndex, contextData } = useQuestionnaireIndex();
   const { user } = useAuth();
-  const { setProjects, projects } = useProject();
   const router = useRouter();
-
+  const { setCurrentProject, setDataParameters, projects, setProjects , dataParameters } = useProject();
+  const [error, setError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChangeIndex = useCallback((move: number) => {
@@ -27,7 +28,6 @@ const ButtonsContainer: React.FC = () => {
       setIndex(newIndex);
     }
   }, [currentIndex, contextData, setIndex]);
-
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
@@ -38,7 +38,29 @@ const ButtonsContainer: React.FC = () => {
       const result = await createProject(newProject, user);
       toast.success('Project created successfully!');
       setProjects([...projects, { id: result.projectId, projectName: contextData.Name.value }]);
-      router.push('/userPage');
+      setCurrentProject(result.projectId);
+      try {
+        const project = await fetchProject(result.projectId, user?.uid as string);
+        const dataParameters: Params = {
+          architecture: project.data.Templates || '',
+          materialParams: {},
+          maxSlot: 5,
+          boards: []
+        };
+    
+        for (let i = 0; i < 5; i++) {
+          dataParameters.boards.push({
+            type: null,
+            content: []
+          });
+        }
+    
+        setDataParameters(dataParameters);
+        router.push('/editor');
+      } catch (error) {
+        console.error('Error selecting project:', error);
+        setError('Failed to select project');
+      }
     } catch (error) {
       console.error('Error creating project:', error);
       toast.error('Failed to create project. Please try again.');
@@ -46,6 +68,9 @@ const ButtonsContainer: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+
+
+  
 
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Enter' && isCurrentPageValid(currentIndex, contextData)) {
@@ -114,3 +139,5 @@ const ButtonsContainer: React.FC = () => {
 }
 
 export default ButtonsContainer;
+
+

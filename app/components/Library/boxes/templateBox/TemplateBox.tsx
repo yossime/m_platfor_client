@@ -20,7 +20,7 @@ const TemplateBox: React.FC<TemplateProps> = ({ title, clicked, onClick, backgro
   // backgroundImage = 'images/Sunset.jpg'
 
   return (
-    <TemplateContainer clicked={clicked} onClick={() => onClick(title)} disabled={disabled}>
+    <TemplateContainer $clicked={clicked} onClick={() => onClick(title)} $disabled={disabled}>
       <TemplateImageContainer>
         <TemplateImage src={backgroundImage} alt={title} />
       </TemplateImageContainer>

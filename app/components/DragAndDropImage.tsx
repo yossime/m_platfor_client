@@ -1,15 +1,35 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 interface DragAndDropProps {
-  onFilesAdded: (files: File[]) => void;
+  onFilesAdded: (files: ArrayBuffer[]) => void;
   onClose: () => void;
 }
 
-const DragAndDrop: React.FC<DragAndDropProps> = ({ onFilesAdded, onClose }) => {
+const DragAndDropImage: React.FC<DragAndDropProps> = ({ onFilesAdded, onClose }) => {
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const bufferPromises = acceptedFiles.map((file) => 
+      new Promise<ArrayBuffer>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as ArrayBuffer);
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+      })
+    );
+
+    Promise.all(bufferPromises)
+      .then((buffers) => {
+        onFilesAdded(buffers);
+      })
+      .catch((error) => {
+        console.error("Error reading files:", error);
+      });
+  }, [onFilesAdded]);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (acceptedFiles) => {
-      onFilesAdded(acceptedFiles);
+    onDrop,
+    accept: {
+      'image/*': []
     }
   });
 
@@ -26,15 +46,16 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ onFilesAdded, onClose }) => {
         >
           <input {...getInputProps()} />
           {isDragActive ? (
-            <p>Drop the files here...</p>
+            <p>Drop the images here...</p>
           ) : (
-            <p>Drag files here or click to choose</p>
+            <p>Drag image files here or click to choose</p>
           )}
         </div>
       </div>
     </div>
   );
 };
+
 
 const overlayStyle: React.CSSProperties = {
   position: 'fixed',
@@ -78,4 +99,4 @@ const closeButtonStyle: React.CSSProperties = {
   cursor: 'pointer',
 };
 
-export default DragAndDrop;
+export default DragAndDropImage;

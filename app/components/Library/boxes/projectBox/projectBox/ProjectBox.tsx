@@ -27,7 +27,7 @@ interface ProjectBoxProps {
 const ProjectBox: React.FC<ProjectBoxProps> = ({ project, clicked = false, onSelect, onDelete, disabled = false }) => {
     project.imageUrl = 'images/Forest.jpg'
     return (
-        <ProjectBoxContainer clicked={clicked} onClick={() => onSelect(project.id)} disabled={disabled}>
+        <ProjectBoxContainer $clicked={clicked} onClick={() => onSelect(project.id)} $disabled={disabled}>
             <DeleteIconWrapper>
                 <Button
                     type={ButtonType.PRIMARY}
