@@ -1,35 +1,42 @@
+import { Params } from '@/components/editor/paramsType';
 import React, { createContext, useState, ReactNode, useContext } from 'react';
-import { Mesh } from 'three';
+
+
+export enum EMode {
+  View,
+  AddBorad,
+}
+
 
 interface EditorContextType {
-  currentMesh: Mesh | null;
-  setCurrentMesh: (mesh: Mesh | null) => void;
   cameraPosition: [number, number, number];
   setCameraPosition: (position: [number, number, number]) => void;
   cameraDirection: [number, number, number];
   setCameraDirection: (direction: [number, number, number]) => void;
-  activeBoardIndex: number;
-  setActiveBoardIndex: (index: number) => void;  
+  dataParameters: Params;
+  setDataParameters: (dataParameters: Params) => void;
+  currentMode: EMode;
+  setCurrentMode: (mode: EMode) => void;
 }
 
 const EditorContext = createContext<EditorContextType | undefined>(undefined);
 
 export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentMesh, setCurrentMesh] = useState<Mesh | null>(null);
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([0, 5, 0]);
   const [cameraDirection, setCameraDirection] = useState<[number, number, number]>([0, 0, 0]);
-  const [activeBoardIndex, setActiveBoardIndex]= useState<number>(-1);
+  const [dataParameters, setDataParameters] = useState<Params>( {} as Params);
+  const [currentMode, setCurrentMode] = useState<EMode>(EMode.View);
 
 
   const value: EditorContextType = { 
-    activeBoardIndex,
-    setActiveBoardIndex,
-    currentMesh, 
-    setCurrentMesh, 
     cameraPosition, 
     setCameraPosition, 
     cameraDirection, 
-    setCameraDirection 
+    setCameraDirection,
+    dataParameters,
+    setDataParameters,
+    currentMode, 
+    setCurrentMode
   };
 
   return (
