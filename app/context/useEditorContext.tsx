@@ -8,6 +8,8 @@ interface EditorContextType {
   setCameraPosition: (position: [number, number, number]) => void;
   cameraDirection: [number, number, number];
   setCameraDirection: (direction: [number, number, number]) => void;
+  activeBoardIndex: number;
+  setActiveBoardIndex: (index: number) => void;  
 }
 
 const EditorContext = createContext<EditorContextType | undefined>(undefined);
@@ -16,8 +18,12 @@ export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [currentMesh, setCurrentMesh] = useState<Mesh | null>(null);
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([0, 5, 0]);
   const [cameraDirection, setCameraDirection] = useState<[number, number, number]>([0, 0, 0]);
+  const [activeBoardIndex, setActiveBoardIndex]= useState<number>(-1);
+
 
   const value: EditorContextType = { 
+    activeBoardIndex,
+    setActiveBoardIndex,
     currentMesh, 
     setCurrentMesh, 
     cameraPosition, 

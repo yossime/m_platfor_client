@@ -15,6 +15,7 @@ import CreateProjectBox from '../Library/boxes/projectBox/createProjectBox/Creat
 import ProjectBox from '../Library/boxes/projectBox/projectBox/ProjectBox';
 import { FontFamily, FontWeight, TextSize } from '@constants/text';
 import { TextColor } from '@constants/colors';
+import { Params } from '@/context/editorTypes';
 
 const ProjectList: React.FC = () => {
   const { setCurrentProject, setDataParameters, projects, setProjects } = useProject();
@@ -43,7 +44,22 @@ const ProjectList: React.FC = () => {
     try {
       const project = await fetchProject(projectId, user?.uid as string);
       setCurrentProject(projectId);
-      setDataParameters(project.data)
+      const dataParameters: Params = {
+        architecture: project.data.Templates || '',
+        materialParams: {},
+        maxSlot: 5,
+        boards: []
+      };
+  
+      for (let i = 0; i < 5; i++) {
+        dataParameters.boards.push({
+          type: null,
+          content: []
+        });
+      }
+  
+      setDataParameters(dataParameters);
+        // console.log(project.data,'ffffffffffffffff');
       router.push('/editor');
     } catch (error) {
       console.error('Error selecting project:', error);

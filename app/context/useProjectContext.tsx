@@ -1,13 +1,13 @@
 "use client"
-import React, { createContext, useState, ReactNode, useContext } from 'react';
+import React, { createContext, useState, ReactNode, useContext, SetStateAction, Dispatch } from 'react';
+import { Params } from './editorTypes';
 
 
 interface ProjectContextType {
   currentProject: string| null;
   setCurrentProject: (project: string | null) => void;
-  dataParameters: any;
-  setDataParameters: (dataParameters: any) => void;
-  projects: any[];
+  dataParameters:  Params | null;
+  setDataParameters: Dispatch<SetStateAction<Params | null>>;  projects: any[];
   setProjects: (projects: any[]) => void;
 }
 
@@ -16,7 +16,7 @@ const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 
 export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [currentProject, setCurrentProject] = useState<string | null>(null);
-    const [dataParameters, setDataParameters] = useState<any>(null);
+    const [dataParameters, setDataParameters] = useState<Params | null>(null);
     const [projects, setProjects] = useState<any[]>([]);
 
 

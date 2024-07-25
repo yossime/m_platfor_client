@@ -33,7 +33,7 @@ const BoardBox: React.FC<BoardProps> = ({
   disabled = false
 }) => {
   return (
-    <BoardContainer clicked={clicked} disabled={disabled} onClick={() => onClick(title)}>
+    <BoardContainer $clicked={clicked} $disabled={disabled} onClick={() => onClick(title)}>
       <ContentWrapper>
         <IconWrapper>
           <Icon name={iconName} size={iconSize} color={disabled ? IconColor.DISABLED : iconColor} />

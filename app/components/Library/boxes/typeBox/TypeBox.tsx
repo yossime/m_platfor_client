@@ -12,7 +12,7 @@ interface TypeProps {
 
 const TypeBox: React.FC<TypeProps> = ({ title, clicked, onClick, disabled = false}) => {
   return (
-    <TypeContainer clicked={clicked} disabled={disabled} onClick={() => onClick(title)}>
+    <TypeContainer $clicked={clicked} $disabled={disabled} onClick={() => onClick(title)}>
       <TypeContent>
       <Text size = {TextSize.TEXT2} weight={FontWeight.BOLD} >{title}</Text>
       </TypeContent>

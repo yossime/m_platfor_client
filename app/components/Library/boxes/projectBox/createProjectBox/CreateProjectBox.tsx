@@ -4,7 +4,7 @@ import Text from '@components/Library/text/Text';
 import Icon from '@components/Library/icon/Icon';
 import { ComingSoon, CreateProjectBoxContainer, CreateProjectText } from './CreateProjectBoxStyles';
 import {  IconName, IconSize } from '@constants/icon';
-import { FontFamily, FontWeight, TextSize } from '@constants/text';
+import { FontFamily, FontWeight,  TextSize } from '@constants/text';
 import { IconColor, TextColor } from '@constants/colors';
 
 interface CreateProjectBoxProps {
@@ -16,7 +16,7 @@ interface CreateProjectBoxProps {
 
 const CreateProjectBox: React.FC<CreateProjectBoxProps> = ({ onClick , text , disabled = false , clicked = false}) => {
   return (
-    <CreateProjectBoxContainer clicked={clicked} onClick={onClick} disabled={disabled}>
+    <CreateProjectBoxContainer $clicked={clicked} onClick={onClick} $disabled={disabled}>
       {disabled  && <ComingSoon><Text size={TextSize.TEXT2} color={TextColor.TEXT_ON_PRIMARY}>COMING SOON</Text></ComingSoon>}
       <Icon name={IconName.PLUSCIRCLE} color={disabled ? IconColor.DISABLED: IconColor.ICONCOLOR}/>
       <CreateProjectText>

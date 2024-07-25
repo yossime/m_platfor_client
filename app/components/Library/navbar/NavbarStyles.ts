@@ -9,6 +9,7 @@ export const NavbarWrapper = styled.nav`
   color: #0e0000;
   z-index: 1000;
   height: ${NAVBAR_HEIGHTS.LAPTOP};
+  background-color: pink;
 
 `;
 

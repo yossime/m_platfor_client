@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { BackgroundColor, BorderColor, SemanticColors, TextColor } from '@constants/colors'; 
 
-export const BaseBox = styled.div<{ clicked: boolean; disabled: boolean }>`
+export const BaseBox = styled.div<{ $clicked: boolean; $disabled: boolean }>`
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -13,7 +13,7 @@ export const BaseBox = styled.div<{ clicked: boolean; disabled: boolean }>`
   /* color: ${TextColor.SECONDARY_TEXT}; */
 
   &:hover:not(:disabled) {
-    ${props => !props.clicked && css`
+    ${props => !props.$clicked && css`
       background-color: ${BackgroundColor.PRIMARY_BACKGROUND_HOVER};
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     `}
@@ -26,14 +26,14 @@ export const BaseBox = styled.div<{ clicked: boolean; disabled: boolean }>`
 
   }
 
-  ${props => props.clicked && !props.disabled && css`
+  ${props => props.$clicked && !props.$disabled && css`
     background-color: ${SemanticColors.PRIMARY_SELECTED};
     border: 1px solid ${SemanticColors.PRIMARY};
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   `}
 
-  ${props => props.disabled && css`
+  ${props => props.$disabled && css`
     background-color: ${BackgroundColor.DISABLED_BACKGROUND};
     color: ${TextColor.DISABLED_TEXT};
     cursor: not-allowed;
