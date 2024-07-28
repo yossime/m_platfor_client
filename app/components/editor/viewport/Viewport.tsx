@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {OrbitControls } from '@react-three/drei';
 import { EMode, useEditor } from '@/context/useEditorContext';
-import { HeaderBoard, Params, ProductBoard } from '../paramsType';
+import { IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
 import Architecture from '../Architecture';
 
 
 
-const headerBoard: HeaderBoard = {
+const headerBoard: IHeaderBoard = {
     type: 'HeaderBoard',
     title: {
         text: "Welcome to Our Store",
@@ -25,7 +25,7 @@ const headerBoard: HeaderBoard = {
 
 
 
-const productBoard: ProductBoard = {
+const productBoard: IProductBoard = {
     materialParams: { map: 'textura_3.jpeg', color: 'pink' },
     type: 'ProductBoard',
     title: {
@@ -33,21 +33,21 @@ const productBoard: ProductBoard = {
         color: "#ffffff",
         scale: [1, 1, 1]
     },
-    display: [
+    displays: [
         {
             title: {
                 text: "Welcome to Our Store",
                 color: "#ffffff",
                 scale: [1, 1, 1]
             },
-            product: [
+            products: [
                 {
                     title: {
                         text: "Welcome to Our Store",
                         color: "#ffffff",
                         scale: [1, 1, 1]
                     },
-                    price: "$299",
+                    price: {text:"$299"},
                     buttons: {
                         addToCart: "Add to Cart",
                         quickView: "Quick View",
@@ -65,14 +65,14 @@ const productBoard: ProductBoard = {
                 color: "#ffffff",
                 scale: [1, 1, 1]
             },
-            product: [
+            products: [
                 {
                     title: {
                         text: "Welcome to Our Store",
                         color: "#ffffff",
                         scale: [1, 1, 1]
                     },
-                    price: "$299",
+                    price: {text:"$299"},
                     buttons: {
                         addToCart: "Add to Cart",
                         quickView: "Quick View",
@@ -122,7 +122,7 @@ const productBoard: ProductBoard = {
 //     }
 // ]
 
-const params: Params = {
+const params: IParams = {
     architecture: "Barbiz_Skeleton4",
     materialParams: { color: 'yellow' },
     maxSlot: 5,
@@ -145,7 +145,7 @@ const Viewport: React.FC = () => {
 
     const { setCurrentMode, dataParameters, setDataParameters } = useEditor();
     useEffect(() => {
-        setDataParameters(params);
+        // setDataParameters(params);
         console.log("dataParameters", dataParameters);
     }, [params]);
 
@@ -164,16 +164,15 @@ const Viewport: React.FC = () => {
         event.preventDefault();
         params.materialParams.color = archColor;
         setDataParameters({ ...params });
-        console.log("params", params);
     }
 
 
-
+// console.log("dataParameters", dataParameters);
 
     return (
         <>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-            <form onSubmit={changeBoardType}>
+            {/* {error && <div style={{ color: 'red' }}>{error}</div>} */}
+            {/* <form onSubmit={changeBoardType}>
                 <input
                     type='number'
                     placeholder='select slot number'
@@ -187,9 +186,9 @@ const Viewport: React.FC = () => {
                     onChange={(e) => setSelectedBord(e.target.value)}
                 />
                 <button type='submit'>Change</button>
-            </form>
+            </form> */}
 
-            <form onSubmit={changeArcColor}>
+            {/* <form onSubmit={changeArcColor}>
                 <input
                     type='text'
                     placeholder='select bord type'
@@ -197,18 +196,18 @@ const Viewport: React.FC = () => {
                     onChange={(e) => setArchColor(e.target.value)}
                 />
                 <button type='submit'>Change arch color</button>
-            </form>
-
+            </form> */}
+{/* 
             <br />
 
             <button onClick={() => setCurrentMode(EMode.AddBorad)}>Add borad</button>
             <br />
-            <br />
+            <br /> */}
 
-            <div style={{ position: 'absolute', width: '100%', height:'100%'}}>
+            <div style={{  width: '100%', height:'100%'}}>
 
 
-                <Canvas style={{ height: '100%', width: '100%' }}>
+                <Canvas>
                     <OrbitControls />
                     <ambientLight />
                     <Architecture />

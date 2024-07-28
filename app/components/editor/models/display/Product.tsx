@@ -2,7 +2,7 @@ import { useLoader, ThreeEvent } from "@react-three/fiber";
 import { useRef, useEffect, useState } from "react";
 import { Object3D, Group, TextureLoader, Mesh, MeshStandardMaterial, Color, Vector3, Euler, CanvasTexture } from "three";
 import { FBXLoader, FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
-import { IBoard, MaterialParams, IText, IProduct, ThreeDModel } from "../../paramsType";
+import { IBoard, MaterialParams, IText, IProduct, IThreeDModel } from "../../interface/paramsType";
 import { LoadMaterial } from "../../loadMaterial";
 import { Html, useAspect, useVideoTexture } from "@react-three/drei";
 // import TextLoader from "../../TextLoader";
@@ -23,7 +23,7 @@ const buildTexture = async (materialParams: MaterialParams, mash: Mesh) => {
 
 
 interface BoardLoaderProps {
-    product: ThreeDModel;
+    product: IThreeDModel;
     slotPlaceholder: Object3D;
 }
 

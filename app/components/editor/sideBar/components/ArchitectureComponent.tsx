@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { HeaderType } from '../types';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
-import { Params, Skybox } from '@/context/editorTypes';
+import { IParams, Skybox } from '@/components/editor/interface/paramsType';
 import { useProject } from '@/context/useProjectContext';
+import { useEditor } from '@/context/useEditorContext';
 
 interface ArchitectureComponentProps {
   header: HeaderType;
@@ -15,11 +16,11 @@ const options = [
 ];
 
 export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ header }) => {
-  const { setDataParameters, dataParameters } = useProject();
+  const { setDataParameters, dataParameters } = useEditor();
 
 
   const handleChange = (value: Skybox) => {
-    setDataParameters((prevParams: Params | null) => {
+    setDataParameters((prevParams) => {
       if (!prevParams) return null;
       return {
         ...prevParams,

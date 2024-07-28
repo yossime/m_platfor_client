@@ -1,9 +1,9 @@
 // import { Board } from '@constants/editorTypes';
-import { useProject } from '@/context/useProjectContext';
+import { useEditor } from '@/context/useEditorContext';
 import React from 'react';
 
 export const ImageAdvancedComponent: React.FC = () => {
-  const { dataParameters, setDataParameters } = useProject();
+  const { dataParameters, setDataParameters } = useEditor();
 
   const addBoard = () => {
     if (dataParameters && dataParameters.boards) {

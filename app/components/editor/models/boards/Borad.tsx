@@ -2,7 +2,7 @@ import { useLoader, ThreeEvent } from "@react-three/fiber";
 import { useRef, useEffect, useState } from "react";
 import { Object3D, Group, TextureLoader, Mesh, MeshStandardMaterial, Color, Vector3, Euler, CanvasTexture } from "three";
 import { FBXLoader, FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
-import { IBoard, MaterialParams, IText, ProductBoard, Display, ThreeDModel } from "../../paramsType";
+import { IBoard, MaterialParams, IText, IProductBoard, IDisplay, IThreeDModel } from "../../interface/paramsType";
 import { LoadMaterial } from "../../loadMaterial";
 import { Html, useAspect, useVideoTexture } from "@react-three/drei";
 // import TextLoader from "../../TextLoader";
@@ -36,11 +36,11 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
 
     const boardsRef = useRef<Group>(null);
 
-    const { setCurrentMode } = useEditor();
+    const { setCurrentMode, setActiveBoardIndex } = useEditor();
     const [mediaSlots, setMediaSlots] = useState<Object3D[]>([]);
     const [selectedBorad, setSelectedBorad] = useState<Object3D | null>(null);
     const [textMeshes, setTextMeshes] = useState<Mesh[]>([]);
-    const [modleCpntent, setModleCpntent] = useState<ThreeDModel[]>([]);
+    const [modleCpntent, setModleCpntent] = useState<IThreeDModel[]>([]);
     const [modelsSlots, setModelsSlots] = useState<Object3D[]>([]);
     const url = `${API}/project/fbx`;
     const boradUrl = `${url}/${board.type}`;
@@ -54,7 +54,7 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
 
 
     useEffect(() => {
-        console.log("boradPlaceholder", boradFbx)
+        // console.log("boradPlaceholder", boradFbx)
         if (!slotPlaceholder) return;
 
         const currentBorad = boradFbx.children[0].clone();
@@ -74,9 +74,10 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
         switch (board.type) {
             case 'ProductBoard':
                 const productsSlots = currentBorad.children[1].children;
-                console.log("products", productsSlots)
+                // console.log("products", productsSlots)
                 setModleCpntent(productsSlots)
-                const products = (board as ProductBoard).display[0].product!;
+                // console.warn("curr bo   ", board)
+                const products = (board as IProductBoard).displays[0].products!;
                 setModleCpntent(products);
                 break;
 
@@ -145,6 +146,8 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
         }
 
     };
+
+
 
     return (
         <group ref={boardsRef} onPointerDown={handlePointerDown}>

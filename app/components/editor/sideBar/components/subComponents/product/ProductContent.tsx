@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useState } from 'react';
 import Input from '@/components/Library/input/Input';
-import { DisplayType, Params, ProductBoard, Display } from '@/context/editorTypes';
 import { InputMode, InputSize } from '@constants/input';
 import { useProject } from '@/context/useProjectContext';
 import { useEditor } from '@/context/useEditorContext';
 import SelectInput from '@/components/Library/input/SelectInput';
 import { DisplayList } from './DisplayList';
 import PopupEditDisplay from './PopupEditDisplay'; 
+import { DisplayType, IDisplay, IProductBoard } from '@/components/editor/interface/paramsType';
 
 const displayTypeOptions = [
   { value: DisplayType.DUO, label: "Spotlight Duo" },
@@ -14,14 +14,14 @@ const displayTypeOptions = [
 ];
 
 export const ProductContentComponent: React.FC = () => {
-  const [activeDisplay, setActiveDisplay] = useState<{ index: number; display: Display } | null>(null);
-  const { setDataParameters, dataParameters } = useProject();
+  const [activeDisplay, setActiveDisplay] = useState<{ index: number; display: IDisplay } | null>(null);
+  const { setDataParameters, dataParameters } = useEditor();
   const { activeBoardIndex } = useEditor();
-  const currentBoard = dataParameters?.boards[activeBoardIndex] as ProductBoard;
+  const currentBoard = dataParameters?.boards[activeBoardIndex] as IProductBoard;
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setDataParameters((prevParams: Params | null) => {
+    setDataParameters((prevParams) => {
       if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
 
       return {
@@ -42,7 +42,7 @@ export const ProductContentComponent: React.FC = () => {
   };
 
   const handleChange = (value: any) => {
-    setDataParameters((prevParams: Params | null) => {
+    setDataParameters((prevParams) => {
       if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
       console.log(value);
       return {
@@ -53,7 +53,7 @@ export const ProductContentComponent: React.FC = () => {
     });
   };
 
-  const handleEditDisplay = (index: number, display: Display) => {
+  const handleEditDisplay = (index: number, display: IDisplay) => {
     setActiveDisplay({ index, display });
   };
 
@@ -61,10 +61,10 @@ export const ProductContentComponent: React.FC = () => {
     setActiveDisplay(null);
   };
 
-  const handleSaveDisplay = (updatedDisplay: Display) => {
+  const handleSaveDisplay = (updatedDisplay: IDisplay) => {
     if (activeDisplay === null) return;
 
-    setDataParameters((prevParams: Params | null) => {
+    setDataParameters((prevParams) => {
       if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
 
       return {
@@ -72,7 +72,7 @@ export const ProductContentComponent: React.FC = () => {
         boards: prevParams.boards.map((board, i) =>
           i === activeBoardIndex ? {
             ...board,
-            displays: (board as ProductBoard).displays.map((d, j) =>
+            displays: (board as IProductBoard).displays.map((d, j) =>
               j === activeDisplay.index ? updatedDisplay : d
             )
           } : board

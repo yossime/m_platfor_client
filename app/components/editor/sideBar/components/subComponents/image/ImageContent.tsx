@@ -1,8 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Input from '@/components/Library/input/Input';
-import { HeaderBoard, Params } from '@/context/editorTypes';
+import { IHeaderBoard, IParams }  from '@/components/editor/interface/paramsType';
 import { InputMode, InputSize } from '@constants/input';
-import { useProject } from '@/context/useProjectContext';
 import { useEditor } from '@/context/useEditorContext';
 import DragAndDropImage from '@/components/DragAndDropImage';
 import Button from '@/components/Library/button/Button';
@@ -11,7 +10,7 @@ import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 
 
 export const ImageContentComponent: React.FC = () => {
-  const { setDataParameters, dataParameters } = useProject();
+  const { setDataParameters, dataParameters } = useEditor();
   const { activeBoardIndex } = useEditor()
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [imageBuffer, setImageBuffer] = useState<ArrayBuffer | null>(null);
@@ -19,7 +18,7 @@ export const ImageContentComponent: React.FC = () => {
 
   const handleInputChange = (field: 'title' | 'subTitle' | 'buttonTitle') => (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setDataParameters((prevParams: Params | null) => {
+    setDataParameters((prevParams: IParams | null) => {
       if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
 
       return {
@@ -43,7 +42,7 @@ export const ImageContentComponent: React.FC = () => {
       const imageUrl = URL.createObjectURL(blob);
       setImageSrc(imageUrl);
 
-      setDataParameters((prevParams: Params | null) => {
+      setDataParameters((prevParams: IParams | null) => {
         if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
 
         return {
@@ -59,7 +58,7 @@ export const ImageContentComponent: React.FC = () => {
       };
     }
   }, [imageBuffer, activeBoardIndex, setDataParameters]);
-  const currentBoard = dataParameters?.boards[activeBoardIndex] as HeaderBoard;
+  const currentBoard = dataParameters?.boards[activeBoardIndex] as IHeaderBoard;
 
   return (
     <div>
@@ -101,7 +100,7 @@ export const ImageContentComponent: React.FC = () => {
         mode={InputMode.NORMAL}
         label="Button"
         placeholder="Get Started!"
-        value={currentBoard?.buttonTitle?.text || ''}
+        value={currentBoard?.button?.text.text || ''}
         onChange={handleInputChange('buttonTitle')}
       />
     </div>

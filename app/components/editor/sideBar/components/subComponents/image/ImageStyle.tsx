@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
-import { ButtonStyle, ImageStyle, Params, Skybox, TextStyle, BaseSize, HeaderBoard, ThreeDModelStyle } from '@/context/editorTypes';
+import { ButtonStyle, ImageStyle, IParams, Skybox, ITextStyle, BaseSize, IHeaderBoard, IThreeDModelStyle }  from '@/components/editor/interface/paramsType';
 import { useProject } from '@/context/useProjectContext';
 import { useEditor } from '@/context/useEditorContext';
 
@@ -22,14 +22,14 @@ const imageStyleOptions = [
 ];
 
 export const ImageStyleComponent: React.FC = () => {
-  const { setDataParameters, dataParameters } = useProject();
+  const { setDataParameters, dataParameters } = useEditor();
   const { activeBoardIndex } = useEditor();
 
-  const handleChange = (key: keyof ThreeDModelStyle, value: any) => {
-    setDataParameters((prevParams: Params | null) => {
+  const handleChange = (key: keyof IThreeDModelStyle, value: any) => {
+    setDataParameters((prevParams) => {
       if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
 
-      const currentBoard = prevParams.boards[activeBoardIndex] as HeaderBoard;
+      const currentBoard = prevParams.boards[activeBoardIndex] as IHeaderBoard;
       const updatedStyle = {
         ...currentBoard.style,
         [key]: value
@@ -46,7 +46,7 @@ export const ImageStyleComponent: React.FC = () => {
     });
   };
 
-  const currentBoard = dataParameters?.boards[activeBoardIndex] as HeaderBoard;
+  const currentBoard = dataParameters?.boards[activeBoardIndex] as IHeaderBoard;
 
   return (
     <div>

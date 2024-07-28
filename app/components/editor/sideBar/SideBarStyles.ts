@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
- export const SidebarContainer = styled.div`
-margin-top:50px;
+export const SidebarContainer = styled.div`
+  /* margin-top:50px;
   width: 256px;
   background-color: #f3f4f6;
   height: 100vh;
   padding: 16px;
   margin-bottom: 40px;
-  overflow-y: auto;
+  overflow-y: auto; */
 `;
 
 export const HeaderContainer = styled.div`

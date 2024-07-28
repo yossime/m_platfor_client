@@ -2,13 +2,13 @@ import { Text } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Mesh, Object3D } from "three";
-import { IBoard, BoardContent, IText, ThreeDModel } from "./paramsType";
+import { IBoard, BoardContent, IText, IThreeDModel } from "./interface/paramsType";
 
 
 
 export interface ContentsProps {
   placeholder: Mesh;
-  board: ThreeDModel;
+  board: IThreeDModel;
 }
 
 
@@ -19,7 +19,7 @@ interface TextComponentProps {
 
 const TextComponent: React.FC<ContentsProps> = ({ board, placeholder }) => {
   const ref = useRef<any>(null);
-  const key = placeholder.name as keyof ThreeDModel;
+  const key = placeholder.name as keyof IThreeDModel;
   const data = board[key] as IText;
   console.log("board[key]", data);
   useFrame(() => {

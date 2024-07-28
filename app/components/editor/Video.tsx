@@ -2,7 +2,7 @@ import { useVideoTexture } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
 import { useRef, useEffect } from "react";
 import { Color, Group, Mesh, MeshStandardMaterial, Object3D } from "three";
-import { MaterialParams } from "./paramsType";
+import { MaterialParams } from "./interface/paramsType";
 
 
 

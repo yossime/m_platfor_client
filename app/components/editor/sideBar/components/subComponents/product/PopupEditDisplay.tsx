@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Display, Product } from '@/context/editorTypes';
+import { IDisplay, IProduct }  from '@/components/editor/interface/paramsType';
 import Input from '@/components/Library/input/Input';
 import { InputMode, InputSize } from '@constants/input';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 
 interface PopupEditDisplayProps {
-  display: Display;
+  display: IDisplay;
   onClose: () => void;
-  onSave: (updatedDisplay: Display) => void;
+  onSave: (updatedDisplay: IDisplay) => void;
 }
 
 const Overlay = styled.div`
@@ -48,12 +48,12 @@ const ButtonContainer = styled.div`
 `;
 
 const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, onSave }) => {
-  const [editedDisplay, setEditedDisplay] = useState<Display>(display);
+  const [editedDisplay, setEditedDisplay] = useState<IDisplay>(display);
 
-  const handleInputChange = (field: keyof Product, value: string) => {
+  const handleInputChange = (field: keyof IProduct, value: string) => {
     setEditedDisplay(prev => ({
       ...prev,
-      products: prev.products.map((product, index) => 
+      products: prev.products?.map((product, index) => 
         index === 0 ? { ...product, [field]: { text: value } } : product
       )
     }));
@@ -72,7 +72,7 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
             inputSize={InputSize.SMALL}
             mode={InputMode.NORMAL}
             label="Product Title"
-            value={editedDisplay.products[0].title?.text}
+            value={editedDisplay.products ? editedDisplay.products[0].title?.text : ""}
             onChange={(e) => handleInputChange('title', e.target.value)}
           />
         </InputContainer>
@@ -81,7 +81,7 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
             inputSize={InputSize.SMALL}
             mode={InputMode.NORMAL}
             label="Product Description"
-            value={editedDisplay.products[0].description?.text}
+            value={editedDisplay.products ? editedDisplay.products[0].description?.text : ""}
             onChange={(e) => handleInputChange('description', e.target.value)}
           />
         </InputContainer>
@@ -90,23 +90,23 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
             inputSize={InputSize.SMALL}
             mode={InputMode.NORMAL}
             label="Product SKU"
-            value={editedDisplay.products[0].SKU?.text}
+            value={editedDisplay.products ? editedDisplay.products[0].SKU?.text : ""}
             onChange={(e) => handleInputChange('SKU', e.target.value)}
           />
         </InputContainer>
         <InputContainer>
-          <Input
+         {/* { <Input
             inputSize={InputSize.SMALL}
             mode={InputMode.NORMAL}
             label="Product Price"
-            value={editedDisplay.products[0].price}
-            onChange={(e) => setEditedDisplay(prev => ({
+            value={editedDisplay.products ? editedDisplay.products[0].price.text : ""}
+            onChange={(e) => setEditedDisplay((prev) => ({
               ...prev,
-              products: prev.products.map((product, index) => 
-                index === 0 ? { ...product, price: e.target.value } : product
+              products: prev.products?.map((product, index) => 
+                index === 0 ? { ...product, price.text: e.target.value } : product
               )
             }))}
-          />
+          />} */}
         </InputContainer>
         <ButtonContainer>
           <Button

@@ -1,5 +1,5 @@
 import { Texture, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters, Color } from "three";
-import { MaterialParams } from "./paramsType";
+import { MaterialParams } from "./interface/paramsType";
 
 
 

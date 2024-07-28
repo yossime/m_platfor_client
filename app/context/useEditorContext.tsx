@@ -1,5 +1,5 @@
-import { Params } from '@/components/editor/paramsType';
-import React, { createContext, useState, ReactNode, useContext } from 'react';
+import { IParams } from '@/components/editor/interface/paramsType';
+import React, { createContext, useState, ReactNode, useContext, Dispatch, SetStateAction } from 'react';
 
 
 export enum EMode {
@@ -13,10 +13,12 @@ interface EditorContextType {
   setCameraPosition: (position: [number, number, number]) => void;
   cameraDirection: [number, number, number];
   setCameraDirection: (direction: [number, number, number]) => void;
-  dataParameters: Params;
-  setDataParameters: (dataParameters: Params) => void;
+  dataParameters:  IParams | null;
+  setDataParameters: Dispatch<SetStateAction<IParams | null>>; 
   currentMode: EMode;
   setCurrentMode: (mode: EMode) => void;
+  activeBoardIndex: number;
+  setActiveBoardIndex: (index: number) => void;  
 }
 
 const EditorContext = createContext<EditorContextType | undefined>(undefined);
@@ -24,11 +26,15 @@ const EditorContext = createContext<EditorContextType | undefined>(undefined);
 export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([0, 5, 0]);
   const [cameraDirection, setCameraDirection] = useState<[number, number, number]>([0, 0, 0]);
-  const [dataParameters, setDataParameters] = useState<Params>( {} as Params);
+  const [dataParameters, setDataParameters] = useState<IParams | null>(null);
   const [currentMode, setCurrentMode] = useState<EMode>(EMode.View);
+  const [activeBoardIndex, setActiveBoardIndex]= useState<number>(-1);
+
 
 
   const value: EditorContextType = { 
+    activeBoardIndex,
+    setActiveBoardIndex,
     cameraPosition, 
     setCameraPosition, 
     cameraDirection, 

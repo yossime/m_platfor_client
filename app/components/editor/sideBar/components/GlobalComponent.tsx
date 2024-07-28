@@ -1,6 +1,5 @@
 import React from 'react';
 import { HeaderType } from '../types';
-import { useProject } from '@/context/useProjectContext';
 import { useEditor } from '@/context/useEditorContext';
 
 interface GlobalComponentProps {
@@ -9,7 +8,7 @@ interface GlobalComponentProps {
 }
 
 export const GlobalComponent: React.FC<GlobalComponentProps> = ({ header, onHeaderChange }) => {
-  const { dataParameters } = useProject();
+  const { dataParameters } = useEditor();
   const { setActiveBoardIndex}= useEditor()
 
 const handleSelect = (type: string | null, index: number) => {

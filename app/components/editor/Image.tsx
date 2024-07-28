@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import { Image, Text } from '@react-three/drei'
 import { Mesh, Object3D } from "three";
-import { IBoard } from "./paramsType";
+import { IBoard } from "./interface/paramsType";
 
 
 interface ImageLoaderProps {
