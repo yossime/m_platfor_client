@@ -39,7 +39,7 @@ const Editor = () => {
 
         const dataParameters: IParams = {
             // architecture: project.data.Templates || '',
-            architecture: 'Barbiz_Skeleton4',
+            architecture: 'Barbiz',
     
             materialParams: {},
             maxSlot: 5,
