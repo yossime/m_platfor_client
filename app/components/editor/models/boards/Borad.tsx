@@ -2,7 +2,7 @@ import { useLoader, ThreeEvent } from "@react-three/fiber";
 import { useRef, useEffect, useState } from "react";
 import { Object3D, Group, TextureLoader, Mesh, MeshStandardMaterial, Color, Vector3, Euler, CanvasTexture } from "three";
 import { FBXLoader, FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
-import { IBoard, MaterialParams, IText, IProductBoard, IDisplay, IThreeDModel } from "../../interface/paramsType";
+import { IBoard, MaterialParams, IText, IProductBoard, IDisplay, IThreeDModel, IProduct } from "../../interface/paramsType";
 import { LoadMaterial } from "../../loadMaterial";
 import { Html, useAspect, useVideoTexture } from "@react-three/drei";
 // import TextLoader from "../../TextLoader";
@@ -74,12 +74,13 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
         switch (board.type) {
             case 'ProductBoard':
                 const productsSlots = currentBorad.children[0].children;
-                // console.log("productsSlots", productsSlots)
                 setModelsSlots(productsSlots)
-                const products = (board as IProductBoard).displays[0].products!;
-                // console.log("board products", products)
 
-                setModleCpntent(products);
+                const boardDisplays = (board as IProductBoard).displays;
+                boardDisplays.forEach((display: IDisplay) => {
+                    setModleCpntent(prev => [...prev, ...(display.products as IProduct[])]);
+                })
+
                 break;
 
             case 'HeaderBoard':
