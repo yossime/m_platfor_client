@@ -115,6 +115,7 @@ export interface MaterialParams {
     map?: string;
     alphaMap?: string;
     opacity?: number;
+    video?: string;
 }
 
 export interface BoardContent {

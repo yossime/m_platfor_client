@@ -7,20 +7,20 @@ import { MaterialParams } from "./interface/paramsType";
 
 
 interface VideoProps {
-    videoPlaceholder: Object3D;
-    materialParams: MaterialParams | null;
+    slotPlaceholder: Object3D;
+    materialParams?: MaterialParams | null;
 }
 
-const Video: React.FC<VideoProps> = ({ videoPlaceholder, materialParams }) => {
+const Video: React.FC<VideoProps> = ({ slotPlaceholder }) => {
     const videoRef = useRef<Group>(null);
-    const url = 'video_1.mp4';
+    const url = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/video_1.mp4?alt=media&token=d948abc7-d187-4612-b315-8109faf98b84';
     const texture = useVideoTexture(url)
  
     // console.log("videoPlaceholder", videoPlaceholder);
     useEffect(() => {
-        if (!videoPlaceholder) return;
+        if (!slotPlaceholder) return;
 
-        const videoMash = videoPlaceholder;
+        const videoMash = slotPlaceholder;
 
         if (videoMash instanceof Mesh) {
             const videoMaterial = new MeshStandardMaterial();

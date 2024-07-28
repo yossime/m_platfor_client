@@ -1,18 +1,16 @@
 import { useLoader, ThreeEvent } from "@react-three/fiber";
 import { useRef, useEffect, useState } from "react";
-import { Object3D, Group, TextureLoader, Mesh, MeshStandardMaterial, Color, Vector3, Euler, CanvasTexture } from "three";
+import { Object3D, Group, TextureLoader, Mesh, MeshStandardMaterial, Color, Vector3, Euler, CanvasTexture, Material } from "three";
 import { FBXLoader, FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 import { IBoard, MaterialParams, IText, IProductBoard, IDisplay, IThreeDModel, IProduct } from "../../interface/paramsType";
 import { LoadMaterial } from "../../loadMaterial";
-import { Html, useAspect, useVideoTexture } from "@react-three/drei";
-// import TextLoader from "../../TextLoader";
-import Video from "../../Video";
-import TextLoader, { ContentsProps } from "../../TextLoader";
+import { useVideoTexture } from "@react-three/drei";
+// import TextLoader, { ContentsProps } from "../../TextLoader";
 import { EMode, useEditor } from "@/context/useEditorContext";
 import { Text } from '@react-three/drei';
-import ImageR from "../../Image";
-import TextComponent from "../../TextLoader";
+// import TextComponent from "../../TextLoader";
 import Product from "../display/Product";
+import TextComponent from "../../TextLoader";
 
 
 
@@ -37,24 +35,35 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
     const boardsRef = useRef<Group>(null);
 
     const { setCurrentMode } = useEditor();
-    const [mediaSlots, setMediaSlots] = useState<Object3D[]>([]);
-    const [selectedBorad, setSelectedBorad] = useState<Object3D | null>(null);
     const [textMeshes, setTextMeshes] = useState<Mesh[]>([]);
-    const [modleCpntent, setModleCpntent] = useState<IThreeDModel[]>([]);
+    const [modleComponents, setModleComponents] = useState<IThreeDModel[]>([]);
     const [modelsSlots, setModelsSlots] = useState<Object3D[]>([]);
+
     const url = `${API}/project/fbx`;
     const boradUrl = `${url}/${board.type}`;
 
-
-
     const boradFbx = useLoader(FBXLoader, boradUrl) as Object3D;
 
-    // const products = (board as ProductBoard).product;
+    useEffect(() => {
+        const materialParams = board?.materialParams;
+        if (!materialParams) return;
 
+
+        const getTexture = async (materialParams: MaterialParams, mash: Mesh) => {
+            const boradMaterial = await LoadMaterial(materialParams)
+            if(materialParams.video) {
+                // const videoTexture = useVideoTexture(materialParams.video);
+                // boradMaterial.map = videoTexture;
+            }
+            mash.material = boradMaterial;
+        }
+        const currentBorad = boradFbx.children[0].clone();
+        
+        getTexture(materialParams, currentBorad as Mesh);
+    }, [board?.materialParams]);
 
 
     useEffect(() => {
-        // console.log("boradFbx", boradFbx)
         if (!slotPlaceholder) return;
 
         const currentBorad = boradFbx.children[0].clone();
@@ -64,6 +73,7 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
 
 
         const materialParams = board?.materialParams;
+
         if (materialParams && currentBorad instanceof Mesh) {
             buildTexture(materialParams, currentBorad);
         }
@@ -74,11 +84,17 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
         switch (board.type) {
             case 'ProductBoard':
                 const productsSlots = currentBorad.children[0].children;
+                productsSlots.sort((a, b) => {
+                    const numA = parseInt(a.name.split('_')[1]);
+                    const numB = parseInt(b.name.split('_')[1]);
+                    return numA - numB;
+                  });
                 setModelsSlots(productsSlots)
+                currentBorad.children[0].children = [];
 
                 const boardDisplays = (board as IProductBoard).displays;
                 boardDisplays.forEach((display: IDisplay) => {
-                    setModleCpntent(prev => [...prev, ...(display.products as IProduct[])]);
+                    setModleComponents(prev => [...prev, ...(display.products as IProduct[])]);
                 })
 
                 break;
@@ -110,19 +126,6 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
             }
         })
 
-        selectedBorad?.parent?.remove(selectedBorad);
-
-
-
-
-
-
-
-
-
-
-
-
         boardsRef.current?.add(currentBorad);
     }, [boradFbx]);
 
@@ -130,10 +133,11 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
     const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
         event.stopPropagation();
         const clickedPart = event.object;
-        // console.log("handlePointerDown", clickedPart.name);
+        console.log("handlePointerDown", clickedPart.name);
 
         setCurrentMode(EMode.View);
 
+ 
         if (clickedPart instanceof Mesh) {
             // console.log("clicked", modleCpntent);
             const highlightMaterial = new MeshStandardMaterial({
@@ -141,18 +145,16 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
                 opacity: 0.5,
                 transparent: true,
                 wireframe: true,
-                // map: texture,
             });
 
             clickedPart.material = highlightMaterial;
         }
-
     };
 
     return (
         <group ref={boardsRef} onPointerDown={handlePointerDown}>
 
-            {modleCpntent?.map((product, index) => (
+            {modleComponents?.map((product, index) => (
                 <group key={index}>
                     <Product product={product} slotPlaceholder={modelsSlots[index]} />
                 </group>

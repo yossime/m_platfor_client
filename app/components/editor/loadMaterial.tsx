@@ -18,7 +18,7 @@ const loadTexture = async (texturePath?: string): Promise<Texture | null> => {
   export const LoadMaterial = async (materialParams: MaterialParams): Promise<MeshStandardMaterial> => {
     const highlightMaterialParams: MeshStandardMaterialParameters = {};
 
-    const {color, map, alphaMap, opacity} = materialParams;
+    const {color, map, alphaMap, opacity, video} = materialParams;
   
     if (color !== undefined) {
       highlightMaterialParams.color = new Color(color);
@@ -35,6 +35,12 @@ const loadTexture = async (texturePath?: string): Promise<Texture | null> => {
     if (opacity !== undefined) {
         highlightMaterialParams.opacity = opacity;
     }
+
+  //   if (video !== undefined) {
+
+  //     highlightMaterialParams.map = await loadTexture(video);
+  //     highlightMaterialParams.toneMapped = false;
+  // }
   
     const highlightMaterial = new MeshStandardMaterial(highlightMaterialParams);
   
