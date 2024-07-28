@@ -55,10 +55,20 @@ const productBoard: IProductBoard = {
                         buyNow: "Buy Now"
                     },
                     type: 'Product02',
-                },
+                }
+            ]
+        },
+        {
+            title: {
+                text: "Welcome to Our Store",
+                color: "#ffffff",
+                scale: [1, 1, 1]
+            },
+            type: 'blup1',
+            products: [
                 {
                     title: {
-                        text: "Welcome to 22Our Store",
+                        text: "Welcome to Our Store",
                         color: "#ffffff",
                         scale: [1, 1, 1]
                     },
@@ -69,11 +79,20 @@ const productBoard: IProductBoard = {
                         buyNow: "Buy Now"
                     },
                     type: 'Product02',
-                    materialParams: { color: 'pink' },
-                },
+                }
+            ]
+        },
+        {
+            title: {
+                text: "Welcome to Our Store",
+                color: "#ffffff",
+                scale: [1, 1, 1]
+            },
+            type: 'blup1',
+            products: [
                 {
                     title: {
-                        text: "Welcome to 22Our Store",
+                        text: "Welcome to Our Store",
                         color: "#ffffff",
                         scale: [1, 1, 1]
                     },
@@ -84,12 +103,20 @@ const productBoard: IProductBoard = {
                         buyNow: "Buy Now"
                     },
                     type: 'Product02',
-                    materialParams: { color: 'pink' },
-                },
-
+                }
+            ]
+        },
+        {
+            title: {
+                text: "Welcome to Our Store",
+                color: "#ffffff",
+                scale: [1, 1, 1]
+            },
+            type: 'blup1',
+            products: [
                 {
                     title: {
-                        text: "Welcome to 22Our Store",
+                        text: "Welcome to Our Store",
                         color: "#ffffff",
                         scale: [1, 1, 1]
                     },
@@ -100,7 +127,6 @@ const productBoard: IProductBoard = {
                         buyNow: "Buy Now"
                     },
                     type: 'Product02',
-                    materialParams: { color: 'pink' },
                 }
             ]
         }
