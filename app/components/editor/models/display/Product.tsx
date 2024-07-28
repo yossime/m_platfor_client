@@ -65,38 +65,6 @@ const Product: React.FC<BoardLoaderProps> = ({ product, slotPlaceholder }) => {
 
         const keys = Object.keys(product);
 
-        // switch (product.type) {
-        //     case 'ProductBoard':
-        //         break;
-
-        //     case 'HeaderBoard':
-        //         console.log("boradFbx.children[0].children", productFbx);
-
-        //         break;
-
-        //     case 'ImageBoard':
-        //         break;
-
-        //     default:
-        //         break;
-        // }
-
-        // console.log("keys", keys);
-
-        // currentProduct.traverse((child) => {
-        //     if (child instanceof Mesh) {
-        //         if (keys.includes(child.name)) {
-        //             const key = child.name as keyof IProduct;
-        //             if (product[key] as IText) {
-
-        //                 setTextMeshes(prev => [...prev, child]);
-        //                 child.visible = false;
-        //             }
-        //         }
-        //     }
-        // })
-
-        // selectedBorad?.parent?.remove(selectedBorad);
 
         productRef.current?.add(currentProduct);
     }, [productFbx]);
@@ -114,7 +82,7 @@ const Product: React.FC<BoardLoaderProps> = ({ product, slotPlaceholder }) => {
         if (clickedPart instanceof Mesh) {
             // console.log("clicked");
             const highlightMaterial = new MeshStandardMaterial({
-                color: new Color('purple'),
+                color: new Color('yellow'),
                 opacity: 0.5,
                 transparent: true,
                 wireframe: true,

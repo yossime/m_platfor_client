@@ -5,6 +5,7 @@ import { OrbitControls } from '@react-three/drei';
 import { EMode, useEditor } from '@/context/useEditorContext';
 import { IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
 import Architecture from '../Architecture';
+import { ConvexMeshFromFBX } from '../TextLoader';
 
 
 
@@ -20,7 +21,7 @@ const headerBoard: IHeaderBoard = {
         color: "#ffffff",
         scale: [1, 1, 1]
     },
-    materialParams: { map: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f', color: 'pink' },
+    materialParams: { video: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/video_1.mp4?alt=media&token=d948abc7-d187-4612-b315-8109faf98b84' },
 }
 
 
@@ -157,9 +158,9 @@ const Viewport: React.FC = () => {
 
 
     const { setCurrentMode, dataParameters, setDataParameters } = useEditor();
-    useEffect(() => {
-        setDataParameters(params);
-    }, [params]);
+    // useEffect(() => {
+    //     setDataParameters(params);
+    // }, [params]);
 
     const changeBoardType = (event: React.FormEvent) => {
         event.preventDefault();
@@ -222,6 +223,8 @@ const Viewport: React.FC = () => {
                 <Canvas style={{ height: '100%', width: '100%' }}>
                     <OrbitControls />
                     <ambientLight />
+                    <gridHelper args={[100, 100, 0xff0000, 'teal']} />
+                    {/* <ConvexMeshFromFBX/> */}
                     <Architecture />
                 </Canvas>
             </div>

@@ -52,15 +52,15 @@ const Editor = () => {
             });
           }
     
-          // setDataParameters(dataParameters);
+          setDataParameters(dataParameters);
       },[]);
   
 
     return (
         <Container>
-        {/* {    <SidebarContainer>
+        {    <SidebarContainer>
                 <SideBar />
-            </SidebarContainer>} */}
+            </SidebarContainer>}
             <ViewportContainer>
                 <Viewport />
             </ViewportContainer>
