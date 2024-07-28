@@ -36,7 +36,7 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
 
     const boardsRef = useRef<Group>(null);
 
-    const { setCurrentMode, setActiveBoardIndex } = useEditor();
+    const { setCurrentMode } = useEditor();
     const [mediaSlots, setMediaSlots] = useState<Object3D[]>([]);
     const [selectedBorad, setSelectedBorad] = useState<Object3D | null>(null);
     const [textMeshes, setTextMeshes] = useState<Mesh[]>([]);
@@ -54,7 +54,7 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
 
 
     useEffect(() => {
-        // console.log("boradPlaceholder", boradFbx)
+        // console.log("boradFbx", boradFbx)
         if (!slotPlaceholder) return;
 
         const currentBorad = boradFbx.children[0].clone();
@@ -73,16 +73,17 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
 
         switch (board.type) {
             case 'ProductBoard':
-                const productsSlots = currentBorad.children[1].children;
-                // console.log("products", productsSlots)
-                setModleCpntent(productsSlots)
-                // console.warn("curr bo   ", board)
+                const productsSlots = currentBorad.children[0].children;
+                // console.log("productsSlots", productsSlots)
+                setModelsSlots(productsSlots)
                 const products = (board as IProductBoard).displays[0].products!;
+                // console.log("board products", products)
+
                 setModleCpntent(products);
                 break;
 
             case 'HeaderBoard':
-                console.log("boradFbx.children[0].children", boradFbx);
+                // console.log("boradFbx.children[0].children", boradFbx);
 
                 break;
 
@@ -128,12 +129,12 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
     const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
         event.stopPropagation();
         const clickedPart = event.object;
-        console.log("handlePointerDown", clickedPart.name);
+        // console.log("handlePointerDown", clickedPart.name);
 
         setCurrentMode(EMode.View);
 
         if (clickedPart instanceof Mesh) {
-            console.log("clicked", modleCpntent);
+            // console.log("clicked", modleCpntent);
             const highlightMaterial = new MeshStandardMaterial({
                 color: new Color('red'),
                 opacity: 0.5,
@@ -146,8 +147,6 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
         }
 
     };
-
-
 
     return (
         <group ref={boardsRef} onPointerDown={handlePointerDown}>

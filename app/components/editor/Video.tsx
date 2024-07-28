@@ -16,7 +16,7 @@ const Video: React.FC<VideoProps> = ({ videoPlaceholder, materialParams }) => {
     const url = 'video_1.mp4';
     const texture = useVideoTexture(url)
  
-    console.log("videoPlaceholder", videoPlaceholder);
+    // console.log("videoPlaceholder", videoPlaceholder);
     useEffect(() => {
         if (!videoPlaceholder) return;
 

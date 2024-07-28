@@ -48,11 +48,11 @@ const Product: React.FC<BoardLoaderProps> = ({ product, slotPlaceholder }) => {
 
 
     useEffect(() => {
-        console.log("ProductPlaceholder", slotPlaceholder)
+        // console.log("ProductPlaceholder", slotPlaceholder)
+        // console.log("productFbx", productFbx);
         if (!slotPlaceholder) return;
 
-        const currentProduct = productFbx.clone();
-
+        const currentProduct = productFbx.children[0].clone();
         slotPlaceholder.getWorldPosition(currentProduct.position);
         slotPlaceholder.getWorldQuaternion(currentProduct.quaternion);
 
@@ -81,7 +81,7 @@ const Product: React.FC<BoardLoaderProps> = ({ product, slotPlaceholder }) => {
         //         break;
         // }
 
-        console.log("keys", keys);
+        // console.log("keys", keys);
 
         // currentProduct.traverse((child) => {
         //     if (child instanceof Mesh) {
@@ -106,7 +106,7 @@ const Product: React.FC<BoardLoaderProps> = ({ product, slotPlaceholder }) => {
     const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
         event.stopPropagation();
         const clickedPart = event.object;
-        console.log("handlePointerDown", clickedPart.name);
+        // console.log("handlePointerDown", clickedPart.name);
 
 
         setCurrentMode(EMode.View);

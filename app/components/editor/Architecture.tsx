@@ -1,9 +1,9 @@
 import { useLoader, ThreeEvent } from "@react-three/fiber";
 import { useState, useRef, useEffect } from "react";
-import { Object3D, Mesh, Group, Color, MeshStandardMaterial } from "three";
+import { Object3D, Mesh, Group, Color, MeshStandardMaterial  } from "three";
 import { FBXLoader } from "three/examples/jsm/Addons.js";
 import { LoadMaterial } from "./loadMaterial";
-import { MaterialParams } from "./interface/paramsType";
+import { IBoard, MaterialParams } from "./interface/paramsType";
 import { EMode, useEditor } from "@/context/useEditorContext";
 import Board from "./models/boards/Borad";
 
@@ -11,15 +11,15 @@ import Board from "./models/boards/Borad";
 const API = process.env.NEXT_PUBLIC_BACKEND_URL!
 
 const Architecture = () => {
-  const { setCurrentMode, currentMode, setCameraPosition, cameraDirection, setCameraDirection, dataParameters, setDataParameters, setActiveBoardIndex } = useEditor();
-  
-  if (!dataParameters || !dataParameters.architecture) return null;
+  const { setCurrentMode, currentMode, setCameraPosition, cameraDirection, setCameraDirection, dataParameters, setDataParameters } = useEditor();
+  if (!dataParameters?.architecture) return null;
   const params = dataParameters;
   const url = `${API}/project/fbx/${params.architecture}`;
 
-
+  
+  // const architectureUrl = "https://firebasestorage.googleapis.com/v0/b/test-lib-editor/o/architectures%2FBarbiz.fbx?alt=media&token=30889ef9-7b1e-4f0e-90b3-2f5b741152f3";
+  // const architectureFbx = useLoader(FBXLoader, architectureUrl) as Object3D;
   const architectureFbx = useLoader(FBXLoader, url) as Object3D;
-  // if(!architectureFbx) return null;
   const architectureRef = useRef<Group>(null);
   const emptySlotsRef = useRef<Group>(null);
 
@@ -32,7 +32,7 @@ const Architecture = () => {
   //   textures[part.name] = useLoader(TextureLoader, part.initialTexturePath);
   // });
 
-  const boards = params.boards;
+  const boards = params.boards as IBoard[];
 
 
   const getSlots = () => {
@@ -53,10 +53,8 @@ const Architecture = () => {
   // setSlots(slots1);
 
   const buildTexture = async (materialParams: MaterialParams, mash: Mesh) => {
-    if (mash instanceof Mesh) {
-      const boradMaterial = await LoadMaterial(materialParams)
-      mash.material = boradMaterial;
-    }
+    const boradMaterial = await LoadMaterial(materialParams)
+    mash.material = boradMaterial;
   }
 
 
@@ -71,12 +69,11 @@ const Architecture = () => {
 
     const arcMash = architectureFbx.children[0] as Mesh;
 
-
     buildTexture(params.materialParams, arcMash);
 
-    if (architectureFbx.castShadow) {
-      architectureFbx.children[0].children = [];
-    }
+
+    architectureFbx.children[0].children = [];
+
     // if (currentMode == EMode.AddBorad) {
     // console.log("emptySlots.length", emptySlots1.length);
 
@@ -119,13 +116,12 @@ const Architecture = () => {
 
 
 
-
+ 
 
 
   const handleSelectEmptySlot = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
-    console.log("handleSelectEmptySlot.name", event.object.name);
-    // setActiveBoardIndex(index);
+    // console.log("handleSelectEmptySlot.name", event.object.name);
 
     if (event.object instanceof Mesh) {
       // console.log("clicked");
@@ -141,15 +137,12 @@ const Architecture = () => {
     }
 
   };
-  function handleSelectBoard(index: number) {
-    console
-    setActiveBoardIndex(index);
-  }
+
   return (
     <group ref={architectureRef} onPointerDown={handleSelectArc} >
 
       {slots && boards.map((board, index) => (
-        <group key={index} onClick={() => handleSelectBoard(index)}>
+        <group key={index}>
           <Board board={board} slotPlaceholder={slots[index]} />
         </group>
 

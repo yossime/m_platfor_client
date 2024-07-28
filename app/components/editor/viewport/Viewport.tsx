@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import {OrbitControls } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { EMode, useEditor } from '@/context/useEditorContext';
 import { IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
 import Architecture from '../Architecture';
@@ -26,7 +26,7 @@ const headerBoard: IHeaderBoard = {
 
 
 const productBoard: IProductBoard = {
-    materialParams: { map: 'textura_3.jpeg', color: 'pink' },
+    materialParams: { map: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f', color: 'pink' },
     type: 'ProductBoard',
     title: {
         text: "Welcome to Our Store",
@@ -40,91 +40,78 @@ const productBoard: IProductBoard = {
                 color: "#ffffff",
                 scale: [1, 1, 1]
             },
-            products: [
-                {
-                    title: {
-                        text: "Welcome to Our Store",
-                        color: "#ffffff",
-                        scale: [1, 1, 1]
-                    },
-                    price: {text:"$299"},
-                    buttons: {
-                        addToCart: "Add to Cart",
-                        quickView: "Quick View",
-                        buyNow: "Buy Now"
-                    },
-                    type: 'blup1',
-                    materialParams: { map: 'textura_3.jpeg', color: 'pink' },
-                }
-            ],
-            type: 'blup1'
-        },
-        {
-            title: {
-                text: "Welcome to Our Store",
-                color: "#ffffff",
-                scale: [1, 1, 1]
-            },
-            products: [
-                {
-                    title: {
-                        text: "Welcome to Our Store",
-                        color: "#ffffff",
-                        scale: [1, 1, 1]
-                    },
-                    price: {text:"$299"},
-                    buttons: {
-                        addToCart: "Add to Cart",
-                        quickView: "Quick View",
-                        buyNow: "Buy Now"
-                    },
-                    type: 'blup1',
-                    materialParams: { map: 'textura_3.jpeg', color: 'pink' },
-                }
-            ],
             type: 'blup1',
-            materialParams: null
+            products: [
+                {
+                    title: {
+                        text: "Welcome to Our Store",
+                        color: "#ffffff",
+                        scale: [1, 1, 1]
+                    },
+                    price:{text: "$299"},
+                    buttons: {
+                        addToCart: "Add to Cart",
+                        quickView: "Quick View",
+                        buyNow: "Buy Now"
+                    },
+                    type: 'Product02',
+                },
+                {
+                    title: {
+                        text: "Welcome to 22Our Store",
+                        color: "#ffffff",
+                        scale: [1, 1, 1]
+                    },
+                    price:{text: "$299"},
+                    buttons: {
+                        addToCart: "Add to Cart",
+                        quickView: "Quick View",
+                        buyNow: "Buy Now"
+                    },
+                    type: 'Product02',
+                    materialParams: { color: 'pink' },
+                },
+                {
+                    title: {
+                        text: "Welcome to 22Our Store",
+                        color: "#ffffff",
+                        scale: [1, 1, 1]
+                    },
+                    price:{text: "$299"},
+                    buttons: {
+                        addToCart: "Add to Cart",
+                        quickView: "Quick View",
+                        buyNow: "Buy Now"
+                    },
+                    type: 'Product02',
+                    materialParams: { color: 'pink' },
+                },
+
+                {
+                    title: {
+                        text: "Welcome to 22Our Store",
+                        color: "#ffffff",
+                        scale: [1, 1, 1]
+                    },
+                    price:{text: "$299"},
+                    buttons: {
+                        addToCart: "Add to Cart",
+                        quickView: "Quick View",
+                        buyNow: "Buy Now"
+                    },
+                    type: 'Product02',
+                    materialParams: { color: 'pink' },
+                }
+            ]
         }
     ]
 }
 
 
-// product: [
-//     {
-//         title: {
-//             text: "Welcome to Our Store",
-//             color: "#ffffff",
-//             scale: [1, 1, 1]
-//         },
-//         price: "$299",
-//         buttons: {
-//             addToCart: "Add to Cart",
-//             quickView: "Quick View",
-//             buyNow: "Buy Now"
-//         },
-//         type: 'blup1',
-//         materialParams: { map: 'textura_3.jpeg', color: 'pink' },
-//     },
-//     {
-//         title: {
-//             text: "Welcome to Our Store",
-//             color: "#ffffff",
-//             scale: [1, 1, 1]
-//         },
-//         price: "$299",
-//         buttons: {
-//             addToCart: "Add to Cart",
-//             quickView: "Quick View",
-//             buyNow: "Buy Now"
-//         },
-//         type: 'blup1',
-//         materialParams: { map: 'textura_3.jpeg', color: 'pink' },
-//     }
-// ]
 
 const params: IParams = {
-    architecture: "Barbiz_Skeleton4",
-    materialParams: { color: 'yellow' },
+    architecture: "Barbiz",
+    materialParams: { color: 'purple' },
     maxSlot: 5,
     boards: [
         headerBoard,
@@ -145,8 +132,7 @@ const Viewport: React.FC = () => {
 
     const { setCurrentMode, dataParameters, setDataParameters } = useEditor();
     useEffect(() => {
-        // setDataParameters(params);
-        console.log("dataParameters", dataParameters);
+        setDataParameters(params);
     }, [params]);
 
     const changeBoardType = (event: React.FormEvent) => {
@@ -154,7 +140,7 @@ const Viewport: React.FC = () => {
         const index = parseInt(selectedSlot);
         if (index >= 0 && index < params.boards.length) {
             params.boards[index].type = selectedPBord;
-            setDataParameters({ ...params }); 
+            setDataParameters({ ...params });
         } else {
             setError('Index out of bounds');
         }
@@ -167,12 +153,12 @@ const Viewport: React.FC = () => {
     }
 
 
-// console.log("dataParameters", dataParameters);
+
 
     return (
         <>
-            {/* {error && <div style={{ color: 'red' }}>{error}</div>} */}
-            {/* <form onSubmit={changeBoardType}>
+            {error && <div style={{ color: 'red' }}>{error}</div>}
+            <form onSubmit={changeBoardType}>
                 <input
                     type='number'
                     placeholder='select slot number'
@@ -186,9 +172,9 @@ const Viewport: React.FC = () => {
                     onChange={(e) => setSelectedBord(e.target.value)}
                 />
                 <button type='submit'>Change</button>
-            </form> */}
+            </form>
 
-            {/* <form onSubmit={changeArcColor}>
+            <form onSubmit={changeArcColor}>
                 <input
                     type='text'
                     placeholder='select bord type'
@@ -196,18 +182,18 @@ const Viewport: React.FC = () => {
                     onChange={(e) => setArchColor(e.target.value)}
                 />
                 <button type='submit'>Change arch color</button>
-            </form> */}
-{/* 
+            </form>
+
             <br />
 
             <button onClick={() => setCurrentMode(EMode.AddBorad)}>Add borad</button>
             <br />
-            <br /> */}
+            <br />
 
-            <div style={{  width: '100%', height:'100%'}}>
+            <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
 
 
-                <Canvas>
+                <Canvas style={{ height: '100%', width: '100%' }}>
                     <OrbitControls />
                     <ambientLight />
                     <Architecture />

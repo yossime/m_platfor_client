@@ -21,7 +21,7 @@ const TextComponent: React.FC<ContentsProps> = ({ board, placeholder }) => {
   const ref = useRef<any>(null);
   const key = placeholder.name as keyof IThreeDModel;
   const data = board[key] as IText;
-  console.log("board[key]", data);
+  // console.log("board[key]", data);
   useFrame(() => {
     if (ref.current && placeholder != null) {
       placeholder.getWorldPosition(ref.current.position);
