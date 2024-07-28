@@ -49,6 +49,7 @@ const Editor = () => {
           for (let i = 0; i < 5; i++) {
             dataParameters.boards.push({
               type: null,
+              name: null
             });
           }
     

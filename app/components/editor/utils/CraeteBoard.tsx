@@ -2,7 +2,7 @@
 import { DisplayType, IBoard, IDisplay, IHeaderBoard, IImageBoard, ImageStyle, IProduct, IProductBoard, IText, IThreeDModelStyle } from '@components/editor/interface/paramsType';
 import { BaseSize, ButtonStyle } from '../interface/paramsType';
 
-export const createBoardByType = (type: string): IBoard => {
+export const createBoardByType = (type: string, name:string): IBoard => {
 
     const baseStyle : IThreeDModelStyle ={
       textStyle: { scale: BaseSize.MEDIUM },
@@ -13,6 +13,7 @@ export const createBoardByType = (type: string): IBoard => {
     const baseBoard: IBoard = {
       type: type,
       style: baseStyle,
+      name: name ,
     };
   
     const defaultText: IText = {
@@ -20,7 +21,7 @@ export const createBoardByType = (type: string): IBoard => {
     };
   
     const product: IProduct = {
-      type: "product",
+      type: "Podium",
       title: { ...defaultText, text: 'Product Title' },
       description: { ...defaultText, text: 'Product Description' },
       SKU: { ...defaultText, text: 'Product SKU' },

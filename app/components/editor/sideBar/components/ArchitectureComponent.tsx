@@ -1,21 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { HeaderType } from '../types';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
 import { IParams, Skybox } from '@/components/editor/interface/paramsType';
-import { useProject } from '@/context/useProjectContext';
 import { useEditor } from '@/context/useEditorContext';
 
-interface ArchitectureComponentProps {
-  header: HeaderType;
-}
 
 const options = [
   { value: Skybox.DEFAULT, label: "Defaultsky" },
   { value: Skybox.DARK, label: "Dark" },
 ];
 
-export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ header }) => {
+export const ArchitectureComponent: React.FC = () => {
   const { setDataParameters, dataParameters } = useEditor();
 
 

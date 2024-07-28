@@ -71,10 +71,16 @@ export enum IconName {
     BANK = 'BANK',
     BOOKOPENTEXT = 'BOOKOPENTEXT',
     COOKIE = 'COOKIE',
-    CHEERS = 'CHEERS'
+    CHEERS = 'CHEERS',
+    CARETLEFT = 'CARETLEFT',
+    TEXTBOX = 'TEXTBOX',
+    BASKET = 'BASKET',
 }
 
 export const IconComponents: { [key in IconName]: IconType } = {
+    [IconName.CARETLEFT]: PiIcons.PiCaretLeft,
+    [IconName.BASKET]: PiIcons.PiBasket,
+    [IconName.TEXTBOX]: PiIcons.PiTextbox,
     [IconName.ALIGNTOP]: PiIcons.PiAlignTop,
     [IconName.TABLE]: PiIcons.PiTable,
     [IconName.IMAGE]: PiIcons.PiImage,

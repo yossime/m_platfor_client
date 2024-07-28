@@ -1,18 +1,15 @@
 import React from 'react';
-import { HeaderType } from '../types';
 import { useEditor } from '@/context/useEditorContext';
 
 interface GlobalComponentProps {
-  header: HeaderType;
-  onHeaderChange: (header: HeaderType) => void;
+  setActiveSidebarHeader: (header: any) => void;
 }
 
-export const GlobalComponent: React.FC<GlobalComponentProps> = ({ header, onHeaderChange }) => {
-  const { dataParameters } = useEditor();
-  const { setActiveBoardIndex}= useEditor()
+export const GlobalComponent: React.FC<GlobalComponentProps> = ({ setActiveSidebarHeader }) => {
+  const { setActiveBoardIndex, dataParameters}= useEditor()
 
-const handleSelect = (type: string | null, index: number) => {
-  onHeaderChange(`Edit ${type}` as HeaderType);
+const handleSelect = (name: string | null, index: number) => {
+  setActiveSidebarHeader(`Edit ${name}`);
   setActiveBoardIndex(index);
 }
   if (!dataParameters || !dataParameters.boards) {
@@ -26,9 +23,9 @@ const handleSelect = (type: string | null, index: number) => {
           return (
             <button
               key={index}
-              onClick={() =>handleSelect(board.type, index)}
+              onClick={() =>handleSelect(board.name, index)}
             >
-              Edit Board {index + 1}: {board.type}
+              Edit Board {index + 1}: {board.name}
             </button>
           );
         }

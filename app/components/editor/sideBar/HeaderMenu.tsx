@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { HeaderType, SubMenuType } from './types';
+import { headers, HeaderType, SubMenuType } from './types';
 
 const MenuContainer = styled.div`
   display: flex;
@@ -16,27 +16,23 @@ const MenuItem = styled.button<{ $active: boolean }>`
 
 
 interface HeaderMenuProps {
-  activeHeader: HeaderType;
-  activeSubMenu: SubMenuType;
-  headers: Record<HeaderType, SubMenuType[]>;
-  onHeaderChange: (header: HeaderType) => void;
-  onSubMenuChange: (subMenu: SubMenuType) => void;
+  activeSidebarHeader: HeaderType;
+  activeSidebarSubMenu: SubMenuType;
+  setActiveSidebarSubMenu: (subMenu: SubMenuType) => void;
 }
 
 export const HeaderMenu: React.FC<HeaderMenuProps> = ({ 
-  activeHeader, 
-  activeSubMenu, 
-  headers, 
-  onHeaderChange, 
-  onSubMenuChange 
+  activeSidebarHeader, 
+  activeSidebarSubMenu, 
+  setActiveSidebarSubMenu 
 }) => {
   return (
     <MenuContainer>
-      {headers[activeHeader].map(subMenu => (
+      {headers[activeSidebarHeader]?.map(subMenu => (
         <MenuItem
           key={subMenu}
-          $active={activeSubMenu === subMenu}
-          onClick={() => onSubMenuChange(subMenu)}
+          $active={activeSidebarSubMenu === subMenu}
+          onClick={() => setActiveSidebarSubMenu(subMenu)}
         >
           {subMenu}
         </MenuItem>

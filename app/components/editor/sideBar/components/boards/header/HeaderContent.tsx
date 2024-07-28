@@ -1,32 +1,42 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import Input from '@/components/Library/input/Input';
-import { IHeaderBoard, IParams }  from '@/components/editor/interface/paramsType';
 import { InputMode, InputSize } from '@constants/input';
 import { useEditor } from '@/context/useEditorContext';
-import DragAndDropImage from '@/components/DragAndDropImage';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
+import DragAndDropImage from '@/components/DragAndDropImage';
+import { IHeaderBoard } from '@/components/editor/interface/paramsType';
 
+interface HeaderContentComponentProps {}
 
-
-export const ImageContentComponent: React.FC = () => {
-  const { setDataParameters, dataParameters } = useEditor();
-  const { activeBoardIndex } = useEditor()
+export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () => {
+  const { setDataParameters, dataParameters, activeBoardIndex } = useEditor();
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [imageBuffer, setImageBuffer] = useState<ArrayBuffer | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-  const handleInputChange = (field: 'title' | 'subTitle' | 'buttonTitle') => (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setDataParameters((prevParams: IParams | null) => {
+  const currentBoard = dataParameters?.boards[activeBoardIndex] as IHeaderBoard;
+
+  const updateBoardField = (field: keyof IHeaderBoard, value: any) => {
+    setDataParameters((prevParams) => {
       if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
+      
+      const updatedBoards = [...prevParams.boards];
+      updatedBoards[activeBoardIndex] = {
+        ...updatedBoards[activeBoardIndex],
+        [field]: value
+      };
 
       return {
         ...prevParams,
-        boards: prevParams.boards.map((board, i) =>
-          i === activeBoardIndex ? { ...board, [field]: { text: value } } : board)
+        boards: updatedBoards
       };
     });
+  };
+
+  const handleInputChange = (field: 'title' | 'subTitle' | 'buttonTitle') => (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    updateBoardField(field, { text: value });
   };
 
   const handleFilesAdded = (buffers: ArrayBuffer[]) => {
@@ -42,14 +52,16 @@ export const ImageContentComponent: React.FC = () => {
       const imageUrl = URL.createObjectURL(blob);
       setImageSrc(imageUrl);
 
-      setDataParameters((prevParams: IParams | null) => {
+      setDataParameters((prevParams) => {
         if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
 
+        const updateBoards = [...prevParams.boards];
+        const updateBoard = {...updateBoards[activeBoardIndex]} as IHeaderBoard;
+        updateBoard.image = imageBuffer;
+        updateBoards[activeBoardIndex] = updateBoard;
         return {
           ...prevParams,
-          boards: prevParams.boards.map((board, i) =>
-            i === activeBoardIndex ? { ...board, image: { buffer: imageBuffer } } : board
-          )
+          boards: updateBoards
         };
       });
 
@@ -58,7 +70,6 @@ export const ImageContentComponent: React.FC = () => {
       };
     }
   }, [imageBuffer, activeBoardIndex, setDataParameters]);
-  const currentBoard = dataParameters?.boards[activeBoardIndex] as IHeaderBoard;
 
   return (
     <div>
@@ -67,7 +78,7 @@ export const ImageContentComponent: React.FC = () => {
         mode={InputMode.NORMAL}
         label="Title"
         placeholder="Site Name"
-        value={currentBoard?.title?.text || ''}
+        value={currentBoard.title?.text || ''}
         onChange={handleInputChange('title')}
       />
       <Input
@@ -75,13 +86,13 @@ export const ImageContentComponent: React.FC = () => {
         mode={InputMode.NORMAL}
         label="Subtitle"
         placeholder="Write your tagline here"
-        value={currentBoard?.subTitle?.text || ''}
+        value={currentBoard.subTitle?.text || ''}
         onChange={handleInputChange('subTitle')}
       />
       <Button
-        size={ButtonSize.SMALL}
+        size={ButtonSize.SMALL} 
         type={ButtonType.PRIMARY}
-        variant={ButtonVariant.SECONDARY}
+        variant={ButtonVariant.SECONDARY} 
         text="Upload image"
         onClick={() => setShowUploadModal(true)}
       />
@@ -100,7 +111,7 @@ export const ImageContentComponent: React.FC = () => {
         mode={InputMode.NORMAL}
         label="Button"
         placeholder="Get Started!"
-        value={currentBoard?.button?.text.text || ''}
+        value={currentBoard.button?.text.text || ''}
         onChange={handleInputChange('buttonTitle')}
       />
     </div>

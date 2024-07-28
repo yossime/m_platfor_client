@@ -21,20 +21,23 @@ export interface IThreeDModel {
 
 export interface IBoard extends IThreeDModel {
     style?: IThreeDModelStyle;
+    name: string | null;
 }
 
 export interface IHeaderBoard extends IBoard {
     title?: IText;
     subTitle?: IText;
+    buttonTitle?: IText;
     button?: IButton;
-    image?: string;
+    image?: ArrayBuffer;
 }
 
 export interface IImageBoard extends IBoard {
     title?: IText;
     subTitle?: IText;
     buttonTitle?: IText;
-    image?: string;
+    button?: IButton;
+    image?: ArrayBuffer;
 }
 
 export interface IProductBoard extends IBoard {

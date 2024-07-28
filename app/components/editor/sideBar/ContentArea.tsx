@@ -15,28 +15,28 @@ const ContentContainer = styled.div`
 `;
 
 interface ContentAreaProps {
-  activeHeader: HeaderType;
-  activeSubMenu: SubMenuType;
-  onHeaderChange: (header: HeaderType) => void;
+  activeSidebarHeader: HeaderType;
+  activeSidebarSubMenu: SubMenuType;
+  setActiveSidebarHeader: (header: any) => void;
 }
 
-export const ContentArea: React.FC<ContentAreaProps> = ({ activeHeader, activeSubMenu, onHeaderChange }) => {
+export const ContentArea: React.FC<ContentAreaProps> = ({ activeSidebarHeader, activeSidebarSubMenu, setActiveSidebarHeader }) => {
   const renderComponent = () => {
-    if (activeHeader === 'Choose Board Widget') {
-      return <ChooseBoardWidgetComponent onHeaderChange={onHeaderChange} />;
+    if (activeSidebarHeader === 'Choose Board Widget') {
+      return <ChooseBoardWidgetComponent setActiveSidebarHeader={setActiveSidebarHeader} />;
     }
 
-    switch (activeSubMenu) {
+    switch (activeSidebarSubMenu) {
       case 'Global':
-        return <GlobalComponent header={activeHeader} onHeaderChange={onHeaderChange}  />;
+        return <GlobalComponent setActiveSidebarHeader={setActiveSidebarHeader}  />;
       case 'Architecture':
-        return <ArchitectureComponent header={activeHeader} />;
+        return <ArchitectureComponent/>;
       case 'Content':
-        return <ContentComponent header={activeHeader} />;
+        return <ContentComponent activeSidebarHeader={activeSidebarHeader} />;
       case 'Style':
-        return <StyleComponent header={activeHeader} />;
+        return <StyleComponent activeSidebarHeader={activeSidebarHeader} />;
       case 'Advanced':
-        return <AdvancedComponent header={activeHeader} />;
+        return <AdvancedComponent activeSidebarHeader={activeSidebarHeader} />;
       default:
         return <div>No component available for this selection.</div>;
     }

@@ -9,6 +9,7 @@ import Architecture from '../Architecture';
 
 
 const headerBoard: IHeaderBoard = {
+    name: 'headerboard',
     type: 'HeaderBoard',
     title: {
         text: "Welcome to Our Store",
@@ -26,6 +27,7 @@ const headerBoard: IHeaderBoard = {
 
 
 const productBoard: IProductBoard = {
+    name: '',
     materialParams: { map: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f', color: 'pink' },
     type: 'ProductBoard',
     title: {

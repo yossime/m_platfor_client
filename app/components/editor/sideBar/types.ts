@@ -1,13 +1,21 @@
 
+import { IconName } from '@constants/icon';
+
 export const widgets = [
-  { type: 'HeaderBoard', name: 'Edit Header' },
-  { type: 'ProductBoard', name: 'Edit Product' },
-  { type: 'Slider', name: 'Edit Slider' },
-  { type: 'Image', name: 'Edit Image' },
-
-] as const;
-
-export type HeaderType = typeof widgets[number]['name'] | 'Edit Global' | 'Choose Board Widget';
+  { type: 'HeaderBoard', name: 'Header', icon: IconName.ALIGNTOP },
+  { type: 'ProductBoard', name: 'Product', icon: IconName.BASKET },
+  { type: 'SliderBoard', name: 'Slider', icon: IconName.SLIDESHOW },
+  { type: 'ImageBoard', name: 'Image', icon: IconName.IMAGE },
+  { type: 'VideoBoard', name: 'Video', icon: IconName.VIDEO },
+  { type: 'TestimonialsBoard', name: 'Testimonials', icon: IconName.QUOTES },
+  { type: 'SubScriptionBoard', name: 'SubScription', icon: IconName.TEXTBOX },
+  { type: 'ServicesBoard', name: 'Services', icon: IconName.SQUARESFOUR },
+  { type: 'GamificationBoard', name: 'Gamification', icon: IconName.GAMECONTROLLER },
+  { type: 'FormBoard', name: 'Form', icon: IconName.TABLE },
+  { type: 'CosialsBoard', name: 'Socials', icon: IconName.SMILEY },
+  { type: 'ArticleBoard', name: 'Article', icon: IconName.ARTICLE }
+];
+export type HeaderType = `Edit ${typeof widgets[number]['name']}` | 'Edit Global' | 'Choose Board Widget';
 
 export type SubMenuType = 'Global' | 'Architecture' | 'Content' | 'Style' | 'Advanced';
 
@@ -16,7 +24,7 @@ export const headers: Record<HeaderType, SubMenuType[]> = {
     'Choose Board Widget': [],
     ...Object.fromEntries(
         widgets.map(widget => [
-            widget.name,
+            `Edit ${widget.name}`,
             ['Content', 'Style', 'Advanced'] as SubMenuType[]
         ])
     )

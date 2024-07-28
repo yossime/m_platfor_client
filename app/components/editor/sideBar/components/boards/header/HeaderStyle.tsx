@@ -29,22 +29,24 @@ export const HeaderStyleComponent: React.FC = () => {
     setDataParameters((prevParams) => {
       if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
 
-      const currentBoard = prevParams.boards[activeBoardIndex] as IHeaderBoard;
-      const updatedStyle = {
-        ...currentBoard.style,
-        [key]: value
+      const updatedBoards = [...prevParams.boards];
+      const currentBoard = updatedBoards[activeBoardIndex] as IHeaderBoard;
+      
+      updatedBoards[activeBoardIndex] = {
+        ...currentBoard,
+        style: {
+          ...currentBoard.style,
+          [key]: value
+        }
       };
 
       return {
         ...prevParams,
-        boards: prevParams.boards.map((board, index) => 
-          index === activeBoardIndex 
-            ? { ...board, style: updatedStyle } 
-            : board
-        )
+        boards: updatedBoards
       };
     });
   };
+
 
   const currentBoard = dataParameters?.boards[activeBoardIndex] as IHeaderBoard;
 
