@@ -1,18 +1,55 @@
 import React from 'react';
 import styled from 'styled-components';
-import { headers, HeaderType, SubMenuType } from './types';
+import { headers, HeaderType, SubMenuType, SubMenuData } from './types';
+import Icon from '@/components/Library/icon/Icon';
+import { BackgroundColor, IconColor, SemanticColors } from '@constants/colors';
+import Text from '@/components/Library/text/Text';
+import { TextSize } from '@constants/text';
+import { IconSize } from '@constants/icon';
+
+
 
 const MenuContainer = styled.div`
   display: flex;
-  margin-bottom: 16px;
+  justify-content: space-between;
+  max-height: 52px;
+  background-color: ${BackgroundColor.PRIMARY_BACKGROUND};
 `;
 
 const MenuItem = styled.button<{ $active: boolean }>`
   flex: 1;
-  padding: 8px;
-  background-color: ${props => props.$active ? '#3b82f6' : '#e5e7eb'};
-  color: ${props => props.$active ? 'white' : 'black'};
+  height: 100%;
+  background-color: ${BackgroundColor.PRIMARY_BACKGROUND};
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 0;
+
+  &:hover:not(:disabled) {
+    background-color: ${BackgroundColor.PRIMARY_BACKGROUND_HOVER};
+  }
+
+  &:active:not(:disabled),
+  ${props => props.$active && `
+    background-color: ${SemanticColors.PRIMARY_SELECTED};
+  `}
+
+  &:disabled {
+    background-color: ${BackgroundColor.DISABLED_BACKGROUND};
+    cursor: not-allowed;
+  }
 `;
+
+const IconWrapper = styled.div`
+  /* margin-bottom: 2px; */
+`;
+
 
 
 interface HeaderMenuProps {
@@ -28,13 +65,16 @@ export const HeaderMenu: React.FC<HeaderMenuProps> = ({
 }) => {
   return (
     <MenuContainer>
-      {headers[activeSidebarHeader]?.map(subMenu => (
+      {headers[activeSidebarHeader].map((subMenuData: SubMenuData) => (
         <MenuItem
-          key={subMenu}
-          $active={activeSidebarSubMenu === subMenu}
-          onClick={() => setActiveSidebarSubMenu(subMenu)}
+          key={subMenuData.name}
+          $active={activeSidebarSubMenu === subMenuData.name}
+          onClick={() => setActiveSidebarSubMenu(subMenuData.name)}
         >
-          {subMenu}
+          <IconWrapper>
+            <Icon name={subMenuData.icon} size={IconSize.SMALL} color={IconColor.PRIMARY} />
+          </IconWrapper>
+          <Text size={TextSize.TEXT1}>{subMenuData.name}</Text>
         </MenuItem>
       ))}
     </MenuContainer>
