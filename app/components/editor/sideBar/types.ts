@@ -1,6 +1,12 @@
 
 import { IconName } from '@constants/icon';
 
+export interface WidgetData {
+  name: string;
+  icon: IconName;
+  type: string;
+}
+
 export const widgets = [
   { type: 'HeaderBoard', name: 'Header', icon: IconName.ALIGNTOP },
   { type: 'ProductBoard', name: 'Product', icon: IconName.BASKET },
@@ -17,20 +23,29 @@ export const widgets = [
 ];
 export type HeaderType = `Edit ${typeof widgets[number]['name']}` | 'Edit Global' | 'Choose Board Widget';
 
-export type SubMenuType = 'Global' | 'Architecture' | 'Content' | 'Style' | 'Advanced';
 
-export const headers: Record<HeaderType, SubMenuType[]> = {
-    'Edit Global': ['Global', 'Architecture'],
-    'Choose Board Widget': [],
-    ...Object.fromEntries(
-        widgets.map(widget => [
-            `Edit ${widget.name}`,
-            ['Content', 'Style', 'Advanced'] as SubMenuType[]
-        ])
-    )
-} as unknown as Record<HeaderType, SubMenuType[]>;
+export interface SubMenuData {
+  name: SubMenuType;
+  icon: IconName;
+}
 
-export const boardWidgets = widgets.map(widget => ({
-  name: widget.name,
-  header: widget.name as HeaderType
-}));
+export type SubMenuType = 'Architecture' | 'Global' | 'Content' | 'Style' | 'Advanced';
+
+export const subMenus: SubMenuData[] = [
+  { name: 'Architecture', icon: IconName.BUILDING },
+  { name: 'Global', icon: IconName.GLOBE },
+  { name: 'Content', icon: IconName.PENNIB },
+  { name: 'Style', icon: IconName.PRINTROLLRE },
+  { name: 'Advanced', icon: IconName.BRAIN }
+];
+
+export const headers: Record<HeaderType, SubMenuData[]> = {
+  'Edit Global': subMenus.filter(menu => [ 'Architecture','Global'].includes(menu.name)),
+  'Choose Board Widget': [],
+  ...Object.fromEntries(
+    widgets.map(widget => [
+      `Edit ${widget.name}`,
+      subMenus.filter(menu => ['Content', 'Style', 'Advanced'].includes(menu.name))
+    ])
+  )
+};

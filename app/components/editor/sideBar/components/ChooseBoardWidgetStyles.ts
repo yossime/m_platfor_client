@@ -3,6 +3,8 @@ import { BackgroundColor, BorderColor, SemanticColors } from '@constants/colors'
 
 export const WidgetContainer = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 16px;
 `;

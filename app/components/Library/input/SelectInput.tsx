@@ -31,7 +31,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
   label,
   placeholder,
   helperText,
-  fullWidth = true,
+  fullWidth = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
@@ -64,7 +64,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
         <LabelText
           family={FontFamily.Poppins}
           size={TextSize.TEXT2}
-          weight={FontWeight.NORMAL}
+          weight={FontWeight.SEMI_BOLD}
           color={mode === InputMode.DISABLED ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT}
         >
           {label}
@@ -110,40 +110,41 @@ const SelectInput: React.FC<SelectInputProps> = ({
 
 
 const SelectWrapper = styled.div<{ $fullWidth: boolean }>`
+  text-align: start;
   width: ${props => props.$fullWidth ? '100%' : 'auto'};
   position: relative;
-  `;
+  `; 
 
 const SelectButton = styled.button<{ $size: InputSize; $mode: InputMode; $fullWidth: boolean }>`
   ${props => {
     const { height, padding, fontSize } = InputSizeConfig[props.$size];
     const { background, text, border } = getInputColors(props.$mode);
     return `
-    height: ${height};
-    padding: ${padding};
-    background-color: ${background};
-    color: ${text};
-    border: 1px solid ${border};
-    border-radius: 4px;
-    width: ${props.$fullWidth ? '100%' : 'auto'};
-    font-size: ${TextSize[fontSize]};
-    font-family: ${FontFamily.Figtree};
-    margin: 8px 0;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    &:hover {
+      height: ${height};
+      padding: ${padding};
+      background-color: ${background};
+      color: ${text};
+      border: 1px solid ${border};
+      border-radius: 4px;
+      width: ${props.$fullWidth ? '100%' : 'auto'};
+      font-size: ${TextSize[fontSize]};
+      font-family: ${FontFamily.Figtree};
+      margin: 8px 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      &:hover {
         border-color: #323338;
-        }
-        
-        &:focus {
-            border-color: #0073EA;
-            outline: none;
-            }
-            `;
+      }
+      
+      &:focus {
+        border-color: #0073EA;
+        outline: none;
+      }
+    `;
   }}
 `;
 
@@ -170,8 +171,7 @@ const OptionsList = styled.ul<{ $size: InputSize }>`
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
-  `;
-
+  `; 
 const OptionItem = styled.li<{ $isSelected: boolean }>`
   padding: 8px 12px;
   cursor: pointer;
@@ -184,6 +184,7 @@ const OptionItem = styled.li<{ $isSelected: boolean }>`
 
 const LabelText = styled(Text)`
   margin-bottom: 8px;
+  text-align: start;
   `;
 
 const HelperText = styled(Text)`

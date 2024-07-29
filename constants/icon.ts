@@ -75,14 +75,22 @@ export enum IconName {
     CARETLEFT = 'CARETLEFT',
     TEXTBOX = 'TEXTBOX',
     BASKET = 'BASKET',
+    BUILDING = 'BUILDING',
+    BRAIN = 'BRAIN',
+    PENNIB = 'PENNIB',
+    PRINTROLLRE = 'PRINTROLLRE',
 }
 
 export const IconComponents: { [key in IconName]: IconType } = {
+    [IconName.BUILDING]: PiIcons.PiBuilding,
+    [IconName.BRAIN]: PiIcons.PiBrain,
+    [IconName.PENNIB]: PiIcons.PiPenNib,
+    [IconName.PRINTROLLRE]: PiIcons.PiPaintRoller,
+    [IconName.TABLE]: PiIcons.PiTable,
     [IconName.CARETLEFT]: PiIcons.PiCaretLeft,
     [IconName.BASKET]: PiIcons.PiBasket,
     [IconName.TEXTBOX]: PiIcons.PiTextbox,
     [IconName.ALIGNTOP]: PiIcons.PiAlignTop,
-    [IconName.TABLE]: PiIcons.PiTable,
     [IconName.IMAGE]: PiIcons.PiImage,
     [IconName.QUOTES]: PiIcons.PiQuotes,
     [IconName.VIDEO]: PiIcons.PiVideo,

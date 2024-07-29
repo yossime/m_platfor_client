@@ -5,8 +5,12 @@ import { OrbitControls } from '@react-three/drei';
 import { EMode, useEditor } from '@/context/useEditorContext';
 import { IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
 import Architecture from '../Architecture';
+import styled from 'styled-components';
 
-
+export const ViewportContainer = styled.div`
+  flex-grow: 1;
+  overflow: hidden;
+`;
 
 const headerBoard: IHeaderBoard = {
     name: 'headerboard',
@@ -317,7 +321,7 @@ const Viewport: React.FC = () => {
 
 
     return (
-        <>
+        <ViewportContainer>
 
             <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
                 <Canvas style={{ height: '100%', width: '100%' }}>
@@ -329,7 +333,7 @@ const Viewport: React.FC = () => {
                     </Suspense>
                 </Canvas>
             </div>
-        </>
+        </ViewportContainer>
     );
 };
 
