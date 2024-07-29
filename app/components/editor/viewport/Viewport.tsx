@@ -6,8 +6,12 @@ import { EMode, useEditor } from '@/context/useEditorContext';
 import { IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
 import Architecture from '../Architecture';
 import { ConvexMeshFromFBX } from '../TextLoader';
+import styled from 'styled-components';
 
-
+export const ViewportContainer = styled.div`
+  flex-grow: 1;
+  overflow: hidden;
+`;
 
 const headerBoard: IHeaderBoard = {
     name: 'headerboard',
@@ -185,9 +189,9 @@ const Viewport: React.FC = () => {
 
 
     return (
-        <>
+        <ViewportContainer>
             {error && <div style={{ color: 'red' }}>{error}</div>}
-            <form onSubmit={changeBoardType}>
+            {/* <form onSubmit={changeBoardType}>
                 <input
                     type='number'
                     placeholder='select slot number'
@@ -201,23 +205,23 @@ const Viewport: React.FC = () => {
                     onChange={(e) => setSelectedBord(e.target.value)}
                 />
                 <button type='submit'>Change</button>
-            </form>
+            </form> */}
 
             <form onSubmit={changeArcColor}>
-                <input
+                {/* <input
                     type='text'
                     placeholder='select bord type'
                     value={archColor}
                     onChange={(e) => setArchColor(e.target.value)}
-                />
-                <button type='submit'>Change arch color</button>
+                /> */}
+                {/* <button type='submit'>Change arch color</button> */}
             </form>
 
-            <br />
+            {/* <br />
 
             <button onClick={() => setCurrentMode(EMode.AddBorad)}>Add borad</button>
             <br />
-            <br />
+            <br /> */}
 
             <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
 
@@ -230,7 +234,7 @@ const Viewport: React.FC = () => {
                     <Architecture />
                 </Canvas>
             </div>
-        </>
+        </ViewportContainer>
     );
 };
 
