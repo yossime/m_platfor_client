@@ -25,12 +25,6 @@ export const createBoardByType = (type: string, name:string): IBoard => {
       title: { ...defaultText, text: 'Product Title' },
       description: { ...defaultText, text: 'Product Description' },
       SKU: { ...defaultText, text: 'Product SKU' },
-      price: { text: '100' },
-      buttons: {
-        addToCart: 'Add to Cart',
-        quickView: 'Quick View',
-        buyNow: 'Buy Now',
-      },
     };
   
     const display: IDisplay = {

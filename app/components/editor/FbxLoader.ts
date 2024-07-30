@@ -81,44 +81,42 @@
 
 
 
-// import { FBXLoader as ThreeFBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
-// import { Group, LoadingManager } from 'three';
+import { Group, LoadingManager } from 'three';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 
-// interface LoaderOptions {
-//   url: string;
-//   onLoad: (object: Group) => void;
-//   onProgress?: (event: ProgressEvent) => void;
-//   onError?: (event: ErrorEvent | Error) => void;
-// }
+interface LoaderOptions {
+  url: string;
+  onLoad: (object: Group) => void;
+  onProgress?: (event: ProgressEvent) => void;
+  onError?: (event: ErrorEvent | Error) => void;
+}
 
-// const loadFBX = ({ url, onLoad, onProgress, onError }: LoaderOptions): void => {
-//   const loader = new ThreeFBXLoader(new LoadingManager());
+const loadFBX = ({ url, onLoad, onProgress, onError }: LoaderOptions): void => {
+  const loader = new FBXLoader(new LoadingManager());
 
-//   loader.load(
-//     url,
-//     (object) => {
-//       onLoad(object);
-//       console.log('Loading FBX object:', object);
-//     },
-//     (event) => {
-//       if (onProgress) {
-//         onProgress(event);
-//       } else {
-//         console.log(`Loading progress: ${(event.loaded / event.total) * 100}%`);
-//       }
-//     },
-//     (error) => {
-//       if (onError) {
-//         onError(error);
-//       } else {
-//         console.error('Error loading FBX:', error);
-//       }
-//     }
-//   );
-// };
+  loader.load(
+    url,
+    (object) => {
+      onLoad(object);
+      console.log('Loading FBX object:', object);
+    },
+    (event) => {
+      if (onProgress) {
+        onProgress(event);
+      } else {
+        console.log(`Loading progress: ${(event.loaded / event.total) * 100}%`);
+      }
+    },
+    (error) => {
+        if (onError) {
+            onError(error as ErrorEvent | Error); 
+          } else {
+            console.error('Error loading FBX:', error);
+          }
+    }
+  );
+};
 
-// export default loadFBX;
+export default loadFBX;
 
 
-
-export {}

@@ -53,7 +53,7 @@ const Editor = () => {
             });
           }
     
-          setDataParameters(dataParameters);
+          // setDataParameters(dataParameters);
       },[]);
   
 

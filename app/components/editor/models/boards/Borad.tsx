@@ -9,7 +9,7 @@ import { useVideoTexture } from "@react-three/drei";
 import { EMode, useEditor } from "@/context/useEditorContext";
 import { Text } from '@react-three/drei';
 // import TextComponent from "../../TextLoader";
-import Product from "../display/Product";
+import Display from "../display/Display";
 import TextComponent from "../../TextLoader";
 
 
@@ -43,7 +43,8 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
     const boradUrl = `${url}/${board.type}`;
 
     const boradFbx = useLoader(FBXLoader, boradUrl) as Object3D;
-
+    const urlT = "https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f"
+    const texture = useLoader(TextureLoader, urlT)
     useEffect(() => {
         const materialParams = board?.materialParams;
         if (!materialParams) return;
@@ -51,14 +52,14 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
 
         const getTexture = async (materialParams: MaterialParams, mash: Mesh) => {
             const boradMaterial = await LoadMaterial(materialParams)
-            if(materialParams.video) {
+            if (materialParams.video) {
                 // const videoTexture = useVideoTexture(materialParams.video);
                 // boradMaterial.map = videoTexture;
             }
             mash.material = boradMaterial;
         }
         const currentBorad = boradFbx.children[0].clone();
-        
+
         getTexture(materialParams, currentBorad as Mesh);
     }, [board?.materialParams]);
 
@@ -88,14 +89,15 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
                     const numA = parseInt(a.name.split('_')[1]);
                     const numB = parseInt(b.name.split('_')[1]);
                     return numA - numB;
-                  });
+                });
                 setModelsSlots(productsSlots)
                 currentBorad.children[0].children = [];
 
                 const boardDisplays = (board as IProductBoard).displays;
-                boardDisplays.forEach((display: IDisplay) => {
-                    setModleComponents(prev => [...prev, ...(display.products as IProduct[])]);
-                })
+                setModleComponents(boardDisplays);
+                // boardDisplays.forEach((display: IDisplay) => {
+                //     setModleComponents(prev => [...prev, ...(display.products as IProduct[])]);
+                // })
 
                 break;
 
@@ -130,24 +132,34 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
     }, [boradFbx]);
 
 
-    const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
+    const handlePointerDown = async (event: ThreeEvent<PointerEvent>) => {
         event.stopPropagation();
         const clickedPart = event.object;
         console.log("handlePointerDown", clickedPart.name);
 
         setCurrentMode(EMode.View);
 
- 
+
         if (clickedPart instanceof Mesh) {
             // console.log("clicked", modleCpntent);
             const highlightMaterial = new MeshStandardMaterial({
-                color: new Color('red'),
-                opacity: 0.5,
-                transparent: true,
-                wireframe: true,
+                // color: new Color('red'),
+                // opacity: 0.5,
+                // transparent: true,
+                // wireframe: true,
+                map: texture,
+                // onBeforeRender: (renderer, scene, camera, geometry, material) => {
+                //     material.map.needsUpdate = true;
+                // }
             });
 
-            clickedPart.material = highlightMaterial;
+            const offset = [-0.5, -0.5]
+            const repeat = [2, 2]
+            texture.offset.set(offset[0], offset[1]);
+            texture.repeat.set(repeat[0], repeat[1]);
+
+
+            // clickedPart.material = highlightMaterial;
         }
     };
 
@@ -156,9 +168,22 @@ const Board: React.FC<BoardLoaderProps> = ({ board, slotPlaceholder }) => {
 
             {modleComponents?.map((product, index) => (
                 <group key={index}>
-                    <Product product={product} slotPlaceholder={modelsSlots[index]} />
+                    <Display display={product} slotPlaceholder={modelsSlots[index]} />
                 </group>
             ))}
+
+            {/* {textMeshes.map((content, index) => {
+                const key = content.name as keyof IThreeDModel;
+                const textParams = board[key] as IText;
+
+                return (
+                    <group key={index}>
+                        {textParams && (
+                            <TextComponent placeholder={content} textParams={textParams} />
+                        )}
+                    </group>
+                );
+            })} */}
 
             {textMeshes.map((content, index) => (
                 <group key={index}>

@@ -16,7 +16,7 @@ export interface IParams {
 
 export interface IThreeDModel {
     type: string | null;
-    materialParams?: MaterialParams | null;
+    materialParams?: MaterialParams;
 }
 
 export interface IBoard extends IThreeDModel {
@@ -50,18 +50,20 @@ export interface IProductBoard extends IBoard {
 export interface IDisplay extends IThreeDModel {
     title?: IText;
     products?: IProduct[];
+    materialParams?: MaterialParams;
 }
 
 export interface IProduct extends IThreeDModel {
     title?: IText;
     description?: IText;
     SKU?: IText;
-    price: IText;
-    buttons: {
-        addToCart?: string;
-        quickView?: string;
-        buyNow?: string;
+    buttons?: {
+        price?: IButton;
+        addToCart?: IButton;
+        quickView?: IButton;
+        buyNow?: IButton;
     };
+    src?: string;
 }
 
 export interface IText {
@@ -72,7 +74,7 @@ export interface IText {
 }
 
 
-export interface IButton {
+export interface IButton extends IThreeDModel {
     text: IText;
     material: MaterialParams;
 }

@@ -30,12 +30,8 @@ export const DisplayList: React.FC<DisplayProps> = ({ onEditDisplay }) => {
                 title: { text: 'Product Title' },
                 description: { text: 'Product Description' },
                 SKU: { text: 'Product SKU' },
-                price:{text: '100'},
-                buttons: {
-                    addToCart: 'Add to Cart',
-                    quickView: 'Quick View',
-                    buyNow: 'Buy Now',
-                },
+                // price:{text: '100'},
+          
             };
             const newDisplay: IDisplay = {
                 title: { text: `Display ${board.displays.length + 1}` },

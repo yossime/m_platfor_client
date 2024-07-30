@@ -1,11 +1,10 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { EMode, useEditor } from '@/context/useEditorContext';
 import { IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
 import Architecture from '../Architecture';
-import { ConvexMeshFromFBX } from '../TextLoader';
 
 
 
@@ -22,119 +21,276 @@ const headerBoard: IHeaderBoard = {
         color: "#ffffff",
         scale: [1, 1, 1]
     },
-    materialParams: { video: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/video_1.mp4?alt=media&token=d948abc7-d187-4612-b315-8109faf98b84' },
+    materialParams: { map: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f' },
+
+    // materialParams: { video: 'Klee/o/video_1.mp4?alt=media&token=d948abc7-d187-4612-b315-8109faf98b84' },
 }
 
 
 
 const productBoard: IProductBoard = {
-    name: '',
-    materialParams: { map: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f', color: 'pink' },
+    maxDisplay: 6,
+    name: "ProductBoard",
     type: 'ProductBoard',
     title: {
         text: "Welcome to Our Store",
-        color: "#ffffff",
+        color: "purple",
         scale: [1, 1, 1]
     },
     displays: [
         {
-            title: {
-                text: "Welcome to Our Store",
-                color: "#ffffff",
-                scale: [1, 1, 1]
-            },
-            type: 'blup1',
+            materialParams: { color: "pink" },
             products: [
                 {
+                    src: 'Klee',
+
                     title: {
-                        text: "Welcome to Our Store",
-                        color: "#ffffff",
-                        scale: [1, 1, 1]
+                        text: "Product Title 0",
+                        color: "purple",
+                        scale: [0.1, 0.1, 0.1]
                     },
-                    price:{text: "$299"},
+                    description: {
+                        text: "Product Description 0",
+                        color: "yellow",
+                        scale: [0.1, 0.1, 0.1]
+                    },
                     buttons: {
-                        addToCart: "Add to Cart",
-                        quickView: "Quick View",
-                        buyNow: "Buy Now"
+                        price: {
+                            text: { text: "$299" },
+                            material: {
+                                color: "#FF5733"
+                            },
+                            type: null
+                        },
+                        addToCart: {
+                            type: null,
+
+                            text: {
+                                text: "111 Add 2 Cart",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#FF5733"
+                            }
+                        },
+                        quickView: {
+                            type: null,
+
+                            text: {
+                                text: "111 Quick View",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#33C1FF"
+                            }
+                        },
+                        buyNow: {
+                            type: null,
+
+                            text: {
+                                text: "111 Buy Now",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#75FF33"
+                            }
+                        }
                     },
-                    type: 'Product02',
+                    type: 'Podium'
                 }
-            ]
+            ],
+            type: 'Podium'
         },
         {
-            title: {
-                text: "Welcome to Our Store",
-                color: "#ffffff",
-                scale: [1, 1, 1]
-            },
-            type: 'blup1',
+            materialParams: { color: "pink" },
             products: [
                 {
+                    src: 'Klee',
+
                     title: {
-                        text: "Welcome to Our Store",
-                        color: "#ffffff",
-                        scale: [1, 1, 1]
+                        text: "Product Title 1",
+                        color: "blue",
+                        scale: [0.1, 0.1, 0.1]
                     },
-                    price:{text: "$299"},
+                    description: {
+                        text: "Product Description 1",
+                        color: "black",
+                        scale: [0.1, 0.1, 0.1]
+                    },
                     buttons: {
-                        addToCart: "Add to Cart",
-                        quickView: "Quick View",
-                        buyNow: "Buy Now"
+                        price: {
+                            text: { text: "$299" },
+                            material: {
+                                color: "#FF5733"
+                            },
+                            type: null
+                        },
+                        addToCart: {
+                            type: null,
+
+                            text: {
+                                text: "Add 2 Cart",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#FFC300"
+                            }
+                        },
+                        quickView: {
+                            type: null,
+
+                            text: {
+                                text: "Quick View",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#C70039"
+                            }
+                        },
+                        buyNow: {
+                            type: null,
+
+                            text: {
+                                text: "Buy Now",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#900C3F"
+                            }
+                        }
                     },
-                    type: 'Product02',
+                    type: 'Podium'
                 }
-            ]
+            ],
+            type: 'Podium'
         },
         {
-            title: {
-                text: "Welcome to Our Store",
-                color: "#ffffff",
-                scale: [1, 1, 1]
-            },
-            type: 'blup1',
+            materialParams: { color: "pink" },
             products: [
                 {
+                    src: 'Klee',
                     title: {
-                        text: "Welcome to Our Store",
+                        text: "Product Title 2",
                         color: "#ffffff",
-                        scale: [1, 1, 1]
+                        scale: [0.1, 0.1, 0.1]
                     },
-                    price:{text: "$299"},
+                    description: {
+                        text: "Product Description 2",
+                        color: "#cccccc",
+                        scale: [0.1, 0.1, 0.1]
+                    },
                     buttons: {
-                        addToCart: "Add to Cart",
-                        quickView: "Quick View",
-                        buyNow: "Buy Now"
+                        price: {
+                            text: { text: "$299" },
+                            material: {
+                                color: "#FF5733"
+                            },
+                            type: null
+                        },
+                        addToCart: {
+                            type: null,
+
+                            text: {
+                                text: "Add 2 Cart",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#DAF7A6"
+                            }
+                        },
+                        quickView: {
+                            type: null,
+
+                            text: {
+                                text: "Quick View",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#FF6F61"
+                            }
+                        },
+                        buyNow: {
+                            type: null,
+
+                            text: {
+                                text: "Buy Now",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#D5AAFF"
+                            }
+                        }
                     },
-                    type: 'Product02',
+                    type: 'Podium',
+
                 }
-            ]
+            ],
+            type: 'Podium'
         },
         {
-            title: {
-                text: "Welcome to Our Store",
-                color: "#ffffff",
-                scale: [1, 1, 1]
-            },
-            type: 'blup1',
+            materialParams: { color: "pink" },
             products: [
                 {
+                    src: 'Klee',
+
                     title: {
-                        text: "Welcome to Our Store",
+                        text: "Product Title 3",
                         color: "#ffffff",
-                        scale: [1, 1, 1]
+                        scale: [0.1, 0.1, 0.1]
                     },
-                    price:{text: "$299"},
+                    description: {
+                        text: "Product Description 3",
+                        color: "#cccccc",
+                        scale: [0.1, 0.1, 0.1]
+                    },
                     buttons: {
-                        addToCart: "Add to Cart",
-                        quickView: "Quick View",
-                        buyNow: "Buy Now"
+                        price: {
+                            text: { text: "$299" },
+                            material: {
+                                color: "#FF5733"
+                            },
+                            type: null
+                        },
+                        addToCart: {
+                            type: null,
+                            text: {
+                                text: "Add 2 Cart",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#00BFFF"
+                            }
+                        },
+                        quickView: {
+                            type: null,
+                            text: {
+                                text: "Quick View",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#FF1493"
+                            }
+                        },
+                        buyNow: {
+                            type: null,
+                            text: {
+                                text: "Buy dd Now",
+                                color: "#ffffff"
+                            },
+                            material: {
+                                color: "#32CD32"
+                            }
+                        }
                     },
-                    type: 'Product02',
+                    type: 'Podium'
                 }
-            ]
+            ],
+            type: 'Podium'
         }
     ]
 }
+
+
 
 
 
@@ -152,82 +308,25 @@ const params: IParams = {
 
 
 const Viewport: React.FC = () => {
-    const [selectedSlot, setSelectedSlot] = useState<string>('');
-    const [selectedPBord, setSelectedBord] = useState<string>('')
-    const [error, setError] = useState<string | null>(null);
-    const [archColor, setArchColor] = useState<string>('yellow');
 
-
-
-    const { setCurrentMode, dataParameters, setDataParameters } = useEditor();
-    // useEffect(() => {
-    //     setDataParameters(params);
-    // }, [params]);
-
-    const changeBoardType = (event: React.FormEvent) => {
-        event.preventDefault();
-        const index = parseInt(selectedSlot);
-        if (index >= 0 && index < params.boards.length) {
-            params.boards[index].type = selectedPBord;
-            setDataParameters({ ...params });
-        } else {
-            setError('Index out of bounds');
-        }
-    }
-
-    const changeArcColor = (event: React.FormEvent) => {
-        event.preventDefault();
-        params.materialParams.color = archColor;
-        setDataParameters({ ...params });
-    }
-
+    const { setDataParameters } = useEditor();
+    useEffect(() => {
+        // setDataParameters(params);
+    }, [params]);
 
 
 
     return (
         <>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-            <form onSubmit={changeBoardType}>
-                <input
-                    type='number'
-                    placeholder='select slot number'
-                    value={selectedSlot}
-                    onChange={(e) => setSelectedSlot(e.target.value)}
-                />
-                <input
-                    type='text'
-                    placeholder='select bord type'
-                    value={selectedPBord}
-                    onChange={(e) => setSelectedBord(e.target.value)}
-                />
-                <button type='submit'>Change</button>
-            </form>
-
-            <form onSubmit={changeArcColor}>
-                <input
-                    type='text'
-                    placeholder='select bord type'
-                    value={archColor}
-                    onChange={(e) => setArchColor(e.target.value)}
-                />
-                <button type='submit'>Change arch color</button>
-            </form>
-
-            <br />
-
-            <button onClick={() => setCurrentMode(EMode.AddBorad)}>Add borad</button>
-            <br />
-            <br />
 
             <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
-
-
                 <Canvas style={{ height: '100%', width: '100%' }}>
                     <OrbitControls />
                     <ambientLight />
-                    <gridHelper args={[100, 100, 0xff0000, 'teal']} />
-                    {/* <ConvexMeshFromFBX/> */}
-                    <Architecture />
+                    <gridHelper />
+                    <Suspense>
+                        <Architecture />
+                    </Suspense>
                 </Canvas>
             </div>
         </>
