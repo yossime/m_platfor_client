@@ -1,4 +1,4 @@
-import { BackgroundColor, BorderColor, SemanticColors, TextColor } from './colors';
+import { BackgroundColor, BorderColor, IconColor, SemanticColors, TextColor } from './colors';
 
 export enum ButtonType {
   PRIMARY = 'primary',

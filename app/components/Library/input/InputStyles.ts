@@ -4,6 +4,7 @@ import { InputSize, InputMode, InputSizeConfig, getInputColors } from '@constant
 import { FontFamily, TextSize } from '@constants/text';
 
 export const InputWrapper = styled.div<{ $fullWidth: boolean }>`
+text-align: start;
   width: ${props => props.$fullWidth ? '100%' : 'auto'};
 `;
 

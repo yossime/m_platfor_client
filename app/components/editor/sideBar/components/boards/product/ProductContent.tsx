@@ -7,6 +7,7 @@ import SelectInput from '@/components/Library/input/SelectInput';
 import { DisplayList } from './DisplayList';
 import PopupEditDisplay from './PopupEditDisplay'; 
 import { DisplayType, IDisplay, IProductBoard } from '@/components/editor/interface/paramsType';
+import { Container } from '../../CommonStyles';
 
 const displayTypeOptions = [
   { value: DisplayType.DUO, label: "Spotlight Duo" },
@@ -84,7 +85,7 @@ export const ProductContentComponent: React.FC = () => {
   };
 
   return (
-    <div>
+    <Container>
       <SelectInput
         options={displayTypeOptions}
         value={currentBoard?.displayType || ''}
@@ -103,7 +104,9 @@ export const ProductContentComponent: React.FC = () => {
         value={currentBoard?.title?.text || ''}
         onChange={handleInputChange}
       />
+      
       <DisplayList onEditDisplay={handleEditDisplay} />
+
       {activeDisplay && (
         <PopupEditDisplay
           display={activeDisplay.display}
@@ -111,6 +114,6 @@ export const ProductContentComponent: React.FC = () => {
           onSave={handleSaveDisplay}
         />
       )}
-    </div>
+    </Container>
   );
 };
