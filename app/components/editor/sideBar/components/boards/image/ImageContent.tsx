@@ -6,6 +6,7 @@ import { useEditor } from '@/context/useEditorContext';
 import DragAndDropImage from '@/components/DragAndDropImage';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
+import { Container } from '../../CommonStyles';
 
 
 
@@ -73,7 +74,7 @@ export const ImageContentComponent: React.FC = () => {
   }, [imageBuffer, activeBoardIndex, setDataParameters]);
 
   return (
-    <div>
+    <Container>
       <Input
         inputSize={InputSize.SMALL}
         mode={InputMode.NORMAL}
@@ -115,6 +116,6 @@ export const ImageContentComponent: React.FC = () => {
         value={currentBoard?.button?.text.text || ''}
         onChange={handleInputChange('buttonTitle')}
       />
-    </div>
+    </Container>
   );
 };

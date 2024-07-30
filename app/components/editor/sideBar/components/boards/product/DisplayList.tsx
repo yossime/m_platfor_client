@@ -1,10 +1,15 @@
 import React from 'react';
-import { IParams, IProductBoard, IDisplay, IProduct }  from '@/components/editor/interface/paramsType';
+import { IParams, IProductBoard, IDisplay, IProduct } from '@/components/editor/interface/paramsType';
 import { useProject } from '@/context/useProjectContext';
 import { useEditor } from '@/context/useEditorContext';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
-import { IconName } from '@constants/icon';
+import { IconName, IconSize } from '@constants/icon';
+import Text from '@/components/Library/text/Text';
+import { BoardButton, BoardsContainer, BoardsWrapper } from '../../CommonStyles';
+import { FontWeight, TextSize } from '@constants/text';
+import Icon from '@/components/Library/icon/Icon';
+import { IconColor } from '@constants/colors';
 
 interface DisplayProps {
     onEditDisplay: (index: number, display: IDisplay) => void;
@@ -31,14 +36,14 @@ export const DisplayList: React.FC<DisplayProps> = ({ onEditDisplay }) => {
                 description: { text: 'Product Description' },
                 SKU: { text: 'Product SKU' },
                 // price:{text: '100'},
-          
+
             };
             const newDisplay: IDisplay = {
                 title: { text: `Display ${board.displays.length + 1}` },
                 type: board.displayType as string,
                 products: [product]
             };
-            
+
             const updatedBoards = prevParams.boards.map((b, index) =>
                 index === activeBoardIndex ? {
                     ...b,
@@ -58,33 +63,34 @@ export const DisplayList: React.FC<DisplayProps> = ({ onEditDisplay }) => {
     };
 
     return (
-        <div className="space-y-4">
-            <div className="text-sm font-medium">
+        <div>
+            <Text size={TextSize.TEXT2} weight={FontWeight.NORMAL}>
                 Displays: {currentBoard.displays?.length || 0} of {currentBoard.maxDisplay || 0}
-            </div>
-            <div className="space-y-2">
+            </Text>
+        <BoardsWrapper>
+            <BoardsContainer>
                 {currentBoard.displays?.map((display, index) => (
-                    <Button
+                    <BoardButton
                         key={index}
                         onClick={() => handleEditDisplay(index, display)}
-                        size={ButtonSize.SMALL}
-                        variant={ButtonVariant.SECONDARY}
-                        type={ButtonType.PRIMARY}
-                        fullWidth={true}
-                        text={display.title?.text || `Display ${index + 1}`}
-                    />
+                    >
+                        <Text size={TextSize.TEXT2}> Display {index + 1}</Text>
+                        <Icon name={IconName.EDIT} color={IconColor.PRIMARY} size={IconSize.SMALL} />
+                    </BoardButton>
                 ))}
                 {(currentBoard.displays?.length || 0) < (currentBoard.maxDisplay || 0) && (
-                    <Button
-                        onClick={handleAddDisplay}
-                        size={ButtonSize.SMALL}
-                        variant={ButtonVariant.PRIMARY}
-                        type={ButtonType.PRIMARY}
-                        text='Add Display'
-                        icon={IconName.PLUS}
-                    />
+                       <Button
+                       type={ButtonType.PRIMARY}
+                       variant={ButtonVariant.SECONDARY}
+                       size={ButtonSize.LARGE}
+                       icon={IconName.PLUSCIRCLE}
+                       iconPosition='left'
+                       onClick={handleAddDisplay}
+                       fullWidth={true}
+                     />
                 )}
-            </div>
+            </BoardsContainer>
+        </BoardsWrapper>
         </div>
     );
 };

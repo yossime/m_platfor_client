@@ -28,7 +28,7 @@ export const createBoardByType = (type: string, name:string): IBoard => {
     };
   
     const display: IDisplay = {
-      type: "display",
+      type: "ProductBoard",
       title: { ...defaultText, text: 'Display Title' },
       products: [product],
     };
@@ -42,7 +42,7 @@ export const createBoardByType = (type: string, name:string): IBoard => {
           subTitle: { text: 'Subtitle' },
           buttonTitle: { text: 'Button' },
         } as IHeaderBoard;
-      case 'Image':
+      case 'ImageBoard':
         return {
           ...baseBoard,
           title: { text: 'Image Title' },
