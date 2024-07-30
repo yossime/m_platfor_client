@@ -6,6 +6,7 @@ import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 import DragAndDropImage from '@/components/DragAndDropImage';
 import { IHeaderBoard } from '@/components/editor/interface/paramsType';
+import { Container } from '../../CommonStyles';
 
 interface HeaderContentComponentProps {}
 
@@ -72,7 +73,7 @@ export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () 
   }, [imageBuffer, activeBoardIndex, setDataParameters]);
 
   return (
-    <div>
+    <Container>
       <Input
         inputSize={InputSize.SMALL}
         mode={InputMode.NORMAL}
@@ -80,6 +81,7 @@ export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () 
         placeholder="Site Name"
         value={currentBoard.title?.text || ''}
         onChange={handleInputChange('title')}
+        fullWidth={true}
       />
       <Input
         inputSize={InputSize.SMALL}
@@ -88,6 +90,8 @@ export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () 
         placeholder="Write your tagline here"
         value={currentBoard.subTitle?.text || ''}
         onChange={handleInputChange('subTitle')}
+        fullWidth={true}
+
       />
       <Button
         size={ButtonSize.SMALL} 
@@ -95,6 +99,8 @@ export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () 
         variant={ButtonVariant.SECONDARY} 
         text="Upload image"
         onClick={() => setShowUploadModal(true)}
+        fullWidth={true}
+
       />
       {showUploadModal && (
         <div className="modal">
@@ -113,7 +119,8 @@ export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () 
         placeholder="Get Started!"
         value={currentBoard.button?.text.text || ''}
         onChange={handleInputChange('buttonTitle')}
+        fullWidth={true}
       />
-    </div>
+    </Container>
   );
 };

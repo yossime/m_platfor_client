@@ -15,7 +15,7 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 16px;
+  /* padding: 16px; */
 `;
 
 interface ContentAreaProps {

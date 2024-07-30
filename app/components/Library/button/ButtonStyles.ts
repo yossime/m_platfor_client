@@ -15,11 +15,15 @@ export const StyledButton = styled.button<StyledButtonProps>`
   justify-content: center;
   border-radius: 4px;
   width: ${props => props.$fullWidth ? '100%' : 'auto'};
+  transform: translateY(0);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 
   ${props => props.$mode !== 'disabled' && css`
     &:hover:not(:disabled) {
       background-color: ${getButtonColorsHover(props.$type, props.$variant, props.$mode)};
-    }
+      transform: translateY(-0.5px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 3px 3px rgba(0, 0, 0, 0.15);  
+     }
   `}
   
   ${props => {

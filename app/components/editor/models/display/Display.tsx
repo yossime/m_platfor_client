@@ -44,7 +44,7 @@ const Display: React.FC<DisplayLoaderProps> = ({ display, slotPlaceholder }) => 
     const [buttonsParams, setButtonsParams] = useState<IButton[]>([]);
 
     const [productMesh, setProductMesh] = useState<Object3D>();
-
+    
     const url = `${API}/project/fbx`;
     const displayUrl = `${url}/${display.type}`;
 

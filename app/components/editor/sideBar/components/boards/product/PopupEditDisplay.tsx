@@ -4,7 +4,9 @@ import { IDisplay, IProduct }  from '@/components/editor/interface/paramsType';
 import Input from '@/components/Library/input/Input';
 import { InputMode, InputSize } from '@constants/input';
 import Button from '@/components/Library/button/Button';
-import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
+import { ButtonMode, ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
+import Collapsible from '@/components/Library/general/Collapsible';
+import { IconName } from '@constants/icon';
 
 interface PopupEditDisplayProps {
   display: IDisplay;
@@ -49,6 +51,7 @@ const ButtonContainer = styled.div`
 
 const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, onSave }) => {
   const [editedDisplay, setEditedDisplay] = useState<IDisplay>(display);
+  const [uploadPopup,setUploadPopup] = useState<boolean>(false);
 
   const handleInputChange = (field: keyof IProduct, value: string) => {
     setEditedDisplay(prev => ({
@@ -66,12 +69,13 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
   return (
     <Overlay>
       <PopupContainer>
-        <Title>Edit Display</Title>
+        <Title>Product</Title>
+      <Collapsible title="Product Description">
+
         <InputContainer>
           <Input
             inputSize={InputSize.SMALL}
             mode={InputMode.NORMAL}
-            label="Product Title"
             value={editedDisplay.products ? editedDisplay.products[0].title?.text : ""}
             onChange={(e) => handleInputChange('title', e.target.value)}
           />
@@ -80,7 +84,6 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
           <Input
             inputSize={InputSize.SMALL}
             mode={InputMode.NORMAL}
-            label="Product Description"
             value={editedDisplay.products ? editedDisplay.products[0].description?.text : ""}
             onChange={(e) => handleInputChange('description', e.target.value)}
           />
@@ -89,25 +92,44 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
           <Input
             inputSize={InputSize.SMALL}
             mode={InputMode.NORMAL}
-            label="Product SKU"
             value={editedDisplay.products ? editedDisplay.products[0].SKU?.text : ""}
             onChange={(e) => handleInputChange('SKU', e.target.value)}
           />
         </InputContainer>
+        <Collapsible title=" Price">
         <InputContainer>
-         {/* { <Input
+          <Input
             inputSize={InputSize.SMALL}
             mode={InputMode.NORMAL}
-            label="Product Price"
-            value={editedDisplay.products ? editedDisplay.products[0].price.text : ""}
-            onChange={(e) => setEditedDisplay((prev) => ({
-              ...prev,
-              products: prev.products?.map((product, index) => 
-                index === 0 ? { ...product, price.text: e.target.value } : product
-              )
-            }))}
-          />} */}
+            value={"1,000,000,000 $"}
+            onChange={() =>{}}
+          />
         </InputContainer>
+        </Collapsible>
+      </Collapsible>
+      <Collapsible title="3D Model">
+      <Button
+        type={ButtonType.PRIMARY}
+        variant={ButtonVariant.SECONDARY}
+        size={ButtonSize.LARGE}
+        icon={IconName.PLUSCIRCLE}
+        iconPosition='left'
+        onClick={()=>{}}
+        text='Upload'
+        fullWidth={true}
+      />
+         <Button
+        type={ButtonType.PRIMARY}
+        variant={ButtonVariant.SECONDARY}
+        size={ButtonSize.LARGE}
+        icon={IconName.PLUSCIRCLE}
+        iconPosition='left'
+        onClick={()=>{}}
+        text='Generate from images - Beta'
+        mode={ ButtonMode.DISABLED }
+        fullWidth={true}
+      />
+      </Collapsible>
         <ButtonContainer>
           <Button
             onClick={onClose}

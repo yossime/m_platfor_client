@@ -37,7 +37,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
         <LabelText
           family={FontFamily.Poppins}
           size={TextSize.TEXT2}
-          weight={FontWeight.NORMAL}
+          weight={FontWeight.SEMI_BOLD}
           color={mode === InputMode.DISABLED ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT}
         >
           {label}

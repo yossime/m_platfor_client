@@ -313,7 +313,7 @@ const params: IParams = {
 
 const Viewport: React.FC = () => {
 
-    const { setDataParameters } = useEditor();
+    // const { setDataParameters } = useEditor();
     useEffect(() => {
         // setDataParameters(params);
     }, [params]);
