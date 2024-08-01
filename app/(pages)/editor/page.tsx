@@ -9,16 +9,16 @@ import EditorComponent from "@/components/editor/EditorComponent";
 const Editor: React.FC = () => {
   const { setDataParameters } = useEditor();
 
-  useEffect(() => {
-    const dataParameters: IParams = {
-      architecture: 'Barbiz',
-      materialParams: {},
-      maxSlot: 5,
-      boards: Array(5).fill({ type: null, name: null })
-    };
+  // useEffect(() => {
+  //   const dataParameters: IParams = {
+  //     architecture: 'Barbiz',
+  //     materialParams: {},
+  //     maxSlot: 5,
+  //     boards: Array(5).fill({ type: null, name: null })
+  //   };
 
-    setDataParameters(dataParameters);
-  }, [setDataParameters]);
+  //   setDataParameters(dataParameters);
+  // }, [setDataParameters]);
 
   return (
 

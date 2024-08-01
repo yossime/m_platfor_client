@@ -26,8 +26,6 @@ const headerBoard: IHeaderBoard = {
         scale: [1, 1, 1]
     },
     materialParams: { map: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f' },
-
-    // materialParams: { video: 'Klee/o/video_1.mp4?alt=media&token=d948abc7-d187-4612-b315-8109faf98b84' },
 }
 
 
@@ -46,8 +44,9 @@ const productBoard: IProductBoard = {
             materialParams: { color: "pink" },
             products: [
                 {
-                    src: 'Klee',
-
+                    // src: 'Podium',
+                    src: 'heartglass1',
+                    // src: 'Klee',
                     title: {
                         text: "Product Title 0",
                         color: "purple",
@@ -104,12 +103,15 @@ const productBoard: IProductBoard = {
                 }
             ],
             type: 'Podium'
+            // type: 'PodiumModelOrigin'
         },
         {
+            
             materialParams: { color: "pink" },
             products: [
                 {
-                    src: 'Klee',
+                    src: 'heartglass1',
+                    
 
                     title: {
                         text: "Product Title 1",
@@ -172,7 +174,7 @@ const productBoard: IProductBoard = {
             materialParams: { color: "pink" },
             products: [
                 {
-                    src: 'Klee',
+                    
                     title: {
                         text: "Product Title 2",
                         color: "#ffffff",
@@ -235,7 +237,7 @@ const productBoard: IProductBoard = {
             materialParams: { color: "pink" },
             products: [
                 {
-                    src: 'Klee',
+                    
 
                     title: {
                         text: "Product Title 3",
@@ -315,7 +317,7 @@ const Viewport: React.FC = () => {
 
     const { setDataParameters } = useEditor();
     useEffect(() => {
-        // setDataParameters(params);
+        setDataParameters(params);
     }, [params]);
 
 
