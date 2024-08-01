@@ -35,8 +35,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-<<<<<<< Updated upstream
-/public/FbxHdrGlb
-=======
-*storybook.log
->>>>>>> Stashed changes
+functions/
+.firebaserc
+firebase.json
+
+
+.gitignore
