@@ -1,6 +1,5 @@
 import axios from '@/utils/axios';
 import { User } from 'firebase/auth';
-// import { Project } from '@types/project';
 
 export const fetchProjects = async (userId: string): Promise<any[]> => {
   try {

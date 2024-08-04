@@ -4,7 +4,7 @@ import SelectInput from '@/components/Library/input/SelectInput';
 import { ButtonStyle, ImageStyle, IParams, Skybox, ITextStyle, BaseSize, IHeaderBoard, IThreeDModelStyle }  from '@/components/editor/interface/paramsType';
 import { useProject } from '@/context/useProjectContext';
 import { useEditor } from '@/context/useEditorContext';
-import { Container } from '../../CommonStyles';
+import { Container, Divider } from '../../CommonStyles';
 
 const textStyleOptions = [
   { value: BaseSize.SMALL, label: "Small" },
@@ -61,6 +61,7 @@ export const ImageStyleComponent: React.FC = () => {
         placeholder="Choose..."
         fullWidth={true}
       />
+      <Divider/>
       <SelectInput
         options={imageStyleOptions}
         value={currentBoard?.style?.imageStyle || ''}
@@ -71,6 +72,7 @@ export const ImageStyleComponent: React.FC = () => {
         placeholder="Choose..."
         fullWidth={true}
       />
+            <Divider/>
       <SelectInput
         options={buttonStyleOptions}
         value={currentBoard?.style?.buttonStyle || ''}
