@@ -7,7 +7,6 @@ import {
   HeaderTitle,
   HeaderIcon,
   SideBarContainer,
-  ToggleButton,
   SubHeaderContainer,
   ScrollableContent
 } from './SideBarStyles';
@@ -24,9 +23,6 @@ const Sidebar: React.FC = () => {
   const { setActiveBoardIndex } = useEditor()
   const [isOpen, setIsOpen] = useState(true);
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
 
   useEffect(() => {
     if (activeSidebarHeader === 'Edit Global') {
@@ -49,12 +45,9 @@ const Sidebar: React.FC = () => {
 
   return (
     <SideBarContainer style={{ width: isOpen ? '340px' : '20px' }}>
-      {/* <ToggleButton onClick={toggleSidebar}>
-        {isOpen ? '◀' : '▶'}
-      </ToggleButton> */}
       {isOpen && (
         <>
-          <HeaderContainer isChooseBoardWidget={activeSidebarHeader === 'Choose Board Widget'}>
+          <HeaderContainer $isChooseBoardWidget={activeSidebarHeader === 'Choose Board Widget'}>
             <HeaderIcon>
               {activeSidebarHeader !== 'Edit Global' ? (
                 <Icon name={IconName.CARETLEFT} onClick={handleBackOrAdd} />

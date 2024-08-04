@@ -5,6 +5,9 @@ export enum FontFamily {
 
 
 
+
+
+
 export interface IParams {
     architecture: string;
     font?: FontFamily;

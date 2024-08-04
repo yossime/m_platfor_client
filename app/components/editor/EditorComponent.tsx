@@ -25,7 +25,7 @@ const EditorComponent: React.FC = () => {
 
     <EditorLayout>
       <SideBar />
-      <Viewport />
+      {/* <Viewport /> */}
     </EditorLayout>
   );
 }

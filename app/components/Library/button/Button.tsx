@@ -4,8 +4,9 @@ import { ButtonType, ButtonVariant, ButtonSize, ButtonMode, getButtonColors } fr
 import { TextSize, FontWeight, FontFamily } from '@constants/text';
 import { StyledButton, IconWrapper } from './ButtonStyles';
 import Icon from '@/components/Library/icon/Icon';
-import {  IconName, IconSize } from '@constants/icon';
-import { TextColor } from '@constants/colors';
+import { IconName, IconSize } from '@constants/icon';
+import { IconColor, TextColor } from '@constants/colors';
+import { mod } from 'three/examples/jsm/nodes/Nodes.js';
 
 export interface ButtonProps {
   type: ButtonType;
@@ -59,6 +60,19 @@ const Button: React.FC<ButtonProps> = ({
     }
   };
 
+
+  const getIconColor = (mode: ButtonMode, variant: ButtonVariant): IconColor => {
+    switch (mode) {
+      case ButtonMode.DISABLED:
+        return IconColor.DISABLED;
+      default:
+        if (variant === ButtonVariant.PRIMARY)
+          return IconColor.LIGHT;
+        else
+        return IconColor.ICONCOLOR;
+    }
+  }
+
   return (
     <StyledButton
       $type={type}
@@ -71,22 +85,22 @@ const Button: React.FC<ButtonProps> = ({
     >
       {icon && iconPosition === 'left' && (
         <IconWrapper position="left">
-          <Icon name={icon} size={getIconSize(size)} />
-        </IconWrapper>
+          <Icon name={icon} size={getIconSize(size)} color={getIconColor(mode, variant)} />
+          </IconWrapper>
       )}
       {text && (
         <Text
           size={getTextSize(size)}
           weight={FontWeight.NORMAL}
           color={textColor as TextColor}
-          family={FontFamily.Figtree} 
+          family={FontFamily.Figtree}
         >
           {text}
         </Text>
       )}
       {icon && iconPosition === 'right' && (
         <IconWrapper position="right">
-          <Icon name={icon} size={getIconSize(size)} />
+          <Icon name={icon} size={getIconSize(size)} color={getIconColor(mode, variant)} />
         </IconWrapper>
       )}
     </StyledButton>
