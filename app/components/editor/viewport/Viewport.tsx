@@ -3,7 +3,7 @@ import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, useFBX } from '@react-three/drei';
 import { EMode, useEditor } from '@/context/useEditorContext';
-import { IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
+import { IButton, IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
 import Architecture from '../Architecture';
 import styled from 'styled-components';
 import { SceneModel } from '../interface/Scene';
@@ -416,3 +416,4 @@ const Viewport = () => {
 };
 
 export default Viewport;
+

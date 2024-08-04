@@ -45,7 +45,6 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
   if (!dataParameters || !dataParameters.boards) {
     return <Container>No boards available</Container>;
   }
-
   return (
     <Container>
       <SelectInput

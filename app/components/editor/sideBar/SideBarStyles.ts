@@ -22,14 +22,14 @@ export const ToggleButton = styled.button`
   z-index: 10;
 `;
 
-export const HeaderContainer = styled.div<{ isChooseBoardWidget: boolean }>`
+export const HeaderContainer = styled.div<{ $isChooseBoardWidget: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   min-height: 48px;
   width: 100%;
   padding: 0 16px;
-  background-color: ${props => props.isChooseBoardWidget ? 'white' : 'transparent'};
+  background-color: ${props => props.$isChooseBoardWidget ? 'white' : 'transparent'};
 `;
 
 export const HeaderTitle = styled.div`

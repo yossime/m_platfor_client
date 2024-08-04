@@ -62,7 +62,7 @@ interface TextComponentProps {
         anchorX="center"
         anchorY="middle"
       >
-        {data.text}
+        {data?.text}
       </Text>
     </group>
   );

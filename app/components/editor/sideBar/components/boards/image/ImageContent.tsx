@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Input from '@/components/Library/input/Input';
-import { IHeaderBoard, IImageBoard, IParams }  from '@/components/editor/interface/paramsType';
+import { IImageBoard }  from '@/components/editor/interface/paramsType';
 import { InputMode, InputSize } from '@constants/input';
 import { useEditor } from '@/context/useEditorContext';
-import DragAndDropImage from '@/components/DragAndDropImage';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 import { Container } from '../../CommonStyles';
+import TextureUploadComponent from '../../LoadTexturePopup';
 
 
 
@@ -41,12 +41,7 @@ export const ImageContentComponent: React.FC = () => {
     updateBoardField(field, { text: value });
   };
 
-  const handleFilesAdded = (buffers: ArrayBuffer[]) => {
-    if (buffers.length > 0) {
-      setImageBuffer(buffers[0]);
-    }
-    setShowUploadModal(false);
-  };
+
 
   useEffect(() => {
     if (imageBuffer) {
@@ -99,9 +94,7 @@ export const ImageContentComponent: React.FC = () => {
         onClick={() => setShowUploadModal(true)}
       />
       {showUploadModal && (
-        <div className="modal">
-          <DragAndDropImage onFilesAdded={handleFilesAdded} onClose={() => setShowUploadModal(false)} />
-        </div>
+     <TextureUploadComponent onClose={()=>setShowUploadModal(false)}/>
       )}
       {imageSrc && (
         <div>

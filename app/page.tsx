@@ -17,9 +17,9 @@ export default function Home() {
 
   return (
     <>
-      <StyleSheetManager shouldForwardProp={isPropValid}>
+      {/* <StyleSheetManager shouldForwardProp={isPropValid}> */}
         <LoginPage />
-      </StyleSheetManager>
+      {/* </StyleSheetManager> */}
     </>
   );
 }

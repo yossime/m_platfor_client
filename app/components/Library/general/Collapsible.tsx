@@ -13,6 +13,7 @@ interface CollapsibleProps {
 
 const CollapsibleWrapper = styled.div`
   width: 100%;
+  height: auto;
   overflow: hidden;
 `;
 
@@ -25,6 +26,7 @@ const CollapsibleHeader = styled.div`
 
 const CollapsibleContent = styled.div<{ isOpen: boolean }>`
   padding: 1rem;
+  gap: 8px;
   display: ${props => props.isOpen ? 'block' : 'none'};
 `;
 
@@ -37,8 +39,8 @@ const Collapsible: React.FC<CollapsibleProps> = ({ title, children }) => {
     <CollapsibleWrapper>
       <CollapsibleHeader onClick={toggleOpen}>
         <Text
-          size={TextSize.TEXT1}
-          weight={FontWeight.SEMI_BOLD}
+          size={TextSize.TEXT2}
+          weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}
         >
           {title}
