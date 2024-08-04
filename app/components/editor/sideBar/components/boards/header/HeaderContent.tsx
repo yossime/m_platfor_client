@@ -1,26 +1,29 @@
-import React, { ChangeEvent, useState, useEffect } from 'react';
+import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
 import Input from '@/components/Library/input/Input';
 import { InputMode, InputSize } from '@constants/input';
 import { useEditor } from '@/context/useEditorContext';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
-import DragAndDropImage from '@/components/DragAndDropImage';
 import { IHeaderBoard } from '@/components/editor/interface/paramsType';
+import { Container } from '../../CommonStyles';
+import DragAndDrop, { FileData } from '@/components/Library/general/DragAndDrop';
+import Popup from '@/components/Library/general/Popup';
 
-interface HeaderContentComponentProps {}
+interface HeaderContentComponentProps { }
 
 export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () => {
   const { setDataParameters, dataParameters, activeBoardIndex } = useEditor();
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [imageBuffer, setImageBuffer] = useState<ArrayBuffer | null>(null);
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [fileData, setFileData] = useState<FileData | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
 
   const currentBoard = dataParameters?.boards[activeBoardIndex] as IHeaderBoard;
 
   const updateBoardField = (field: keyof IHeaderBoard, value: any) => {
     setDataParameters((prevParams) => {
       if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
-      
+
       const updatedBoards = [...prevParams.boards];
       updatedBoards[activeBoardIndex] = {
         ...updatedBoards[activeBoardIndex],
@@ -39,40 +42,26 @@ export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () 
     updateBoardField(field, { text: value });
   };
 
-  const handleFilesAdded = (buffers: ArrayBuffer[]) => {
-    if (buffers.length > 0) {
-      setImageBuffer(buffers[0]);
-    }
-    setShowUploadModal(false);
-  };
 
-  useEffect(() => {
-    if (imageBuffer) {
-      const blob = new Blob([imageBuffer], { type: 'image/jpeg' });
-      const imageUrl = URL.createObjectURL(blob);
-      setImageSrc(imageUrl);
 
-      setDataParameters((prevParams) => {
-        if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
+  // setDataParameters((prevParams) => {
+  //   if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
 
-        const updateBoards = [...prevParams.boards];
-        const updateBoard = {...updateBoards[activeBoardIndex]} as IHeaderBoard;
-        updateBoard.image = imageBuffer;
-        updateBoards[activeBoardIndex] = updateBoard;
-        return {
-          ...prevParams,
-          boards: updateBoards
-        };
-      });
+  //   const updateBoards = [...prevParams.boards];
+  //   const updateBoard = {...updateBoards[activeBoardIndex]} as IHeaderBoard;
+  //   // updateBoard.image = imageBuffer;
+  //   updateBoards[activeBoardIndex] = updateBoard;
+  //   return {
+  //     ...prevParams,
+  //     boards: updateBoards
+  //   };
+  // });
 
-      return () => {
-        URL.revokeObjectURL(imageUrl);
-      };
-    }
-  }, [imageBuffer, activeBoardIndex, setDataParameters]);
+
+
 
   return (
-    <div>
+    <Container ref={ref}>
       <Input
         inputSize={InputSize.SMALL}
         mode={InputMode.NORMAL}
@@ -80,6 +69,7 @@ export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () 
         placeholder="Site Name"
         value={currentBoard.title?.text || ''}
         onChange={handleInputChange('title')}
+        fullWidth={true}
       />
       <Input
         inputSize={InputSize.SMALL}
@@ -88,24 +78,25 @@ export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () 
         placeholder="Write your tagline here"
         value={currentBoard.subTitle?.text || ''}
         onChange={handleInputChange('subTitle')}
+        fullWidth={true}
+
       />
       <Button
-        size={ButtonSize.SMALL} 
+        size={ButtonSize.SMALL}
         type={ButtonType.PRIMARY}
-        variant={ButtonVariant.SECONDARY} 
-        text="Upload image"
+        variant={ButtonVariant.SECONDARY}
+        text={fileData?.name ? fileData.name : 'Upload image'}
         onClick={() => setShowUploadModal(true)}
+        fullWidth={true}
+
       />
+
       {showUploadModal && (
-        <div className="modal">
-          <DragAndDropImage onFilesAdded={handleFilesAdded} onClose={() => setShowUploadModal(false)} />
-        </div>
+        <Popup parentRef={ref} isCentered={false} onClose={() => setShowUploadModal(false)}>
+          <DragAndDrop type='image' onFileAdded={setFileData} />
+        </Popup>
       )}
-      {imageSrc && (
-        <div>
-          <img src={imageSrc} alt="Uploaded" style={{ maxWidth: '100%', marginTop: '10px' }} />
-        </div>
-      )}
+
       <Input
         inputSize={InputSize.SMALL}
         mode={InputMode.NORMAL}
@@ -113,7 +104,8 @@ export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () 
         placeholder="Get Started!"
         value={currentBoard.button?.text.text || ''}
         onChange={handleInputChange('buttonTitle')}
+        fullWidth={true}
       />
-    </div>
+    </Container>
   );
 };

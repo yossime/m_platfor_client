@@ -31,7 +31,7 @@ const Button: React.FC<buttonProps> = ({ buttonParams , buttonMesh }) => {
 
         if(buttonMesh instanceof Mesh) {
             // console.log("buttonParams.material, buttonMesh", buttonParams.material, buttonMesh)
-            buildTexture(buttonParams.material, buttonMesh);
+            buildTexture(buttonParams?.material, buttonMesh);
         }
 
     });

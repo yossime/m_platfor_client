@@ -1,23 +1,53 @@
-import React from 'react';
-import { IParams, IProductBoard, IDisplay, IProduct }  from '@/components/editor/interface/paramsType';
-import { useProject } from '@/context/useProjectContext';
+import React, { useRef, useState } from 'react';
+import { IProductBoard, IDisplay, IProduct } from '@/components/editor/interface/paramsType';
 import { useEditor } from '@/context/useEditorContext';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
-import { IconName } from '@constants/icon';
+import { IconName, IconSize } from '@constants/icon';
+import Text from '@/components/Library/text/Text';
+import { BoardButton, BoardsContainer, BoardsWrapper } from '../../CommonStyles';
+import { FontWeight, TextSize } from '@constants/text';
+import Icon from '@/components/Library/icon/Icon';
+import { IconColor } from '@constants/colors';
+import PopupEditDisplay from './PopupEditDisplay';
 
-interface DisplayProps {
-    onEditDisplay: (index: number, display: IDisplay) => void;
-}
 
-export const DisplayList: React.FC<DisplayProps> = ({ onEditDisplay }) => {
+export const DisplayList: React.FC = () => {
+    const [activeDisplay, setActiveDisplay] = useState<{ index: number; display: IDisplay } | null>(null);
     const { setDataParameters, dataParameters } = useEditor();
     const { activeBoardIndex } = useEditor();
     const currentBoard = dataParameters?.boards[activeBoardIndex] as IProductBoard;
-
+    const ref = useRef<HTMLDivElement>(null);
     const handleEditDisplay = (index: number, display: IDisplay) => {
-        onEditDisplay(index, display);
-    };
+        setActiveDisplay({ index, display });
+      };
+    
+      const handleClosePopup = () => {
+        setActiveDisplay(null);
+      };
+    
+      const handleSaveDisplay = (updatedDisplay: IDisplay) => {
+        if (activeDisplay === null) return;
+    
+        setDataParameters((prevParams) => {
+          if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
+    
+          return {
+            ...prevParams,
+            boards: prevParams.boards.map((board, i) =>
+              i === activeBoardIndex ? {
+                ...board,
+                displays: (board as IProductBoard).displays.map((d, j) =>
+                  j === activeDisplay.index ? updatedDisplay : d
+                )
+              } : board
+            )
+          };
+        });
+    
+        handleClosePopup();
+      };
+    
 
     const handleAddDisplay = () => {
         setDataParameters((prevParams) => {
@@ -31,14 +61,14 @@ export const DisplayList: React.FC<DisplayProps> = ({ onEditDisplay }) => {
                 description: { text: 'Product Description' },
                 SKU: { text: 'Product SKU' },
                 // price:{text: '100'},
-          
+
             };
             const newDisplay: IDisplay = {
                 title: { text: `Display ${board.displays.length + 1}` },
                 type: board.displayType as string,
                 products: [product]
             };
-            
+
             const updatedBoards = prevParams.boards.map((b, index) =>
                 index === activeBoardIndex ? {
                     ...b,
@@ -51,40 +81,49 @@ export const DisplayList: React.FC<DisplayProps> = ({ onEditDisplay }) => {
                 boards: updatedBoards
             };
 
-            onEditDisplay(board.displays.length, newDisplay);
+            handleEditDisplay(board.displays.length, newDisplay);
 
             return updatedParams;
         });
     };
 
     return (
-        <div className="space-y-4">
-            <div className="text-sm font-medium">
+        <div ref={ref}>
+            <Text size={TextSize.TEXT2} weight={FontWeight.NORMAL}>
                 Displays: {currentBoard.displays?.length || 0} of {currentBoard.maxDisplay || 0}
-            </div>
-            <div className="space-y-2">
-                {currentBoard.displays?.map((display, index) => (
-                    <Button
-                        key={index}
-                        onClick={() => handleEditDisplay(index, display)}
-                        size={ButtonSize.SMALL}
-                        variant={ButtonVariant.SECONDARY}
-                        type={ButtonType.PRIMARY}
-                        fullWidth={true}
-                        text={display.title?.text || `Display ${index + 1}`}
-                    />
-                ))}
-                {(currentBoard.displays?.length || 0) < (currentBoard.maxDisplay || 0) && (
-                    <Button
-                        onClick={handleAddDisplay}
-                        size={ButtonSize.SMALL}
-                        variant={ButtonVariant.PRIMARY}
-                        type={ButtonType.PRIMARY}
-                        text='Add Display'
-                        icon={IconName.PLUS}
-                    />
-                )}
-            </div>
+            </Text>
+            <BoardsWrapper>
+                <BoardsContainer>
+                    {currentBoard.displays?.map((display, index) => (
+                        <BoardButton
+                            key={index}
+                            onClick={() => handleEditDisplay(index, display)}
+                        >
+                            <Text size={TextSize.TEXT2}> Display {index + 1}</Text>
+                            <Icon name={IconName.EDIT} color={IconColor.PRIMARY} size={IconSize.SMALL} />
+                        </BoardButton>
+                    ))}
+                    {(currentBoard.displays?.length || 0) < (currentBoard.maxDisplay || 0) && (
+                        <Button
+                            type={ButtonType.PRIMARY}
+                            variant={ButtonVariant.SECONDARY}
+                            size={ButtonSize.LARGE}
+                            icon={IconName.PLUS}
+                            iconPosition='left'
+                            onClick={handleAddDisplay}
+                            fullWidth={true}
+                        />
+                    )}
+                </BoardsContainer>
+            </BoardsWrapper>
+            {activeDisplay && (
+                <PopupEditDisplay
+                    display={activeDisplay.display}
+                    onClose={handleClosePopup}
+                    onSave={handleSaveDisplay}
+                    parentRef={ref}
+                />
+            )}
         </div>
     );
 };

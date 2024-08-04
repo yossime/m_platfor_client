@@ -4,6 +4,7 @@ import SelectInput from '@/components/Library/input/SelectInput';
 import { ButtonStyle, ImageStyle, IParams, Skybox, ITextStyle, BaseSize, IHeaderBoard, IThreeDModelStyle } from '@/components/editor/interface/paramsType';
 import { useProject } from '@/context/useProjectContext';
 import { useEditor } from '@/context/useEditorContext';
+import { Container } from '../../CommonStyles';
 
 const textStyleOptions = [
   { value: BaseSize.SMALL, label: "Small" },
@@ -51,12 +52,12 @@ export const HeaderStyleComponent: React.FC = () => {
   const currentBoard = dataParameters?.boards[activeBoardIndex] as IHeaderBoard;
 
   return (
-    <div>
+    <Container>
       <SelectInput
         options={textStyleOptions}
         value={currentBoard?.style?.textStyle?.scale || ''}
         onChange={(value) => handleChange('textStyle', { ...currentBoard?.style?.textStyle, scale: value })}
-        inputSize={InputSize.MEDIUM}
+        inputSize={InputSize.SMALL}
         mode={InputMode.DEFAULT}
         label="Text style"
         placeholder="Choose..."
@@ -66,7 +67,7 @@ export const HeaderStyleComponent: React.FC = () => {
         options={imageStyleOptions}
         value={currentBoard?.style?.imageStyle || ''}
         onChange={(value) => handleChange('imageStyle', value)}
-        inputSize={InputSize.MEDIUM}
+        inputSize={InputSize.SMALL}
         mode={InputMode.DEFAULT}
         label="Image style"
         placeholder="Choose..."
@@ -76,12 +77,12 @@ export const HeaderStyleComponent: React.FC = () => {
         options={buttonStyleOptions}
         value={currentBoard?.style?.buttonStyle || ''}
         onChange={(value) => handleChange('buttonStyle', value)}
-        inputSize={InputSize.MEDIUM}
+        inputSize={InputSize.SMALL}
         mode={InputMode.DEFAULT}
         label="Button style"
         placeholder="Choose..."
         fullWidth={true}
       />
-    </div>
+    </Container>
   );
 };

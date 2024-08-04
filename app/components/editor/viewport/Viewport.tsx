@@ -3,7 +3,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { EMode, useEditor } from '@/context/useEditorContext';
-import { IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
+import { IButton, IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
 import Architecture from '../Architecture';
 import styled from 'styled-components';
 
@@ -12,8 +12,16 @@ export const ViewportContainer = styled.div`
   overflow: hidden;
 `;
 
+
+
+const button: IButton ={
+    text: { text: "button" },
+    material: { color: "blue" },
+    type: null
+}
+
 const headerBoard: IHeaderBoard = {
-    name: 'headerboard',
+    name: 'Header',
     type: 'HeaderBoard',
     title: {
         text: "Welcome to Our Store",
@@ -25,6 +33,7 @@ const headerBoard: IHeaderBoard = {
         color: "#ffffff",
         scale: [1, 1, 1]
     },
+    // button: button,
     materialParams: { map: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f' },
 
     // materialParams: { video: 'Klee/o/video_1.mp4?alt=media&token=d948abc7-d187-4612-b315-8109faf98b84' },
@@ -34,7 +43,7 @@ const headerBoard: IHeaderBoard = {
 
 const productBoard: IProductBoard = {
     maxDisplay: 6,
-    name: "ProductBoard",
+    name: "Product",
     type: 'ProductBoard',
     title: {
         text: "Welcome to Our Store",
@@ -312,13 +321,12 @@ const params: IParams = {
 
 
 const Viewport: React.FC = () => {
-
-    const { setDataParameters } = useEditor();
+const {setDataParameters,dataParameters}=useEditor()
     useEffect(() => {
         // setDataParameters(params);
     }, [params]);
 
-
+    // console.log(dataParameters, 'dataParameters');
 
     return (
         <ViewportContainer>
@@ -338,3 +346,4 @@ const Viewport: React.FC = () => {
 };
 
 export default Viewport;
+

@@ -7,6 +7,7 @@ import SelectInput from '@/components/Library/input/SelectInput';
 import { DisplayList } from './DisplayList';
 import PopupEditDisplay from './PopupEditDisplay'; 
 import { DisplayType, IDisplay, IProductBoard } from '@/components/editor/interface/paramsType';
+import { Container } from '../../CommonStyles';
 
 const displayTypeOptions = [
   { value: DisplayType.DUO, label: "Spotlight Duo" },
@@ -14,7 +15,6 @@ const displayTypeOptions = [
 ];
 
 export const ProductContentComponent: React.FC = () => {
-  const [activeDisplay, setActiveDisplay] = useState<{ index: number; display: IDisplay } | null>(null);
   const { setDataParameters, dataParameters } = useEditor();
   const { activeBoardIndex } = useEditor();
   const currentBoard = dataParameters?.boards[activeBoardIndex] as IProductBoard;
@@ -53,38 +53,9 @@ export const ProductContentComponent: React.FC = () => {
     });
   };
 
-  const handleEditDisplay = (index: number, display: IDisplay) => {
-    setActiveDisplay({ index, display });
-  };
-
-  const handleClosePopup = () => {
-    setActiveDisplay(null);
-  };
-
-  const handleSaveDisplay = (updatedDisplay: IDisplay) => {
-    if (activeDisplay === null) return;
-
-    setDataParameters((prevParams) => {
-      if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
-
-      return {
-        ...prevParams,
-        boards: prevParams.boards.map((board, i) =>
-          i === activeBoardIndex ? {
-            ...board,
-            displays: (board as IProductBoard).displays.map((d, j) =>
-              j === activeDisplay.index ? updatedDisplay : d
-            )
-          } : board
-        )
-      };
-    });
-
-    handleClosePopup();
-  };
 
   return (
-    <div>
+    <Container>
       <SelectInput
         options={displayTypeOptions}
         value={currentBoard?.displayType || ''}
@@ -103,14 +74,7 @@ export const ProductContentComponent: React.FC = () => {
         value={currentBoard?.title?.text || ''}
         onChange={handleInputChange}
       />
-      <DisplayList onEditDisplay={handleEditDisplay} />
-      {activeDisplay && (
-        <PopupEditDisplay
-          display={activeDisplay.display}
-          onClose={handleClosePopup}
-          onSave={handleSaveDisplay}
-        />
-      )}
-    </div>
+      <DisplayList/>
+    </Container>
   );
 };

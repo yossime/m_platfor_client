@@ -6,6 +6,7 @@ export const WidgetContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  padding: 16px;
   gap: 16px;
 `;
 

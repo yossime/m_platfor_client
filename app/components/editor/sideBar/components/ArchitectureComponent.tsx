@@ -11,54 +11,15 @@ import Icon from '@/components/Library/icon/Icon';
 import Button from '@/components/Library/button/Button';
 import Text from '@/components/Library/text/Text';
 import { IconColor } from '@constants/colors';
+import { BoardButton, BoardsContainer, BoardsWrapper, Container,Divider } from './CommonStyles';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 16px;
-  gap: 24px;
-`;
-
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: #e5e7eb;
-`;
-
-const BoardsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-
-const BoardsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  text-align: start;
-`;
-const BoardButton = styled.button`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px;
-  background-color: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 3px;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #f9fafb;
-  }
-`;
 
 
 const options = [
   { value: Skybox.DEFAULT, label: "Default" },
   { value: Skybox.DARK, label: "Dark" },
 ];
+
 
 interface ArchitectureComponentProps {
   setActiveSidebarHeader: (header: any) => void;
@@ -84,7 +45,6 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
   if (!dataParameters || !dataParameters.boards) {
     return <Container>No boards available</Container>;
   }
-
   return (
     <Container>
       <SelectInput

@@ -1,22 +1,11 @@
 
 import React from 'react';
-import { HeaderType } from '../types';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
-import { IParams, Skybox } from '@/components/editor/interface/paramsType';
+import {  Skybox } from '@/components/editor/interface/paramsType';
 import { useEditor } from '@/context/useEditorContext';
-import styled from 'styled-components';
+import { Container } from './CommonStyles';
 
-
-
-
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 16px;
-  gap: 24px;
-`;
 
 
 const options = [

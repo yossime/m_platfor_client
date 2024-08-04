@@ -1,5 +1,5 @@
 
-import { DisplayType, IBoard, IDisplay, IHeaderBoard, IImageBoard, ImageStyle, IProduct, IProductBoard, IText, IThreeDModelStyle } from '@components/editor/interface/paramsType';
+import { DisplayType, IBoard, IButton, IDisplay, IHeaderBoard, IImageBoard, ImageStyle, IProduct, IProductBoard, IText, IThreeDModelStyle } from '@components/editor/interface/paramsType';
 import { BaseSize, ButtonStyle } from '../interface/paramsType';
 
 export const createBoardByType = (type: string, name:string): IBoard => {
@@ -28,12 +28,16 @@ export const createBoardByType = (type: string, name:string): IBoard => {
     };
   
     const display: IDisplay = {
-      type: "display",
+      type: "ProductBoard",
       title: { ...defaultText, text: 'Display Title' },
       products: [product],
     };
   
-  
+    const button: IButton ={
+      text: { text: "button" },
+      material: { color: "blue" },
+      type: 'dddd'
+  }
     switch (type) {
       case 'HeaderBoard':
         return {
@@ -41,8 +45,9 @@ export const createBoardByType = (type: string, name:string): IBoard => {
           title: { text: 'New Header' },
           subTitle: { text: 'Subtitle' },
           buttonTitle: { text: 'Button' },
+          button: button,
         } as IHeaderBoard;
-      case 'Image':
+      case 'ImageBoard':
         return {
           ...baseBoard,
           title: { text: 'Image Title' },
