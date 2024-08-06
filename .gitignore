@@ -35,6 +35,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-functions/
-.firebaserc
+/public/FbxHdrGlb
+
 firebase.json
+.firebaserc
+functions/
