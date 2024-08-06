@@ -38,6 +38,3 @@ next-env.d.ts
 functions/
 .firebaserc
 firebase.json
-
-
-.gitignore
