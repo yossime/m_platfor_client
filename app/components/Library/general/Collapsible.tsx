@@ -19,8 +19,8 @@ const CollapsibleWrapper = styled.div`
 
 const CollapsibleHeader = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 8px;
   cursor: pointer;
 `;
 
@@ -38,6 +38,11 @@ const Collapsible: React.FC<CollapsibleProps> = ({ title, children }) => {
   return (
     <CollapsibleWrapper>
       <CollapsibleHeader onClick={toggleOpen}>
+        <Icon
+          name={isOpen ? IconName.CARETDOWN : IconName.CARETRIGHT }
+          size={IconSize.SMALL}
+          onClick={toggleOpen}
+        />
         <Text
           size={TextSize.TEXT2}
           weight={FontWeight.NORMAL}
@@ -45,11 +50,6 @@ const Collapsible: React.FC<CollapsibleProps> = ({ title, children }) => {
         >
           {title}
         </Text>
-        <Icon
-          name={isOpen ? IconName.MINUS : IconName.PLUS}
-          size={IconSize.SMALL}
-          onClick={toggleOpen}
-        />
       </CollapsibleHeader>
       <CollapsibleContent isOpen={isOpen}>
         {children}

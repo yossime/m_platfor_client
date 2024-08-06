@@ -6,7 +6,6 @@ import { StyledButton, IconWrapper } from './ButtonStyles';
 import Icon from '@/components/Library/icon/Icon';
 import { IconName, IconSize } from '@constants/icon';
 import { IconColor, TextColor } from '@constants/colors';
-import { mod } from 'three/examples/jsm/nodes/Nodes.js';
 
 export interface ButtonProps {
   type: ButtonType;
@@ -17,6 +16,7 @@ export interface ButtonProps {
   icon?: IconName;
   iconPosition?: 'left' | 'right';
   fullWidth?: boolean;
+  iconOnly?: boolean; // New prop
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -29,6 +29,7 @@ const Button: React.FC<ButtonProps> = ({
   icon,
   iconPosition = 'left',
   fullWidth = false,
+  iconOnly = false, // New prop with default value
   onClick,
   ...props
 }) => {
@@ -60,7 +61,6 @@ const Button: React.FC<ButtonProps> = ({
     }
   };
 
-
   const getIconColor = (mode: ButtonMode, variant: ButtonVariant): IconColor => {
     switch (mode) {
       case ButtonMode.DISABLED:
@@ -80,15 +80,16 @@ const Button: React.FC<ButtonProps> = ({
       $size={size}
       $mode={mode}
       $fullWidth={fullWidth}
+      $iconOnly={iconOnly} // Pass the new prop to StyledButton
       onClick={mode !== ButtonMode.DISABLED ? onClick : undefined}
       {...props}
     >
-      {icon && iconPosition === 'left' && (
-        <IconWrapper position="left">
+      {icon && (iconOnly || iconPosition === 'left') && (
+        <IconWrapper position={iconOnly ? 'center' : 'left'}>
           <Icon name={icon} size={getIconSize(size)} color={getIconColor(mode, variant)} />
-          </IconWrapper>
+        </IconWrapper>
       )}
-      {text && (
+      {text && !iconOnly && (
         <Text
           size={getTextSize(size)}
           weight={FontWeight.NORMAL}
@@ -98,7 +99,7 @@ const Button: React.FC<ButtonProps> = ({
           {text}
         </Text>
       )}
-      {icon && iconPosition === 'right' && (
+      {icon && !iconOnly && iconPosition === 'right' && (
         <IconWrapper position="right">
           <Icon name={icon} size={getIconSize(size)} color={getIconColor(mode, variant)} />
         </IconWrapper>

@@ -1,26 +1,11 @@
 import React from 'react';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
-import { ButtonStyle, ImageStyle, IParams, Skybox, ITextStyle, BaseSize, IHeaderBoard, IThreeDModelStyle }  from '@/components/editor/interface/paramsType';
-import { useProject } from '@/context/useProjectContext';
+import { IHeaderBoard, IThreeDModelStyle }  from '@/components/editor/interface/paramsType';
 import { useEditor } from '@/context/useEditorContext';
 import { Container, Divider } from '../../CommonStyles';
+import { buttonStyleOptions, imageStyleOptions, textStyleOptions } from '../../../types';
 
-const textStyleOptions = [
-  { value: BaseSize.SMALL, label: "Small" },
-  { value: BaseSize.MEDIUM, label: "Medium" },
-  { value: BaseSize.LARGE, label: "Large" },
-];
-
-const buttonStyleOptions = [
-  { value: ButtonStyle.DEFAULT, label: "Default" },
-  { value: ButtonStyle.DARK, label: "Dark" },
-];
-
-const imageStyleOptions = [
-  { value: ImageStyle.CROP, label: "Crop" },
-  { value: ImageStyle.FIT, label: "Fit" },
-];
 
 export const ImageStyleComponent: React.FC = () => {
   const { setDataParameters, dataParameters } = useEditor();

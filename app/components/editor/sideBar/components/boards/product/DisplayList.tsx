@@ -5,7 +5,7 @@ import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 import { IconName, IconSize } from '@constants/icon';
 import Text from '@/components/Library/text/Text';
-import { BoardButton, BoardsContainer, BoardsWrapper } from '../../CommonStyles';
+import { SubButton, SubContainer, SubWrapper } from '../../CommonStyles';
 import { FontWeight, TextSize } from '@constants/text';
 import Icon from '@/components/Library/icon/Icon';
 import { IconColor } from '@constants/colors';
@@ -92,16 +92,16 @@ export const DisplayList: React.FC = () => {
             <Text size={TextSize.TEXT2} weight={FontWeight.NORMAL}>
                 Displays: {currentBoard.displays?.length || 0} of {currentBoard.maxDisplay || 0}
             </Text>
-            <BoardsWrapper>
-                <BoardsContainer>
+            <SubWrapper>
+                <SubContainer>
                     {currentBoard.displays?.map((display, index) => (
-                        <BoardButton
+                        <SubButton
                             key={index}
                             onClick={() => handleEditDisplay(index, display)}
                         >
                             <Text size={TextSize.TEXT2}> Display {index + 1}</Text>
                             <Icon name={IconName.EDIT} color={IconColor.PRIMARY} size={IconSize.SMALL} />
-                        </BoardButton>
+                        </SubButton>
                     ))}
                     {(currentBoard.displays?.length || 0) < (currentBoard.maxDisplay || 0) && (
                         <Button
@@ -114,8 +114,8 @@ export const DisplayList: React.FC = () => {
                             fullWidth={true}
                         />
                     )}
-                </BoardsContainer>
-            </BoardsWrapper>
+                </SubContainer>
+            </SubWrapper>
             {activeDisplay && (
                 <PopupEditDisplay
                     display={activeDisplay.display}
