@@ -6,7 +6,7 @@ export const createBoardByType = (type: string, name:string): IBoard => {
 
     const baseStyle : IThreeDModelStyle ={
       textStyle: { scale: BaseSize.MEDIUM },
-      buttonStyle: ButtonStyle.DEFAULT,
+      buttonStyle: ButtonStyle.DARK,
       imageStyle: ImageStyle.CROP
     }
 

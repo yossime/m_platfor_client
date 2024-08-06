@@ -6,12 +6,12 @@ import { HeaderStyleComponent } from './boards/header/HeaderStyle';
 import { ImageStyleComponent } from './boards/image/ImageStyle';
 import { VideoStyleComponent } from './boards/video/VideoStyle';
 import { TestimonialsStyleComponent } from './boards/testimonials/TestimonialsStyle';
-import { SubScriptionStyleComponent } from './boards/subScription/SubScriptionStyle';
 import { ServicesStyleComponent } from './boards/services/ServicesStyle';
 import { GamificationStyleComponent } from './boards/gamification/GamificationStyle';
 import { FormStyleComponent } from './boards/form/FormStyle';
-import { CosialsStyleComponent } from './boards/cosials/CosialsStyle';
+import { SocialsStyleComponent } from './boards/socials/SocialsStyle';
 import { ArticleStyleComponent } from './boards/article/ArticleStyle';
+import { SubscriptionStyleComponent } from './boards/subscription/SubscriptionStyle';
 
 interface StyleComponentProps {
   activeSidebarHeader: HeaderType;
@@ -31,16 +31,16 @@ export const StyleComponent: React.FC<StyleComponentProps> = ({ activeSidebarHea
       return <VideoStyleComponent />;
     case 'Edit Testimonials':
       return <TestimonialsStyleComponent />;
-    case 'Edit ImSubScriptionage':
-      return <SubScriptionStyleComponent />;
+    case 'Edit Subscription':
+      return <SubscriptionStyleComponent />;
     case 'Edit Services':
       return <ServicesStyleComponent />;
     case 'Edit Gamification':
       return <GamificationStyleComponent />;
     case 'Edit Form':
       return <FormStyleComponent />;
-    case 'Edit Cosials':
-      return <CosialsStyleComponent />;
+    case 'Edit Socials':
+      return <SocialsStyleComponent />;
     case 'Edit Article':
       return <ArticleStyleComponent />;
     default:

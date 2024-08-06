@@ -88,6 +88,14 @@ export interface IThreeDModelStyle {
     imageStyle?: ImageStyle;
 }
 
+export interface MaterialParams {
+    color?: string | number;
+    map?: string;
+    alphaMap?: string;
+    opacity?: number;
+    video?: string;
+}
+
 export interface ITextStyle {
     font?: FontFamily;
     color?: string;
@@ -102,8 +110,17 @@ export enum BaseSize {
 
 export enum ButtonStyle {
     DARK = "dark",
-    DEFAULT = "default",
+    BRIGHT = "default",
+    BLUE = 'Blue'
 }
+
+
+export enum TextStyle {
+    DARK = "dark",
+    BRIGHT = "default",
+    BLUE = 'Blue'
+}
+
 
 export enum Skybox {
     DEFAULT = '#f2f2f8',
@@ -111,17 +128,10 @@ export enum Skybox {
 }
 
 export enum ImageStyle {
-    FIT = 'fit',
+    FILL = 'fill',
     CROP = 'crop',
 }
 
-export interface MaterialParams {
-    color?: string | number;
-    map?: string;
-    alphaMap?: string;
-    opacity?: number;
-    video?: string;
-}
 
 export interface BoardContent {
     media?: Media;

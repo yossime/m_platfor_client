@@ -2,6 +2,6 @@ import React from 'react';
 
 
 
-export const CosialsStyleComponent: React.FC = () => {
+export const SocialsStyleComponent: React.FC = () => {
   return <div>SliderStyleComponent </div>;
 };

@@ -11,7 +11,7 @@ import Icon from '@/components/Library/icon/Icon';
 import Button from '@/components/Library/button/Button';
 import Text from '@/components/Library/text/Text';
 import { IconColor } from '@constants/colors';
-import { BoardButton, BoardsContainer, BoardsWrapper, Container,Divider } from './CommonStyles';
+import { SubButton, SubContainer, SubWrapper, Container,Divider } from './CommonStyles';
 
 
 
@@ -58,27 +58,27 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
       />
 
       <Divider />
-      <BoardsWrapper>
+      <SubWrapper>
           <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
             My Boards
           </Text>
-        <BoardsContainer>
+        <SubContainer>
           {dataParameters.boards.map((board, index) => {
             if (board.type !== null) {
               return (
-                <BoardButton
+                <SubButton
                   key={index}
                   onClick={() => handleSelect(board.name, index)}
                 >
                   <Text size={TextSize.TEXT2}>Board {index + 1}: {board.name}</Text>
                   <Icon name={IconName.EDIT} color={IconColor.PRIMARY} size={IconSize.SMALL} />
-                </BoardButton>
+                </SubButton>
               );
             }
             return null;
           })}
-        </BoardsContainer>
-      </BoardsWrapper>
+        </SubContainer>
+      </SubWrapper>
       <Button
         type={ButtonType.PRIMARY}
         variant={ButtonVariant.SECONDARY}

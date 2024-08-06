@@ -7,12 +7,13 @@ interface StyledButtonProps {
   $size: ButtonSize;
   $mode: ButtonMode;
   $fullWidth: boolean;
+  $iconOnly: boolean;
 }
 
 export const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: ${props => props.$iconOnly ? 'center' : 'flex-start'};
   border-radius: 4px;
   width: ${props => props.$fullWidth ? '100%' : 'auto'};
   transform: translateY(0);
@@ -32,7 +33,8 @@ export const StyledButton = styled.button<StyledButtonProps>`
     
     return css`
       height: ${height};
-      padding: ${padding};
+      padding: ${props.$iconOnly ? '0' : padding};
+      width: ${props.$iconOnly ? height : 'auto'}; // Make width equal to height for icon-only buttons
       font-size: ${fontSize};
       background-color: ${background};
       color: ${text};
@@ -41,9 +43,17 @@ export const StyledButton = styled.button<StyledButtonProps>`
   }}
 `;
 
-export const IconWrapper = styled.span<{ position: 'left' | 'right' }>`
+export const IconWrapper = styled.span<{ position: 'left' | 'right' | 'center' }>`
   display: inline-flex;
-  ${props => css`
-    margin-${props.position === 'left' ? 'right' : 'left'}: 8px;
-  `}
+  
+  ${props => {
+    switch(props.position) {
+      case 'left':
+        return css`margin-right: 8px;`;
+      case 'right':
+        return css`margin-left: 8px;`;
+      case 'center':
+        return css`margin: 0;`;
+    }
+  }}
 `;

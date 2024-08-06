@@ -7,7 +7,7 @@ import Button from '@/components/Library/button/Button';
 import { ButtonMode, ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 import { IconName } from '@constants/icon';
 import Popup from '@/components/Library/general/Popup';
-import DragAndDrop, { FileData } from '@/components/Library/general/DragAndDrop';
+import DragAndDrop from '@/components/Library/general/DragAndDrop';
 import TextureUploadComponent from '../../LoadTexturePopup';
 
 interface PopupEditDisplayProps {
@@ -42,7 +42,7 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
   const [showUploadTextureButton, setshowUploadTextureButton] = useState(false);
 
 
-  const [fileData, setFileData] = useState<FileData | null>(null);
+  const [fileData, setFileData] = useState<File | null>(null);
 
 
   const secondPopupRef = useRef<HTMLDivElement>(null);

@@ -1,13 +1,12 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useDropzone } from 'react-dropzone';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import DragAndDrop, { FileData } from '@/components/Library/general/DragAndDrop';
+import DragAndDrop from '@/components/Library/general/DragAndDrop';
 import ColorPicker from '@/components/Library/general/ColorPicker';
 import Collapsible from '@/components/Library/general/Collapsible';
-import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
-import Button from '@/components/Library/button/Button';
 import StrengthComponent from '@/components/Library/general/StrengthComponent ';
 import Popup from '@/components/Library/general/Popup';
+import { DeleteIcon, FileName, FileDisplay, Divider } from './CommonStyles'
+
 
 const Container = styled.div`
   display: flex;
@@ -60,30 +59,32 @@ const ImageContainer = styled.div`
 
 
 
-interface ImageUpload {
-    color: string;
-    image: FileData | null;
+
+
+interface IMapUpload {
+    color: string | undefined;
+    map: File | string | undefined;
     strength: number;
 }
 
-interface Texture {
-    Diffuse: ImageUpload;
-    Opacity: ImageUpload;
-    Roughness: ImageUpload;
-    Normal: ImageUpload;
-    Metallic: ImageUpload;
-    Emission: ImageUpload;
-    Tint: ImageUpload;
+interface ITexture {
+    Diffuse: IMapUpload;
+    Opacity: IMapUpload;
+    Roughness: IMapUpload;
+    Normal: IMapUpload;
+    Metallic: IMapUpload;
+    Emission: IMapUpload;
+    Tint: IMapUpload;
 }
 
-const initialImageState: Texture = {
-    Diffuse: { color: '#ffffff', image: null, strength: 50 },
-    Opacity: { color: '#ffffff', image: null, strength: 50 },
-    Roughness: { color: '#808080', image: null, strength: 50 },
-    Normal: { color: '#8080ff', image: null, strength: 50 },
-    Metallic: { color: '#000000', image: null, strength: 50 },
-    Emission: { color: '#000000', image: null, strength: 50 },
-    Tint: { color: '#ffffff', image: null, strength: 50 },
+const initialImageState: ITexture = {
+    Diffuse: { color: '#ffffff', map: undefined, strength: 50 },
+    Opacity: { color: '#ffffff', map: undefined, strength: 50 },
+    Roughness: { color: '#808080', map: undefined, strength: 50 },
+    Normal: { color: '#8080ff', map: undefined, strength: 50 },
+    Metallic: { color: '#000000', map: undefined, strength: 50 },
+    Emission: { color: '#000000', map: undefined, strength: 50 },
+    Tint: { color: '#ffffff', map: undefined, strength: 50 },
 };
 
 interface ImageUploadProps {
@@ -91,26 +92,31 @@ interface ImageUploadProps {
     parentRef?: React.RefObject<HTMLElement>;
 }
 
+
+
+
 const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, parentRef }) => {
-    const [image, setImage] = useState<Texture>(initialImageState);
-    const [fileData, setFileData] = useState<FileData | null>(null);
+    const [texture, setTexture] = useState<ITexture>(initialImageState);
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-
     useEffect(() => {
-        if (fileData?.content) {
-            const blob = new Blob([fileData.content], { type: 'image/jpeg' });
-            const imageUrl = URL.createObjectURL(blob);
+        if (uploadedFile) {
+            const imageUrl = URL.createObjectURL(uploadedFile);
             setImageSrc(imageUrl);
 
             return () => {
                 URL.revokeObjectURL(imageUrl);
             };
         }
-    }, [fileData]);
+    }, [uploadedFile]);
 
-    const updateImage = (key: keyof Texture, field: keyof ImageUpload, value: any) => {
-        setImage(prevImage => ({
+    const handleFileAdded = (file: File) => {
+        setUploadedFile(file);
+    };
+
+    const updateImage = (key: keyof ITexture, field: keyof IMapUpload, value: any) => {
+        setTexture(prevImage => ({
             ...prevImage,
             [key]: {
                 ...prevImage[key],
@@ -119,24 +125,24 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, parentRef
         }));
     };
 
-    const renderSection = (key: keyof Texture) => {
-        const onDrop = useCallback((acceptedFiles: File[]) => {
-            if (acceptedFiles.length > 0) {
-                updateImage(key, 'image', acceptedFiles[0]);
-            }
-        }, [key]);
-
-        const { getInputProps, open } = useDropzone({ onDrop, noClick: true, noKeyboard: true });
+    const renderSection = (key: keyof ITexture) => {
+        const handleImageUpload = (file: File) => {
+            updateImage(key, 'map', file);
+        };
+        const handleDeleteFile = () => {
+            updateImage(key, 'map', undefined);
+        };
 
         return (
+            <>
             <Collapsible key={key} title={key}>
-                <Section >
+                <Section>
                     <Row>
                         <Label>Color</Label>
                         <RowContent>
                             <ColorBoxWrapper>
                                 <ColorPicker
-                                    color={image[key].color}
+                                    color={texture[key].color as string}
                                     onChange={(color) => updateImage(key, 'color', color)}
                                 />
                             </ColorBoxWrapper>
@@ -145,33 +151,36 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, parentRef
                     <Row>
                         <Label>Map</Label>
                         <RowContent>
-                            <Button
-                                size={ButtonSize.SMALL}
-                                type={ButtonType.PRIMARY}
-                                variant={ButtonVariant.SECONDARY}
-                                text={image[key].image ? image[key].image.name : 'Upload image'}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    open();
-                                }}
-                                fullWidth={true}
-                            />
-                            <input {...getInputProps()} />
+                            {texture[key].map ? (
+                                <FileDisplay>
+                                    <FileName>{(texture[key].map as File).name}</FileName>
+                                    <DeleteIcon size={20} onClick={handleDeleteFile} />
+                                </FileDisplay>
+                            ) : (
+                                <DragAndDrop
+                                    type='image'
+                                    onFileAdded={handleImageUpload}
+                                    buttonOnly={true}
+                                />
+                            )}
                         </RowContent>
                     </Row>
                     <Row>
                         <Label>Strength</Label>
                         <RowContent>
                             <StrengthComponent
-                                initialValue={image[key].strength}
+                                initialValue={texture[key].strength}
                                 onChange={(newValue) => updateImage(key, 'strength', newValue)}
                             />
                         </RowContent>
                     </Row>
                 </Section>
             </Collapsible>
+        <Divider />
+        </>
         );
     };
+
     const content = (
         <Container>
             {imageSrc ? (
@@ -179,19 +188,17 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, parentRef
                     <img src={imageSrc} alt="Uploaded" style={{ maxWidth: '100%', marginTop: '10px' }} />
                 </ImageContainer>
             ) : (
-                <DragAndDrop type='image' onFileAdded={setFileData} />
+                <DragAndDrop type='image' onFileAdded={handleFileAdded} />
             )}
             <Collapsible title="Advanced">
-                {Object.keys(image).map((key) => renderSection(key as keyof Texture))}
+                {Object.keys(texture).map((key) => renderSection(key as keyof ITexture))}
             </Collapsible>
-
         </Container>
     );
 
     if (onClose) {
         return (
-            <Popup isCentered={false} parentRef={parentRef} onClose={onClose} onSave={() => { }}
-            >
+            <Popup isCentered={false} parentRef={parentRef} onClose={onClose} onSave={() => { }}>
                 {content}
             </Popup>
         );
@@ -200,3 +207,11 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, parentRef
 };
 
 export default TextureUploadComponent;
+
+
+
+
+
+
+
+

@@ -79,9 +79,27 @@ export enum IconName {
     BRAIN = 'BRAIN',
     PENNIB = 'PENNIB',
     PRINTROLLRE = 'PRINTROLLRE',
+    CARETRIGHT = 'CARETRIGHT',
+    CARETDOWN = 'CARETDOWN',
+    ARROWLINEDOWN = 'ARROWLINEDOWN',
+    ARROWSINLINEVERTICAL = 'ARROWSINLINEVERTICAL',
+    ARROWLINEUP = 'ARROWLINEUP',
+    ARROWLINERIGHT = 'ARROWLINERIGHT',
+    ARROWSINLINEHORIZONTAL = 'ARROWSINLINEHORIZONTAL',
+    ARROWLINELEFT = 'ARROWLINELEFT',
+
+
 }
 
 export const IconComponents: { [key in IconName]: IconType } = {
+    [IconName.ARROWLINEDOWN]: PiIcons.PiArrowLineDown,
+    [IconName.ARROWSINLINEVERTICAL]: PiIcons.PiArrowsInLineVertical,
+    [IconName.ARROWLINEUP]: PiIcons.PiArrowLineUp,
+    [IconName.ARROWLINERIGHT]: PiIcons.PiArrowLineRight,
+    [IconName.ARROWSINLINEHORIZONTAL]: PiIcons.PiArrowsInLineHorizontal,
+    [IconName.ARROWLINELEFT]: PiIcons.PiArrowLineLeft,
+    [IconName.CARETDOWN]: PiIcons.PiCaretDown,
+    [IconName.CARETRIGHT]: PiIcons.PiCaretRight,
     [IconName.BUILDING]: PiIcons.PiBuilding,
     [IconName.BRAIN]: PiIcons.PiBrain,
     [IconName.PENNIB]: PiIcons.PiPenNib,
