@@ -1,3 +1,4 @@
+import { Trash2 } from 'lucide-react';
 import styled from 'styled-components';
 
 
@@ -15,18 +16,18 @@ export const Container = styled.div`
 
 export const Divider = styled.div`
   width: 100%;
-  height: 1px;
+  height: 2px;
   background-color: #e5e7eb;
 `;
 
 
-export const BoardsContainer = styled.div`
+export const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
 
-export const BoardsWrapper = styled.div`
+export const SubWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -34,7 +35,7 @@ export const BoardsWrapper = styled.div`
   margin-top: 8px;
 `;
 
-export const BoardButton = styled.button`
+export const SubButton = styled.button`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -58,3 +59,19 @@ export const BoardButton = styled.button`
 `;
 
 
+export const FileDisplay = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const FileName = styled.span`
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
+export const DeleteIcon = styled(Trash2)`
+  cursor: pointer;
+  color: red;
+`;

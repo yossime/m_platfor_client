@@ -1,37 +1,31 @@
 import React, { ChangeEvent, useState } from 'react';
 import Input from '@/components/Library/input/Input';
 import { InputMode, InputSize } from '@constants/input';
-import { Container, Divider, SubContainer, SubWrapper } from '../../CommonStyles';
+import { Container, Divider} from '../../CommonStyles';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
-import Collapsible from '@/components/Library/general/Collapsible';
-import { FontWeight, TextSize } from '@constants/text';
-import Text from '@/components/Library/text/Text'
-import styled from 'styled-components';
 
-const FieldWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
 
-interface IPlaceholder {
+
+interface FileData {
+  id: string;
   name: string;
-  email: string;
+  content: ArrayBuffer;
 }
+
+
 
 interface ISubscription {
   title: string;
   subtitle: string;
   button: string;
-  placeholders: IPlaceholder;
+  image?: FileData;
 }
 
-export const SubscriptionContentComponent: React.FC = () => {
+export const SocialsContentComponent: React.FC = () => {
   const [subscription, setSubscription] = useState<ISubscription>({
     title: 'Subscribe to our newsletter!',
     subtitle: 'Join us to hear about upcoming deals and promotions!',
     button: 'Submit!',
-    placeholders: { name: 'Your Name', email: 'Your Email' },
   });
 
   const [openSections, setOpenSections] = useState({
@@ -52,12 +46,7 @@ export const SubscriptionContentComponent: React.FC = () => {
       setOpenSections(prev => ({ ...prev, [section]: null }));
     }
   }
-  const handlePlaceholderChange = (field: keyof IPlaceholder) => (e: ChangeEvent<HTMLInputElement>) => {
-    setSubscription(prev => ({
-      ...prev,
-      placeholders: { ...prev.placeholders, [field]: e.target.value },
-    }));
-  };
+
 
   return (
     <Container>
@@ -87,34 +76,9 @@ export const SubscriptionContentComponent: React.FC = () => {
           onChange={handleInputChange('subtitle')}
         />
       </DataObfuscator>
-        <SubWrapper>
-          <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>Fields</Text>
-          <SubContainer>
-            <Collapsible title="Name Field">
-              <FieldWrapper>
-                <Input
-                  placeholder='Enter your name here'
-                  inputSize={InputSize.SMALL}
-                  mode={InputMode.NORMAL}
-                  value={subscription.placeholders.name}
-                  onChange={handlePlaceholderChange('name')}
-                />
-              </FieldWrapper>
-            </Collapsible>
-            <Divider />
-            <Collapsible title="Email Field">
-              <FieldWrapper>
-                <Input
-                  placeholder='Enter email placeholder'
-                  inputSize={InputSize.SMALL}
-                  mode={InputMode.NORMAL}
-                  value={subscription.placeholders.email}
-                  onChange={handlePlaceholderChange('email')}
-                />
-              </FieldWrapper>
-            </Collapsible>
-          </SubContainer>
-        </SubWrapper>
+      <Divider/>
+      
+      <Divider/>
       <DataObfuscator
         title='Button'
         isOpen={openSections.button}
