@@ -11,7 +11,7 @@ import { GamificationContentComponent } from './boards/gamification/Gamification
 import { FormContentComponent } from './boards/form/FormContent';
 import { SocialsContentComponent } from './boards/socials/SocialsContent';
 import { ArticleContentComponent } from './boards/article/ArticleContent';
-import { SubscriptionContentComponent } from './boards/subscription/SubscriptionContent';
+import { SubscriptionContentComponent } from './boards/subScription/SubScriptionContent';
 
 interface ContentComponentProps {
   activeSidebarHeader: HeaderType;
