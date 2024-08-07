@@ -26,9 +26,9 @@ const DataObfuscatorHeader = styled.div`
   cursor: pointer;
 `;
 
-const DataObfuscatorContent = styled.div<{ isOpen: boolean }>`
+const DataObfuscatorContent = styled.div<{ $isOpen: boolean }>`
   gap: 8px;
-  display: ${props => props.isOpen ? 'block' : 'none'};
+  display: ${props => props.$isOpen ? 'block' : 'none'};
 `;
 
 const DataObfuscator: React.FC<DataObfuscatorProps> = ({ title, children, isOpen, onToggle }) => {
@@ -52,7 +52,7 @@ const DataObfuscator: React.FC<DataObfuscatorProps> = ({ title, children, isOpen
           onClick={handleToggle}
         />
       </DataObfuscatorHeader>
-      <DataObfuscatorContent isOpen={isOpen}>
+      <DataObfuscatorContent $isOpen={isOpen}>
         {children}
       </DataObfuscatorContent>
     </DataObfuscatorWrapper>

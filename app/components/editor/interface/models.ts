@@ -249,6 +249,7 @@ export abstract class SceneObject implements ISceneObject {
 
 
     protected handleSelected = (object: Object3D) => {
+        console.log("this", this)
         return this;
     };
 
