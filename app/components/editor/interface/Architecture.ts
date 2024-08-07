@@ -11,8 +11,8 @@ export interface IArchitecture extends ISceneObject {
 
 
 export class Architecture extends SceneObject implements IArchitecture {
-    constructor(type: string, onLoad: (model: Object3D) => void) {
-        super(type);
+    constructor(type: string, onLoad: (model: Object3D) => void, name?: string) {
+        super(type, name);
         this.setPlaceholders();
         this.loadModelAndDisplay(onLoad);
     }

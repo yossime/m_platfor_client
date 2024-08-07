@@ -10,8 +10,8 @@ export interface IBoard extends ISceneObject {
 
 
 export class Board extends SceneObject implements IBoard {
-    constructor(type: BoardType, onBoardLoaded?: () => void) {
-        super(type);
+    constructor(type: BoardType, name?: string, onBoardLoaded?: () => void) {
+        super(type, name);
         this.loadModelAndDisplay(onBoardLoaded);
 
     }

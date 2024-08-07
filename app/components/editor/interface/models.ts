@@ -115,7 +115,8 @@ export abstract class SceneObject implements ISceneObject {
 
     constructor(type: string, name? : string, ) {
         this.type = type;
-        // name !== undefined && this.name = name;
+        if(name)
+        this.name = name;
     }
 
     public setName(name: string) {this.name = name}
@@ -354,36 +355,6 @@ export interface IContentData {
     texture: ITextureMaps;
     text?: IText;
 }
-
-
-
-// export interface ISceneObjectData {
-//     type: string;
-//     name: string;
-//     material: string;
-
-//     position: { x: number; y: number; z: number };
-//     rotation: { x: number; y: number; z: number };
-//     scale: { x: number; y: number; z: number };
-
-// }
-
-
-
-// export const libLaoder = async (modelUrl: string, onLoad: (model: Object3D) => void) => {
-//     const loader = new FBXLoader();
-
-//     loader.load(
-//         modelUrl,
-//         (fbx) => {
-//             onLoad(fbx);
-//         },
-//         undefined,
-//         (error) => {
-//             console.error('An error happened:', error);
-//         }
-//     )
-// }
 
 
 
