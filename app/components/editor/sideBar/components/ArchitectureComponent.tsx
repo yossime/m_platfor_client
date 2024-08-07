@@ -38,7 +38,6 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
     setActiveSidebarHeader(`Edit ${panel.name}`);
     sceneModel?.setSelectedObject(panel);
 
-
     // setActiveBoardIndex(panel);
   };
 
