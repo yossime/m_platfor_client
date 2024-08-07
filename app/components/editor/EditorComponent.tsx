@@ -105,7 +105,7 @@ const handleAddProdect = () => {
 
   return (
     <EditorLayout>
-      {/* <button onClick={handleClick}>click</button>
+      <button onClick={handleClick}>click</button>
       <button onClick={handleCheingColor}>cheing color</button>
       <button onClick={handleAddProdect}>add prodect</button>
       <h1>{sceneModel?.root?.type}</h1>
@@ -117,7 +117,7 @@ const handleAddProdect = () => {
         <h1>hjuh</h1>
         <button key={index}>{child.type}</button>
         </>
-      ))} */}
+      ))}
 
 
       <SideBar />

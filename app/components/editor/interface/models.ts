@@ -168,6 +168,18 @@ export abstract class SceneObject implements ISceneObject {
     }
 
 
+    // protected getModelDimensions(model: Object3D) {
+    //     const box = new Box3().setFromObject(model);
+    //     const size = new Vector3();
+    //     box.getSize(size);
+    //     return {
+    //         width: size.x,
+    //         height: size.y,
+    //         depth: size.z
+    //     };
+    // }
+
+
     highlightMesh = (mesh: Object3D) => {
         const outlineMaterial = new MeshBasicMaterial({
             color: 0xff0000,
@@ -289,9 +301,16 @@ export enum BoardType {
     Product = 'ProductBoard',
     Header = 'HeaderBoard',
     Image = 'ImageBoard',
+    Slider = 'SliderBoard',
+    Video = 'VideoBoard',
+    Testimonials = 'TestimonialsBoard',
+    Subscription = 'SubscriptionBoard',
+    Services = 'ServicesBoard',
+    Gamification = 'GamificationBoard',
+    Form = 'FormBoard',
+    Socials = 'SocialsBoard',
+    Article = 'ArticleBoard',
 }
-
-
 
 
 

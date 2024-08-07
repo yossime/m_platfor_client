@@ -1,13 +1,7 @@
 import { Material, Mesh, Object3D } from "three";
-import { CustomObject3D, IContentData, ISceneObject, ISceneObjectData, SceneObject } from "./models";
+import { BoardType, CustomObject3D, IContentData, ISceneObject, ISceneObjectData, SceneObject } from "./models";
 
 
-
-export enum BoardType {
-    Product = 'ProductBoard',
-    Header = 'HeaderBoard',
-    Image = 'ImageBoard',
-}
 
 
 export interface IBoard extends ISceneObject {

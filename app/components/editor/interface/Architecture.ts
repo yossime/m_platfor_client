@@ -1,6 +1,6 @@
 import { Color, Euler, Material, Mesh, MeshStandardMaterial, Object3D, PerspectiveCamera } from "three";
 import { CustomObject3D, IContentData, ISceneObject, ISceneObjectData, SceneObject } from "./models";
-import { Board, BoardType } from "./Board";
+import { Board } from "./Board";
 
 
 
