@@ -1,4 +1,4 @@
-import { Color, Euler, Material, MaterialParameters, Mesh, MeshStandardMaterial, Object3D, Texture, TextureLoader, Vector3 } from "three";
+import { BackSide, Color, Euler, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, Texture, TextureLoader, Vector3 } from "three";
 import { FBXLoader } from "three/examples/jsm/Addons.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { IText } from "./paramsType";
@@ -6,7 +6,7 @@ import { IText } from "./paramsType";
 
 
 export interface CustomObject3D extends Object3D {
-    onPointerDown?: (event: PointerEvent) => void;
+    onPointerDown?: (event: any) => void;
     interactive?: boolean;
 }
 
@@ -86,32 +86,15 @@ export interface ISceneObject {
     name: string | null;
     type: string;
     model: Object3D;
+    children: ISceneObject[];
+    constentData: Map<IContentDataType, IContentData>;
 
-
-    getModel(): Object3D;
 
     addChild(sceneObject: SceneObject): void;
     removeChild(sceneObject: SceneObject): void;
-
-    // isSelected: boolean;
-    children: ISceneObject[];
-    // objectData: ISceneObjectData[];
-    constentData: Map<IContentDataType, IContentData>;
-
-    // position: { x: number; y: number; z: number };
-    // rotation: { x: number; y: number; z: number };
-    // scale: { x: number; y: number; z: number };
-
-    // setMaterial: (name: string) => void;
-
-    setPosition: (position: Vector3) => void;
-    setRotation: (rotation: Euler) => void;
-    setScale: (x: number, y: number, z: number) => void;
-
+    getChildren(): SceneObject[] | null;
+    getEmptySlots(): CustomObject3D[];
     displayEmptySlots(): void;
-    loadModel(modelUrl: string, onLoad?: () => void, onError?: (error: Error) => void): void;
-
-
 }
 
 export abstract class SceneObject implements ISceneObject {
@@ -119,6 +102,7 @@ export abstract class SceneObject implements ISceneObject {
     type: string;
     selectedChild: SceneObject | null = null;
     selectedSlot: CustomObject3D | null = null;
+
     model: Object3D;
     children: SceneObject[] = [];
     protected childToAdd: SceneObject | null = null;
@@ -136,16 +120,18 @@ export abstract class SceneObject implements ISceneObject {
         // this.name = name;
         this.type = type;
         this.model = model;
-        // this.loadModel(type);
     }
 
-    abstract addChild(sceneObject: SceneObject): void;
+    // abstract addChild(sceneObject: SceneObject): void;
     abstract removeChild(sceneObject: SceneObject): void;
-
     public abstract addContentData(data: IContentData): Promise<boolean>;
-
     abstract displayEmptySlots(): void;
 
+    public getEmptySlots() {return this.placeholders}
+    public setSelectedChild(child: SceneObject | null) { this.selectedChild = child; }
+    protected setSelectedSlot(child: SceneObject | null) { this.selectedChild = child; }
+
+    public getChildren() { return this.children; }
     setMaterial(name: string): void {
         if (this.model instanceof Object3D) {
             this.model.traverse(child => {
@@ -167,7 +153,6 @@ export abstract class SceneObject implements ISceneObject {
             this.model.rotation.copy(slot.rotation);
         }
         slot.parent?.remove(slot);
-
         this.selectedChild = this;
     }
 
@@ -182,10 +167,23 @@ export abstract class SceneObject implements ISceneObject {
         return found;
     }
 
-    protected  handleSelectSlot = (object: Object3D) => {
-        this.selectedSlot = object;
 
-        if(this.childToAdd) {
+    highlightMesh = (mesh: Object3D) => {
+        const outlineMaterial = new MeshBasicMaterial({
+            color: 0xff0000,
+            side: BackSide
+        });
+
+        const outlineMesh = new Mesh((mesh as Mesh).geometry, outlineMaterial);
+        outlineMesh.scale.multiplyScalar(1.01);
+        mesh.add(outlineMesh);
+    };
+
+    protected handleSelectSlot = (object: Object3D) => {
+        this.selectedSlot = object;
+        // this.highlightMesh(object);
+
+        if (this.childToAdd) {
             this.addChild(this.childToAdd)
         }
 
@@ -197,6 +195,22 @@ export abstract class SceneObject implements ISceneObject {
             object.material = highlightMaterial;
         }
     };
+
+    public addChild(sceneObject: SceneObject): void {
+        if (this.selectedSlot) {
+            sceneObject.exchangeSlot(this.selectedSlot);
+            this.children.push(sceneObject);
+            sceneObject.selectedChild = this;
+
+            this.setSlotsVisible(false);
+            this.placeholders = this.placeholders.filter(placeholder => placeholder !== this.selectedSlot);
+            this.selectedSlot = null;
+
+        } else {
+            this.setSlotsVisible(true);
+            this.childToAdd = sceneObject;
+        }
+    }
 
     // protected handleSelectSlot = (slot: CustomObject3D) => {
     //     if (this.childToAdd) {
@@ -239,7 +253,7 @@ export abstract class SceneObject implements ISceneObject {
         });
     }
 
-    getModel(): Object3D { return this.model; }
+    // getModel(): Object3D { return this.model; }
 
     setPosition(position: Vector3): void {
         this.position = position;
@@ -332,17 +346,17 @@ export interface ISceneObjectData {
 
 
 
-export const libLaoder = async (modelUrl: string, onLoad: (model: Object3D) => void) => {
-    const loader = new FBXLoader();
+// export const libLaoder = async (modelUrl: string, onLoad: (model: Object3D) => void) => {
+//     const loader = new FBXLoader();
 
-    loader.load(
-        modelUrl,
-        (fbx) => {
-            onLoad(fbx);
-        },
-        undefined,
-        (error) => {
-            console.error('An error happened:', error);
-        }
-    )
-}
+//     loader.load(
+//         modelUrl,
+//         (fbx) => {
+//             onLoad(fbx);
+//         },
+//         undefined,
+//         (error) => {
+//             console.error('An error happened:', error);
+//         }
+//     )
+// }

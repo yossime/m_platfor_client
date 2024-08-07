@@ -11,7 +11,7 @@ import { useThree } from '@react-three/fiber';
 import { PerspectiveCamera } from 'three';
 import { useEditor } from '@/context/useEditorContext';
 import { Board } from './interface/Board';
-import { BoardType, IContentData, IContentDataType } from './interface/models';
+import { BoardType, IContentData, IContentDataType, ISceneObject } from './interface/models';
 import { Product, ProductType } from './interface/Product';
 
 export const EditorLayout = styled.div`
@@ -87,18 +87,37 @@ const handleAddProdect = () => {
       //     color: '#000000'
       // }
   };
-  arch?.displayEmptySlots()
+  // arch?.displayEmptySlots()
+  // console.log("sceneModel?.root?.children", sceneModel?.root?.getChildren()); 
+  console.log("sceneModel?.root?.getEmptySlots", sceneModel?.root?.getEmptySlots()); 
 
     // await (arch?.children[0] as Board).addContentData(buttonContent)
     
 
   }
 
+    useEffect(() => {
+
+      console.log("sceneModel?.root?.children", sceneModel?.root?.getChildren()); 
+
+
+  }, [sceneModel?.root.children]);
+
   return (
     <EditorLayout>
       {/* <button onClick={handleClick}>click</button>
       <button onClick={handleCheingColor}>cheing color</button>
-      <button onClick={handleAddProdect}>add prodect</button> */}
+      <button onClick={handleAddProdect}>add prodect</button>
+      <h1>{sceneModel?.root?.type}</h1>
+      <h1>{sceneModel?.root?.children[0]?.type}</h1>
+
+
+      {sceneModel?.root?.getChildren() && sceneModel?.root?.getChildren()?.map((child: ISceneObject, index: number) =>(
+        <>
+        <h1>hjuh</h1>
+        <button key={index}>{child.type}</button>
+        </>
+      ))} */}
 
 
       <SideBar />

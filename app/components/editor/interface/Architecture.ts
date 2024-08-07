@@ -14,29 +14,12 @@ export class Architecture extends SceneObject implements IArchitecture {
         super(type, model);
         this.setPlaceholders();
     }
-    
+
 
     displayEmptySlots() {
         this.setSlotsVisible(true);
     }
 
-    // onBoardLoaded = async (board: Board) => {
-    //     if(!this.selectedSlot) return;
-    //     // board.exchangeSlot(this.selectedSlot)
-
-    //     // this.children.push(board);
-
-    //     // const slot = this.selectedSlot;
-
-    //     // slot.parent?.attach(board.model);
-    //     // board.model.position.copy(slot.position);
-    //     // board.model.rotation.copy(slot.rotation);
-    //     // slot.parent?.remove(slot);
-
-    //     // board.selectedChild = this;
-    //     // this.setSlotsVisible(false);
-    //     // this.selectedSlot = null;
-    // }
 
 
     async addContentData(data: IContentData): Promise<boolean> {
@@ -48,21 +31,6 @@ export class Architecture extends SceneObject implements IArchitecture {
         return false;
     }
 
-    // handleSelectSlot = (object: Object3D) => {
-    //     this.selectedSlot = object;
-
-    //     if(this.childToAdd) {
-    //         this.addChild(this.childToAdd)
-    //     }
-
-    //     if (object instanceof Mesh) {
-    //         const highlightMaterial = new MeshStandardMaterial({
-    //             color: new Color(0xff0000),
-    //         });
-
-    //         object.material = highlightMaterial;
-    //     }
-    // };
 
 
     async setPlaceholders(): Promise<void> {
@@ -97,21 +65,6 @@ export class Architecture extends SceneObject implements IArchitecture {
         }
     }
 
-
-    addChild(sceneObject: SceneObject): void {
-        if (this.selectedSlot) {
-            sceneObject.exchangeSlot(this.selectedSlot);
-            this.children.push(sceneObject);
-            sceneObject.selectedChild = this;
-
-            this.setSlotsVisible(false);
-            this.selectedSlot = null;
-            
-        } else {
-            this.setSlotsVisible(true);
-            this.childToAdd = sceneObject;
-        }
-    }
 
 
 

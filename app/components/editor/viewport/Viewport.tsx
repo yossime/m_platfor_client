@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, Suspense, useRef } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas, ThreeEvent, useThree } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, useFBX } from '@react-three/drei';
 import { EMode, useEditor } from '@/context/useEditorContext';
 import { IButton, IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
@@ -329,60 +329,71 @@ interface SceneComponentProps {
 
 const SceneComponent = () => {
     const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbizKip1.fbx?alt=media';
-  const { sceneModel, setSceneModel } = useEditor();
-  const { camera, scene, gl } = useThree();
-  const raycaster = new Raycaster();
-  const pointer = new Vector2();
-  
-  useEffect(() => {
-      function onPointerDown(event: PointerEvent) {
-          // Calculate pointer position in normalized device coordinates
-          pointer.x = (event.clientX / gl.domElement.clientWidth) * 2 - 1;
-          pointer.y = -(event.clientY / gl.domElement.clientHeight) * 2 + 1;
-      
-          // Update the picking ray with the camera and pointer position
-          raycaster.setFromCamera(pointer, camera);
-      
-          // Calculate objects intersecting the picking ray
-          const intersects = raycaster.intersectObjects(scene.children, true);
-      
-          for (let i = 0; i < intersects.length; i++) {
-              const object = intersects[i].object as CustomObject3D;
-              if (object.onPointerDown) {
-                  object.onPointerDown(event);
-                  break;
-              }
-          }
-      }
-      
-      // Add event listener
-      gl.domElement.addEventListener('pointerdown', onPointerDown);
+    const { sceneModel, setSceneModel } = useEditor();
+    // const { camera, scene, gl } = useThree();
+    // const raycaster = new Raycaster();
+    // const pointer = new Vector2();
 
-      // Clean up
-      return () => {
-          gl.domElement.removeEventListener('pointerdown', onPointerDown);
-      };
-  }, [camera, scene, gl, raycaster]);
-  
-  useEffect(() => {
+    //   useEffect(() => {
+    //       function onPointerDown(event: PointerEvent) {
+    //           // Calculate pointer position in normalized device coordinates
+    //           pointer.x = (event.clientX / gl.domElement.clientWidth) * 2 - 1;
+    //           pointer.y = -(event.clientY / gl.domElement.clientHeight) * 2 + 1;
 
-      const loader = new FBXLoader();
-      loader.load(
-          archUrl,
-          (fbx) => {
-            setSceneModel(new SceneModel('B', fbx));
-              console.log("fbx", fbx);
-          },
-          undefined,
-          (error) => {
-              console.error('An error happened:', error);
-          }
-      )
+    //           // Update the picking ray with the camera and pointer position
+    //           raycaster.setFromCamera(pointer, camera);
+
+    //           // Calculate objects intersecting the picking ray
+    //           const intersects = raycaster.intersectObjects(scene.children, true);
+
+    //           for (let i = 0; i < intersects.length; i++) {
+    //               const object = intersects[i].object as CustomObject3D;
+    //               if (object.onPointerDown) {
+    //                   object.onPointerDown(event);
+    //                   break;
+    //               }
+    //           }
+    //       }
+
+    //       // Add event listener
+    //       gl.domElement.addEventListener('pointerdown', onPointerDown);
+
+    //       // Clean up
+    //       return () => {
+    //           gl.domElement.removeEventListener('pointerdown', onPointerDown);
+    //       };
+    //   }, [camera, scene, gl, raycaster]);
+
+    useEffect(() => {
+
+        const loader = new FBXLoader();
+        loader.load(
+            archUrl,
+            (fbx) => {
+                setSceneModel(new SceneModel('B', fbx));
+            },
+            undefined,
+            (error) => {
+                console.error('An error happened:', error);
+            }
+        )
 
 
-  }, [archUrl]);
+    }, [archUrl]);
+
+    const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
+        const object = event.object as CustomObject3D;
+        event.stopPropagation();
+
+        if (object.interactive) {
+            if (object.onPointerDown) {
+                object.onPointerDown(event);
+            }
+        }
+    }
+
     return (
-        <group>
+        <group onPointerDown={handlePointerDown}>
             {/* <PerspectiveCamera makeDefault position={[5, 5, 5]} /> */}
 
             <Suspense fallback={<span>Loading...</span>}>
@@ -395,7 +406,7 @@ const SceneComponent = () => {
 
 
 interface CustomObject3D extends Object3D {
-    onPointerDown?: (event: PointerEvent) => void;
+    onPointerDown?: (event: any) => void;
     interactive?: boolean;
 }
 
@@ -408,7 +419,7 @@ const Viewport = () => {
                     <OrbitControls />
                     <ambientLight />
                     <gridHelper />
-                   <SceneComponent />
+                    <SceneComponent />
                 </Canvas>
             </div>
         </ViewportContainer>

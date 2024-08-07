@@ -94,22 +94,6 @@ export class Board extends SceneObject implements IBoard {
 
 
 
-    addChild(sceneObject: SceneObject): void {
-        console.log("Adding child")
-        if (this.selectedSlot) {
-
-            this.children.push(sceneObject);
-            sceneObject.selectedChild = this;
-            this.setSlotsVisible(false);
-            this.selectedSlot = null;
-        } else {
-            this.setSlotsVisible(true);
-            this.childToAdd = sceneObject;
-        }
-    }
-
-
-
     removeChild(sceneObject: SceneObject): void {
         const index = this.children.indexOf(sceneObject);
         if (index > -1) {

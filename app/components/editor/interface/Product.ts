@@ -50,10 +50,19 @@ export class Product extends SceneObject implements IProduct {
 
     };
 
+
     addChild(sceneObject: SceneObject): void {
-        this.children.push(sceneObject);
-        sceneObject.selectedChild = this;
+        if (this.selectedSlot) {
+            this.children.push(sceneObject);
+            sceneObject.selectedChild = this;
+            this.setSlotsVisible(false);
+            this.selectedSlot = null;
+        } else {
+            this.setSlotsVisible(true);
+            this.childToAdd = sceneObject;
+        }
     }
+
 
 
 
