@@ -26,7 +26,7 @@ const Sidebar: React.FC = () => {
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
     if (selectedObject && isBoardObject(selectedObject)) {
-      setActiveSidebarHeader(Edit ${selectedObject.name || 'Board'} as HeaderType);
+      setActiveSidebarHeader(`Edit ${selectedObject.name || 'Board'}` as HeaderType);
     } else {
       setActiveSidebarHeader('Edit Global');
     }
