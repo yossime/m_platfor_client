@@ -93,6 +93,7 @@ export interface ISceneObject {
     getChildren(): ISceneObject[] | null;
     getEmptySlots(): CustomObject3D[];
     displayEmptySlots(): void;
+    exportToJson(): string;
 }
 
 export abstract class SceneObject implements ISceneObject {
@@ -300,6 +301,30 @@ export abstract class SceneObject implements ISceneObject {
         });
     }
 
+
+    exportToJson(): string {
+        const exportObject: ExportedSceneObject = {
+            name: this.name ?? null,
+            type: this.type,
+            position: this.position ? {
+                x: this.position.x,
+                y: this.position.y,
+                z: this.position.z
+            } : null,
+            rotation: this.rotation ? {
+                x: this.rotation.x,
+                y: this.rotation.y,
+                z: this.rotation.z
+            } : null,
+            scale: this.scale ?? { x: 1, y: 1, z: 1 },
+            children: this.children.map(child => JSON.parse(child.exportToJson())) ?? [],
+            contentData: Array.from(this.constentData.entries()).map(([key, value]) => ({
+                ...value
+            }))
+        };
+        return JSON.stringify(exportObject, null, 2);
+    }
+
 };
 
 
@@ -357,4 +382,12 @@ export interface IContentData {
 }
 
 
-
+export interface ExportedSceneObject {
+    name: string | null;
+    type: string;
+    position: { x: number; y: number; z: number } | null;
+    rotation: { x: number; y: number; z: number } | null;
+    scale: { x: number; y: number; z: number };
+    children: ExportedSceneObject[];
+    contentData: Array<{ type: string; [key: string]: any }>;
+}

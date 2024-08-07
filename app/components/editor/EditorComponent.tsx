@@ -11,7 +11,7 @@ import { useThree } from '@react-three/fiber';
 import { PerspectiveCamera } from 'three';
 import { useEditor } from '@/context/useEditorContext';
 import { Board } from './interface/Board';
-import { BoardType, IContentData, IContentDataType, ISceneObject } from './interface/models';
+import { BoardType, IContentData, IContentDataType, ISceneObject, SceneObject } from './interface/models';
 import { Product, ProductType } from './interface/Product';
 
 export const EditorLayout = styled.div`
@@ -99,8 +99,11 @@ const EditorComponent: React.FC = () => {
     // console.log("sceneModel?.root?.children", sceneModel?.root?.getChildren()); 
     // await (arch?.children[0] as Board).addContentData(buttonContent)
 
-    console.log("getSelectedObject", sceneModel?.getSelectedObject()); 
-
+    // console.log("getSelectedObject", sceneModel?.getSelectedObject()); 
+    if(sceneModel?.root){
+      const jsonString = sceneModel.root.exportToJson();
+      console.log(jsonString);
+    }
   }
 
 
