@@ -482,7 +482,6 @@ export enum IContentTextType {
 export enum IContentMaterialType {
     TITLE = 'Title',
     SUB_TITLE = 'Sub_Title',
-    IMAGE = 'Image',
     BUTTON = 'button',
     TEST = 'Header',
     IMAGE_CONTENT = 'ImageCenter',
