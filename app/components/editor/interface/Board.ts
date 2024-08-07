@@ -1,5 +1,5 @@
 import { Material, Mesh, Object3D } from "three";
-import { BoardType, CustomObject3D, IContentData, ISceneObject, ISceneObjectData, SceneObject } from "./models";
+import { BoardType, CustomObject3D, IContentData, ISceneObject, SceneObject } from "./models";
 
 
 
@@ -23,7 +23,11 @@ export class Board extends SceneObject implements IBoard {
         const boardUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/prodects%2FProd.fbx?alt=media&token=08240ada-8a7a-4e07-baf0-3afbe05a429c`;
 
         const model = await this.loadModel(boardUrl);
-        this.model = model.children[0];
+
+        const custommodel = model.children[0] as CustomObject3D;
+        custommodel.onPointerDown = () => this.handleSelected(custommodel);
+        custommodel.interactive = true;
+        this.model = custommodel;
 
 
         await this.setPlaceholders();
@@ -57,7 +61,7 @@ export class Board extends SceneObject implements IBoard {
     async setPlaceholders(): Promise<void> {
         try {
             if(!this.model) return;
-            
+
             const slots = this.model.children[0].children.filter(child => child.name.startsWith('Slot_'));
 
             const placeholderUrl = "https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/prodects%2FpoudiomPlaceholder.fbx?alt=media&token=73fd7d81-3728-485b-b486-6248521dd188";

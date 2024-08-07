@@ -331,7 +331,7 @@ interface SceneComponentProps {
 const SceneComponent = () => {
     const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbizKip1.fbx?alt=media';
     const { sceneModel, setSceneModel } = useEditor();
-    const [model, setModel] = useState<Object3D | null>(null);
+    const [model, setModel] = useState<CustomObject3D | null>(null);
     // const { camera, scene, gl } = useThree();
     // const raycaster = new Raycaster();
     // const pointer = new Vector2();

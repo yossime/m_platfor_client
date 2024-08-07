@@ -1,5 +1,5 @@
 import { Color, Euler, Material, Mesh, MeshStandardMaterial, Object3D, PerspectiveCamera } from "three";
-import { CustomObject3D, IContentData, ISceneObject, ISceneObjectData, SceneObject } from "./models";
+import { CustomObject3D, IContentData, ISceneObject, SceneObject } from "./models";
 import { Board } from "./Board";
 
 
@@ -28,7 +28,10 @@ export class Architecture extends SceneObject implements IArchitecture {
         const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbizKip1.fbx?alt=media';
 
         const model = await this.loadModel(archUrl);
-        this.model = model;
+        const custommodel = model as CustomObject3D;
+        custommodel.onPointerDown = () => this.handleSelected(custommodel);
+        custommodel.interactive = true;
+        this.model = custommodel;
 
         await this.setPlaceholders();
 

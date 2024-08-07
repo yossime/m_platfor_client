@@ -106,7 +106,6 @@ export abstract class SceneObject implements ISceneObject {
     protected childToAdd: SceneObject | null = null;
     constentData: Map<IContentDataType, IContentData> = new Map();
     placeholders: Object3D[] = [];
-    objectData: ISceneObjectData[] = [];
 
     protected modelParent: Object3D | null = null;
 
@@ -206,6 +205,11 @@ export abstract class SceneObject implements ISceneObject {
 
             object.material = highlightMaterial;
         }
+        return this;
+    };
+
+
+    protected handleSelected = (object: Object3D) => {
         return this;
     };
 
@@ -353,16 +357,16 @@ export interface IContentData {
 
 
 
-export interface ISceneObjectData {
-    type: string;
-    name: string;
-    material: string;
+// export interface ISceneObjectData {
+//     type: string;
+//     name: string;
+//     material: string;
 
-    position: { x: number; y: number; z: number };
-    rotation: { x: number; y: number; z: number };
-    scale: { x: number; y: number; z: number };
+//     position: { x: number; y: number; z: number };
+//     rotation: { x: number; y: number; z: number };
+//     scale: { x: number; y: number; z: number };
 
-}
+// }
 
 
 
@@ -380,3 +384,6 @@ export interface ISceneObjectData {
 //         }
 //     )
 // }
+
+
+

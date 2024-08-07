@@ -62,7 +62,7 @@ const EditorComponent: React.FC = () => {
 
     arch?.addChild(newBoard);
     const children = arch?.getChildren();
-    console.log("children", children);
+    // console.log("children", children);
     if (children?.length) {
 
       // console.log("if (children?.length)", children);

@@ -1,5 +1,5 @@
 import { Material, Mesh, Object3D } from "three";
-import { IContentData, ISceneObject, ISceneObjectData, SceneObject } from "./models";
+import { CustomObject3D, IContentData, ISceneObject, SceneObject } from "./models";
 
 
 
@@ -26,7 +26,10 @@ export class Product extends SceneObject implements IProduct {
     async loadModelAndDisplay(onLoad?: () => void) {
         const productUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/Podium.fbx?alt=media&token=36ec521e-6930-44ef-b8f0-d23a5a24756d`;
         const model = await this.loadModel(productUrl);
-        this.model = model.children[0];
+        const custommodel = model.children[0] as CustomObject3D;
+        custommodel.onPointerDown = () => this.handleSelected(custommodel);
+        custommodel.interactive = true;
+        this.model = custommodel;
         onLoad && onLoad();
     }
 
