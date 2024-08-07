@@ -44,15 +44,7 @@ export const HeaderContentComponent: React.FC = () => {
     button: true,
   });
 
-  // useEffect(() => {
-  //   const loadInitialData = async () => {
-  //     const dataFromDB = await fetchDataFromDatabase();
-  //     if (dataFromDB) {
-  //       setMaster(dataFromDB);
-  //     }
-  //   };
-  //   loadInitialData();
-  // }, []);
+
 
   const handleInputChange = (field: keyof IMaster) => async (event: ChangeEvent<HTMLInputElement>) => {
     const newMaster = { ...master, [field]: event.target.value };
