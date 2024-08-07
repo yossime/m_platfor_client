@@ -27,7 +27,7 @@ interface ArchitectureComponentProps {
 }
 
 export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ handleBackOrAdd, setActiveSidebarHeader }) => {
-  const { setActiveBoardIndex, dataParameters } = useEditor();
+  const { sceneModel, setActiveBoardIndex, dataParameters } = useEditor();
   const [availableIndex, setAvailableIndex] = useState<number | null>(null);
 
   useEffect(() => {

@@ -11,7 +11,7 @@ import { GamificationAdvancedComponent } from './boards/gamification/Gamificatio
 import { FormAdvancedComponent } from './boards/form/FormAdvanced';
 import { SocialsAdvancedComponent } from './boards/socials/SocialsAdvanced';
 import { ArticleAdvancedComponent } from './boards/article/ArticleAdvanced';
-import { SubscriptionAdvancedComponent } from './boards/subScription/SubScriptionAdvanced';
+import { SubscriptionAdvancedComponent } from './boards/subscription/SubscriptionAdvanced';
 
 interface AdvancedComponentProps {
   activeSidebarHeader: HeaderType;

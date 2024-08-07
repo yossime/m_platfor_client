@@ -11,7 +11,7 @@ import { GamificationStyleComponent } from './boards/gamification/GamificationSt
 import { FormStyleComponent } from './boards/form/FormStyle';
 import { SocialsStyleComponent } from './boards/socials/SocialsStyle';
 import { ArticleStyleComponent } from './boards/article/ArticleStyle';
-import { SubscriptionStyleComponent } from './boards/subScription/SubScriptionStyle';
+import { SubscriptionStyleComponent } from './boards/subscription/SubscriptionStyle';
 
 interface StyleComponentProps {
   activeSidebarHeader: HeaderType;
