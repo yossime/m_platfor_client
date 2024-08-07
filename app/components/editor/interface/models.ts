@@ -6,7 +6,7 @@ import { IText } from "./paramsType";
 
 
 export interface CustomObject3D extends Object3D {
-    onPointerDown?: (event: any) => void;
+    onPointerDown?: (event: any) => ISceneObject;
     interactive?: boolean;
 }
 
@@ -83,16 +83,14 @@ async function applyTextureMaps(material: Material, textureMaps: ITextureMaps): 
 
 
 export interface ISceneObject {
-    name: string | null;
     type: string;
-    model: Object3D;
     children: ISceneObject[];
     constentData: Map<IContentDataType, IContentData>;
 
-
+    setName(name: string): void;
     addChild(sceneObject: SceneObject): void;
     removeChild(sceneObject: SceneObject): void;
-    getChildren(): SceneObject[] | null;
+    getChildren(): ISceneObject[] | null;
     getEmptySlots(): CustomObject3D[];
     displayEmptySlots(): void;
 }
@@ -103,7 +101,7 @@ export abstract class SceneObject implements ISceneObject {
     selectedChild: SceneObject | null = null;
     selectedSlot: CustomObject3D | null = null;
 
-    model: Object3D;
+    model: Object3D| null = null;
     children: SceneObject[] = [];
     protected childToAdd: SceneObject | null = null;
     constentData: Map<IContentDataType, IContentData> = new Map();
@@ -116,18 +114,18 @@ export abstract class SceneObject implements ISceneObject {
     rotation: Euler | null = null;
     scale: { x: number; y: number; z: number } = { x: 1, y: 1, z: 1 };
 
-    constructor(type: string, model: Object3D) {
-        // this.name = name;
+    constructor(type: string, name? : string, ) {
         this.type = type;
-        this.model = model;
+        // name !== undefined && this.name = name;
     }
 
+    public setName(name: string) {this.name = name}
     // abstract addChild(sceneObject: SceneObject): void;
     abstract removeChild(sceneObject: SceneObject): void;
     public abstract addContentData(data: IContentData): Promise<boolean>;
     abstract displayEmptySlots(): void;
 
-    public getEmptySlots() {return this.placeholders}
+    public getEmptySlots() { return this.placeholders }
     public setSelectedChild(child: SceneObject | null) { this.selectedChild = child; }
     protected setSelectedSlot(child: SceneObject | null) { this.selectedChild = child; }
 
@@ -158,6 +156,8 @@ export abstract class SceneObject implements ISceneObject {
 
 
     protected getGeometryByName(name: string): Object3D | null {
+        if(!this.model) return null;
+
         let found: Object3D | null = null;
         this.model.traverse((child) => {
             if (child.name === name) {
@@ -206,6 +206,7 @@ export abstract class SceneObject implements ISceneObject {
 
             object.material = highlightMaterial;
         }
+        return this;
     };
 
     public addChild(sceneObject: SceneObject): void {

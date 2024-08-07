@@ -10,6 +10,7 @@ import { SceneModel } from '../interface/Scene';
 import { Group, Object3D, Raycaster, Vector2 } from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { PerspectiveCamera as Camer } from 'three';
+import { CustomObject3D } from '../interface/models';
 
 export const ViewportContainer = styled.div`
   flex-grow: 1;
@@ -330,6 +331,7 @@ interface SceneComponentProps {
 const SceneComponent = () => {
     const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbizKip1.fbx?alt=media';
     const { sceneModel, setSceneModel } = useEditor();
+    const [model, setModel] = useState<Object3D | null>(null);
     // const { camera, scene, gl } = useThree();
     // const raycaster = new Raycaster();
     // const pointer = new Vector2();
@@ -364,40 +366,28 @@ const SceneComponent = () => {
     //       };
     //   }, [camera, scene, gl, raycaster]);
 
+
     useEffect(() => {
-
-        const loader = new FBXLoader();
-        loader.load(
-            archUrl,
-            (fbx) => {
-                setSceneModel(new SceneModel('B', fbx));
-            },
-            undefined,
-            (error) => {
-                console.error('An error happened:', error);
-            }
-        )
-
-
+        setSceneModel(new SceneModel('B', setModel));
     }, [archUrl]);
 
     const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
         const object = event.object as CustomObject3D;
         event.stopPropagation();
-
+        let selected = null;
         if (object.interactive) {
             if (object.onPointerDown) {
-                object.onPointerDown(event);
+                selected = object.onPointerDown(event);
             }
         }
+        sceneModel?.setSelectedObject(selected)
     }
-
     return (
         <group onPointerDown={handlePointerDown}>
             {/* <PerspectiveCamera makeDefault position={[5, 5, 5]} /> */}
 
             <Suspense fallback={<span>Loading...</span>}>
-                {sceneModel?.root?.model && <primitive object={sceneModel.root.model} />}
+                {model && <primitive object={model} />}
             </Suspense>
         </group>
     );
@@ -405,10 +395,6 @@ const SceneComponent = () => {
 
 
 
-interface CustomObject3D extends Object3D {
-    onPointerDown?: (event: any) => void;
-    interactive?: boolean;
-}
 
 const Viewport = () => {
 

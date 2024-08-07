@@ -6,15 +6,40 @@ import { Board } from "./Board";
 
 
 export interface IArchitecture extends ISceneObject {
+    getModel: () => Object3D | null;
 }
 
 
 export class Architecture extends SceneObject implements IArchitecture {
-    constructor(type: string, model: Object3D) {
-        super(type, model);
+    constructor(type: string, onLoad: (model: Object3D) => void) {
+        super(type);
         this.setPlaceholders();
+        this.loadModelAndDisplay(onLoad);
     }
+    getModel() { return this.model; };
 
+
+
+
+
+
+
+    async loadModelAndDisplay(onLoad?: (model: Object3D) => void) {
+        const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbizKip1.fbx?alt=media';
+
+        const model = await this.loadModel(archUrl);
+        this.model = model;
+
+        await this.setPlaceholders();
+
+        // if (this.modelParent && this.position && this.rotation) {
+        //     this.modelParent?.attach(this.model);
+        //     this.model.position.copy(this.position);
+        //     this.model.rotation.copy(this.rotation);
+        // }
+
+        onLoad && onLoad(this.model);
+    }
 
     displayEmptySlots() {
         this.setSlotsVisible(true);
@@ -34,6 +59,8 @@ export class Architecture extends SceneObject implements IArchitecture {
 
 
     async setPlaceholders(): Promise<void> {
+        if (!this.model) return;
+
         try {
             const [groupA, groupB] = [
                 this.model.children[0].children[0].children,

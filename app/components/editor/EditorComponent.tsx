@@ -34,9 +34,10 @@ const EditorComponent: React.FC = () => {
   // const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/Barbiz.fbx?alt=media&token=8a94f967-363b-48c8-8d71-ad3a620e672b';
   // const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbizKip1.fbx?alt=media';
   const { sceneModel, setSceneModel } = useEditor();
+  const [childrenList, setChildrenLis] = useState<ISceneObject[] | null>(null);
 
   // const { camera, scene } = useThree();
-  
+
   // useEffect(() => {
 
   //     const loader = new FBXLoader();
@@ -54,22 +55,29 @@ const EditorComponent: React.FC = () => {
 
 
   // }, [archUrl]);
-  
-const handleClick = () => {
-  const arch = sceneModel?.root;
-  const newBoard =  new Board(BoardType.Product);
 
-  arch?.addChild(newBoard);
+  const handleClick = () => {
+    const arch = sceneModel?.root;
+    const newBoard = new Board(BoardType.Product);
 
-}
+    arch?.addChild(newBoard);
+    const children = arch?.getChildren();
+    console.log("children", children);
+    if (children?.length) {
 
-const handleAddProdect = () => {
-  const arch = sceneModel?.root;
-  const prodect = new Product(ProductType.Poudiom)
+      // console.log("if (children?.length)", children);
+      
+      setChildrenLis(children)
+    }
+  }
 
-  arch?.children[0].addChild(prodect)
+  const handleAddProdect = () => {
+    const arch = sceneModel?.root;
+    const prodect = new Product(ProductType.Poudiom)
 
-}
+    arch?.children[0].addChild(prodect)
+
+  }
 
   const handleCheingColor = async () => {
     const arch = sceneModel?.root;
@@ -86,22 +94,16 @@ const handleAddProdect = () => {
       //     fontSize: 14,
       //     color: '#000000'
       // }
-  };
-  // arch?.displayEmptySlots()
-  // console.log("sceneModel?.root?.children", sceneModel?.root?.getChildren()); 
-  console.log("sceneModel?.root?.getEmptySlots", sceneModel?.root?.getEmptySlots()); 
-
+    };
+    // arch?.displayEmptySlots()
+    // console.log("sceneModel?.root?.children", sceneModel?.root?.getChildren()); 
     // await (arch?.children[0] as Board).addContentData(buttonContent)
-    
+
+    console.log("getSelectedObject", sceneModel?.getSelectedObject()); 
 
   }
 
-    useEffect(() => {
 
-      console.log("sceneModel?.root?.children", sceneModel?.root?.getChildren()); 
-
-
-  }, [sceneModel?.root.children]);
 
   return (
     <EditorLayout>
@@ -112,16 +114,13 @@ const handleAddProdect = () => {
       <h1>{sceneModel?.root?.children[0]?.type}</h1>
 
 
-      {sceneModel?.root?.getChildren() && sceneModel?.root?.getChildren()?.map((child: ISceneObject, index: number) =>(
-        <>
-        <h1>hjuh</h1>
-        <button key={index}>{child.type}</button>
-        </>
-      ))}
+      {/* {childrenList?.map((child: ISceneObject, index: number) => (
+          <button key={index}>{child.type}</button>
+      ))} */}
 
 
       <SideBar />
-     <Viewport/>
+      <Viewport />
     </EditorLayout>
   );
 }

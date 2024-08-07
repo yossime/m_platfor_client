@@ -11,7 +11,7 @@ export interface IBoard extends ISceneObject {
 
 export class Board extends SceneObject implements IBoard {
     constructor(type: BoardType, onBoardLoaded?: () => void) {
-        super(type, {} as Object3D);
+        super(type);
         this.loadModelAndDisplay(onBoardLoaded);
 
     }
@@ -56,7 +56,8 @@ export class Board extends SceneObject implements IBoard {
 
     async setPlaceholders(): Promise<void> {
         try {
-
+            if(!this.model) return;
+            
             const slots = this.model.children[0].children.filter(child => child.name.startsWith('Slot_'));
 
             const placeholderUrl = "https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/prodects%2FpoudiomPlaceholder.fbx?alt=media&token=73fd7d81-3728-485b-b486-6248521dd188";

@@ -17,7 +17,7 @@ export interface IProduct extends ISceneObject {
 
 export class Product extends SceneObject implements IProduct {
     constructor(type: ProductType, onProductLoaded?: () => void) {
-        super(type, {} as Object3D);
+        super(type);
         this.loadModelAndDisplay(onProductLoaded);
     }
 
