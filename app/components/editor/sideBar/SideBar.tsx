@@ -20,7 +20,7 @@ import { IconName } from '@constants/icon';
 const Sidebar: React.FC = () => {
   const [activeSidebarHeader, setActiveSidebarHeader] = useState<any>('Edit Global');
   const [activeSidebarSubMenu, setActiveSidebarSubMenu] = useState<SubMenuType>('Architecture');
-  const { setActiveBoardIndex } = useEditor()
+  const {sceneModel, setActiveBoardIndex } = useEditor()
   const [isOpen, setIsOpen] = useState(true);
 
 
@@ -32,9 +32,19 @@ const Sidebar: React.FC = () => {
     }
   }, [activeSidebarHeader]);
 
+
+  useEffect(() => {
+    if (sceneModel.getSelectedObject() === typeof IBoard ) {
+      activeSidebarHeader(`Edit ${sceneModel.getSelectedObject().name}`  )
+    }
+  }, [sceneModel.getSelectedObject()]);
+
   const handleBackOrAdd = () => {
     if (activeSidebarHeader === 'Edit Global') {
+      {
       setActiveSidebarHeader('Choose Board Widget');
+      sceneModel?.root?.displayEmptySlots();
+    }
     } else if (activeSidebarHeader === 'Choose Board Widget') {
       setActiveSidebarHeader('Edit Global');
     } else {

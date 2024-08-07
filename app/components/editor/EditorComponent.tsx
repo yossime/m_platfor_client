@@ -109,7 +109,7 @@ const EditorComponent: React.FC = () => {
 
   return (
     <EditorLayout>
-      <button onClick={handleClick}>click</button>
+      {/* <button onClick={handleClick}>click</button>
       <button onClick={handleCheingColor}>cheing color</button>
       <button onClick={handleAddProdect}>add prodect</button>
 
