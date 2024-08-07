@@ -42,9 +42,9 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
     setActiveBoardIndex(index);
   };
 
-  if (!dataParameters || !dataParameters.boards) {
-    return <Container>No boards available</Container>;
-  }
+  // if (!dataParameters || !dataParameters.boards) {
+  //   return <Container>No boards available</Container>;
+  // }
   return (
     <Container>
       <SelectInput
@@ -63,7 +63,7 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
             My Boards
           </Text>
         <SubContainer>
-          {dataParameters.boards.map((board, index) => {
+          {dataParameters?.boards.map((board, index) => {
             if (board.type !== null) {
               return (
                 <SubButton
