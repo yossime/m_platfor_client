@@ -107,11 +107,9 @@ const EditorComponent: React.FC = () => {
 
   return (
     <EditorLayout>
-      <button onClick={handleClick}>click</button>
+      {/* <button onClick={handleClick}>click</button>
       <button onClick={handleCheingColor}>cheing color</button>
-      <button onClick={handleAddProdect}>add prodect</button>
-      <h1>{sceneModel?.root?.type}</h1>
-      <h1>{sceneModel?.root?.children[0]?.type}</h1>
+      <button onClick={handleAddProdect}>add prodect</button> */}
 
 
       {/* {childrenList?.map((child: ISceneObject, index: number) => (

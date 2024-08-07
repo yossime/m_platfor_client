@@ -29,21 +29,21 @@ export const DisplayList: React.FC = () => {
       const handleSaveDisplay = (updatedDisplay: IDisplay) => {
         if (activeDisplay === null) return;
     
-        setDataParameters((prevParams) => {
-          if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
+        // setDataParameters((prevParams) => {
+        //   if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
     
-          return {
-            ...prevParams,
-            boards: prevParams.boards.map((board, i) =>
-              i === activeBoardIndex ? {
-                ...board,
-                displays: (board as IProductBoard).displays.map((d, j) =>
-                  j === activeDisplay.index ? updatedDisplay : d
-                )
-              } : board
-            )
-          };
-        });
+        //   return {
+        //     ...prevParams,
+        //     boards: prevParams.boards.map((board, i) =>
+        //       i === activeBoardIndex ? {
+        //         ...board,
+        //         displays: (board as IProductBoard).displays.map((d, j) =>
+        //           j === activeDisplay.index ? updatedDisplay : d
+        //         )
+        //       } : board
+        //     )
+        //   };
+        // });
     
         handleClosePopup();
       };

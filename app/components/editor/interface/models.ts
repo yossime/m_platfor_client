@@ -343,9 +343,10 @@ export interface ITextureMaps {
 export enum IContentDataType {
     TITLE = 'Title',
     SUB_TITLE = 'Sub_Title',
-    IMAGE = 'Image',
     BUTTON = 'button',
-    TEST = 'Header'
+    TEST = 'Header',
+    IMAGE_0 ='Image_0',
+    IMAGE_1 ='Image_1',
 }
 
 
