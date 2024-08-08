@@ -2,20 +2,18 @@ import axios from 'axios';
 import React, { useEffect, useRef } from 'react';
 
 
-const privewApi = "http://localhost:3500"
+const privewApi = "https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/preview"
 export const sendHeartbeat = async (projectName: string): Promise<void> => {
   await axios.post(`${privewApi}/${projectName}/heartbeat`);
 };
 
 interface UnityViewerProps {
   projectId: string;
-  setEditorMode: (mode: boolean) => void;
-
 }
 
 
 
-const UnityViewer: React.FC<UnityViewerProps> = ({ projectId ,setEditorMode }) => {
+const UnityViewer: React.FC<UnityViewerProps> = ({ projectId  }) => {
   const projectUrl = `${privewApi}/${projectId}`;
   const heartbeatIntervalRef = useRef<number | null>(null);
 
@@ -33,8 +31,6 @@ const UnityViewer: React.FC<UnityViewerProps> = ({ projectId ,setEditorMode }) =
 
   return (
     <div>
-      <button onClick={() => setEditorMode(false)} >editor</button>
-
       <h2>Unity Viewer: {projectId}</h2>
       <iframe
         title={`Unity WebGL Viewer - ${projectId}`}
