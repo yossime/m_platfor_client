@@ -21,7 +21,7 @@ export class Board extends SceneObject implements IBoard {
         const boardUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/boards%2F${this.type}.fbx?alt=media`;
         // const boardUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/prodects%2FProd.fbx?alt=media&token=08240ada-8a7a-4e07-baf0-3afbe05a429c`;
 
-        const model = await this.loadModel(filePath);
+        const model = await this.loadModel(boardUrl);
 
         const custommodel = model.children[0] as CustomObject3D;
         
