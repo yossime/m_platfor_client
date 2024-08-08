@@ -477,7 +477,6 @@ export enum IContentTextType {
 export enum IContentMaterialType {
     TITLE = 'Title',
     SUB_TITLE = 'Sub_Title',
-    IMAGE = 'Image',
     BUTTON = 'button',
     TEST = 'Header',
     IMAGE_CONTENT = 'ImageCenter',
@@ -487,6 +486,8 @@ export enum IContentMaterialType {
     CTA = 'CTA',
     TESTIMONIALS = 'Testimonials',
     FORM = 'Form',
+    IMAGE_0 ='Image_0',
+    IMAGE_1 ='Image_1',
 }
 
 
