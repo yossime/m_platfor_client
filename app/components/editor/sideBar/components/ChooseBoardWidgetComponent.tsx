@@ -7,9 +7,7 @@ import Text from '@/components/Library/text/Text';
 import { IconColor, TextColor } from '@constants/colors';
 import { FontWeight, TextSize } from '@constants/text';
 import { IconSize } from '@constants/icon';
-import { createBoardByType } from '../../utils/CraeteBoard';
 import { Board } from '../../interface/Board';
-import { BoardType } from '../../interface/models';
 
 interface ChooseBoardWidgetComponentProps {
   setActiveSidebarHeader: (header: HeaderType) => void;
@@ -18,7 +16,7 @@ interface ChooseBoardWidgetComponentProps {
 export const ChooseBoardWidgetComponent: React.FC<ChooseBoardWidgetComponentProps> = ({
   setActiveSidebarHeader
 }) => {
-  const { sceneModel, setActiveBoardIndex, setDataParameters } = useEditor();
+  const { sceneModel, setDataParameters } = useEditor();
   const [selectedWidget, setSelectedWidget] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<number>(0);
 
@@ -33,14 +31,12 @@ export const ChooseBoardWidgetComponent: React.FC<ChooseBoardWidgetComponentProp
     if (availableSlots === 0) return;
 
     setSelectedWidget(widget.name);
-    // const newBoard = createBoardByType(widget.type, widget.name);
 
     const newBoard = new Board(widget.type, {name: widget.name});
     
     if (sceneModel?.root && newBoard) {
       await sceneModel.root.addChild(newBoard);
       
-      // setActiveBoardIndex(sceneModel.root.children.length - 1);
 
       sceneModel.setSelectedObject(newBoard);
 

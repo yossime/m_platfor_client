@@ -24,7 +24,7 @@ interface ArchitectureComponentProps {
 }
 
 export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ handleBackOrAdd, setActiveSidebarHeader }) => {
-  const { sceneModel, setActiveBoardIndex, dataParameters } = useEditor();
+  const { sceneModel, dataParameters } = useEditor();
   const [panels, setPanels] = useState<any[]>([]);
 
   useEffect(() => {
@@ -38,8 +38,6 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
     setActiveSidebarHeader(`Edit ${panel.name}`);
     sceneModel?.setSelectedObject(panel);
 
-
-    // setActiveBoardIndex(panel);
   };
 
   return (

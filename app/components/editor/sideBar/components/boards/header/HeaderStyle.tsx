@@ -63,8 +63,8 @@ export const HeaderStyleComponent: React.FC = () => {
         <TextureUploadComponent
           parentRef={ref}
           onClose={() => setShowUploadTexture(false)}
-          // onSave={handleTextureUpdate}
-          // initialTexture={getContentMaterial(IContentMaterialType.TEST)?.diffuse}
+          onSave={handleTextureUpdate}
+          initialTexture={getContentMaterial(IContentMaterialType.TEST)}
         />
       )}
 

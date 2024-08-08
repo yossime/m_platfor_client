@@ -8,11 +8,11 @@ const DraggablePercentage = styled.div`
 `;
 
 interface StrengthComponentProps {
-  initialValue: number;
+  initialValue?: number;
   onChange: (newValue: number) => void;
 }
 
-const StrengthComponent: React.FC<StrengthComponentProps> = ({ initialValue, onChange }) => {
+const StrengthComponent: React.FC<StrengthComponentProps> = ({ initialValue = 50, onChange }) => {
   const [value, setValue] = useState<number>(initialValue);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>): void => {

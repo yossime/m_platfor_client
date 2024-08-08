@@ -146,7 +146,6 @@
 // import Icon from '@/components/Library/icon/Icon';
 // import { IconColor } from '@constants/colors';
 // import PopupEditDisplay from './PopupEditDisplay';
-// import { IContentData, IContentDataType } from '@/components/editor/interface/models';
 
 // export const DisplayList: React.FC = () => {
 //     const [activeDisplay, setActiveDisplay] = useState<{ index: number; display: IDisplay } | null>(null);
@@ -155,17 +154,11 @@
 
 //     const selectedObject = sceneModel?.getSelectedObject();
 
-//     const getContentData = (type: IContentDataType): IContentData | undefined => {
-//         return selectedObject?.constentData.get(type);
+//     const getContentData = () => {
 //     };
 
-//     const updateContentData = (type: IContentDataType, newData: Partial<IContentData>) => {
-//         if (selectedObject) {
-//             const existingData = selectedObject.constentData.get(type) || { type, texture: {} };
-//             const updatedData = { ...existingData, ...newData };
-//             selectedObject.constentData.set(type, updatedData);
-//             selectedObject.addContentData(updatedData);
-//         }
+//     const updateContentData = () => {
+
 //     };
 
 //     const handleEditDisplay = (index: number, display: IDisplay) => {
@@ -204,55 +197,18 @@
 
 //         const displays = getDisplays();
 //         displays[activeDisplay.index] = updatedDisplay;
-//         updateContentData(IContentDataType.TEST, { text: { text: JSON.stringify(displays) } });
         
 //         handleClosePopup();
 //     };
 
 //     const handleAddDisplay = () => {
 //         const displays = getDisplays();
-//         const displayTypeData = getContentData(IContentDataType.TEST);
-//         let displayType, maxDisplay;
-//         if (displayTypeData?.text?.text) {
-//             try {
-//                 const parsed = JSON.parse(displayTypeData.text.text);
-//                 displayType = parsed.displayType;
-//                 maxDisplay = parsed.maxDisplay;
-//             } catch (e) {
-//                 console.error("Error parsing display type data", e);
-//             }
+ 
 //         }
 
-//         if (!displayType || displays.length >= (maxDisplay || 0)) return;
 
-//         const newDisplay: IDisplay = {
-//             title: { text: `Display ${displays.length + 1}` },
-//             type: displayType,
-//             products: [{ type: displayType, title: { text: 'Product Title' }, description: { text: 'Product Description' }, SKU: { text: 'Product SKU' } }]
-//         };
-
-//         displays.push(newDisplay);
-//         updateContentData(IContentDataType.TEST, { text: { text: JSON.stringify(displays) } });
-
-//         handleEditDisplay(displays.length - 1, newDisplay);
 //     };
 
-//     // Helper function to get displays from content data
-//     const getDisplays = (): IDisplay[] => {
-//         const displaysData = getContentData(IContentDataType.TEST);
-//         if (displaysData?.text?.text) {
-//             try {
-//                 return JSON.parse(displaysData.text.text);
-//             } catch (e) {
-//                 console.error("Error parsing displays data", e);
-//             }
-//         }
-//         return [];
-//     };
-
-//     const displays = getDisplays();
-//     const displayTypeData = getContentData(IContentDataType.TEST);
-//     const maxDisplay = displayTypeData?.text?.text ? JSON.parse(displayTypeData.text.text).maxDisplay : 2;
 
 //     return (
 //         <div ref={ref}>
