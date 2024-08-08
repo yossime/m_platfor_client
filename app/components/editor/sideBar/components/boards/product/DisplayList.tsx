@@ -134,140 +134,140 @@
 
 
 
-import React, { useRef, useState } from 'react';
-import { IDisplay } from '@/components/editor/interface/paramsType';
-import { useEditor } from '@/context/useEditorContext';
-import Button from '@/components/Library/button/Button';
-import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
-import { IconName, IconSize } from '@constants/icon';
-import Text from '@/components/Library/text/Text';
-import { SubButton, SubContainer, SubWrapper } from '../../CommonStyles';
-import { FontWeight, TextSize } from '@constants/text';
-import Icon from '@/components/Library/icon/Icon';
-import { IconColor } from '@constants/colors';
-import PopupEditDisplay from './PopupEditDisplay';
-import { IContentData, IContentDataType } from '@/components/editor/interface/models';
+// import React, { useRef, useState } from 'react';
+// import { IDisplay } from '@/components/editor/interface/paramsType';
+// import { useEditor } from '@/context/useEditorContext';
+// import Button from '@/components/Library/button/Button';
+// import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
+// import { IconName, IconSize } from '@constants/icon';
+// import Text from '@/components/Library/text/Text';
+// import { SubButton, SubContainer, SubWrapper } from '../../CommonStyles';
+// import { FontWeight, TextSize } from '@constants/text';
+// import Icon from '@/components/Library/icon/Icon';
+// import { IconColor } from '@constants/colors';
+// import PopupEditDisplay from './PopupEditDisplay';
+// import { IContentData, IContentDataType } from '@/components/editor/interface/models';
 
-export const DisplayList: React.FC = () => {
-    const [activeDisplay, setActiveDisplay] = useState<{ index: number; display: IDisplay } | null>(null);
-    const { sceneModel } = useEditor();
-    const ref = useRef<HTMLDivElement>(null);
+// export const DisplayList: React.FC = () => {
+//     const [activeDisplay, setActiveDisplay] = useState<{ index: number; display: IDisplay } | null>(null);
+//     const { sceneModel } = useEditor();
+//     const ref = useRef<HTMLDivElement>(null);
 
-    const selectedObject = sceneModel?.getSelectedObject();
+//     const selectedObject = sceneModel?.getSelectedObject();
 
-    const getContentData = (type: IContentDataType): IContentData | undefined => {
-        return selectedObject?.constentData.get(type);
-    };
+//     const getContentData = (type: IContentDataType): IContentData | undefined => {
+//         return selectedObject?.constentData.get(type);
+//     };
 
-    const updateContentData = (type: IContentDataType, newData: Partial<IContentData>) => {
-        if (selectedObject) {
-            const existingData = selectedObject.constentData.get(type) || { type, texture: {} };
-            const updatedData = { ...existingData, ...newData };
-            selectedObject.constentData.set(type, updatedData);
-            selectedObject.addContentData(updatedData);
-        }
-    };
+//     const updateContentData = (type: IContentDataType, newData: Partial<IContentData>) => {
+//         if (selectedObject) {
+//             const existingData = selectedObject.constentData.get(type) || { type, texture: {} };
+//             const updatedData = { ...existingData, ...newData };
+//             selectedObject.constentData.set(type, updatedData);
+//             selectedObject.addContentData(updatedData);
+//         }
+//     };
 
-    const handleEditDisplay = (index: number, display: IDisplay) => {
-        setActiveDisplay({ index, display });
-    };
+//     const handleEditDisplay = (index: number, display: IDisplay) => {
+//         setActiveDisplay({ index, display });
+//     };
     
-    const handleClosePopup = () => {
-        setActiveDisplay(null);
-    };
+//     const handleClosePopup = () => {
+//         setActiveDisplay(null);
+//     };
     
-    const handleSaveDisplay = (updatedDisplay: IDisplay) => {
-        if (activeDisplay === null || !selectedObject) return;
+//     const handleSaveDisplay = (updatedDisplay: IDisplay) => {
+//         if (activeDisplay === null || !selectedObject) return;
 
-        const displays = getDisplays();
-        displays[activeDisplay.index] = updatedDisplay;
-        updateContentData(IContentDataType.TEST, { text: { text: JSON.stringify(displays) } });
+//         const displays = getDisplays();
+//         displays[activeDisplay.index] = updatedDisplay;
+//         updateContentData(IContentDataType.TEST, { text: { text: JSON.stringify(displays) } });
         
-        handleClosePopup();
-    };
+//         handleClosePopup();
+//     };
 
-    const handleAddDisplay = () => {
-        const displays = getDisplays();
-        const displayTypeData = getContentData(IContentDataType.TEST);
-        let displayType, maxDisplay;
-        if (displayTypeData?.text?.text) {
-            try {
-                const parsed = JSON.parse(displayTypeData.text.text);
-                displayType = parsed.displayType;
-                maxDisplay = parsed.maxDisplay;
-            } catch (e) {
-                console.error("Error parsing display type data", e);
-            }
-        }
+//     const handleAddDisplay = () => {
+//         const displays = getDisplays();
+//         const displayTypeData = getContentData(IContentDataType.TEST);
+//         let displayType, maxDisplay;
+//         if (displayTypeData?.text?.text) {
+//             try {
+//                 const parsed = JSON.parse(displayTypeData.text.text);
+//                 displayType = parsed.displayType;
+//                 maxDisplay = parsed.maxDisplay;
+//             } catch (e) {
+//                 console.error("Error parsing display type data", e);
+//             }
+//         }
 
-        if (!displayType || displays.length >= (maxDisplay || 0)) return;
+//         if (!displayType || displays.length >= (maxDisplay || 0)) return;
 
-        const newDisplay: IDisplay = {
-            title: { text: `Display ${displays.length + 1}` },
-            type: displayType,
-            products: [{ type: displayType, title: { text: 'Product Title' }, description: { text: 'Product Description' }, SKU: { text: 'Product SKU' } }]
-        };
+//         const newDisplay: IDisplay = {
+//             title: { text: `Display ${displays.length + 1}` },
+//             type: displayType,
+//             products: [{ type: displayType, title: { text: 'Product Title' }, description: { text: 'Product Description' }, SKU: { text: 'Product SKU' } }]
+//         };
 
-        displays.push(newDisplay);
-        updateContentData(IContentDataType.TEST, { text: { text: JSON.stringify(displays) } });
+//         displays.push(newDisplay);
+//         updateContentData(IContentDataType.TEST, { text: { text: JSON.stringify(displays) } });
 
-        handleEditDisplay(displays.length - 1, newDisplay);
-    };
+//         handleEditDisplay(displays.length - 1, newDisplay);
+//     };
 
-    // Helper function to get displays from content data
-    const getDisplays = (): IDisplay[] => {
-        const displaysData = getContentData(IContentDataType.TEST);
-        if (displaysData?.text?.text) {
-            try {
-                return JSON.parse(displaysData.text.text);
-            } catch (e) {
-                console.error("Error parsing displays data", e);
-            }
-        }
-        return [];
-    };
+//     // Helper function to get displays from content data
+//     const getDisplays = (): IDisplay[] => {
+//         const displaysData = getContentData(IContentDataType.TEST);
+//         if (displaysData?.text?.text) {
+//             try {
+//                 return JSON.parse(displaysData.text.text);
+//             } catch (e) {
+//                 console.error("Error parsing displays data", e);
+//             }
+//         }
+//         return [];
+//     };
 
-    const displays = getDisplays();
-    const displayTypeData = getContentData(IContentDataType.TEST);
-    const maxDisplay = displayTypeData?.text?.text ? JSON.parse(displayTypeData.text.text).maxDisplay : 2;
+//     const displays = getDisplays();
+//     const displayTypeData = getContentData(IContentDataType.TEST);
+//     const maxDisplay = displayTypeData?.text?.text ? JSON.parse(displayTypeData.text.text).maxDisplay : 2;
 
-    return (
-        <div ref={ref}>
-            <Text size={TextSize.TEXT2} weight={FontWeight.NORMAL}>
-                Displays: {displays.length} of {maxDisplay}
-            </Text>
-            <SubWrapper>
-                <SubContainer>
-                    {displays.map((display, index) => (
-                        <SubButton
-                            key={index}
-                            onClick={() => handleEditDisplay(index, display)}
-                        >
-                            <Text size={TextSize.TEXT2}> Display {index + 1}</Text>
-                            <Icon name={IconName.EDIT} color={IconColor.PRIMARY} size={IconSize.SMALL} />
-                        </SubButton>
-                    ))}
-                    {displays.length < maxDisplay && (
-                        <Button
-                            type={ButtonType.PRIMARY}
-                            variant={ButtonVariant.SECONDARY}
-                            size={ButtonSize.LARGE}
-                            icon={IconName.PLUS}
-                            iconPosition='left'
-                            onClick={handleAddDisplay}
-                            fullWidth={true}
-                        />
-                    )}
-                </SubContainer>
-            </SubWrapper>
-            {activeDisplay && (
-                <PopupEditDisplay
-                    display={activeDisplay.display}
-                    onClose={handleClosePopup}
-                    onSave={handleSaveDisplay}
-                    parentRef={ref}
-                />
-            )}
-        </div>
-    );
-};
+//     return (
+//         <div ref={ref}>
+//             <Text size={TextSize.TEXT2} weight={FontWeight.NORMAL}>
+//                 Displays: {displays.length} of {maxDisplay}
+//             </Text>
+//             <SubWrapper>
+//                 <SubContainer>
+//                     {displays.map((display, index) => (
+//                         <SubButton
+//                             key={index}
+//                             onClick={() => handleEditDisplay(index, display)}
+//                         >
+//                             <Text size={TextSize.TEXT2}> Display {index + 1}</Text>
+//                             <Icon name={IconName.EDIT} color={IconColor.PRIMARY} size={IconSize.SMALL} />
+//                         </SubButton>
+//                     ))}
+//                     {displays.length < maxDisplay && (
+//                         <Button
+//                             type={ButtonType.PRIMARY}
+//                             variant={ButtonVariant.SECONDARY}
+//                             size={ButtonSize.LARGE}
+//                             icon={IconName.PLUS}
+//                             iconPosition='left'
+//                             onClick={handleAddDisplay}
+//                             fullWidth={true}
+//                         />
+//                     )}
+//                 </SubContainer>
+//             </SubWrapper>
+//             {activeDisplay && (
+//                 <PopupEditDisplay
+//                     display={activeDisplay.display}
+//                     onClose={handleClosePopup}
+//                     onSave={handleSaveDisplay}
+//                     parentRef={ref}
+//                 />
+//             )}
+//         </div>
+//     );
+// };

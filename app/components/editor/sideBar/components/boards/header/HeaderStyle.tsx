@@ -1,127 +1,98 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
 import { Container, Divider } from '../../CommonStyles';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
 import { textSizeOptions, textStyleOptions, buttonStyleOptions, imageStyleOptions, BackgroundOptions } from '../../../types';
 import AlignmentControl from '../../AlignmentControlComponent';
+import { IContentMaterial, IContentMaterialType } from '@/components/editor/interface/models';
+import { useBoardContent } from '../../GenericBoardComponents';
 import TextureUploadComponent from '../../LoadTexturePopup';
 
-interface IHeaderStyle {
-  titleSize: string;
-  titleStyle: string;
-  subtitleSize: string;
-  subtitleStyle: string;
-  buttonStyle: string;
-  imageStyle: string;
-  horizontalAlignment: 'left' | 'center' | 'right';
-  verticalAlignment: 'top' | 'middle' | 'bottom';
-  background: string;
-
-}
-
-const defaultStyle: IHeaderStyle = {
-  titleSize: 'MEDIUM',
-  titleStyle: 'DARK',
-  subtitleSize: 'SMALL',
-  subtitleStyle: 'DARK',
-  buttonStyle: 'BLUE',
-  imageStyle: 'CROP',
-  horizontalAlignment: 'center',
-  verticalAlignment: 'middle',
-  background: 'System Gradient'
-};
-
-
 export const HeaderStyleComponent: React.FC = () => {
-  const [style, setStyle] = useState<IHeaderStyle>(defaultStyle);
+  const { getContentMaterial, setContentMaterial } = useBoardContent();
   const [openSections, setOpenSections] = useState({
-    title: true,
-    subtitle: true,
-    button: true,
-    image: true,
-    Background: true
+    background: true,
+    textStyle: true,
+    imageStyle: true,
+    buttonStyle: true,
   });
-  const ref = useRef<HTMLDivElement>(null);
   const [showUploadTexture, setShowUploadTexture] = useState(false);
-  const [showLibrary, setShowLibrary] = useState(false);
-  const handleChange = (key: keyof IHeaderStyle, value: string) => {
-    setStyle(prevStyle => ({ ...prevStyle, [key]: value }));
-  };
-
-
-
-  const handleBackgroundChange = (value: string) => {
-    setStyle(prevStyle => ({ ...prevStyle, background: value }));
-    if (value === "Create new") {
-      setShowUploadTexture(true);
-    } else if (value === "Add from library") {
-      setShowLibrary(true);
-    }
-  };
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleSectionToggle = (section: keyof typeof openSections) => (isOpen: boolean) => {
     setOpenSections(prev => ({ ...prev, [section]: isOpen }));
-    if (!isOpen) {
-      if (section === 'Background') {
-        setStyle(prevStyle => ({
-          ...prevStyle,
-          background: defaultStyle.background
-        }));
-      } else {
-        setStyle(prevStyle => ({
-          ...prevStyle,
-          [`${section}Size`]: defaultStyle[`${section}Size` as keyof IHeaderStyle],
-          [`${section}Style`]: defaultStyle[`${section}Style` as keyof IHeaderStyle],
-        }));
-      }
+  };
+
+  const handleStyleChange = (type: IContentMaterialType, value: string) => {
+    if (value === "Create new") {
+      setShowUploadTexture(true);
+    } else {
+      setContentMaterial(type, { style: value });
     }
+  };
+
+  const handleTextureUpdate = (newTexture: IContentMaterial) => {
+    setContentMaterial(IContentMaterialType.TEST, { texture: newTexture });
+    setShowUploadTexture(false);
+  };
+
+  const handleAlignmentChange = (type: 'horizontal' | 'vertical', alignment: string) => {
+    setContentMaterial(IContentMaterialType.TEST, { [type + 'Alignment']: alignment });
   };
 
   return (
     <Container ref={ref}>
       <DataObfuscator
         title='Background board'
-        isOpen={openSections.Background}
-        onToggle={handleSectionToggle('Background')}
+        isOpen={openSections.background}
+        onToggle={handleSectionToggle('background')}
       >
         <SelectInput
           options={BackgroundOptions}
-          value={style.background}
-          onChange={handleBackgroundChange}
+          value={ ''}
+          onChange={(value) => handleStyleChange(IContentMaterialType.TEST, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}
           placeholder="System Gradient"
           fullWidth={true}
         />
       </DataObfuscator>
-      {showUploadTexture && <TextureUploadComponent parentRef={ref} onClose={() => setShowUploadTexture(false)} />}
-      {showLibrary && <TextureUploadComponent parentRef={ref} onClose={() => setShowLibrary(false)} />}
+
+      {showUploadTexture && (
+        <TextureUploadComponent
+          parentRef={ref}
+          onClose={() => setShowUploadTexture(false)}
+          // onSave={handleTextureUpdate}
+          // initialTexture={getContentMaterial(IContentMaterialType.TEST)?.diffuse}
+        />
+      )}
 
       <Divider />
+
       <AlignmentControl
-        onHorizontalAlignmentChange={(alignment) => handleChange('horizontalAlignment', alignment)}
-        onVerticalAlignmentChange={(alignment) => handleChange('verticalAlignment', alignment)}
+        onHorizontalAlignmentChange={(alignment) => handleAlignmentChange('horizontal', alignment)}
+        onVerticalAlignmentChange={(alignment) => handleAlignmentChange('vertical', alignment)}
       />
+
       <DataObfuscator
         title='Text style'
-        isOpen={openSections.title}
-        onToggle={handleSectionToggle('title')}
+        isOpen={openSections.textStyle}
+        onToggle={handleSectionToggle('textStyle')}
       >
         <SelectInput
           options={textSizeOptions}
-          value={style.titleSize}
-          onChange={(value) => handleChange('titleSize', value)}
+          value={ ''}
+          onChange={(value) => handleStyleChange(IContentMaterialType.TITLE, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}
           placeholder="Choose..."
           fullWidth={true}
-
         />
         <SelectInput
           options={textStyleOptions}
-          value={style.titleStyle}
-          onChange={(value) => handleChange('titleStyle', value)}
+          value={ ''}
+          onChange={(value) => handleStyleChange(IContentMaterialType.SUB_TITLE, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}
           placeholder="Choose..."
@@ -132,14 +103,14 @@ export const HeaderStyleComponent: React.FC = () => {
       <Divider />
 
       <DataObfuscator
-        title='Image'
-        isOpen={openSections.subtitle}
-        onToggle={handleSectionToggle('subtitle')}
+        title='Image style'
+        isOpen={openSections.imageStyle}
+        onToggle={handleSectionToggle('imageStyle')}
       >
         <SelectInput
           options={imageStyleOptions}
-          value={style.subtitleSize}
-          onChange={(value) => handleChange('subtitleSize', value)}
+          value={ ''}
+          onChange={(value) => handleStyleChange(IContentMaterialType.IMAGE_CONTENT, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}
           placeholder="Choose..."
@@ -150,14 +121,14 @@ export const HeaderStyleComponent: React.FC = () => {
       <Divider />
 
       <DataObfuscator
-        title='Button'
-        isOpen={openSections.image}
-        onToggle={handleSectionToggle('image')}
+        title='Button style'
+        isOpen={openSections.buttonStyle}
+        onToggle={handleSectionToggle('buttonStyle')}
       >
         <SelectInput
           options={buttonStyleOptions}
-          value={style.imageStyle}
-          onChange={(value) => handleChange('imageStyle', value)}
+          value={ ''}
+          onChange={(value) => handleStyleChange(IContentMaterialType.BUTTON, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}
           placeholder="Choose..."
@@ -167,11 +138,3 @@ export const HeaderStyleComponent: React.FC = () => {
     </Container>
   );
 };
-
-
-
-
-
-
-
-

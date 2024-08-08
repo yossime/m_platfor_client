@@ -1,7 +1,6 @@
 import React from 'react';
 import { HeaderType } from '../types';
 import { SliderContentComponent } from './boards/slider/SliderContent';
-import { ProductContentComponent } from './boards/product/ProductContent';
 import { HeaderContentComponent } from './boards/header/HeaderContent';
 import { ImageContentComponent } from './boards/image/ImageContent';
 import { VideoContentComponent } from './boards/video/VideoContent';
@@ -22,7 +21,7 @@ export const ContentComponent: React.FC<ContentComponentProps> = ({ activeSideba
     case 'Edit Header':
       return <HeaderContentComponent />;
     case 'Edit Product':
-      return <ProductContentComponent />;
+      return <FormContentComponent />;
     case 'Edit Slider':
       return <SliderContentComponent />;
     case 'Edit Image':

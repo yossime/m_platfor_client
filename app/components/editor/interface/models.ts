@@ -1,7 +1,7 @@
 import { BackSide, Color, Euler, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, Texture, TextureLoader, Vector3 } from "three";
 import { FBXLoader } from "three/examples/jsm/Addons.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { FontFamily, IText } from "./paramsType";
+import { BaseSize, FontFamily, IText } from "./paramsType";
 import { getAuthDownloadUrl } from "@/services/firebase";
 
 
@@ -100,6 +100,11 @@ export interface ISceneObject {
     displayEmptySlots(): void;
     exportToJson(): string;
     getModel(): Object3D | null;
+
+
+    
+    // getConfiguration(): IConfiguration | null;
+    // setConfigurationn(config: IConfiguration): void;
 
     getContentMaterial(): Map<IContentMaterialType, IContentMaterial>;
     getContentText(): Map<IContentTextType, IContentText>;
@@ -457,6 +462,18 @@ export enum ProductType {
   }
 
 
+  
+export enum IConfiguration{
+    LEFT = 'Left',
+    RIGHT = 'Right',
+    CENTER = 'Center',
+    TOP = 'Top',
+    BOTTOM = 'Bottom',
+    MIDDLE = 'Middle',
+    FULL_WIDTH = 'FullWidth',
+    FULL_HEIGHT = 'FullHeight',
+}
+
 export enum IContentTextType {
     TITLE = 'Title',
     SUB_TITLE = 'Sub_Title',
@@ -486,6 +503,7 @@ export enum IContentMaterialType {
     CTA = 'CTA',
     TESTIMONIALS = 'Testimonials',
     FORM = 'Form',
+    SALF = 'salf',      //yossi
     IMAGE_0 ='Image_0',
     IMAGE_1 ='Image_1',
 }
@@ -496,6 +514,7 @@ export interface IContentText {
     text: string;
     font?: FontFamily;
     color?: string;
+    size?: BaseSize;               // yossi
     scale?: [number, number, number];
 }
 

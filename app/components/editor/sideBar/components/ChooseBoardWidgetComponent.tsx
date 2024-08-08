@@ -35,7 +35,7 @@ export const ChooseBoardWidgetComponent: React.FC<ChooseBoardWidgetComponentProp
     setSelectedWidget(widget.name);
     // const newBoard = createBoardByType(widget.type, widget.name);
 
-    const newBoard = new Board(widget.type, widget.name);
+    const newBoard = new Board(widget.type, {name: widget.name});
     
     if (sceneModel?.root && newBoard) {
       await sceneModel.root.addChild(newBoard);
