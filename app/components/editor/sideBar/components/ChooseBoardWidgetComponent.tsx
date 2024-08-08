@@ -47,13 +47,13 @@ export const ChooseBoardWidgetComponent: React.FC<ChooseBoardWidgetComponentProp
       setActiveSidebarHeader(`Edit ${widget.name}` as HeaderType);
 
       // Update dataParameters if needed
-      setDataParameters(prevParams => {
-        if (!prevParams) return prevParams;
-        return {
-          ...prevParams,
-          boards: [...prevParams.boards, newBoard]
-        };
-      });
+      // setDataParameters(prevParams => {
+      //   if (!prevParams) return prevParams;
+      //   return {
+      //     ...prevParams,
+      //     boards: [...prevParams.boards, newBoard]
+      //   };
+      // });
 
       // Update available slots
       setAvailableSlots(prev => prev - 1);

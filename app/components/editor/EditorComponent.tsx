@@ -1,7 +1,7 @@
 "use client"
 
 import Viewport from '@/components/editor/viewport/Viewport';
-// import SideBar from "@/components/editor/sideBar/SideBar";
+import SideBar from "@/components/editor/sideBar/SideBar";
 
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
@@ -117,7 +117,7 @@ const EditorComponent: React.FC = () => {
       ))} */}
 
 
-      {/* <SideBar /> */}
+      <SideBar />
       <Viewport />
     </EditorLayout>
   );

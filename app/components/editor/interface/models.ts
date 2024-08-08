@@ -88,6 +88,7 @@ export interface ISceneObjectOptions {
 
 export interface ISceneObject {
     // type: string;
+    
     children: ISceneObject[];
 
     setName(name: string): void;

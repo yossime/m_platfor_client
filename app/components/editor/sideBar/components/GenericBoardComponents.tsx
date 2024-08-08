@@ -12,7 +12,7 @@ export const useBoardContent = () => {
   const selectedObject = sceneModel?.getSelectedObject();
 
   const getContentText = (type: IContentTextType) => {
-    return selectedObject?.getContentText().get(type)?.text || '';
+    return selectedObject?.getContentText(type);
   };
 
   const setContentText = (type: IContentTextType, value: string) => {
@@ -20,7 +20,7 @@ export const useBoardContent = () => {
   };
 
   const getContentMaterial = (type: IContentMaterialType) => {
-    return selectedObject?.getContentMaterial().get(type);
+    return selectedObject?.getContentMaterial(type);
   };
 
   const setContentMaterial = (type: IContentMaterialType, material: any) => {
@@ -51,7 +51,7 @@ export const ContentInput: React.FC<ContentInputProps> = ({ type, placeholder, l
       inputSize={InputSize.SMALL}
       mode={InputMode.NORMAL}
       label={label}
-      value={getContentText(type)}
+      value={getContentText(type)?.text}
       onChange={(e: ChangeEvent<HTMLInputElement>) => setContentText(type, e.target.value)}
     />
   );
