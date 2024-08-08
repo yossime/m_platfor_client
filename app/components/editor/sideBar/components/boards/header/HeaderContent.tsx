@@ -1,111 +1,67 @@
-import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
-import Input from '@/components/Library/input/Input';
-import { InputMode, InputSize } from '@constants/input';
-import { useEditor } from '@/context/useEditorContext';
-import Button from '@/components/Library/button/Button';
-import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
-import { IHeaderBoard } from '@/components/editor/interface/paramsType';
-import { Container } from '../../CommonStyles';
-import DragAndDrop, { FileData } from '@/components/Library/general/DragAndDrop';
-import Popup from '@/components/Library/general/Popup';
+import React, { useState } from 'react';
+import { Container, Divider } from '../../CommonStyles';
+import { ContentFileUpload, ContentInput } from '../../GenericBoardComponents';
+import { IContentMaterialType, IContentTextType } from '@/components/editor/interface/models';
+import DataObfuscator from '@/components/Library/general/DataObfuscator';
 
-interface HeaderContentComponentProps { }
+export const HeaderContentComponent: React.FC = () => {
+  const [openSections, setOpenSections] = useState({
+    title: true,
+    subtitle: true,
+    image: true,
+    button: true,
+  });
 
-export const HeaderContentComponent: React.FC<HeaderContentComponentProps> = () => {
-  const { setDataParameters, dataParameters, activeBoardIndex } = useEditor();
-  const [showUploadModal, setShowUploadModal] = useState(false);
-  const [fileData, setFileData] = useState<FileData | null>(null);
-  const ref = useRef<HTMLDivElement>(null);
-
-
-  const currentBoard = dataParameters?.boards[activeBoardIndex] as IHeaderBoard;
-
-  const updateBoardField = (field: keyof IHeaderBoard, value: any) => {
-    setDataParameters((prevParams) => {
-      if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
-
-      const updatedBoards = [...prevParams.boards];
-      updatedBoards[activeBoardIndex] = {
-        ...updatedBoards[activeBoardIndex],
-        [field]: value
-      };
-
-      return {
-        ...prevParams,
-        boards: updatedBoards
-      };
-    });
+  const handleSectionToggle = (section: keyof typeof openSections) => (isOpen: boolean) => {
+    setOpenSections(prev => ({ ...prev, [section]: isOpen }));
   };
-
-  const handleInputChange = (field: 'title' | 'subTitle' | 'buttonTitle') => (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    updateBoardField(field, { text: value });
-  };
-
-
-
-  // setDataParameters((prevParams) => {
-  //   if (!prevParams || activeBoardIndex < 0 || !prevParams.boards[activeBoardIndex]) return prevParams;
-
-  //   const updateBoards = [...prevParams.boards];
-  //   const updateBoard = {...updateBoards[activeBoardIndex]} as IHeaderBoard;
-  //   // updateBoard.image = imageBuffer;
-  //   updateBoards[activeBoardIndex] = updateBoard;
-  //   return {
-  //     ...prevParams,
-  //     boards: updateBoards
-  //   };
-  // });
-
-
-
 
   return (
-    <Container ref={ref}>
-      <Input
-        inputSize={InputSize.SMALL}
-        mode={InputMode.NORMAL}
-        label="Title"
-        placeholder="Site Name"
-        value={currentBoard.title?.text || ''}
-        onChange={handleInputChange('title')}
-        fullWidth={true}
-      />
-      <Input
-        inputSize={InputSize.SMALL}
-        mode={InputMode.NORMAL}
-        label="Subtitle"
-        placeholder="Write your tagline here"
-        value={currentBoard.subTitle?.text || ''}
-        onChange={handleInputChange('subTitle')}
-        fullWidth={true}
+    <Container>
+      <DataObfuscator
+        title='Title'
+        isOpen={openSections.title}
+        onToggle={handleSectionToggle('title')}
+      >
+        <ContentInput
+          type={IContentTextType.TITLE}
+          placeholder='Enter title'
+        />
+      </DataObfuscator>
 
-      />
-      <Button
-        size={ButtonSize.SMALL}
-        type={ButtonType.PRIMARY}
-        variant={ButtonVariant.SECONDARY}
-        text={fileData?.name ? fileData.name : 'Upload image'}
-        onClick={() => setShowUploadModal(true)}
-        fullWidth={true}
+      <DataObfuscator
+        title='Subtitle'
+        isOpen={openSections.subtitle}
+        onToggle={handleSectionToggle('subtitle')}
+      >
+        <ContentInput
+          type={IContentTextType.SUB_TITLE}
+          placeholder='Enter subtitle'
+        />
+      </DataObfuscator>
 
-      />
+      <Divider />
+    
+      <DataObfuscator
+            title='Image'
+            isOpen={openSections.image}
+            onToggle={handleSectionToggle('image')}
+      >
+        <ContentFileUpload type={IContentMaterialType.TEST} />
+      </DataObfuscator>
 
-      {showUploadModal && (
-        <Popup parentRef={ref} isCentered={false} onClose={() => setShowUploadModal(false)}>
-          <DragAndDrop type='image' onFileAdded={setFileData} />
-        </Popup>
-      )}
+      <Divider />
 
-      <Input
-        inputSize={InputSize.SMALL}
-        mode={InputMode.NORMAL}
-        label="Button"
-        placeholder="Get Started!"
-        value={currentBoard.button?.text.text || ''}
-        onChange={handleInputChange('buttonTitle')}
-        fullWidth={true}
-      />
+      <DataObfuscator
+        title='Button'
+        isOpen={openSections.button}
+        onToggle={handleSectionToggle('button')}
+      >
+        <ContentInput
+          type={IContentTextType.BUTTON}
+          placeholder='Enter button text'
+        />
+      </DataObfuscator>
     </Container>
   );
 };

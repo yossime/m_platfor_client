@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 
 const firebaseConfig = {
@@ -16,3 +17,19 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+const storage = getStorage(app);
+
+
+
+export const getAuthDownloadUrl = async (filePath: string): Promise<string | null> => {
+    try {
+        console.log("`gs://${filePath}`", `${filePath}`);
+        // gs://fbx-bucket/architectures/barbiz.glb
+        const storageRef = ref(storage, `gs://${filePath}`);
+        const url = await getDownloadURL(storageRef);
+        return url
+    } catch (error) {
+        console.error('Error getting auth download URL:', error);
+        return null;
+    }
+}

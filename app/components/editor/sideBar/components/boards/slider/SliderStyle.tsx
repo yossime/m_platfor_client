@@ -1,21 +1,9 @@
 import React from 'react';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
-import { ButtonStyle, ImageStyle, IParams, Skybox, ITextStyle, BaseSize, IHeaderBoard, IThreeDModelStyle }  from '@/components/editor/interface/paramsType';
-import { useProject } from '@/context/useProjectContext';
-import { useEditor } from '@/context/useEditorContext';
+
 import { Container, Divider } from '../../CommonStyles';
-
-
-const textStyleOptions = [
-  { value: BaseSize.SMALL, label: "Default board Material" },
-  { value: BaseSize.MEDIUM, label: "Medium" },
-];
-
-const imageStyleOptions = [
-  { value: ImageStyle.CROP, label: "Crop" },
-  { value: ImageStyle.FIT, label: "Fit" },
-];
+import { imageStyleOptions, textStyleOptions } from '../../../types';
 
 export const SliderStyleComponent: React.FC = () => {
 

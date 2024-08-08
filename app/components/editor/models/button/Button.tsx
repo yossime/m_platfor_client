@@ -29,7 +29,7 @@ const Button: React.FC<buttonProps> = ({ buttonParams , buttonMesh }) => {
             setTextMeshes(buttonMesh.children[0].children);
         }
 
-        if(buttonMesh instanceof Mesh) {
+        if(buttonMesh instanceof Mesh && buttonParams?.material) {
             // console.log("buttonParams.material, buttonMesh", buttonParams.material, buttonMesh)
             buildTexture(buttonParams?.material, buttonMesh);
         }

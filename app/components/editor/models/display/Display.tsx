@@ -69,28 +69,27 @@ const Display: React.FC<DisplayLoaderProps> = ({ display, slotPlaceholder }) => 
         }
 
 
-
+        console.log("currentDisplay", currentDisplay)
         switch (display.type) {
             case 'Podium':
                 const product = display?.products as IProduct[];
                 if (!product || !product[0]) return;
-                setProductMesh(currentDisplay.children[0].children[0])
-                setTextMeshes(currentDisplay.children[1].children);
-                setButtonMeshes(currentDisplay.children[2].children);
-
-                currentDisplay.children[1].children = [];
+                setProductMesh(currentDisplay.children[1].children[1])
+                // setTextMeshes(currentDisplay.children[1].children);
+                // setButtonMeshes(currentDisplay.children[2].children);
+                // currentDisplay.children[1].children = [];
                 // console.log("currentDisplay.children[1].children", currentDisplay.children[1].children)
 
                 const podium = product[0].buttons;
 
-                    // const buttons = currentDisplay.children[2].children;
-                    // buttons.forEach(button => {
-                    //     const key = button.name as keyof typeof podium;
-                    //     const btn = product[0].buttons[key] as IButton;
-                    //     // console.log("button btn", key, btn)
-                    //     setButtonsParams(prev => [...prev, btn]);
-                    // })
-                
+            // const buttons = currentDisplay.children[2].children;
+            // buttons.forEach(button => {
+            //     const key = button.name as keyof typeof podium;
+            //     const btn = product[0].buttons[key] as IButton;
+            //     // console.log("button btn", key, btn)
+            //     setButtonsParams(prev => [...prev, btn]);
+            // })
+
 
 
 
@@ -184,7 +183,7 @@ const Display: React.FC<DisplayLoaderProps> = ({ display, slotPlaceholder }) => 
 
             {productMesh && display.products && (
                 <BoundingBox>
-                    <LoadProduct  slotPlaceholder={productMesh} display={display.products[0]} />
+                    <LoadProduct slotPlaceholder={productMesh} display={display.products[0]} />
                 </BoundingBox>
             )}
         </group>

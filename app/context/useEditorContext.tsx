@@ -1,4 +1,5 @@
 import { IParams } from '@/components/editor/interface/paramsType';
+import { SceneModel } from '@/components/editor/interface/Scene';
 import React, { createContext, useState, ReactNode, useContext, Dispatch, SetStateAction } from 'react';
 
 
@@ -19,6 +20,8 @@ interface EditorContextType {
   setCurrentMode: (mode: EMode) => void;
   activeBoardIndex: number;
   setActiveBoardIndex: (index: number) => void;  
+  sceneModel: SceneModel | null;
+  setSceneModel: (model: SceneModel) => void;
 }
 
 const EditorContext = createContext<EditorContextType | undefined>(undefined);
@@ -29,6 +32,7 @@ export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [dataParameters, setDataParameters] = useState<IParams | null>(null);
   const [currentMode, setCurrentMode] = useState<EMode>(EMode.View);
   const [activeBoardIndex, setActiveBoardIndex]= useState<number>(-1);
+  const [sceneModel, setSceneModel] = useState<SceneModel | null>(null);
 
 
 
@@ -42,7 +46,9 @@ export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     dataParameters,
     setDataParameters,
     currentMode, 
-    setCurrentMode
+    setCurrentMode,
+    sceneModel,
+    setSceneModel,
   };
 
   return (

@@ -1,21 +1,19 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDropzone, FileRejection, DropEvent } from 'react-dropzone';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
-import { Trash2, GripVertical } from 'lucide-react';
 import styled from 'styled-components';
+import { Container } from '../../CommonStyles';
+import DraggableImageItem from './DraggableImageItem';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
 
 interface FileData {
   id: string;
   name: string;
   content: ArrayBuffer;
 }
-
-const Container = styled.div`
-  width: 100%;
-`;
 
 const ImageList = styled.ul`
   margin-top: 1rem;
@@ -25,72 +23,9 @@ const ImageList = styled.ul`
   min-height: 50px;
 `;
 
-const ImageItem = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem;
-  background-color: #f3f4f6;
-  border-radius: 0.25rem;
-`;
 
-const DragHandle = styled.div`
-  cursor: grab;
-  margin-right: 0.5rem;
-`;
 
-const DeleteButton = styled.button`
-  color: #ef4444;
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
 
-const DraggableImageItem: React.FC<{ 
-  image: FileData; 
-  index: number; 
-  moveImage: (dragIndex: number, hoverIndex: number) => void; 
-  handleDelete: (id: string) => void 
-}> = ({ image, index, moveImage, handleDelete }) => {
-  const ref = useRef<HTMLLIElement>(null);
-  const [{ isDragging }, drag] = useDrag({
-    type: 'IMAGE',
-    item: { index },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  const [, drop] = useDrop({
-    accept: 'IMAGE',
-    hover(item: { index: number }, monitor) {
-      if (!ref.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-      moveImage(dragIndex, hoverIndex);
-      item.index = hoverIndex;
-    },
-  });
-
-  drag(drop(ref));
-
-  return (
-    <ImageItem ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
-      <DragHandle>
-        <GripVertical size={18} />
-      </DragHandle>
-      <span>{image.name}</span>
-      <DeleteButton onClick={() => handleDelete(image.id)}>
-        <Trash2 size={18} />
-      </DeleteButton>
-    </ImageItem>
-  );
-};
 
 export const SliderContentComponent: React.FC = () => {
   const [images, setImages] = useState<FileData[]>([]);
@@ -109,7 +44,10 @@ export const SliderContentComponent: React.FC = () => {
   const { getRootProps, getInputProps, open } = useDropzone({ 
     onDrop, 
     noClick: true, 
-    noKeyboard: true 
+    noKeyboard: true,
+    accept: {
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.bmp', '.webp']
+    }
   });
 
   const handleDelete = (id: string) => {
@@ -127,9 +65,10 @@ export const SliderContentComponent: React.FC = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
+
       <Container {...getRootProps()}>
         <Button
-          size={ButtonSize.SMALL}
+          size={ButtonSize.LARGE}
           type={ButtonType.PRIMARY}
           variant={ButtonVariant.SECONDARY}
           text="Add photos"
@@ -151,8 +90,136 @@ export const SliderContentComponent: React.FC = () => {
           ))}
         </ImageList>
       </Container>
-    </DndProvider>
+      </DndProvider>
+
   );
 };
 
 export default SliderContentComponent;
+
+
+
+
+
+
+// "use client"
+
+// import { useEffect, useState } from "react";
+// import { useEditor } from "@/context/useEditorContext";
+// import { IParams } from '@/components/editor/interface/paramsType';
+// import EditorComponent from "@/components/editor/EditorComponent";
+// import axios from "@/utils/axios";
+// import { auth } from "@/services/firebase";
+// import { User } from "firebase/auth";
+
+
+// interface UserData {
+//   isSubscriber: boolean;
+//   credits: number;
+// }
+
+// const API = 'https://server-cloud-run-service-kruirvrv6a-uc.a.run.app';
+
+// const Editor: React.FC = () => {
+//   const { setDataParameters } = useEditor();
+
+//   // useEffect(() => {
+//   //   const dataParameters: IParams = {
+//   //     architecture: 'Barbiz',
+//   //     materialParams: {},
+//   //     maxSlot: 5,
+//   //     boards: Array(5).fill({ type: null, name: null })
+//   //   };
+
+//   //   setDataParameters(dataParameters);
+//   // }, [setDataParameters]);
+
+//   const [user, setUser] = useState<User | null>(null);
+//   const [userData, setUserData] = useState<UserData | null>(null);
+//   const [file, setFile] = useState<File | null>(null);
+//   const [message, setMessage] = useState<string>('');
+
+//   useEffect(() => {
+//     const unsubscribe = auth.onAuthStateChanged((user) => {
+//       setUser(user);
+//       if (user) {
+//         fetchUserData(user);
+//       } else {
+//         setUserData(null);
+//       }
+//     });
+//     return () => unsubscribe();
+//   }, []);
+
+//   const fetchUserData = async (user: User) => {
+//     try {
+//       const idToken = await user.getIdToken();
+//       const response = await axios.get(${API}/user, {
+//         headers: {
+//           'Authorization': Bearer ${idToken},
+//         },
+//       });
+//       setUserData(response.data);
+//     } catch (error) {
+//       console.error('Error fetching user data:', error);
+//     }
+//   };
+//   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     if (e.target.files) {
+//       setFile(e.target.files[0]);
+//     }
+//   };
+
+//   const uploadFile = async () => {
+//     if (!file) return;
+
+//     const formData = new FormData();
+//     formData.append('file', file);
+
+//     try {
+//       const response = await axios.post(${API}/upload, formData, {
+//       });
+//       setMessage(response.data);
+//     } catch (error) {
+//       console.error('Error uploading file:', error);
+//       setMessage('Error uploading file');
+//     }
+//   };
+
+//   const getUser = async () => {
+//     const response = await axios.get('https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/user');
+//     console.log('User:', response.data);
+//   }
+
+
+//   useEffect(() => {
+//     getUser();
+
+//   }, []);
+
+
+//   return (
+
+//     // <EditorComponent/>
+
+//     <div>
+//       <h1>File Upload Client</h1>
+
+//       <>
+//         <p>Welcome, {user?.displayName}</p>
+//         {userData && (
+//           <div>
+//             <p>Subscriber: {userData.isSubscriber ? 'Yes' : 'No'}</p>
+//             <p>Credits: {userData.credits}</p>
+//           </div>
+//         )}
+//         <input type="file" onChange={handleFileChange} />
+//         <button onClick={uploadFile}>Upload File</button>
+//       </>
+
+//       {message && <p>{message}</p>}
+//     </div>
+//   );
+// }
+
+// export default Editor;

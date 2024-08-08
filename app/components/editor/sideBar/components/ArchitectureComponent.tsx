@@ -1,5 +1,5 @@
+
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useEditor } from '@/context/useEditorContext';
 import { Skybox } from '../../interface/paramsType';
 import { InputMode, InputSize } from '@constants/input';
@@ -11,15 +11,12 @@ import Icon from '@/components/Library/icon/Icon';
 import Button from '@/components/Library/button/Button';
 import Text from '@/components/Library/text/Text';
 import { IconColor } from '@constants/colors';
-import { BoardButton, BoardsContainer, BoardsWrapper, Container,Divider } from './CommonStyles';
-
-
+import { SubButton, SubContainer, SubWrapper, Container, Divider } from './CommonStyles';
 
 const options = [
   { value: Skybox.DEFAULT, label: "Default" },
   { value: Skybox.DARK, label: "Dark" },
 ];
-
 
 interface ArchitectureComponentProps {
   setActiveSidebarHeader: (header: any) => void;
@@ -27,24 +24,24 @@ interface ArchitectureComponentProps {
 }
 
 export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ handleBackOrAdd, setActiveSidebarHeader }) => {
-  const { setActiveBoardIndex, dataParameters } = useEditor();
-  const [availableIndex, setAvailableIndex] = useState<number | null>(null);
+  const { sceneModel, setActiveBoardIndex, dataParameters } = useEditor();
+  const [panels, setPanels] = useState<any[]>([]);
 
   useEffect(() => {
-    if (dataParameters?.boards) {
-      const index = dataParameters.boards.findIndex(board => board.type === null);
-      setAvailableIndex(index !== -1 ? index : null);
+    if (sceneModel?.root) {
+      const scenePanels = sceneModel.root.children;
+      setPanels(scenePanels);
     }
-  }, [dataParameters]);
+  }, [sceneModel]);
 
-  const handleSelect = (name: string | null, index: number) => {
-    setActiveSidebarHeader(`Edit ${name}`);
-    setActiveBoardIndex(index);
+  const handleSelect = (panel: any) => {
+    setActiveSidebarHeader(`Edit ${panel.name}`);
+    sceneModel?.setSelectedObject(panel);
+
+
+    // setActiveBoardIndex(panel);
   };
 
-  if (!dataParameters || !dataParameters.boards) {
-    return <Container>No boards available</Container>;
-  }
   return (
     <Container>
       <SelectInput
@@ -58,27 +55,25 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
       />
 
       <Divider />
-      <BoardsWrapper>
+      {panels.length > 0 && (
+        <SubWrapper>
           <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
             My Boards
           </Text>
-        <BoardsContainer>
-          {dataParameters.boards.map((board, index) => {
-            if (board.type !== null) {
-              return (
-                <BoardButton
-                  key={index}
-                  onClick={() => handleSelect(board.name, index)}
-                >
-                  <Text size={TextSize.TEXT2}>Board {index + 1}: {board.name}</Text>
-                  <Icon name={IconName.EDIT} color={IconColor.PRIMARY} size={IconSize.SMALL} />
-                </BoardButton>
-              );
-            }
-            return null;
-          })}
-        </BoardsContainer>
-      </BoardsWrapper>
+          <SubContainer>
+            {panels.map((panel, index) => (
+              <SubButton
+                key={index}
+                onClick={() => handleSelect(panel)}
+              >
+                <Text size={TextSize.TEXT2}>Board {index + 1}: {panel.name}</Text>
+                <Icon name={IconName.EDIT} color={IconColor.PRIMARY} size={IconSize.SMALL} />
+              </SubButton>
+            ))}
+          </SubContainer>
+        </SubWrapper>
+      )}
+    
       <Button
         type={ButtonType.PRIMARY}
         variant={ButtonVariant.SECONDARY}
@@ -87,7 +82,7 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
         iconPosition='left'
         onClick={handleBackOrAdd}
         text='Add Board'
-        mode={(availableIndex === null) ? ButtonMode.DISABLED : ButtonMode.NORMAL}
+        mode={ButtonMode.NORMAL}
         fullWidth={true}
       />
     </Container>

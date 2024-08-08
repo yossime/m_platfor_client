@@ -6,11 +6,10 @@ import Icon from '@/components/Library/icon/Icon';
 import Text from '@/components/Library/text/Text';
 import { IconColor, TextColor } from '@constants/colors';
 import { FontWeight, TextSize } from '@constants/text';
-import {  IconSize } from '@constants/icon';
+import { IconSize } from '@constants/icon';
 import { createBoardByType } from '../../utils/CraeteBoard';
-
-
-
+import { Board } from '../../interface/Board';
+import { BoardType } from '../../interface/models';
 
 interface ChooseBoardWidgetComponentProps {
   setActiveSidebarHeader: (header: HeaderType) => void;
@@ -19,30 +18,46 @@ interface ChooseBoardWidgetComponentProps {
 export const ChooseBoardWidgetComponent: React.FC<ChooseBoardWidgetComponentProps> = ({
   setActiveSidebarHeader
 }) => {
-  const { setActiveBoardIndex, setDataParameters, dataParameters } = useEditor();
+  const { sceneModel, setActiveBoardIndex, setDataParameters } = useEditor();
   const [selectedWidget, setSelectedWidget] = useState<string | null>(null);
-  const [availableIndex, setAvailableIndex] = useState<number | null>(null);
+  const [availableSlots, setAvailableSlots] = useState<number>(0);
 
   useEffect(() => {
-    if (dataParameters?.boards) {
-      const index = dataParameters.boards.findIndex(board => board.type === null);
-      setAvailableIndex(index !== -1 ? index : null);
+    if (sceneModel?.root) {
+      const emptySlotCount = sceneModel.root.getEmptySlots().length;
+      setAvailableSlots(emptySlotCount);
     }
-  }, [dataParameters]);
+  }, [sceneModel]);
 
-  const handleWidgetClick = (widget: WidgetData) => {
-    if (availableIndex === null) return;
+  const handleWidgetClick = async (widget: WidgetData) => {
+    if (availableSlots === 0) return;
 
     setSelectedWidget(widget.name);
-    setActiveBoardIndex(availableIndex);
-    setActiveSidebarHeader(`Edit ${widget.name}` as HeaderType);
+    // const newBoard = createBoardByType(widget.type, widget.name);
 
-    setDataParameters(prevParams => {
-      if (!prevParams) return prevParams;
-      const updatedBoards = [...prevParams.boards];
-      updatedBoards[availableIndex] = createBoardByType(widget.type, widget.name);
-      return { ...prevParams, boards: updatedBoards };
-    });
+    const newBoard = new Board(widget.type, {name: widget.name});
+    
+    if (sceneModel?.root && newBoard) {
+      await sceneModel.root.addChild(newBoard);
+      
+      // setActiveBoardIndex(sceneModel.root.children.length - 1);
+
+      sceneModel.setSelectedObject(newBoard);
+
+      setActiveSidebarHeader(`Edit ${widget.name}` as HeaderType);
+
+      // Update dataParameters if needed
+      setDataParameters(prevParams => {
+        if (!prevParams) return prevParams;
+        return {
+          ...prevParams,
+          boards: [...prevParams.boards, newBoard]
+        };
+      });
+
+      // Update available slots
+      setAvailableSlots(prev => prev - 1);
+    }
   };
 
   return (
@@ -51,18 +66,18 @@ export const ChooseBoardWidgetComponent: React.FC<ChooseBoardWidgetComponentProp
         <WidgetButton
           key={widget.name}
           onClick={() => handleWidgetClick(widget)}
-          disabled={availableIndex === null}
+          disabled={availableSlots === 0}
           $clicked={selectedWidget === widget.name}
         >
           <Icon 
             name={widget.icon} 
             size={IconSize.MEDIUM} 
-            color={availableIndex === null ? IconColor.DISABLED : IconColor.ICONCOLOR} 
+            color={availableSlots === 0 ? IconColor.DISABLED : IconColor.ICONCOLOR} 
           />
           <Text 
             size={TextSize.TEXT2} 
             weight={FontWeight.NORMAL} 
-            color={availableIndex === null ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT}
+            color={availableSlots === 0 ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT}
           >
             {widget.name}
           </Text>

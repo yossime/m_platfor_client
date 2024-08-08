@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { InputSize, InputMode, InputSizeConfig, getInputColors } from '@constants/input';
 import { FontFamily, TextSize, FontWeight } from '@constants/text';
-import { TextColor } from '@constants/colors';
+import { IconColor, TextColor } from '@constants/colors';
 import Text from '../text/Text';
-
+import Icon from '../icon/Icon';
+import { IconName } from '@constants/icon';
 type Option = {
   value: string;
   label: string;
@@ -79,6 +80,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
       >
         {selectedOption ? selectedOption.label : placeholder}
         <ArrowIcon $isOpen={isOpen} />
+        {/* <Icon name={isOpen? IconName.isOpen}/>. */}
       </SelectButton>
       {isOpen && (
         <OptionsList $size={inputSize}>
@@ -149,11 +151,11 @@ const SelectButton = styled.button<{ $size: InputSize; $mode: InputMode; $fullWi
 `;
 
 const ArrowIcon = styled.span<{ $isOpen: boolean }>`
-  border: solid black;
+  border: solid ${IconColor.ICONCOLOR};
   border-width: 0 2px 2px 0;
   display: inline-block;
   padding: 3px;
-  transform: ${props => props.$isOpen ?  'rotate(45deg)': 'rotate(-135deg)' };
+  transform: ${props => props.$isOpen ? 'rotate(-135deg)':  'rotate(45deg)' };
   transition: transform 0.3s ease;
   `;
 

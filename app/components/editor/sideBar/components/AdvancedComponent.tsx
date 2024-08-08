@@ -6,12 +6,12 @@ import { SliderAdvancedComponent } from './boards/slider/SliderAdvanced';
 import { ImageAdvancedComponent } from './boards/image/ImageAdvanced';
 import { VideoAdvancedComponent } from './boards/video/VideoAdvanced';
 import { TestimonialsAdvancedComponent } from './boards/testimonials/TestimonialsAdvanced';
-import { SubScriptionAdvancedComponent } from './boards/subScription/SubScriptionAdvanced';
 import { ServicesAdvancedComponent } from './boards/services/ServicesAdvanced';
 import { GamificationAdvancedComponent } from './boards/gamification/GamificationAdvanced';
 import { FormAdvancedComponent } from './boards/form/FormAdvanced';
-import { CosialsAdvancedComponent } from './boards/cosials/CosialsAdvanced';
+import { SocialsAdvancedComponent } from './boards/socials/SocialsAdvanced';
 import { ArticleAdvancedComponent } from './boards/article/ArticleAdvanced';
+import { SubscriptionAdvancedComponent } from './boards/subscription/SubscriptionAdvanced';
 
 interface AdvancedComponentProps {
   activeSidebarHeader: HeaderType;
@@ -31,16 +31,16 @@ export const AdvancedComponent: React.FC<AdvancedComponentProps> = ({ activeSide
       return <VideoAdvancedComponent />;
     case 'Edit Testimonials':
       return <TestimonialsAdvancedComponent />;
-    case 'Edit ImSubScriptionage':
-      return <SubScriptionAdvancedComponent />;
+    case 'Edit Subscription':
+      return <SubscriptionAdvancedComponent />;
     case 'Edit Services':
       return <ServicesAdvancedComponent />;
     case 'Edit Gamification':
       return <GamificationAdvancedComponent />;
     case 'Edit Form':
       return <FormAdvancedComponent />;
-    case 'Edit Cosials':
-      return <CosialsAdvancedComponent />;
+    case 'Edit Socials':
+      return <SocialsAdvancedComponent />;
     case 'Edit Article':
       return <ArticleAdvancedComponent />;
     default:
