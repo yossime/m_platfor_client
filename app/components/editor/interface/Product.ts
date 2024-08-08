@@ -1,13 +1,9 @@
 import { Material, Mesh, Object3D } from "three";
-import { CustomObject3D, IContentData, ISceneObject, SceneObject } from "./models";
+import { CustomObject3D, ISceneObject, ISceneObjectOptions, ProductType, SceneObject } from "./models";
 
 
 
-export enum ProductType {
-    Poudiom = 'PoudiomProduct',
-    Header = 'HeaderBoard',
-    Image = 'ImageBoard',
-  }
+
   
 
 export interface IProduct extends ISceneObject {
@@ -16,8 +12,8 @@ export interface IProduct extends ISceneObject {
 
 
 export class Product extends SceneObject implements IProduct {
-    constructor(type: ProductType, name?: string) {
-        super(type, name);
+    constructor(type: ProductType, options?: ISceneObjectOptions) {
+        super(type, options);
         this.loadModelAndDisplay();
     }
 
@@ -25,6 +21,8 @@ export class Product extends SceneObject implements IProduct {
 
     async loadModelAndDisplay(onLoad?: () => void) {
         const productUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/Podium.fbx?alt=media&token=36ec521e-6930-44ef-b8f0-d23a5a24756d`;
+        // const filePath = `fbx-bucket/displays/${this.type}`;
+
         const model = await this.loadModel(productUrl);
         const custommodel = model.children[0] as CustomObject3D;
         custommodel.onPointerDown = () => this.handleSelected(custommodel);
@@ -33,15 +31,7 @@ export class Product extends SceneObject implements IProduct {
         onLoad && onLoad();
     }
 
-    
-    public async addContentData(data: IContentData): Promise<boolean> {
-        const geometry = this.getGeometryByName(data.type);
-        if (geometry) {
-            await this.ChangeMaterial(geometry, data.texture)
-            return true;
-        }
-        return false;
-    }
+
 
 
 
@@ -52,19 +42,6 @@ export class Product extends SceneObject implements IProduct {
     addPoudiom = (name: string) => {
 
     };
-
-
-    addChild(sceneObject: SceneObject): void {
-        if (this.selectedSlot) {
-            this.children.push(sceneObject);
-            sceneObject.selectedChild = this;
-            this.setSlotsVisible(false);
-            this.selectedSlot = null;
-        } else {
-            this.setSlotsVisible(true);
-            this.childToAdd = sceneObject;
-        }
-    }
 
 
 

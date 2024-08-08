@@ -11,8 +11,8 @@ import { useThree } from '@react-three/fiber';
 import { PerspectiveCamera } from 'three';
 import { useEditor } from '@/context/useEditorContext';
 import { Board } from './interface/Board';
-import { BoardType, IContentData, IContentDataType, ISceneObject, SceneObject } from './interface/models';
-import { Product, ProductType } from './interface/Product';
+import { BoardType, IContentMaterial, IContentMaterialType, ISceneObject, ProductType, SceneObject } from './interface/models';
+import { Product } from './interface/Product';
 
 export const EditorLayout = styled.div`
   display: flex;
@@ -58,7 +58,7 @@ const EditorComponent: React.FC = () => {
 
   const handleClick = () => {
     const arch = sceneModel?.root;
-    const newBoard = new Board(BoardType.Product);
+    const newBoard = new Board(BoardType.Header);
 
     arch?.addChild(newBoard);
     const children = arch?.getChildren();
@@ -81,25 +81,24 @@ const EditorComponent: React.FC = () => {
 
   const handleCheingColor = async () => {
     const arch = sceneModel?.root;
-    const buttonContent: IContentData = {
-      type: IContentDataType.BUTTON,
-      name: 'SubmitButton',
-      texture: {
+    const type = IContentMaterialType.BUTTON;
+    // const buttonContent:  = {
+      const texture = {
         diffuse: {
           url: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f'
         }
-      },
+      }
       // text: {
       //     content: 'Submit',
       //     fontSize: 14,
       //     color: '#000000'
       // }
-    };
+    // };
     // arch?.displayEmptySlots()
     // console.log("sceneModel?.root?.children", sceneModel?.root?.getChildren()); 
-    // await (arch?.children[0] as Board).addContentData(buttonContent)
+    await (arch?.children[0] as Board).setContentMaterial(type, texture);
 
-    // console.log("getSelectedObject", sceneModel?.getSelectedObject()); 
+    console.log("getContentMaterial", sceneModel?.root?.getContentMaterial()); 
     if(sceneModel?.root){
       const jsonString = sceneModel.root.exportToJson();
       console.log(jsonString);
@@ -113,9 +112,6 @@ const EditorComponent: React.FC = () => {
       <button onClick={handleClick}>click</button>
       <button onClick={handleCheingColor}>cheing color</button>
       <button onClick={handleAddProdect}>add prodect</button>
-      <h1>{sceneModel?.root?.type}</h1>
-      <h1>{sceneModel?.root?.children[0]?.type}</h1>
-
 
       {/* {childrenList?.map((child: ISceneObject, index: number) => (
           <button key={index}>{child.type}</button>

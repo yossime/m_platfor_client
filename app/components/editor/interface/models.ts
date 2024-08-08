@@ -1,7 +1,8 @@
 import { BackSide, Color, Euler, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, Texture, TextureLoader, Vector3 } from "three";
 import { FBXLoader } from "three/examples/jsm/Addons.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { IText } from "./paramsType";
+import { FontFamily, IText } from "./paramsType";
+import { getAuthDownloadUrl } from "@/services/firebase";
 
 
 
@@ -30,7 +31,7 @@ async function loadTextureFromSource(source: File | string): Promise<Texture> {
 }
 
 
-async function applyTextureMaps(material: Material, textureMaps: ITextureMaps): Promise<void> {
+async function applyTextureMaps(material: Material, textureMaps: IContentMaterial): Promise<void> {
     if (!(material instanceof MeshStandardMaterial)) {
         console.error('Material is not a MeshStandardMaterial.');
         return;
@@ -40,7 +41,7 @@ async function applyTextureMaps(material: Material, textureMaps: ITextureMaps): 
     const texturePromises: Promise<void>[] = [];
 
     // Map texture properties to their corresponding material properties
-    const textureProperties: { [key in keyof ITextureMaps]: keyof MeshStandardMaterial } = {
+    const textureProperties: { [key in keyof IContentMaterial]: keyof MeshStandardMaterial } = {
         diffuse: 'map',
         opacity: 'alphaMap',
         roughness: 'roughnessMap',
@@ -51,7 +52,7 @@ async function applyTextureMaps(material: Material, textureMaps: ITextureMaps): 
     };
 
     for (const [key, property] of Object.entries(textureProperties)) {
-        const textureSource = textureMaps[key as keyof ITextureMaps];
+        const textureSource = textureMaps[key as keyof IContentMaterial];
         if (textureSource) {
             if (textureSource.file || textureSource.url) {
                 const source = textureSource.file ?? textureSource.url;
@@ -80,13 +81,17 @@ async function applyTextureMaps(material: Material, textureMaps: ITextureMaps): 
 }
 
 
-
+export interface ISceneObjectOptions {
+    name?: string | null;
+    position?: Vector3 | null;
+    rotation?: Euler | null;
+    scale?: { x: number; y: number; z: number };
+}
 
 export interface ISceneObject {
     type: string;
     children: ISceneObject[];
-    constentData: Map<IContentDataType, IContentData>;
-
+    
     setName(name: string): void;
     addChild(sceneObject: SceneObject): void;
     removeChild(sceneObject: SceneObject): void;
@@ -94,6 +99,13 @@ export interface ISceneObject {
     getEmptySlots(): CustomObject3D[];
     displayEmptySlots(): void;
     exportToJson(): string;
+    getModel(): Object3D | null;
+
+    getContentMaterial(): Map<IContentMaterialType, IContentMaterial>;
+    getContentText(): Map<IContentTextType, IContentText>;
+    setContentMaterial(type: IContentMaterialType, material: IContentMaterial): void;
+    setContentText(type: IContentTextType, text: IContentText): void;
+
 }
 
 export abstract class SceneObject implements ISceneObject {
@@ -102,10 +114,9 @@ export abstract class SceneObject implements ISceneObject {
     selectedChild: SceneObject | null = null;
     selectedSlot: CustomObject3D | null = null;
 
-    model: Object3D| null = null;
+    model: Object3D | null = null;
     children: SceneObject[] = [];
     protected childToAdd: SceneObject | null = null;
-    constentData: Map<IContentDataType, IContentData> = new Map();
     placeholders: Object3D[] = [];
 
     protected modelParent: Object3D | null = null;
@@ -113,19 +124,45 @@ export abstract class SceneObject implements ISceneObject {
     position: Vector3 | null = null;
     rotation: Euler | null = null;
     scale: { x: number; y: number; z: number } = { x: 1, y: 1, z: 1 };
+    protected contentMaterial: Map<IContentMaterialType, IContentMaterial> = new Map();
+    protected contentText: Map<IContentTextType, IContentText> = new Map();
 
-    constructor(type: string, name? : string, ) {
+
+
+    constructor(type: string, options?: ISceneObjectOptions) {
         this.type = type;
-        if(name)
-        this.name = name;
+
+        if (options) {
+            this.name = options.name ?? this.name;
+            this.position = options.position ?? this.position;
+            this.rotation = options.rotation ?? this.rotation;
+            this.scale = options.scale ?? this.scale;
+        }
     }
 
-    public setName(name: string) {this.name = name}
-    // abstract addChild(sceneObject: SceneObject): void;
+    public setName(name: string) { this.name = name }
     abstract removeChild(sceneObject: SceneObject): void;
-    public abstract addContentData(data: IContentData): Promise<boolean>;
     abstract displayEmptySlots(): void;
 
+    public getContentMaterial() {
+        return this.contentMaterial;
+    };
+    public getContentText(){
+        return this.contentText;
+    };
+    public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial){
+        const geometry = this.getGeometryByName(type);
+        if (geometry) {
+            await this.ChangeMaterial(geometry, material)
+            return true;
+        }
+        return false;
+    };
+    public setContentText(type: IContentTextType, text: IContentText){
+
+    };
+
+    public getModel() { return this.model};
     public getEmptySlots() { return this.placeholders }
     public setSelectedChild(child: SceneObject | null) { this.selectedChild = child; }
     protected setSelectedSlot(child: SceneObject | null) { this.selectedChild = child; }
@@ -152,12 +189,12 @@ export abstract class SceneObject implements ISceneObject {
             this.model.rotation.copy(slot.rotation);
         }
         slot.parent?.remove(slot);
-        this.selectedChild = this;
+        // this.selectedChild = this;
     }
 
 
     protected getGeometryByName(name: string): Object3D | null {
-        if(!this.model) return null;
+        if (!this.model) return null;
 
         let found: Object3D | null = null;
         this.model.traverse((child) => {
@@ -219,11 +256,12 @@ export abstract class SceneObject implements ISceneObject {
         if (this.selectedSlot) {
             sceneObject.exchangeSlot(this.selectedSlot);
             this.children.push(sceneObject);
-            sceneObject.selectedChild = this;
+            // sceneObject.selectedChild = this;
 
             this.setSlotsVisible(false);
             this.placeholders = this.placeholders.filter(placeholder => placeholder !== this.selectedSlot);
             this.selectedSlot = null;
+            this.childToAdd = null;
 
         } else {
             this.setSlotsVisible(true);
@@ -231,32 +269,18 @@ export abstract class SceneObject implements ISceneObject {
         }
     }
 
-    // protected handleSelectSlot = (slot: CustomObject3D) => {
-    //     if (this.childToAdd) {
-
-    //         this.children.push(this.childToAdd);
-
-    //         slot.parent?.attach(this.childToAdd.model);
-    //         this.childToAdd.model.position.copy(slot.position);
-    //         this.childToAdd.model.rotation.copy(slot.rotation);
-    //         slot.parent?.remove(slot);
-
-    //         this.childToAdd.selectedChild = this;
-    //         this.setSlotsVisible(false);
-    //         this.childToAdd = null;
-    //         this.selectedSlot = null;
-    //     } else {
-    //         this.selectedSlot = slot;
-    //     }
-    // };
 
 
-    protected async ChangeMaterial(mesh: Object3D, textureMap: ITextureMaps): Promise<void> {
+    protected async ChangeMaterial(mesh: Object3D, textureMap: IContentMaterial): Promise<void> {
         if (!(mesh instanceof Mesh)) return;
 
         let material;
         if (mesh.material instanceof Material) {
             material = mesh.material
+            // const slot = textureSource.slot ?? materials.length;
+            console.log("material", material);
+            // if (Array.isArray(materials)) {
+            
         } else {
             material = new MeshStandardMaterial();
             mesh.material = material;
@@ -272,7 +296,6 @@ export abstract class SceneObject implements ISceneObject {
         });
     }
 
-    // getModel(): Object3D { return this.model; }
 
     setPosition(position: Vector3): void {
         this.position = position;
@@ -301,6 +324,62 @@ export abstract class SceneObject implements ISceneObject {
         });
     }
 
+    // async loadModelUrl(filePath: string, onLoad?: () => void, onError?: (error: Error) => void): Promise<Object3D> {
+    //     return new Promise(async (resolve, reject) => {
+    //         // Extract the file extension before any query parameters
+    //         const url = await getAuthDownloadUrl(filePath);
+        
+    //         if(!url) return;
+
+    //         const fileExtension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    
+    //         console.log(`Attempting to load model from URL: ${url}`);
+    //         console.log(`Detected file extension: ${fileExtension}`);
+    
+    //         let loader;
+    //         switch (fileExtension) {
+    //             case 'fbx':
+    //                 loader = new FBXLoader();
+    //                 loader.load(
+    //                     url,
+    //                     (model: Object3D) => {
+    //                         if (onLoad) onLoad();
+    //                         resolve(model);
+    //                     },
+    //                     undefined,
+    //                     (error: unknown) => {
+    //                         if (onError) onError(error instanceof Error ? error : new Error('Unknown error occurred'));
+    //                         reject(error instanceof Error ? error : new Error('Unknown error occurred'));
+    //                     }
+    //                 );
+    //                 break;
+    //             case 'glb':
+    //             case 'gltf':
+    //                 loader = new GLTFLoader();
+    //                 loader.load(
+    //                     url,
+    //                     (gltf) => {
+    //                         if (onLoad) onLoad();
+    //                         // Extract the scene from the GLTF object
+    //                         const model = gltf.scene;
+    //                         resolve(model);
+    //                     },
+    //                     undefined,
+    //                     (error: unknown) => {
+    //                         if (onError) onError(error instanceof Error ? error : new Error('Unknown error occurred'));
+    //                         reject(error instanceof Error ? error : new Error('Unknown error occurred'));
+    //                     }
+    //                 );
+    //                 break;
+    //             default:
+    //                 const error = new Error(`Unsupported file format: ${fileExtension}`);
+    //                 console.error(error.message);
+    //                 if (onError) onError(error);
+    //                 reject(error);
+    //                 return;
+    //         }
+    //     });
+    // }
 
     exportToJson(): string {
         const exportObject: ExportedSceneObject = {
@@ -318,9 +397,9 @@ export abstract class SceneObject implements ISceneObject {
             } : null,
             scale: this.scale ?? { x: 1, y: 1, z: 1 },
             children: this.children.map(child => JSON.parse(child.exportToJson())) ?? [],
-            contentData: Array.from(this.constentData.entries()).map(([key, value]) => ({
-                ...value
-            }))
+            // contentData: Array.from(this.constentData.entries()).map(([key, value]) => ({
+            //     ...value
+            // }))
         };
         return JSON.stringify(exportObject, null, 2);
     }
@@ -341,6 +420,13 @@ export enum BoardType {
     Form = 'FormBoard',
     Socials = 'SocialsBoard',
     Article = 'ArticleBoard',
+    DisplayStands = 'stands',
+    DisplayDuo = 'DisplayDuo',
+}
+
+
+export enum ArchitectureType {
+    Barbiz = 'barbiz',
 }
 
 
@@ -353,7 +439,7 @@ export interface ITextureSource {
     intensity?: number;
 }
 
-export interface ITextureMaps {
+export interface IContentMaterial {
     diffuse?: ITextureSource;
     opacity?: ITextureSource;
     roughness?: ITextureSource;
@@ -363,24 +449,52 @@ export interface ITextureMaps {
     tint?: ITextureSource;
 }
 
+export enum ProductType {
+    Poudiom = 'PoudiomProduct',
+    Header = 'HeaderBoard',
+    Image = 'ImageBoard',
+  }
 
 
-export enum IContentDataType {
+export enum IContentTextType {
     TITLE = 'Title',
     SUB_TITLE = 'Sub_Title',
     IMAGE = 'Image',
     BUTTON = 'button',
-    TEST = 'Header'
+    TEST = 'Header',
+    IMAGE_CONTENT = 'ImageCenter',
+    IMAGE_Left= 'ImageLeft',
+    IMAGE_RIGHT = 'ImageRight',
+    TEXT = 'Text',
+    CTA = 'CTA',
+    TESTIMONIALS = 'Testimonials',
+    FORM = 'Form',
 }
 
 
-export interface IContentData {
-    type: IContentDataType;
-    name?: string;
-    texture: ITextureMaps;
-    text?: IText;
+export enum IContentMaterialType {
+    TITLE = 'Title',
+    SUB_TITLE = 'Sub_Title',
+    IMAGE = 'Image',
+    BUTTON = 'button',
+    TEST = 'Header',
+    IMAGE_CONTENT = 'ImageCenter',
+    IMAGE_Left= 'ImageLeft',
+    IMAGE_RIGHT = 'ImageRight',
+    TEXT = 'Text',
+    CTA = 'CTA',
+    TESTIMONIALS = 'Testimonials',
+    FORM = 'Form',
 }
 
+
+
+export interface IContentText {
+    text: string;
+    font?: FontFamily;
+    color?: string;
+    scale?: [number, number, number];
+}
 
 export interface ExportedSceneObject {
     name: string | null;
@@ -389,5 +503,21 @@ export interface ExportedSceneObject {
     rotation: { x: number; y: number; z: number } | null;
     scale: { x: number; y: number; z: number };
     children: ExportedSceneObject[];
-    contentData: Array<{ type: string; [key: string]: any }>;
+    contentData?: Array<{ type: string;[key: string]: any }>;
 }
+
+
+
+// export const widgets = [
+//     { type: 'HeaderBoard', name: 'Header' },
+//     { type: 'ProductBoard', name: 'Product' },
+//     { type: 'SliderBoard', name: 'Slider' },
+//     { type: 'ImageBoard', name: 'Image' },
+//     { type: 'VideoBoard', name: 'Video' },
+//     { type: 'TestimonialsBoard', name: 'Testimonials' },
+//     { type: 'SubScriptionBoard', name: 'ImSubScriptionage' },
+//     { type: 'ServicesBoard', name: 'Services' },
+//     { type: 'GamificationBoard', name: 'Gamification' },
+//     { type: 'FormBoard', name: 'Form' },
+//     { type: 'CosialsBoard', name: 'Cosials' },
+//     { type: 'ArticleBoard', name: 'Article' },

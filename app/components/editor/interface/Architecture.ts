@@ -1,18 +1,18 @@
 import { Color, Euler, Material, Mesh, MeshStandardMaterial, Object3D, PerspectiveCamera } from "three";
-import { CustomObject3D, IContentData, ISceneObject, SceneObject } from "./models";
+import { ArchitectureType, CustomObject3D, ISceneObject, ISceneObjectOptions, SceneObject } from "./models";
 import { Board } from "./Board";
 
 
 
 
 export interface IArchitecture extends ISceneObject {
-    getModel: () => Object3D | null;
+    // getModel: () => Object3D | null;
 }
 
 
 export class Architecture extends SceneObject implements IArchitecture {
-    constructor(type: string, onLoad: (model: Object3D) => void, name?: string) {
-        super(type, name);
+    constructor(type: ArchitectureType, onLoad?: (model: Object3D) => void, options?: ISceneObjectOptions) {
+        super(type, options);
         this.setPlaceholders();
         this.loadModelAndDisplay(onLoad);
     }
@@ -25,38 +25,22 @@ export class Architecture extends SceneObject implements IArchitecture {
 
 
     async loadModelAndDisplay(onLoad?: (model: Object3D) => void) {
-        const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbizKip1.fbx?alt=media';
+        const archUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbiz.fbx?alt=media&token=1f805fdd-c127-45c5-b61f-2601b2aa8519`;
+        const placeholderPath = `fbx-bucket/architectures/${this.type}_slot_placeholder.glb`;
 
         const model = await this.loadModel(archUrl);
         const custommodel = model as CustomObject3D;
         custommodel.onPointerDown = () => this.handleSelected(custommodel);
         custommodel.interactive = true;
         this.model = custommodel;
-
+        console.log("this.model,", this.model);
         await this.setPlaceholders();
-
-        // if (this.modelParent && this.position && this.rotation) {
-        //     this.modelParent?.attach(this.model);
-        //     this.model.position.copy(this.position);
-        //     this.model.rotation.copy(this.rotation);
-        // }
-
+        
         onLoad && onLoad(this.model);
     }
 
     displayEmptySlots() {
         this.setSlotsVisible(true);
-    }
-
-
-
-    async addContentData(data: IContentData): Promise<boolean> {
-        const geometry = this.getGeometryByName(data.type);
-        if (geometry) {
-            await this.ChangeMaterial(geometry, data.texture)
-            return true;
-        }
-        return false;
     }
 
 
@@ -71,10 +55,9 @@ export class Architecture extends SceneObject implements IArchitecture {
             ];
 
             const slots = [...groupA, ...groupB].filter(child => child.name.startsWith('Slot_'));
-
-            const placeholderUrl = "https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/boards%2Fplaceholder.fbx?alt=media&token=fc38725e-1a24-49e4-9d78-2282cc112387";
-
-            const placeholder = await this.loadModel(placeholderUrl);
+            const placeholderPath = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2Fplaceholder.fbx?alt=media&token=980c6ee5-aaa5-4628-9636-1eddd8e0f91e`;
+            // const placeholderPath = `fbx-bucket/architectures/${this.type}_slot_placeholder.glb`;
+            const placeholder = await this.loadModel(placeholderPath);
 
             slots.forEach(slot => {
                 const placeholderClone = placeholder.clone().children[0] as CustomObject3D;

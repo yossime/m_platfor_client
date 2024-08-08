@@ -1,16 +1,15 @@
 "use client"
-import React, { useState, useEffect, Suspense, useRef } from 'react';
-import { Canvas, ThreeEvent, useThree } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, useFBX } from '@react-three/drei';
-import { EMode, useEditor } from '@/context/useEditorContext';
-import { IButton, IHeaderBoard, IParams, IProductBoard } from '../interface/paramsType';
-import Architecture from '../Architecture';
+import React, { useState, useEffect, Suspense } from 'react';
+import { Canvas, ThreeEvent } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import { useEditor } from '@/context/useEditorContext';
 import styled from 'styled-components';
 import { SceneModel } from '../interface/Scene';
-import { Group, Object3D, Raycaster, Vector2 } from 'three';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
-import { PerspectiveCamera as Camer } from 'three';
-import { CustomObject3D } from '../interface/models';
+import { ArchitectureType, CustomObject3D } from '../interface/models';
+import { Object3D } from 'three';
+
+
+import { getAuthDownloadUrl } from "@/services/firebase";
 
 export const ViewportContainer = styled.div`
   flex-grow: 1;
@@ -320,77 +319,166 @@ export const ViewportContainer = styled.div`
 
 
 
+const data = {
+  "name": null,
+  "type": "Barbiz",
+  "position": null,
+  "rotation": null,
+  "scale": {
+    "x": 1,
+    "y": 1,
+    "z": 1
+  },
+  "children": [
+    {
+      "name": null,
+      "type": "DisplayStands",
+      "position": {
+        "x": -9.313225746154785e-10,
+        "y": 0,
+        "z": -8.673617379884035e-19
+      },
+      "rotation": {
+        "x": -1.4106487788571324e-7,
+        "y": -2.443317225831709e-7,
+        "z": 1.0471978187560862
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "children": [],
+      "contentData": []
+    },
+    {
+      "name": null,
+      "type": "DisplayStands",
+      "position": {
+        "x": -9.313225746154785e-10,
+        "y": 0,
+        "z": -8.673617379884035e-19
+      },
+      "rotation": {
+        "x": 1.4106511450440104e-7,
+        "y": -2.443316844269843e-7,
+        "z": 2.094395399093645
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "children": [],
+      "contentData": []
+    },
+    {
+      "name": null,
+      "type": "DisplayStands",
+      "position": {
+        "x": -4.656612873077393e-10,
+        "y": 1.4901161193847656e-8,
+        "z": 4.656612873077393e-10
+      },
+      "rotation": {
+        "x": -2.8212997449372784e-7,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "children": [],
+      "contentData": []
+    }
+  ],
+  "contentData": []
+}
 
-
-
+const json = JSON.stringify(data, null, 2)
 interface SceneComponentProps {
-    sceneModel: SceneModel;
+  sceneModel: SceneModel;
 }
 
 
 const SceneComponent = () => {
-    const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbizKip1.fbx?alt=media';
-    const { sceneModel, setSceneModel } = useEditor();
-    const [model, setModel] = useState<CustomObject3D | null>(null);
-    // const { camera, scene, gl } = useThree();
-    // const raycaster = new Raycaster();
-    // const pointer = new Vector2();
+  const archUrl = 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbizKip1.fbx?alt=media';
+  const { sceneModel, setSceneModel } = useEditor();
+  const [model, setModel] = useState<Object3D | null>(null);
+  // const { camera, scene, gl } = useThree();
+  // const raycaster = new Raycaster();
+  // const pointer = new Vector2();
 
-    //   useEffect(() => {
-    //       function onPointerDown(event: PointerEvent) {
-    //           // Calculate pointer position in normalized device coordinates
-    //           pointer.x = (event.clientX / gl.domElement.clientWidth) * 2 - 1;
-    //           pointer.y = -(event.clientY / gl.domElement.clientHeight) * 2 + 1;
+  //   useEffect(() => {
+  //       function onPointerDown(event: PointerEvent) {
+  //           // Calculate pointer position in normalized device coordinates
+  //           pointer.x = (event.clientX / gl.domElement.clientWidth) * 2 - 1;
+  //           pointer.y = -(event.clientY / gl.domElement.clientHeight) * 2 + 1;
 
-    //           // Update the picking ray with the camera and pointer position
-    //           raycaster.setFromCamera(pointer, camera);
+  //           // Update the picking ray with the camera and pointer position
+  //           raycaster.setFromCamera(pointer, camera);
 
-    //           // Calculate objects intersecting the picking ray
-    //           const intersects = raycaster.intersectObjects(scene.children, true);
+  //           // Calculate objects intersecting the picking ray
+  //           const intersects = raycaster.intersectObjects(scene.children, true);
 
-    //           for (let i = 0; i < intersects.length; i++) {
-    //               const object = intersects[i].object as CustomObject3D;
-    //               if (object.onPointerDown) {
-    //                   object.onPointerDown(event);
-    //                   break;
-    //               }
-    //           }
-    //       }
+  //           for (let i = 0; i < intersects.length; i++) {
+  //               const object = intersects[i].object as CustomObject3D;
+  //               if (object.onPointerDown) {
+  //                   object.onPointerDown(event);
+  //                   break;
+  //               }
+  //           }
+  //       }
 
-    //       // Add event listener
-    //       gl.domElement.addEventListener('pointerdown', onPointerDown);
+  //       // Add event listener
+  //       gl.domElement.addEventListener('pointerdown', onPointerDown);
 
-    //       // Clean up
-    //       return () => {
-    //           gl.domElement.removeEventListener('pointerdown', onPointerDown);
-    //       };
-    //   }, [camera, scene, gl, raycaster]);
+  //       // Clean up
+  //       return () => {
+  //           gl.domElement.removeEventListener('pointerdown', onPointerDown);
+  //       };
+  //   }, [camera, scene, gl, raycaster]);
 
 
-    useEffect(() => {
-        setSceneModel(new SceneModel('B', setModel));
-    }, [archUrl]);
+  useEffect(() => {
+    // setSceneModel(new SceneModel(ArchitectureType.Barbiz, setModel));
+    const buildScene = async () => {
+      const scene = new SceneModel(setModel);
+      const sceneModel = await scene.buildingFromScratch(ArchitectureType.Barbiz);
+      // const sceneModel = scene.buildSceneObjectFromJson(json);
 
-    const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
-        const object = event.object as CustomObject3D;
-        event.stopPropagation();
-        let selected = null;
-        if (object.interactive) {
-            if (object.onPointerDown) {
-                selected = object.onPointerDown(event);
-            }
-        }
-        sceneModel?.setSelectedObject(selected)
+      console.log("sceneModel", sceneModel)
+      console.log("sceneModel.getModel()", sceneModel.getModel())
+
+
+
+      setSceneModel(scene);
     }
-    return (
-        <group onPointerDown={handlePointerDown}>
-            {/* <PerspectiveCamera makeDefault position={[5, 5, 5]} /> */}
+    buildScene();
+  }, [archUrl]);
 
-            <Suspense fallback={<span>Loading...</span>}>
-                {model && <primitive object={model} />}
-            </Suspense>
-        </group>
-    );
+  const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
+    const object = event.object as CustomObject3D;
+    event.stopPropagation();
+    let selected = null;
+    if (object.interactive) {
+      if (object.onPointerDown) {
+        selected = object.onPointerDown(event);
+      }
+    }
+    sceneModel?.setSelectedObject(selected)
+  }
+  return (
+    <group onPointerDown={handlePointerDown}>
+      {/* <PerspectiveCamera makeDefault position={[5, 5, 5]} /> */}
+
+      <Suspense fallback={<span>Loading...</span>}>
+        {model && <primitive object={model} />}
+      </Suspense>
+    </group>
+  );
 };
 
 
@@ -398,18 +486,18 @@ const SceneComponent = () => {
 
 const Viewport = () => {
 
-    return (
-        <ViewportContainer>
-            <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
-                <Canvas style={{ height: '100%', width: '100%' }}>
-                    <OrbitControls />
-                    <ambientLight />
-                    <gridHelper />
-                    <SceneComponent />
-                </Canvas>
-            </div>
-        </ViewportContainer>
-    );
+  return (
+    <ViewportContainer>
+      <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
+        <Canvas style={{ height: '100%', width: '100%' }}>
+          <OrbitControls />
+          <ambientLight />
+          <gridHelper />
+          <SceneComponent />
+        </Canvas>
+      </div>
+    </ViewportContainer>
+  );
 };
 
 export default Viewport;
