@@ -4,16 +4,15 @@ import { BoardType, CustomObject3D, ISceneObject, ISceneObjectOptions, SceneObje
 
 
 
+
 export interface IBoard extends ISceneObject {
     // addPoudiom: (name: string) => void;
 }
-
 
 export class Board extends SceneObject implements IBoard {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
         this.loadModelAndDisplay(onBoardLoaded);
-
     }
 
 
@@ -25,6 +24,7 @@ export class Board extends SceneObject implements IBoard {
         const model = await this.loadModel(filePath);
 
         const custommodel = model.children[0] as CustomObject3D;
+        
         custommodel.onPointerDown = () => this.handleSelected(custommodel);
         custommodel.interactive = true;
         this.model = custommodel;
@@ -61,7 +61,8 @@ export class Board extends SceneObject implements IBoard {
             slots.forEach(slot => {
                 const placeholderClone = placeholder.clone().children[0] as CustomObject3D;
 
-                placeholderClone.onPointerDown = () => this.handleSelectSlot(placeholderClone);
+                placeholderClone.onPointerDown = (event) => this.handleSelectSlot(placeholderClone);
+                // placeholderClone.onPointerDown = () => this.handleSelectSlot(placeholderClone);
                 placeholderClone.interactive = true;
                 slot.parent?.attach(placeholderClone);
                 placeholderClone.position.copy(slot.position);
@@ -84,7 +85,7 @@ export class Board extends SceneObject implements IBoard {
         const index = this.children.indexOf(sceneObject);
         if (index > -1) {
             this.children.splice(index, 1);
-            sceneObject.selectedChild = null;
+            // sceneObject.selectedChild = null;
         }
     }
 }

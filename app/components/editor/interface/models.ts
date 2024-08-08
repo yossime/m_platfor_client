@@ -7,7 +7,7 @@ import { getAuthDownloadUrl } from "@/services/firebase";
 
 
 export interface CustomObject3D extends Object3D {
-    onPointerDown?: (event: any) => ISceneObject;
+    onPointerDown?: (event: any) => SceneObject;
     interactive?: boolean;
 }
 
@@ -20,7 +20,6 @@ async function loadTextureFromSource(source: File | string): Promise<Texture> {
         loader.load(
             url,
             (texture) => {
-                // Revoke object URL if it was used
                 if (source instanceof File) URL.revokeObjectURL(url);
                 resolve(texture);
             },
@@ -40,7 +39,6 @@ async function applyTextureMaps(material: Material, textureMaps: IContentMateria
     const stdMaterial = material as MeshStandardMaterial;
     const texturePromises: Promise<void>[] = [];
 
-    // Map texture properties to their corresponding material properties
     const textureProperties: { [key in keyof IContentMaterial]: keyof MeshStandardMaterial } = {
         diffuse: 'map',
         opacity: 'alphaMap',
@@ -89,43 +87,45 @@ export interface ISceneObjectOptions {
 }
 
 export interface ISceneObject {
-    type: string;
+    // type: string;
     children: ISceneObject[];
-    
+
     setName(name: string): void;
-    addChild(sceneObject: SceneObject): void;
-    removeChild(sceneObject: SceneObject): void;
+    addChild(sceneObject: ISceneObject): void;
+    // removeChild(sceneObject: SceneObject): void;
     getChildren(): ISceneObject[] | null;
     getEmptySlots(): CustomObject3D[];
     displayEmptySlots(): void;
     exportToJson(): string;
     getModel(): Object3D | null;
 
-    getContentMaterial(): Map<IContentMaterialType, IContentMaterial>;
-    getContentText(): Map<IContentTextType, IContentText>;
+    getContentMaterial(type:IContentMaterialType): IContentMaterial | null;
+    getContentText(type: IContentTextType): IContentText | null;
+    getConfiguration(): IConfiguration | null;
     setContentMaterial(type: IContentMaterialType, material: IContentMaterial): void;
     setContentText(type: IContentTextType, text: IContentText): void;
-
+    setConfigurationn(config: IConfiguration): void;
+    exchangeSlot(slot: CustomObject3D): void;
 }
 
 export abstract class SceneObject implements ISceneObject {
-    name: string | null = null;
-    type: string;
-    selectedChild: SceneObject | null = null;
-    selectedSlot: CustomObject3D | null = null;
+    protected name: string | null = null;
+    protected type: string;
+    protected selectedChild: SceneObject | null = null;
+    protected selectedSlot: CustomObject3D | null = null;
+    protected model: Object3D | null = null;
+    public children: ISceneObject[] = [];
 
-    model: Object3D | null = null;
-    children: SceneObject[] = [];
-    protected childToAdd: SceneObject | null = null;
-    placeholders: Object3D[] = [];
+    protected childToAdd: ISceneObject | null = null;
+    protected placeholders: CustomObject3D[] = [];
 
     protected modelParent: Object3D | null = null;
 
-    position: Vector3 | null = null;
-    rotation: Euler | null = null;
-    scale: { x: number; y: number; z: number } = { x: 1, y: 1, z: 1 };
-    protected contentMaterial: Map<IContentMaterialType, IContentMaterial> = new Map();
-    protected contentText: Map<IContentTextType, IContentText> = new Map();
+    protected position: Vector3 | null = null;
+    protected rotation: Euler | null = null;
+    protected scale: { x: number; y: number; z: number } = { x: 1, y: 1, z: 1 };
+    protected contentMaterial: Map<IContentMaterialType, IContentMaterial> = new Map<IContentMaterialType, IContentMaterial>();
+    protected contentText: Map<IContentTextType, IContentText> = new Map<IContentTextType, IContentText>();
 
 
 
@@ -140,34 +140,37 @@ export abstract class SceneObject implements ISceneObject {
         }
     }
 
+
     public setName(name: string) { this.name = name }
-    abstract removeChild(sceneObject: SceneObject): void;
+    // abstract removeChild(sceneObject: SceneObject): void;
     abstract displayEmptySlots(): void;
 
-    public getContentMaterial() {
-        return this.contentMaterial;
+    public getContentMaterial(type:IContentMaterialType) {
+        return this.contentMaterial.get(type) ?? null;
     };
-    public getContentText(){
-        return this.contentText;
+    public getContentText(type: IContentTextType) {
+        return this.contentText.get(type) ?? null;
     };
-    public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial){
+    public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial) {
         const geometry = this.getGeometryByName(type);
         if (geometry) {
-            await this.ChangeMaterial(geometry, material)
+            await this.ChangeMaterial(geometry, material);
+            this.contentMaterial.set(type, material);
             return true;
         }
         return false;
     };
-    public setContentText(type: IContentTextType, text: IContentText){
+    public setContentText(type: IContentTextType, text: IContentText) {
 
     };
+    public getConfiguration() { return null; }
 
-    public getModel() { return this.model};
+    public getModel() { return this.model };
     public getEmptySlots() { return this.placeholders }
-    public setSelectedChild(child: SceneObject | null) { this.selectedChild = child; }
-    protected setSelectedSlot(child: SceneObject | null) { this.selectedChild = child; }
-
-    public getChildren() { return this.children; }
+    public setSelectedChild(child: SceneObject | null) { this.selectedChild = child; };
+    public setSelectedSlot(child: SceneObject | null) { this.selectedChild = child; };
+    public setConfigurationn() {};
+    public getChildren() { return null; }
     setMaterial(name: string): void {
         if (this.model instanceof Object3D) {
             this.model.traverse(child => {
@@ -229,7 +232,7 @@ export abstract class SceneObject implements ISceneObject {
         mesh.add(outlineMesh);
     };
 
-    protected handleSelectSlot = (object: Object3D) => {
+    protected handleSelectSlot = (object: CustomObject3D) => {
         this.selectedSlot = object;
         // this.highlightMesh(object);
 
@@ -248,11 +251,11 @@ export abstract class SceneObject implements ISceneObject {
     };
 
 
-    protected handleSelected = (object: Object3D) => {
+    protected handleSelected = (object: CustomObject3D) => {
         return this;
     };
 
-    public addChild(sceneObject: SceneObject): void {
+    public addChild(sceneObject: ISceneObject): void {
         if (this.selectedSlot) {
             sceneObject.exchangeSlot(this.selectedSlot);
             this.children.push(sceneObject);
@@ -273,14 +276,9 @@ export abstract class SceneObject implements ISceneObject {
 
     protected async ChangeMaterial(mesh: Object3D, textureMap: IContentMaterial): Promise<void> {
         if (!(mesh instanceof Mesh)) return;
-
         let material;
         if (mesh.material instanceof Material) {
             material = mesh.material
-            // const slot = textureSource.slot ?? materials.length;
-            console.log("material", material);
-            // if (Array.isArray(materials)) {
-            
         } else {
             material = new MeshStandardMaterial();
             mesh.material = material;
@@ -311,13 +309,13 @@ export abstract class SceneObject implements ISceneObject {
         this.model?.scale.set(x, y, z);
     }
 
-    async loadModel(modelPath: string, onLoad?: () => void, onError?: (error: Error) => void): Promise<Object3D> {
+    async loadModel(modelPath: string, onLoad?: () => void, onError?: (error: Error) => void): Promise<CustomObject3D> {
         return new Promise((resolve, reject) => {
             const loader = new FBXLoader();
 
             loader.load(
                 modelPath,
-                (model: CustomObject3D) => resolve(model),
+                model => resolve(model as CustomObject3D),
                 undefined,
                 (error) => reject(error)
             );
@@ -328,14 +326,14 @@ export abstract class SceneObject implements ISceneObject {
     //     return new Promise(async (resolve, reject) => {
     //         // Extract the file extension before any query parameters
     //         const url = await getAuthDownloadUrl(filePath);
-        
+
     //         if(!url) return;
 
     //         const fileExtension = url.split('?')[0].split('.').pop()?.toLowerCase();
-    
+
     //         console.log(`Attempting to load model from URL: ${url}`);
     //         console.log(`Detected file extension: ${fileExtension}`);
-    
+
     //         let loader;
     //         switch (fileExtension) {
     //             case 'fbx':
@@ -395,15 +393,23 @@ export abstract class SceneObject implements ISceneObject {
                 y: this.rotation.y,
                 z: this.rotation.z
             } : null,
-            scale: this.scale ?? { x: 1, y: 1, z: 1 },
+            // scale: this.scale ?? { x: 1, y: 1, z: 1 },
             children: this.children.map(child => JSON.parse(child.exportToJson())) ?? [],
-            // contentData: Array.from(this.constentData.entries()).map(([key, value]) => ({
-            //     ...value
-            // }))
+            contentMaterial: {},
+            contentText: {}
         };
+
+    
+        for (const [type, material] of Object.entries(this.contentMaterial)) {
+            exportObject.contentMaterial[type as IContentMaterialType] = material;
+        }
+    
+        for (const [type, text] of Object.entries(this.contentText)) {
+            exportObject.contentText[type as IContentTextType] = text;
+        }
+    
         return JSON.stringify(exportObject, null, 2);
     }
-
 };
 
 
@@ -453,7 +459,7 @@ export enum ProductType {
     Poudiom = 'PoudiomProduct',
     Header = 'HeaderBoard',
     Image = 'ImageBoard',
-  }
+}
 
 
 export enum IContentTextType {
@@ -463,7 +469,7 @@ export enum IContentTextType {
     BUTTON = 'button',
     TEST = 'Header',
     IMAGE_CONTENT = 'ImageCenter',
-    IMAGE_Left= 'ImageLeft',
+    IMAGE_Left = 'ImageLeft',
     IMAGE_RIGHT = 'ImageRight',
     TEXT = 'Text',
     CTA = 'CTA',
@@ -479,7 +485,7 @@ export enum IContentMaterialType {
     BUTTON = 'button',
     TEST = 'Header',
     IMAGE_CONTENT = 'ImageCenter',
-    IMAGE_Left= 'ImageLeft',
+    IMAGE_Left = 'ImageLeft',
     IMAGE_RIGHT = 'ImageRight',
     TEXT = 'Text',
     CTA = 'CTA',
@@ -501,23 +507,19 @@ export interface ExportedSceneObject {
     type: string;
     position: { x: number; y: number; z: number } | null;
     rotation: { x: number; y: number; z: number } | null;
-    scale: { x: number; y: number; z: number };
+    scale?: { x: number; y: number; z: number };
     children: ExportedSceneObject[];
-    contentData?: Array<{ type: string;[key: string]: any }>;
+    contentMaterial: { [key in IContentMaterialType]?: IContentMaterial };
+    contentText: { [key in IContentTextType]?: IContentText };
 }
 
-
-
-// export const widgets = [
-//     { type: 'HeaderBoard', name: 'Header' },
-//     { type: 'ProductBoard', name: 'Product' },
-//     { type: 'SliderBoard', name: 'Slider' },
-//     { type: 'ImageBoard', name: 'Image' },
-//     { type: 'VideoBoard', name: 'Video' },
-//     { type: 'TestimonialsBoard', name: 'Testimonials' },
-//     { type: 'SubScriptionBoard', name: 'ImSubScriptionage' },
-//     { type: 'ServicesBoard', name: 'Services' },
-//     { type: 'GamificationBoard', name: 'Gamification' },
-//     { type: 'FormBoard', name: 'Form' },
-//     { type: 'CosialsBoard', name: 'Cosials' },
-//     { type: 'ArticleBoard', name: 'Article' },
+export enum IConfiguration{
+    LEFT = 'Left',
+    RIGHT = 'Right',
+    CENTER = 'Center',
+    TOP = 'Top',
+    BOTTOM = 'Bottom',
+    MIDDLE = 'Middle',
+    FULL_WIDTH = 'FullWidth',
+    FULL_HEIGHT = 'FullHeight',
+}

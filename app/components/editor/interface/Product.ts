@@ -46,12 +46,12 @@ export class Product extends SceneObject implements IProduct {
 
 
 
-    removeChild(sceneObject: SceneObject): void {
-        const index = this.children.indexOf(sceneObject);
-        if (index > -1) {
-            this.children.splice(index, 1);
-            sceneObject.selectedChild = null;
-        }
-    }
+    // removeChild(sceneObject: SceneObject): void {
+    //     const index = this.children.indexOf(sceneObject);
+    //     if (index > -1) {
+    //         this.children.splice(index, 1);
+    //         sceneObject.selectedChild = null;
+    //     }
+    // }
 }
 

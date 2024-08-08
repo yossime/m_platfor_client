@@ -96,9 +96,8 @@ const EditorComponent: React.FC = () => {
     // };
     // arch?.displayEmptySlots()
     // console.log("sceneModel?.root?.children", sceneModel?.root?.getChildren()); 
-    await (arch?.children[0] as Board).setContentMaterial(type, texture);
+    // await (arch?.children[0] as Board).setContentMaterial(type, texture);
 
-    console.log("getContentMaterial", sceneModel?.root?.getContentMaterial()); 
     if(sceneModel?.root){
       const jsonString = sceneModel.root.exportToJson();
       console.log(jsonString);
