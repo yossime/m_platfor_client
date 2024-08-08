@@ -13,6 +13,7 @@ import { SocialsAdvancedComponent } from './boards/socials/SocialsAdvanced';
 import { ArticleAdvancedComponent } from './boards/article/ArticleAdvanced';
 import { SubscriptionAdvancedComponent } from './boards/subscription/SubscriptionAdvanced';
 
+
 interface AdvancedComponentProps {
   activeSidebarHeader: HeaderType;
 }
