@@ -10,6 +10,7 @@ import { GamificationContentComponent } from './boards/gamification/Gamification
 import { FormContentComponent } from './boards/form/FormContent';
 import { SocialsContentComponent } from './boards/socials/SocialsContent';
 import { ArticleContentComponent } from './boards/article/ArticleContent';
+import { ProductContentComponent } from './boards/product/ProductContent';
 import { SubscriptionContentComponent } from './boards/subscription/SubscriptionContent';
 
 interface ContentComponentProps {
@@ -21,7 +22,7 @@ export const ContentComponent: React.FC<ContentComponentProps> = ({ activeSideba
     case 'Edit Header':
       return <HeaderContentComponent />;
     case 'Edit Product':
-      return <FormContentComponent />;
+      return <ProductContentComponent />;
     case 'Edit Slider':
       return <SliderContentComponent />;
     case 'Edit Image':

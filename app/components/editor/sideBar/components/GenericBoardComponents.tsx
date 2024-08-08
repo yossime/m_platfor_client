@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import Input from '@/components/Library/input/Input';
+import SelectInput from '@/components/Library/input/SelectInput';
 import { InputMode, InputSize } from '@constants/input';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
 import { DeleteIcon, FileDisplay, FileName } from './CommonStyles';
@@ -57,39 +58,59 @@ export const ContentInput: React.FC<ContentInputProps> = ({ type, placeholder, l
   );
 };
 
+interface ContentSelectProps {
+  type: IContentTextType;
+  options: { value: string; label: string }[];
+  placeholder: string;
+  label?: string;
+}
 
+export const ContentSelect: React.FC<ContentSelectProps> = ({ type, options, placeholder, label }) => {
+  const { getContentText, setContentText } = useBoardContent();
 
-
+  return (
+    <SelectInput
+      options={options}
+      value={getContentText(type)?.text || ''}
+      onChange={(value) => setContentText(type, value)}
+      inputSize={InputSize.SMALL}
+      mode={InputMode.DEFAULT}
+      label={label}
+      placeholder={placeholder}
+      fullWidth={true}
+    />
+  );
+};
 
 export const ContentFileUpload: React.FC<{
-    type: IContentMaterialType;
-  }> = ({ type }) => {
-    const { getContentMaterial, setContentMaterial } = useBoardContent();
-    
-    const file = getContentMaterial(type)?.diffuse?.file;
+  type: IContentMaterialType;
+}> = ({ type }) => {
+  const { getContentMaterial, setContentMaterial } = useBoardContent();
   
-    const handleFileAdded = (newFile: File) => {
-      setContentMaterial(type, { diffuse: { file: newFile } });
-    };
-  
-    const handleFileDelete = () => {
-      setContentMaterial(type, {});
-    };
-  
-    return (
-      <>
-        {file ? (
-          <FileDisplay>
-            <FileName>{file.name}</FileName>
-            <DeleteIcon size={20} onClick={handleFileDelete} />
-          </FileDisplay>
-        ) : (
-          <DragAndDrop
-            type='image'
-            onFileAdded={handleFileAdded}
-            buttonOnly={true}
-          />
-        )}
-      </>
-    );
+  const file = getContentMaterial(type)?.diffuse?.file;
+
+  const handleFileAdded = (newFile: File) => {
+    setContentMaterial(type, { diffuse: { file: newFile } });
   };
+
+  const handleFileDelete = () => {
+    setContentMaterial(type, {});
+  };
+
+  return (
+    <>
+      {file ? (
+        <FileDisplay>
+          <FileName>{file.name}</FileName>
+          <DeleteIcon size={20} onClick={handleFileDelete} />
+        </FileDisplay>
+      ) : (
+        <DragAndDrop
+          type='image'
+          onFileAdded={handleFileAdded}
+          buttonOnly={true}
+        />
+      )}
+    </>
+  );
+};

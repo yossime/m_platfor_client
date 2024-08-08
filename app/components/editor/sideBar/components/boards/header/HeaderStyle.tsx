@@ -33,7 +33,10 @@ export const HeaderStyleComponent: React.FC = () => {
   };
 
   const handleTextureUpdate = (newTexture: IContentMaterial) => {
-    setContentMaterial(IContentMaterialType.TEST, { texture: newTexture });
+    console.log("texture update", newTexture);
+    // setContentMaterial(IContentMaterialType.TEST, newTexture );
+    setContentMaterial(IContentMaterialType.TEST, { diffuse: { file: newTexture.diffuse?.map } });
+
     setShowUploadTexture(false);
   };
 
@@ -64,7 +67,6 @@ export const HeaderStyleComponent: React.FC = () => {
           parentRef={ref}
           onClose={() => setShowUploadTexture(false)}
           onSave={handleTextureUpdate}
-          initialTexture={getContentMaterial(IContentMaterialType.TEST)}
         />
       )}
 

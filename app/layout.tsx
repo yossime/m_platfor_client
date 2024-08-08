@@ -24,9 +24,11 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.variable} ${figtree.variable}`}>
       <body className={inter.className}>
       <StyledComponentsRegistry>
+      <ProjectProvider>
         <AuthWrapper>
-          <ProjectProvider>{children}</ProjectProvider>
+         {children}
         </AuthWrapper>
+        </ProjectProvider>
         </StyledComponentsRegistry>
 
       </body>
