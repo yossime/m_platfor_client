@@ -78,14 +78,15 @@ const EditorComponent: React.FC = () => {
     arch?.children[0].addChild(prodect)
 
   }
-
+  const [file, setFile] = useState<File>()
   const handleCheingColor = async () => {
     const arch = sceneModel?.root;
     const type = IContentMaterialType.BUTTON;
     // const buttonContent:  = {
       const texture = {
         diffuse: {
-          url: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f'
+          // url: 'https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f'
+          file: file
         }
       }
       // text: {
@@ -103,7 +104,6 @@ const EditorComponent: React.FC = () => {
       console.log(jsonString);
     }
   }
-
 
 
   return (
