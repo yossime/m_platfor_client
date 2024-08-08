@@ -19,8 +19,8 @@ export class Board extends SceneObject implements IBoard {
 
 
     async loadModelAndDisplay(onLoad?: () => void) {
-        // const filePath = `fbx-bucket/boards/${this.type}.glb`;
-        const filePath = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/boards%2F${this.type}.fbx?alt=media&token=3011dd15-acb1-473e-af88-c726b73e0d67`;
+        const boardUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/boards%2F${this.type}.fbx?alt=media`;
+        // const boardUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/prodects%2FProd.fbx?alt=media&token=08240ada-8a7a-4e07-baf0-3afbe05a429c`;
 
         const model = await this.loadModel(filePath);
 
@@ -39,6 +39,17 @@ export class Board extends SceneObject implements IBoard {
         }
         onLoad && onLoad();
     }
+
+
+    // public async addContentData(data: IContentData): Promise<boolean> {
+    //     const geometry = this.getGeometryByName(data.type);
+    //     if (geometry) {
+    //         await this.ChangeMaterial(geometry, data.texture)
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
 
 
     displayEmptySlots() {
