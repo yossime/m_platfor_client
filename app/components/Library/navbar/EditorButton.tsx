@@ -17,7 +17,9 @@ const EditorButton: React.FC = () => {
     setEditorState(EditorState.LOADING);
     try {
         // const dataParameters = await sceneModel?.exportToJson();
+        // console.log()
         // if (dataParameters && currentProject) {
+        //     await axios.post(`${previewApi}/${currentProject}`, dataParameters);
         if ( currentProject) {
           await axios.post(`${previewApi}/${currentProject}`, {test: 'dataParameters'});
             checkPreviewStatus();
