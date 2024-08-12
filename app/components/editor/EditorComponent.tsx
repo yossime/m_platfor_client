@@ -3,11 +3,11 @@
 import Viewport from '@/components/editor/viewport/Viewport';
 import SideBar from "@/components/editor/sideBar/SideBar";
 import styled from 'styled-components';
-import { useEditor } from '@/context/useEditorContext';
-import { ISceneObject } from './interface/models';
+import { EditorState, useEditor } from '@/context/useEditorContext';
 import UnityViewer from './preView/UnityViewer';
 import { useProject } from '@/context/useProjectContext';
 import axios from '@/utils/axios';
+import { useEffect } from 'react';
 
 export const EditorLayout = styled.div`
   display: flex;
@@ -42,18 +42,23 @@ const EditorComponent: React.FC = () => {
     // }
     console.log("json: " + json);
   }
+  const { editorState } = useEditor();
+
+  useEffect(() => {
+    console.log("Current editor state:", editorState);
+  }, [editorState]);
 
   return (
     <>
-      {!previewMode ? (
+      {(editorState !== EditorState.PREVIEW) ? (
         <EditorLayout>
-          <button onClick={onClick}>click</button>
+          {/* <button onClick={onClick}>click</button> */}
           <SideBar />
           <Viewport />
         </EditorLayout>
       ) : (
         <EditorLayout>
-          <UnityViewer projectId='1234'/>
+          <UnityViewer/>
         </EditorLayout>
       )}
     </>

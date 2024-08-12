@@ -87,11 +87,11 @@ export enum IconName {
     ARROWLINERIGHT = 'ARROWLINERIGHT',
     ARROWSINLINEHORIZONTAL = 'ARROWSINLINEHORIZONTAL',
     ARROWLINELEFT = 'ARROWLINELEFT',
-
-
+    SPINNERGAP = 'SPINNERGAP',
 }
 
 export const IconComponents: { [key in IconName]: IconType } = {
+    [IconName.SPINNERGAP]: PiIcons.PiSpinnerGap,
     [IconName.ARROWLINEDOWN]: PiIcons.PiArrowLineDown,
     [IconName.ARROWSINLINEVERTICAL]: PiIcons.PiArrowsInLineVertical,
     [IconName.ARROWLINEUP]: PiIcons.PiArrowLineUp,
