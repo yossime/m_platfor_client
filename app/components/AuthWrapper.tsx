@@ -29,7 +29,9 @@ export default function AuthWrapper({
 }) {
   return (
     <AuthProvider>
+      <EditorProvider>
         <NavbarWithAuth />
+      </EditorProvider>
       {children}
     </AuthProvider>
   );

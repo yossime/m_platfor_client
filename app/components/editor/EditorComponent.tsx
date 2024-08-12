@@ -5,7 +5,6 @@ import SideBar from "@/components/editor/sideBar/SideBar";
 import styled from 'styled-components';
 import { EditorState, useEditor } from '@/context/useEditorContext';
 import UnityViewer from './preView/UnityViewer';
-import { useEffect } from 'react';
 
 export const EditorLayout = styled.div`
   display: flex;
@@ -24,10 +23,6 @@ export const ResizableHandle = styled.div`
 
 const EditorComponent: React.FC = () => {
   const { editorState } = useEditor();
-
-  useEffect(() => {
-    console.log("Current editor state:", editorState);
-  }, [editorState]);
 
   return (
     <>
