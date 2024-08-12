@@ -172,6 +172,16 @@ export abstract class SceneObject implements ISceneObject {
         }
     };
 
+    // public async setContentText(type: IContentTextType, text: IContentText) {
+    //     const geometry = this.getGeometryByName(type);
+    //     if (geometry instanceof Mesh) {
+    //         this.straightText(geometry, text);
+    //         this.contentText.set(type, text);
+    //         return true;
+    //     }
+    //     return false;
+    // };
+
     public async setContentText(type: IContentTextType, text: IContentText) {
         const geometry = this.getGeometryByName(type);
         if (geometry instanceof Mesh) {
@@ -452,17 +462,14 @@ export abstract class SceneObject implements ISceneObject {
         };
 
 
-        Array.from(this.contentMaterial.keys()).forEach((type: IContentMaterialType) => {
-            const material = this.contentMaterial.get(type);
-            console.log("material content", type, material);
+        for (const [type, material] of Object.entries(this.contentMaterial)) {
             exportObject.contentMaterial[type as IContentMaterialType] = material;
-        })
+        }
 
-        Array.from(this.contentText.keys()).forEach((type: IContentTextType) => {
-            const text = this.contentText.get(type);
-            console.log("text content", type, text);
+        for (const [type, text] of Object.entries(this.contentText)) {
             exportObject.contentText[type as IContentTextType] = text;
-        })
+        }
+
         return JSON.stringify(exportObject, null, 2);
     }
 };
