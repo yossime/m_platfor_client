@@ -3,10 +3,9 @@
 import Viewport from '@/components/editor/viewport/Viewport';
 import SideBar from "@/components/editor/sideBar/SideBar";
 import styled from 'styled-components';
-import { useEditor } from '@/context/useEditorContext';
-import { ISceneObject } from './interface/models';
+import { EditorState, useEditor } from '@/context/useEditorContext';
 import UnityViewer from './preView/UnityViewer';
-import { useProject } from '@/context/useProjectContext';
+import { useEffect } from 'react';
 
 export const EditorLayout = styled.div`
   display: flex;
@@ -24,18 +23,22 @@ export const ResizableHandle = styled.div`
 `;
 
 const EditorComponent: React.FC = () => {
-  const { previewMode } = useProject();
+  const { editorState } = useEditor();
+
+  useEffect(() => {
+    console.log("Current editor state:", editorState);
+  }, [editorState]);
 
   return (
     <>
-      {!previewMode ? (
+      {(editorState !== EditorState.PREVIEW) ? (
         <EditorLayout>
           <SideBar />
           <Viewport />
         </EditorLayout>
       ) : (
         <EditorLayout>
-          <UnityViewer projectId='1234'/>
+          <UnityViewer/>
         </EditorLayout>
       )}
     </>

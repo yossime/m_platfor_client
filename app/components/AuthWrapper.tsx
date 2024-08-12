@@ -1,15 +1,16 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 import Navbar from "./Library/navbar/Navbar";
-import { handleSignOut } from '@/services/login';
+import { handleSignOut } from "@/services/login";
+import { EditorProvider } from "@/context/useEditorContext";
 
 const NavbarWithAuth = () => {
   const { user } = useAuth();
 
   function setError(error: string): void {
-    console.error('Sign out error:', error);
+    console.error("Sign out error:", error);
   }
 
   return (
@@ -21,10 +22,16 @@ const NavbarWithAuth = () => {
   );
 };
 
-export default function AuthWrapper({ children }: { children: React.ReactNode }) {
+export default function AuthWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <AuthProvider>
-      <NavbarWithAuth />
+      <EditorProvider>
+        <NavbarWithAuth />
+      </EditorProvider>
       {children}
     </AuthProvider>
   );

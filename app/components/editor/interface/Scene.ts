@@ -15,6 +15,7 @@ export interface IScene {
     setSelectedObject: (selected: ISceneObject | null) => void;
     buildingFromScratch: (type: ArchitectureType, onLoad: (model: Object3D) => void) => Promise<ISceneObject>;
     buildFromJson:(json: string) => Promise<ISceneObject>;
+    exportToJson:() => Promise<string>;
 }
 
 
@@ -29,6 +30,11 @@ export class SceneModel implements IScene {
     constructor(onLoad?: (model: Object3D) => void) {
         this.onLoad = onLoad;
     }
+    exportToJson = async () => {
+        return new Promise<string>((resolve, reject) => {
+            resolve('json')
+        });
+    };
 
     buildingFromScratch = (type: ArchitectureType): Promise<ISceneObject> =>{
         this.root = new Architecture(type, this.onLoad);

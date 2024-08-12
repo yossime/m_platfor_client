@@ -40,28 +40,10 @@ const ProjectList: React.FC = () => {
   }, [user, setProjects]);
 
   const selectProject = async (projectId: string) => {
+    router.push('/editor');
+    setCurrentProject(projectId);
     try {
       const project = await fetchProject(projectId, user?.uid as string);
-      setCurrentProject(projectId);
-      // const dataParameters: Params = {
-      //   // architecture: project.data.Templates || '',
-      //   architecture: 'Barbiz_Skeleton4',
-
-      //   materialParams: {},
-      //   maxSlot: 5,
-      //   boards: []
-      // };
-  
-      // for (let i = 0; i < 5; i++) {
-      //   dataParameters.boards.push({
-      //     type: null,
-      //     content: []
-      //   });
-      // }
-  
-      // setDataParameters(dataParameters);
-        // console.log(project.data,'ffffffffffffffff');
-      router.push('/editor');
     } catch (error) {
       console.error('Error selecting project:', error);
       setError('Failed to select project');
