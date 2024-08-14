@@ -15,11 +15,9 @@ import {
 import Button from '../button/Button';
 import { FontFamily, FontWeight, TextSize } from '@constants/text';
 import { TextColor } from '@constants/colors';
-import { useProject } from '@/context/useProjectContext'; // Import the useProject hook
 import EditorButton from './EditorButton';
 
 
-const previewApi = "https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/preview";
 
 
 interface NavbarProps {

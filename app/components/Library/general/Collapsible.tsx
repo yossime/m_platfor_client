@@ -24,10 +24,10 @@ const CollapsibleHeader = styled.div`
   cursor: pointer;
 `;
 
-const CollapsibleContent = styled.div<{ isOpen: boolean }>`
+const CollapsibleContent = styled.div<{ $isOpen: boolean }>`
   padding: 1rem;
   gap: 8px;
-  display: ${props => props.isOpen ? 'block' : 'none'};
+  display: ${props => props.$isOpen ? 'block' : 'none'};
 `;
 
 const Collapsible: React.FC<CollapsibleProps> = ({ title, children }) => {
@@ -51,7 +51,7 @@ const Collapsible: React.FC<CollapsibleProps> = ({ title, children }) => {
           {title}
         </Text>
       </CollapsibleHeader>
-      <CollapsibleContent isOpen={isOpen}>
+      <CollapsibleContent $isOpen={isOpen}>
         {children}
       </CollapsibleContent>
     </CollapsibleWrapper>
