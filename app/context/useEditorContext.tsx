@@ -1,3 +1,4 @@
+"use client"
 import { IParams } from '@/components/editor/interface/paramsType';
 import { SceneModel } from '@/components/editor/interface/Scene';
 import React, { createContext, useState, ReactNode, useContext, Dispatch, SetStateAction } from 'react';

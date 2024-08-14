@@ -110,7 +110,7 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, onSave, p
         };
 
         return (
-            <>
+            <div  key={key}>
             <Collapsible key={key} title={key}>
                 <Section>
                     <Row>
@@ -153,7 +153,7 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, onSave, p
                 </Section>
             </Collapsible>
         <Divider />
-        </>
+        </div>
         );
     };
 

@@ -5,6 +5,7 @@ import { ProjectProvider } from "./context/useProjectContext";
 import AuthWrapper from "./components/AuthWrapper";
 import { poppins, figtree } from './fonts'
 import StyledComponentsRegistry from "./registry";
+import { EditorProvider } from "./context/useEditorContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,9 +26,11 @@ export default function RootLayout({
       <body className={inter.className}>
       <StyledComponentsRegistry>
       <ProjectProvider>
+      <EditorProvider>
         <AuthWrapper>
          {children}
         </AuthWrapper>
+        </EditorProvider>
         </ProjectProvider>
         </StyledComponentsRegistry>
 
