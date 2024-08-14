@@ -152,22 +152,14 @@ export abstract class SceneObject implements ISceneObject {
     public getContentText(type: IContentTextType) {
         return this.contentText.get(type) ?? null;
     };
-    // public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial) {
-    public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial | MaterialType) {
+    public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial) {
+    // public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial | MaterialType) {
         const geometry = this.getGeometryByName(type);
         if (geometry) {
-            let materialInstance: IContentMaterial;
-
-            if (Object.values(MaterialType).includes(material as MaterialType)) {
-                // materialInstance = getMaterialParams(material);
-                return ;
-            } else {
-                materialInstance = material as IContentMaterial;
-            }
-
-
-            await this.ChangeMaterial(geometry, materialInstance);
-            this.contentMaterial.set(type, materialInstance);
+            // if(material instanceof MaterialType) {) {
+            await this.ChangeMaterial(geometry, material);
+            this.contentMaterial.set(type, material);
+            return true;
         }
     };
 
@@ -457,14 +449,17 @@ export abstract class SceneObject implements ISceneObject {
         };
 
 
-        for (const [type, material] of Object.entries(this.contentMaterial)) {
+        Array.from(this.contentMaterial.keys()).forEach((type: IContentMaterialType) => {
+            const material = this.contentMaterial.get(type);
+            console.log("material content", type, material);
             exportObject.contentMaterial[type as IContentMaterialType] = material;
-        }
+        })
 
-        for (const [type, text] of Object.entries(this.contentText)) {
+        Array.from(this.contentText.keys()).forEach((type: IContentTextType) => {
+            const text = this.contentText.get(type);
+            console.log("text content", type, text);
             exportObject.contentText[type as IContentTextType] = text;
-        }
-
+        })
         return JSON.stringify(exportObject, null, 2);
     }
 };
@@ -493,7 +488,7 @@ export enum ArchitectureType {
 }
 
 export enum MaterialType {
-    Goold = 'goold',
+    Barbiz = 'barbiz',
 }
 
 
