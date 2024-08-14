@@ -17,9 +17,7 @@ const EditorButton: React.FC = () => {
     setEditorState(EditorState.LOADING);
     try {
         // const dataParameters = await sceneModel?.exportToJson();
-        // console.log()
         // if (dataParameters && currentProject) {
-        //     await axios.post(`${previewApi}/${currentProject}`, dataParameters);
         if ( currentProject) {
           await axios.post(`${previewApi}/${currentProject}`, {test: 'dataParameters'});
             checkPreviewStatus();
@@ -36,10 +34,13 @@ const EditorButton: React.FC = () => {
   const checkPreviewStatus = async (): Promise<void> => {
     try {
       const response = await axios.get(`${previewApi}/${currentProject}`);
-      if (response.data.status !== 'false') {
+      if (response.status === 200) {
         setEditorState(EditorState.PREVIEW);
-      } else {
-        setTimeout(checkPreviewStatus, 5000); // Check again after 5 seconds
+      } else if(response.status === 201){
+        setTimeout(checkPreviewStatus, 5000); 
+      }
+      else{
+        console.error("No existing project")
       }
     } catch (error) {
       console.error('Failed to check preview status:', error);
