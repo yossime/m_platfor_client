@@ -7,6 +7,7 @@ import { useEditor } from '@/context/useEditorContext';
 import { ISceneObject } from './interface/models';
 import UnityViewer from './preView/UnityViewer';
 import { useProject } from '@/context/useProjectContext';
+import axios from '@/utils/axios';
 
 export const EditorLayout = styled.div`
   display: flex;
@@ -25,11 +26,28 @@ export const ResizableHandle = styled.div`
 
 const EditorComponent: React.FC = () => {
   const { previewMode } = useProject();
+  const { sceneModel, setSceneModel } = useEditor();
+
+
+  const onClick = async () => {
+    const json = sceneModel?.exportToJson();
+    // console.log('json json json json json json',json)
+    // try {
+    //   const response = await axios.post('http://localhost:3500/preview/tytytytyty', json, {
+    //   });
+    //   console.log('response: ' + response);
+    // } catch (error) {
+    //   console.error('Error fetching project:', error);
+    //   throw error;
+    // }
+    console.log("json: " + json);
+  }
 
   return (
     <>
       {!previewMode ? (
         <EditorLayout>
+          <button onClick={onClick}>click</button>
           <SideBar />
           <Viewport />
         </EditorLayout>
