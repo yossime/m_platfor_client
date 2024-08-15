@@ -34,11 +34,11 @@ export class SceneModel implements IScene {
         this.onLoad = onLoad;
     }
     
-    exportToJson = async () => {
-        return new Promise<string>((resolve, reject) => {
-            resolve('json')
-        });
-    };
+    // exportToJson = async () => {
+    //     return new Promise<string>((resolve, reject) => {
+    //         resolve('json')
+    //     });
+    // };
 
     async sendToServer() {
         if (!this.root) return null;
