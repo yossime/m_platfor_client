@@ -35,7 +35,7 @@ const QuestionnaireIndexContainer: React.FC = () => {
           return (
             <React.Fragment key={status}>
               <StageWrapper>
-                <StageIndicator status={stageStatus}>
+                <StageIndicator $status={stageStatus}>
                   {stageStatus === 'completed' ? (
                     <Icon name={IconName.CHECK} size={IconSize.SMALL} color={IconColor.LIGHT} />
                   ) : stageStatus === 'current' ? (
