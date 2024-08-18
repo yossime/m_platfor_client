@@ -58,7 +58,6 @@ export class SceneModel implements IScene {
 
     exportToJson = async () => {
         if (!this.root) return null;
-        // await this.sendToServer();
         return this.root.exportToJson();
     };
 
