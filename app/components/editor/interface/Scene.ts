@@ -7,9 +7,6 @@ import axios from "@/utils/axios";
 
 
 
-
-
-
 export interface IScene {
     root?: ISceneObject;
     getSelectedObject: () => ISceneObject | null;
@@ -60,6 +57,7 @@ export class SceneModel implements IScene {
     }
 
     exportToJson = async () => {
+        console.log('11234', this)
         if (!this.root) return null;
         return this.root.exportToJson();
     };
