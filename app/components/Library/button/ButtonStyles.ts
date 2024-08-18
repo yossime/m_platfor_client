@@ -43,11 +43,11 @@ export const StyledButton = styled.button<StyledButtonProps>`
   }}
 `;
 
-export const IconWrapper = styled.span<{ position: 'left' | 'right' | 'center' }>`
+export const IconWrapper = styled.span<{ $position: 'left' | 'right' | 'center' }>`
   display: inline-flex;
   
   ${props => {
-    switch(props.position) {
+    switch(props.$position) {
       case 'left':
         return css`margin-right: 8px;`;
       case 'right':

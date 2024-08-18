@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import EditorComponent from "@/components/editor/EditorComponent";
 import { useProject } from '@/context/useProjectContext';
 
-const API = 'http://localhost:3500';
+// const API = 'http://localhost:3500';
 
 const Editor: React.FC = () => {
   const { setEditorMode } = useProject();
