@@ -9,6 +9,8 @@ import { useEditor, EditorState } from '@/context/useEditorContext';
 
 const previewApi = "https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/preview";
 
+// const previewApi = "http://localhost:3500/preview";
+
 const EditorButton: React.FC = () => {
   const { editorMode, currentProject } = useProject();
   const { editorState, setEditorState, sceneModel } = useEditor();
@@ -17,9 +19,9 @@ const EditorButton: React.FC = () => {
     setEditorState(EditorState.LOADING);
     try {
         const dataParameters = await sceneModel?.exportToJson();
-        console.log(dataParameters,currentProject);
-        if (dataParameters && currentProject) {
-          await axios.post(`${previewApi}/${currentProject}`, dataParameters);
+        console.log("dataParameters",dataParameters);
+        if (currentProject && dataParameters) {
+          await axios.post(`${previewApi}/${currentProject}`, {dataParameters});
             checkPreviewStatus();
         } else {
             throw new Error('Missing data parameters or current project');
@@ -33,7 +35,11 @@ const EditorButton: React.FC = () => {
 
   const checkPreviewStatus = async (): Promise<void> => {
     try {
+      console.log("response.status")
       const response = await axios.get(`${previewApi}/${currentProject}`);
+      // const response = await axios.get(`${previewApi}/index`);
+
+      console.log(response.status,"response.status")
       if (response.status === 200) {
         setEditorState(EditorState.PREVIEW);
       } else if(response.status === 201){

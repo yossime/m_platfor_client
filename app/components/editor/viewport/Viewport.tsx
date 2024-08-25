@@ -193,9 +193,8 @@ const SceneComponent = () => {
     const buildScene = async () => {
       const scene = new SceneModel(setModel);
       const sceneModel = await scene.buildingFromScratch(ArchitectureType.Barbiz);
-      console.log("sceneModel", sceneModel)
-      console.log("sceneModel.getModel()", sceneModel.getModel())
       setSceneModel(scene);
+      // console.log(sceneModel.addChild,"ggggggggggggggggggggg")
     }
     buildScene();
   }, []);

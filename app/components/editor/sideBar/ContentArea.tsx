@@ -6,7 +6,6 @@ import { GlobalComponent } from './components/GlobalComponent';
 import { ArchitectureComponent } from './components/ArchitectureComponent';
 import { ContentComponent } from './components/ContentComponent';
 import { StyleComponent } from './components/StyleComponent';
-import { AdvancedComponent } from './components/AdvancedComponent';
 import { ChooseBoardWidgetComponent } from './components/ChooseBoardWidgetComponent';
 
 const ContentContainer = styled.div`
@@ -40,8 +39,6 @@ export const ContentArea: React.FC<ContentAreaProps> = ({ activeSidebarHeader, a
         return <ContentComponent activeSidebarHeader={activeSidebarHeader} />;
       case 'Style':
         return <StyleComponent activeSidebarHeader={activeSidebarHeader} />;
-      case 'Advanced':
-        return <AdvancedComponent activeSidebarHeader={activeSidebarHeader} />;
       default:
         return <div>No component available for this selection.</div>;
     }
