@@ -35,23 +35,12 @@ export const ChooseBoardWidgetComponent: React.FC<ChooseBoardWidgetComponentProp
     const newBoard = new Board(widget.type, {name: widget.name});
     
     if (sceneModel?.root && newBoard) {
-      await sceneModel.root.addChild(newBoard);
-      
-
+      sceneModel.root.addChild(newBoard);
+    
       sceneModel.setSelectedObject(newBoard);
 
       setActiveSidebarHeader(`Edit ${widget.name}` as HeaderType);
 
-      // Update dataParameters if needed
-      // setDataParameters(prevParams => {
-      //   if (!prevParams) return prevParams;
-      //   return {
-      //     ...prevParams,
-      //     boards: [...prevParams.boards, newBoard]
-      //   };
-      // });
-
-      // Update available slots
       setAvailableSlots(prev => prev - 1);
     }
   };
