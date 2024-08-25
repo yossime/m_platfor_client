@@ -52,12 +52,12 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
 
 
   const handleInputChange = (field: keyof IProduct, value: string) => {
-    setEditedDisplay(prev => ({
-      ...prev,
-      products: prev.products?.map((product, index) =>
-        index === 0 ? { ...product, [field]: { text: value } } : product
-      )
-    }));
+    // setEditedDisplay(prev => ({
+    //   ...prev,
+    //   products: prev.products?.map((product, index) =>
+    //     index === 0 ? { ...product, [field]: { text: value } } : product
+    //   )
+    // }));
   };
 
   const handleSave = () => {
@@ -80,7 +80,7 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
         <Input
           inputSize={InputSize.SMALL}
           mode={InputMode.NORMAL}
-          value={editedDisplay.products ? editedDisplay.products[0].title?.text : ""}
+          // value={editedDisplay.products ? editedDisplay.products[0].title?.text : ""}
           onChange={(e) => handleInputChange('title', e.target.value)}
           />
       </InputContainer>
@@ -88,7 +88,7 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
         <Input
           inputSize={InputSize.SMALL}
           mode={InputMode.NORMAL}
-          value={editedDisplay.products ? editedDisplay.products[0].description?.text : ""}
+          // value={editedDisplay.products ? editedDisplay.products[0].description?.text : ""}
           onChange={(e) => handleInputChange('description', e.target.value)}
         />
       </InputContainer>
@@ -97,7 +97,7 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
         <Input
           inputSize={InputSize.SMALL}
           mode={InputMode.NORMAL}
-          value={editedDisplay.products ? editedDisplay.products[0].SKU?.text : ""}
+          // value={editedDisplay.products ? editedDisplay.products[0].SKU?.text : ""}
           onChange={(e) => handleInputChange('SKU', e.target.value)}
           />
       </InputContainer>
