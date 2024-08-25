@@ -37,6 +37,9 @@ const EditorButton: React.FC = () => {
     try {
       console.log("response.status")
       const response = await axios.get(`${previewApi}/${currentProject}`);
+      // const response = await axios.get(`${previewApi}/index`);
+
+      console.log(response.status,"response.status")
       if (response.status === 200) {
         setEditorState(EditorState.PREVIEW);
       } else if(response.status === 201){
