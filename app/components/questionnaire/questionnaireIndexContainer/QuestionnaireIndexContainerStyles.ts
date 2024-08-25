@@ -23,7 +23,7 @@ export const StageWrapper = styled.div`
   gap: 8px;
 `;
 
-export const StageIndicator = styled.div<{ status: 'completed' | 'current' | 'upcoming' }>`
+export const StageIndicator = styled.div<{ $status: 'completed' | 'current' | 'upcoming' }>`
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -31,14 +31,14 @@ export const StageIndicator = styled.div<{ status: 'completed' | 'current' | 'up
   align-items: center;
   justify-content: center;
   background-color: ${props => {
-    switch (props.status) {
+    switch (props.$status) {
       case 'completed': return '#594ded';
       case 'current': return 'white';
       default: return 'transparent';
     }
   }};
   border: 1px solid ${props => {
-    switch (props.status) {
+    switch (props.$status) {
       case 'completed': return 'transparent';
       case 'current': return '#594ded';
       default: return '#C5C7D0';

@@ -7,16 +7,12 @@ import axios from "@/utils/axios";
 
 
 
-
-
-
 export interface IScene {
     root?: ISceneObject;
     getSelectedObject: () => ISceneObject | null;
     setSelectedObject: (selected: ISceneObject | null) => void;
     buildingFromScratch: (type: ArchitectureType, onLoad: (model: Object3D) => void) => Promise<ISceneObject>;
     buildFromJson: (json: string) => Promise<ISceneObject>;
-    // exportToJson: () => string | null;
     exportToJson: () => Promise<string | null>;
 
 }
@@ -33,7 +29,6 @@ export class SceneModel implements IScene {
     constructor(onLoad?: (model: Object3D) => void) {
         this.onLoad = onLoad;
     }
-    
     // exportToJson = async () => {
     //     return new Promise<string>((resolve, reject) => {
     //         resolve('json')
@@ -60,8 +55,8 @@ export class SceneModel implements IScene {
     }
 
     exportToJson = async () => {
+        console.log('11234', this)
         if (!this.root) return null;
-        await this.sendToServer();
         return this.root.exportToJson();
     };
 
