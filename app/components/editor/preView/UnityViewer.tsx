@@ -1,45 +1,38 @@
-import axios from 'axios';
-import React, { useEffect, useRef } from 'react';
-
-
-const privewApi = "https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/preview"
-export const sendHeartbeat = async (projectName: string): Promise<void> => {
-  await axios.post(`${privewApi}/${projectName}/heartbeat`);
-};
-
-interface UnityViewerProps {
-  projectId: string;
-}
+import { useAuth } from '@/context/AuthContext';
+import { useProject } from '@/context/useProjectContext';
+import React from 'react';
+import styled from 'styled-components';
 
 
 
-const UnityViewer: React.FC<UnityViewerProps> = ({ projectId  }) => {
-  const projectUrl = `${privewApi}/${projectId}`;
-  const heartbeatIntervalRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    heartbeatIntervalRef.current = window.setInterval(() => {
-      sendHeartbeat(projectId).catch(console.error);
-    }, 30000); 
+const ViewerContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 
-    return () => {
-      if (heartbeatIntervalRef.current) {
-        clearInterval(heartbeatIntervalRef.current);
-      }
-    };
-  }, [projectId]);
+const StyledIframe = styled.iframe`
+  width: 100%;
+  height: 100%;
+  border: none;
+  flex-grow: 1;
+`;
+
+const UnityViewer: React.FC = () => {
+  const {  currentProject } = useProject();
+  const { user } = useAuth();
 
   return (
-    <div>
-      <h2>Unity Viewer: {projectId}</h2>
-      <iframe
-        title={`Unity WebGL Viewer - ${projectId}`}
-        src={projectUrl}
-        width="800"
-        height="600"
-        style={{ border: 'none' }}
+    <ViewerContainer>
+      <StyledIframe
+        title={`WebGL Viewer`}
+        // src={` https://storage.googleapis.com/preview-storage-bucket/vmIGbcusznhyqC5vzYcQ/index.html`}
+
+        src={` https://storage.googleapis.com/preview-storage-bucket/${user?.uid}/${currentProject}/index.html`}
       />
-    </div>
+    </ViewerContainer>
   );
 };
 

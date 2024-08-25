@@ -128,7 +128,7 @@ import { ContentFileUpload, ContentInput } from '../../GenericBoardComponents';
 import { IContentMaterialType, IContentTextType } from '@/components/editor/interface/models';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
 
-export const ImageContentComponent: React.FC = () => {
+export const HeaderContentComponent: React.FC = () => {
   const [openSections, setOpenSections] = useState({
     title: true,
     subtitle: true,

@@ -3,9 +3,7 @@ import { Architecture, IArchitecture } from "./Architecture";
 import { ArchitectureType, BoardType, ExportedSceneObject, ISceneObject, ProductType, SceneObject } from "./models";
 import { Board } from "./Board";
 import { Product } from "./Product";
-
-
-
+import axios from "@/utils/axios";
 
 
 
@@ -14,12 +12,14 @@ export interface IScene {
     getSelectedObject: () => ISceneObject | null;
     setSelectedObject: (selected: ISceneObject | null) => void;
     buildingFromScratch: (type: ArchitectureType, onLoad: (model: Object3D) => void) => Promise<ISceneObject>;
-    buildFromJson:(json: string) => Promise<ISceneObject>;
+    buildFromJson: (json: string) => Promise<ISceneObject>;
+    exportToJson: () => Promise<string | null>;
+
 }
 
 
 export class SceneModel implements IScene {
-    public root?: ISceneObject ;
+    public root?: ISceneObject;
     private selectedObject: ISceneObject | null = null;
     onLoad?: (model: Object3D) => void;
     // constructor(type: ArchitectureType, onLoad: (model: Object3D) => void) {
@@ -29,12 +29,42 @@ export class SceneModel implements IScene {
     constructor(onLoad?: (model: Object3D) => void) {
         this.onLoad = onLoad;
     }
+    // exportToJson = async () => {
+    //     return new Promise<string>((resolve, reject) => {
+    //         resolve('json')
+    //     });
+    // };
 
-    buildingFromScratch = (type: ArchitectureType): Promise<ISceneObject> =>{
+    async sendToServer() {
+        if (!this.root) return null;
+
+        const jsonData = this.root.exportToJson();
+        console.log("data jsonData", jsonData);
+
+        try {
+            const response = await axios.post('https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/preview/tytytytyty33333333333333333', jsonData, {
+
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log('Data sent successfully:', response.data);
+        } catch (error) {
+            console.error('Error sending data:', error);
+        }
+    }
+
+    exportToJson = async () => {
+        console.log('11234', this)
+        if (!this.root) return null;
+        return this.root.exportToJson();
+    };
+
+    buildingFromScratch = (type: ArchitectureType): Promise<ISceneObject> => {
         this.root = new Architecture(type, this.onLoad);
         return Promise.resolve(this.root);
     };
-    buildFromJson = (json: string) : Promise<ISceneObject> => {
+    buildFromJson = (json: string): Promise<ISceneObject> => {
         this.root = this.buildSceneObjectFromJson(json);
         return Promise.resolve(this.root);
     };

@@ -1,5 +1,5 @@
-import { BackSide, Color, Euler, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshStandardMaterial, Object3D, Texture, TextureLoader, Vector3 } from "three";
-import { FBXLoader } from "three/examples/jsm/Addons.js";
+import { BackSide, Color, Euler, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshPhongMaterial, MeshStandardMaterial, Object3D, Texture, TextureLoader, Vector3 } from "three";
+import { FBXLoader, Font, FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { BaseSize, FontFamily, IText } from "./paramsType";
 import { getAuthDownloadUrl } from "@/services/firebase";
@@ -88,7 +88,7 @@ export interface ISceneObjectOptions {
 
 export interface ISceneObject {
     // type: string;
-    
+
     children: ISceneObject[];
 
     setName(name: string): void;
@@ -100,7 +100,7 @@ export interface ISceneObject {
     exportToJson(): string;
     getModel(): Object3D | null;
 
-    getContentMaterial(type:IContentMaterialType): IContentMaterial | null;
+    getContentMaterial(type: IContentMaterialType): IContentMaterial | null;
     getContentText(type: IContentTextType): IContentText | null;
     getConfiguration(): IConfiguration | null;
     setContentMaterial(type: IContentMaterialType, material: IContentMaterial): void;
@@ -146,31 +146,70 @@ export abstract class SceneObject implements ISceneObject {
     // abstract removeChild(sceneObject: SceneObject): void;
     abstract displayEmptySlots(): void;
 
-    public getContentMaterial(type:IContentMaterialType) {
+    public getContentMaterial(type: IContentMaterialType) {
         return this.contentMaterial.get(type) ?? null;
     };
     public getContentText(type: IContentTextType) {
         return this.contentText.get(type) ?? null;
     };
     public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial) {
+    // public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial | MaterialType) {
         const geometry = this.getGeometryByName(type);
         if (geometry) {
+            // if(material instanceof MaterialType) {) {
             await this.ChangeMaterial(geometry, material);
             this.contentMaterial.set(type, material);
             return true;
         }
         return false;
     };
-    public setContentText(type: IContentTextType, text: IContentText) {
 
+    public async setContentText(type: IContentTextType, text: IContentText) {
+        const geometry = this.getGeometryByName(type);
+        if (geometry instanceof Mesh) {
+            this.straightText(geometry, text);
+            this.contentText.set(type, text);
+            return true;
+        }
+        return false;
     };
+
+    async loadFont(url: string): Promise<Font> {
+        const loader = new FontLoader();
+
+        return new Promise((resolve, reject) => {
+            loader.load(url, resolve, undefined, reject);
+        });
+    }
+
+    async straightText(mesh: Mesh, text: IContentText) {
+        try {
+            const font = await this.loadFont('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json');
+            const geometry = new TextGeometry(text.text, {
+                font: font,
+                size: 0.5,
+                height: 0.1,
+            });
+
+            const material = new MeshPhongMaterial({ color: 0xffffff });
+            const newMesh = new Mesh(geometry, material);
+            newMesh.position.copy(mesh.position);
+
+            mesh.geometry.dispose();
+            mesh.geometry = geometry;
+            mesh = newMesh;
+
+        } catch (error) {
+            console.error('Error replacing text:', error);
+        }
+    }
     public getConfiguration() { return null; }
 
     public getModel() { return this.model };
     public getEmptySlots() { return this.placeholders }
     public setSelectedChild(child: SceneObject | null) { this.selectedChild = child; };
     public setSelectedSlot(child: SceneObject | null) { this.selectedChild = child; };
-    public setConfigurationn() {};
+    public setConfigurationn() { };
     public getChildren() { return null; }
     setMaterial(name: string): void {
         if (this.model instanceof Object3D) {
@@ -400,15 +439,18 @@ export abstract class SceneObject implements ISceneObject {
             contentText: {}
         };
 
-    
-        for (const [type, material] of Object.entries(this.contentMaterial)) {
+
+        Array.from(this.contentMaterial.keys()).forEach((type: IContentMaterialType) => {
+            const material = this.contentMaterial.get(type);
+            console.log("material content", type, material);
             exportObject.contentMaterial[type as IContentMaterialType] = material;
-        }
-    
-        for (const [type, text] of Object.entries(this.contentText)) {
+        })
+
+        Array.from(this.contentText.keys()).forEach((type: IContentTextType) => {
+            const text = this.contentText.get(type);
+            console.log("text content", type, text);
             exportObject.contentText[type as IContentTextType] = text;
-        }
-    
+        })
         return JSON.stringify(exportObject, null, 2);
     }
 };
@@ -436,6 +478,9 @@ export enum ArchitectureType {
     Barbiz = 'barbiz',
 }
 
+export enum MaterialType {
+    Barbiz = 'barbiz',
+}
 
 
 export interface ITextureSource {
@@ -463,8 +508,8 @@ export enum ProductType {
 }
 
 
-  
-export enum IConfiguration{
+
+export enum IConfiguration {
     LEFT = 'Left',
     RIGHT = 'Right',
     CENTER = 'Center',
@@ -476,7 +521,7 @@ export enum IConfiguration{
 }
 
 export enum IContentTextType {
-    TITLE = 'Title',
+    TITLE = 'title',
     SUB_TITLE = 'Sub_Title',
     BUTTON = 'button',
     TEST = 'Header',
@@ -487,8 +532,8 @@ export enum IContentTextType {
     CTA = 'CTA',
     TESTIMONIALS = 'Testimonials',
     FORM = 'Form',
-    IMAGE_0 ='Image_0',
-    IMAGE_1 ='Image_1',
+    IMAGE_0 = 'Image_0',
+    IMAGE_1 = 'Image_1',
 }
 
 
@@ -505,8 +550,8 @@ export enum IContentMaterialType {
     TESTIMONIALS = 'Testimonials',
     FORM = 'Form',
     SALF = 'salf',      //yossi
-    IMAGE_0 ='Image_0',
-    IMAGE_1 ='Image_1',
+    IMAGE_0 = 'Image_0',
+    IMAGE_1 = 'Image_1',
 }
 
 

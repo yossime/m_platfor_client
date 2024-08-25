@@ -1,3 +1,4 @@
+"use client"
 import { IParams } from '@/components/editor/interface/paramsType';
 import { SceneModel } from '@/components/editor/interface/Scene';
 import React, { createContext, useState, ReactNode, useContext, Dispatch, SetStateAction } from 'react';
@@ -8,6 +9,12 @@ export enum EMode {
   AddBorad,
 }
 
+
+export enum EditorState {
+  EDITING,
+  LOADING,
+  PREVIEW
+}
 
 interface EditorContextType {
   cameraPosition: [number, number, number];
@@ -22,6 +29,8 @@ interface EditorContextType {
   setActiveBoardIndex: (index: number) => void;  
   sceneModel: SceneModel | null;
   setSceneModel: (model: SceneModel) => void;
+  editorState: EditorState;
+  setEditorState: (state: EditorState) => void;
 }
 
 const EditorContext = createContext<EditorContextType | undefined>(undefined);
@@ -33,10 +42,13 @@ export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [currentMode, setCurrentMode] = useState<EMode>(EMode.View);
   const [activeBoardIndex, setActiveBoardIndex]= useState<number>(-1);
   const [sceneModel, setSceneModel] = useState<SceneModel | null>(null);
+  const [editorState, setEditorState] = useState<EditorState>(EditorState.EDITING);
 
 
 
   const value: EditorContextType = { 
+    editorState,
+    setEditorState,
     activeBoardIndex,
     setActiveBoardIndex,
     cameraPosition, 

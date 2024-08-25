@@ -85,7 +85,7 @@ const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {icon && (iconOnly || iconPosition === 'left') && (
-        <IconWrapper position={iconOnly ? 'center' : 'left'}>
+        <IconWrapper $position={iconOnly ? 'center' : 'left'}>
           <Icon name={icon} size={getIconSize(size)} color={getIconColor(mode, variant)} />
         </IconWrapper>
       )}
@@ -100,7 +100,7 @@ const Button: React.FC<ButtonProps> = ({
         </Text>
       )}
       {icon && !iconOnly && iconPosition === 'right' && (
-        <IconWrapper position="right">
+        <IconWrapper $position="right">
           <Icon name={icon} size={getIconSize(size)} color={getIconColor(mode, variant)} />
         </IconWrapper>
       )}
