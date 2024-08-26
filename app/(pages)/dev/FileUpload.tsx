@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+
+import axios from '@/utils/axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface FileUploadProps {
@@ -31,9 +33,24 @@ const Button = styled.button`
   }
 `;
 
-const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
+const FileUpload: React.FC<FileUploadProps> = async ({ onUploadComplete }) => {
   const [file, setFile] = useState<File | null>(null);
   const [folder, setFolder] = useState('');
+
+  useEffect(() => {
+    const checkUrl = async () => {
+        try {
+            // const storageRef = ref(, 'test-fbx-lib/test.fbx'); // Path to your file
+            // const url = await getAuthDownloadUrl('test-fbx-lib/test.fbx');
+            // console.log("Download URL:", url);
+            // getDownloadURL(url);
+        } catch (error) {
+            console.error('Error getting download URL:', error);
+        }
+    };
+
+    // checkUrl(); // Call the async function
+}, [])
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -48,17 +65,17 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!file || !folder) return;
+    const formData = new FormData();
+
+    formData.append('file', file);
+    // formData.append('folderPath', folderPath);
 
     try {
-      const response = await fetch(`/upload?folder=${folder}&filename=${file.name}`, {
-        method: 'POST',
-        body: file,
-        headers: {
-          'Content-Type': 'application/octet-stream',
-        },
+      const filePath = `${folder}/${file.name}`;
+      const response = await axios.post(`http://localhost:3500/dev/library?filePath=${filePath}`, formData, {
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log('File uploaded successfully');
         setFile(null);
         setFolder('');

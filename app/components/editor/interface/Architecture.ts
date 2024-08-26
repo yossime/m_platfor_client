@@ -25,7 +25,8 @@ export class Architecture extends SceneObject implements IArchitecture {
 
 
     async loadModelAndDisplay(onLoad?: (model: Object3D) => void) {
-        const archUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbiz.fbx?alt=media&token=1f805fdd-c127-45c5-b61f-2601b2aa8519`;
+        // const archUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbiz.fbx?alt=media&token=1f805fdd-c127-45c5-b61f-2601b2aa8519`;
+        const archUrl = `https://storage.googleapis.com/library-all-test/architectures/${this.type}.fbx`;
         const placeholderPath = `fbx-bucket/architectures/${this.type}_slot_placeholder.glb`;
 
         const model = await this.loadModel(archUrl);
@@ -33,7 +34,7 @@ export class Architecture extends SceneObject implements IArchitecture {
         custommodel.onPointerDown = () => this.handleSelected(custommodel);
         custommodel.interactive = true;
         this.model = custommodel;
-        console.log("this.model,", this.model);
+        // console.log("this.model,", this.model);
         await this.setPlaceholders();
         
         onLoad && onLoad(this.model);
@@ -54,7 +55,7 @@ export class Architecture extends SceneObject implements IArchitecture {
                 this.model.children[0].children[1].children
             ];
 
-            const slots = [...groupA, ...groupB].filter(child => child.name.startsWith('Slot_'));
+            const slots = [...groupA, ...groupB].filter(child => child.name.startsWith('slot_'));
             const placeholderPath = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2Fplaceholder.fbx?alt=media&token=980c6ee5-aaa5-4628-9636-1eddd8e0f91e`;
             // const placeholderPath = `fbx-bucket/architectures/${this.type}_slot_placeholder.glb`;
             const placeholder = await this.loadModel(placeholderPath);

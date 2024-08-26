@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import FileUploadButton from './FileUploadButton';
+import { getAuthDownloadUrl } from '@/services/firebase';
 
 interface FileTreeProps {
   files: { [key: string]: any };
   level?: number;
+  filePath?: string;
+  onRefresh: () => void;
 }
 
 const TreeContainer = styled.ul<{ level: number }>`
+overflow-y: auto;
   list-style-type: none;
   padding-left: ${props => props.level * 20}px;
 `;
@@ -27,7 +32,7 @@ const FileName = styled.span`
   color: #4a4a4a;
 `;
 
-const FileTree: React.FC<FileTreeProps> = ({ files, level = 0 }) => {
+const FileTree: React.FC<FileTreeProps> = ({ files, filePath = '', level = 0 , onRefresh}) => {
   const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
 
   const toggleFolder = (folder: string) => {
@@ -38,7 +43,6 @@ const FileTree: React.FC<FileTreeProps> = ({ files, level = 0 }) => {
     return Object.entries(items).map(([key, value]) => {
       const isFile = value.name && (value.size !== undefined || value.updated !== undefined);
       const isFolder = !isFile;
-
       return (
         <TreeItem key={key}>
           {isFolder ? (
@@ -46,7 +50,8 @@ const FileTree: React.FC<FileTreeProps> = ({ files, level = 0 }) => {
               <FolderName onClick={() => toggleFolder(key)}>
                 {expanded[key] ? '📂' : '📁'} {key}
               </FolderName>
-              {expanded[key] && <FileTree files={value} level={level + 1} />}
+              <FileUploadButton folderPath={filePath? `${filePath}/${key}` : key}  onUploadSuccess={onRefresh} />
+              {expanded[key] && <FileTree files={value} level={level + 1} filePath={filePath? `${filePath}/${key}` : key} onRefresh={onRefresh} />}
             </>
           ) : (
             <FileName>

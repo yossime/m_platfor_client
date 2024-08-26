@@ -40,3 +40,8 @@ next-env.d.ts
 firebase.json
 .firebaserc
 functions/
+
+
+cors.json
+
+.gitignore
