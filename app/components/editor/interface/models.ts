@@ -153,16 +153,23 @@ export abstract class SceneObject implements ISceneObject {
     public getContentText(type: IContentTextType) {
         return this.contentText.get(type) ?? null;
     };
-    public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial) {
-    // public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial | MaterialType) {
+    // public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial) {
+    public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial | MaterialType) {
         const geometry = this.getGeometryByName(type);
         if (geometry) {
-            // if(material instanceof MaterialType) {) {
-            await this.ChangeMaterial(geometry, material);
-            this.contentMaterial.set(type, material);
-            return true;
+            let materialInstance: IContentMaterial;
+
+            if (Object.values(MaterialType).includes(material as MaterialType)) {
+                // materialInstance = getMaterialParams(material);
+                return ;
+            } else {
+                materialInstance = material as IContentMaterial;
+            }
+
+
+            await this.ChangeMaterial(geometry, materialInstance);
+            this.contentMaterial.set(type, materialInstance);
         }
-        return false;
     };
 
     public async setContentText(type: IContentTextType, text: IContentText) {
@@ -484,7 +491,7 @@ export enum ArchitectureType {
 }
 
 export enum MaterialType {
-    Barbiz = 'barbiz',
+    Goold = 'goold',
 }
 
 
