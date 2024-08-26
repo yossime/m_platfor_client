@@ -3,6 +3,7 @@ import { FBXLoader, Font, FontLoader, TextGeometry } from "three/examples/jsm/Ad
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { BaseSize, FontFamily, IText } from "./paramsType";
 import { getAuthDownloadUrl } from "@/services/firebase";
+import { Board, IBoard } from "./Board";
 
 
 
@@ -297,6 +298,10 @@ export abstract class SceneObject implements ISceneObject {
 
     public addChild(sceneObject: ISceneObject): void {
         if (this.selectedSlot) {
+            // if (sceneObject instanceof Board) {
+            //     (sceneObject as IBoard).slotNumber = parseInt(this.selectedSlot.name);
+            // }
+    
             sceneObject.exchangeSlot(this.selectedSlot);
             this.children.push(sceneObject);
             // sceneObject.selectedChild = this;
@@ -567,6 +572,7 @@ export interface IContentText {
 export interface ExportedSceneObject {
     name: string | null;
     type: string;
+    slotNumber?: number;
     position: { x: number; y: number; z: number } | null;
     rotation: { x: number; y: number; z: number } | null;
     scale?: { x: number; y: number; z: number };
