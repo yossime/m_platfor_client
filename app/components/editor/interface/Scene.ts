@@ -57,7 +57,6 @@ export class SceneModel implements IScene {
     }
 
     exportToJson = async () => {
-        console.log('11234', this)
         if (!this.root) return null;
         return this.root.exportToJson();
     };

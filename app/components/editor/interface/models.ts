@@ -501,6 +501,8 @@ export interface ITextureSource {
 }
 
 export interface IContentMaterial {
+    image?: ITextureSource;
+    video?: ITextureSource;
     diffuse?: ITextureSource;
     opacity?: ITextureSource;
     roughness?: ITextureSource;
