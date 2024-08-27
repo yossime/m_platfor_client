@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Input from '@/components/Library/input/Input';
 import SelectInput from '@/components/Library/input/SelectInput';
 import { InputMode, InputSize } from '@constants/input';
@@ -7,6 +7,7 @@ import { DeleteIcon, FileDisplay, FileName } from './CommonStyles';
 import DragAndDrop from '@/components/Library/general/DragAndDrop';
 import { useEditor } from '@/context/useEditorContext';
 import { IContentMaterialType, IContentTextType } from '../../interface/models';
+import { uploadFile } from '../../utils/fileUploadService';
 
 export const useBoardContent = () => {
   const { sceneModel } = useEditor();
@@ -82,15 +83,68 @@ export const ContentSelect: React.FC<ContentSelectProps> = ({ type, options, pla
   );
 };
 
+// export const ContentFileUpload: React.FC<{
+//   type: IContentMaterialType;
+// }> = ({ type }) => {
+//   const { getContentMaterial, setContentMaterial } = useBoardContent();
+  
+//   const file = getContentMaterial(type)?.diffuse?.file;
+
+//   const handleFileAdded = (newFile: File) => {
+//     setContentMaterial(type, { diffuse: { file: newFile } });
+//   };
+
+//   const handleFileDelete = () => {
+//     setContentMaterial(type, {});
+//   };
+
+//   return (
+//     <>
+//       {file ? (
+//         <FileDisplay>
+//           <FileName>{file.name}</FileName>
+//           <DeleteIcon size={20} onClick={handleFileDelete} />
+//         </FileDisplay>
+//       ) : (
+//         <DragAndDrop
+//           type='image'
+//           onFileAdded={handleFileAdded}
+//           buttonOnly={true}
+//         />
+//       )}
+//     </>
+//   );
+// };
+
+
 export const ContentFileUpload: React.FC<{
   type: IContentMaterialType;
 }> = ({ type }) => {
   const { getContentMaterial, setContentMaterial } = useBoardContent();
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   
   const file = getContentMaterial(type)?.diffuse?.file;
 
-  const handleFileAdded = (newFile: File) => {
-    setContentMaterial(type, { diffuse: { file: newFile } });
+  const handleFileAdded = async (newFile: File) => {
+    try {
+      await uploadFile(newFile, type, {
+        onSuccess: (url, contentType) => {
+          console.log(url, contentType,'')
+          setContentMaterial(contentType, { diffuse: { file: newFile, url: url } });
+          setUploadProgress(0);
+        },
+        onError: (error, contentType) => {
+          console.error(`Error uploading file for ${contentType}:`, error);
+          // Handle error (e.g., show error message to user)
+          setUploadProgress(0);
+        },
+        onProgress: (progress) => {
+          setUploadProgress(progress);
+        },
+      });
+    } catch (error) {
+      console.error('Unexpected error during file upload:', error);
+    }
   };
 
   const handleFileDelete = () => {
@@ -111,6 +165,7 @@ export const ContentFileUpload: React.FC<{
           buttonOnly={true}
         />
       )}
+      {uploadProgress > 0 && <progress value={uploadProgress} max="100" />}
     </>
   );
 };
