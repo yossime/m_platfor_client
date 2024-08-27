@@ -1,5 +1,5 @@
 import { Material, Mesh, Object3D } from "three";
-import { BoardType, CustomObject3D, ISceneObject, ISceneObjectOptions, SceneObject } from "./models";
+import { BoardType, CustomObject3D, ExportedSceneObject, IContentMaterialType, IContentTextType, ISceneObject, ISceneObjectOptions, SceneObject } from "./models";
 
 
 
@@ -7,9 +7,11 @@ import { BoardType, CustomObject3D, ISceneObject, ISceneObjectOptions, SceneObje
 
 export interface IBoard extends ISceneObject {
     // addPoudiom: (name: string) => void;
+    slotNumber: number;
 }
 
 export class Board extends SceneObject implements IBoard {
+    public slotNumber = -1;
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
         this.loadModelAndDisplay(onBoardLoaded);
@@ -98,6 +100,42 @@ export class Board extends SceneObject implements IBoard {
             this.children.splice(index, 1);
             // sceneObject.selectedChild = null;
         }
+    }
+
+    exportToJson(): string {
+        const exportObject: ExportedSceneObject = {
+            name: this.name ?? null,
+            type: this.type,
+            slotNumber: this.slotNumber, 
+            position: this.position ? {
+                x: this.position.x,
+                y: this.position.y,
+                z: this.position.z
+            } : null,
+            rotation: this.rotation ? {
+                x: this.rotation.x,
+                y: this.rotation.y,
+                z: this.rotation.z
+            } : null,
+            // scale: this.scale ?? { x: 1, y: 1, z: 1 },
+            children: this.children.map(child => JSON.parse(child.exportToJson())) ?? [],
+            contentMaterial: {},
+            contentText: {}
+        };
+
+
+        Array.from(this.contentMaterial.keys()).forEach((type: IContentMaterialType) => {
+            const material = this.contentMaterial.get(type);
+            console.log("material content", type, material);
+            exportObject.contentMaterial[type as IContentMaterialType] = material;
+        })
+
+        Array.from(this.contentText.keys()).forEach((type: IContentTextType) => {
+            const text = this.contentText.get(type);
+            console.log("text content", type, text);
+            exportObject.contentText[type as IContentTextType] = text;
+        })
+        return JSON.stringify(exportObject, null, 2);
     }
 }
 

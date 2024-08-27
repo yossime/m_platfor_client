@@ -57,7 +57,6 @@ interface ProjectContextType {
   setProjects: (projects: any[]) => void;
   editorMode: boolean;
   setEditorMode: (mode: boolean) => void;
-
 }
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);

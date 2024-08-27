@@ -1,6 +1,6 @@
 import { Color, Euler, Material, Mesh, MeshStandardMaterial, Object3D, PerspectiveCamera } from "three";
 import { ArchitectureType, CustomObject3D, ISceneObject, ISceneObjectOptions, SceneObject } from "./models";
-import { Board } from "./Board";
+import { Board, IBoard } from "./Board";
 
 
 
@@ -19,13 +19,33 @@ export class Architecture extends SceneObject implements IArchitecture {
     getModel() { return this.model; };
 
 
+    public addChild(sceneObject: ISceneObject): void {
+        if (this.selectedSlot) {
+            if (sceneObject instanceof Board) {
+                const slotNumber = parseInt(this.selectedSlot.name.replace(/\D/g, ''), 10);
+                (sceneObject as IBoard).slotNumber = slotNumber;
+            }
+    
+            sceneObject.exchangeSlot(this.selectedSlot);
+            this.children.push(sceneObject);
 
+            this.setSlotsVisible(false);
+            this.placeholders = this.placeholders.filter(placeholder => placeholder !== this.selectedSlot);
+            this.selectedSlot = null;
+            this.childToAdd = null;
+
+        } else {
+            this.setSlotsVisible(true);
+            this.childToAdd = sceneObject;
+        }
+    }
 
 
 
 
     async loadModelAndDisplay(onLoad?: (model: Object3D) => void) {
-        const archUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbiz.fbx?alt=media&token=1f805fdd-c127-45c5-b61f-2601b2aa8519`;
+        // const archUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbiz.fbx?alt=media&token=1f805fdd-c127-45c5-b61f-2601b2aa8519`;
+        const archUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/Barbiz_s.fbx?alt=media&token=09867917-fcc4-429a-9eed-b885c7631936`;
         const placeholderPath = `fbx-bucket/architectures/${this.type}_slot_placeholder.glb`;
 
         const model = await this.loadModel(archUrl);
@@ -54,7 +74,7 @@ export class Architecture extends SceneObject implements IArchitecture {
                 this.model.children[0].children[1].children
             ];
 
-            const slots = [...groupA, ...groupB].filter(child => child.name.startsWith('Slot_'));
+            const slots = [...groupA, ...groupB].filter(child => child.name.startsWith('slot_'));
             const placeholderPath = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2Fplaceholder.fbx?alt=media&token=980c6ee5-aaa5-4628-9636-1eddd8e0f91e`;
             // const placeholderPath = `fbx-bucket/architectures/${this.type}_slot_placeholder.glb`;
             const placeholder = await this.loadModel(placeholderPath);
@@ -68,6 +88,7 @@ export class Architecture extends SceneObject implements IArchitecture {
                 slot.parent?.attach(placeholderClone);
                 placeholderClone.position.copy(slot.position);
                 placeholderClone.rotation.copy(slot.rotation);
+                placeholderClone.name = slot.name;
                 placeholderClone.visible = false;
                 slot.parent?.remove(slot);
                 this.placeholders.push(placeholderClone);

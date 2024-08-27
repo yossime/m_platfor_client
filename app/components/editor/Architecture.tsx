@@ -114,11 +114,6 @@ const Architecture = () => {
 
   };
 
-
-
- 
-
-
   const handleSelectEmptySlot = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
     // console.log("handleSelectEmptySlot.name", event.object.name);

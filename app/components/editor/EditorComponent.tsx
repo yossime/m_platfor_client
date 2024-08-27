@@ -26,6 +26,7 @@ const EditorComponent: React.FC = () => {
 
   return (
     <>
+          {/* <button onClick={onClick}>click</button> */}
       {(editorState !== EditorState.PREVIEW) ? (
         <EditorLayout>
           <SideBar />

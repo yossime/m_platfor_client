@@ -3,6 +3,7 @@ import { FBXLoader, Font, FontLoader, TextGeometry } from "three/examples/jsm/Ad
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { BaseSize, FontFamily, IText } from "./paramsType";
 import { getAuthDownloadUrl } from "@/services/firebase";
+import { Board, IBoard } from "./Board";
 
 
 
@@ -161,8 +162,17 @@ export abstract class SceneObject implements ISceneObject {
             this.contentMaterial.set(type, material);
             return true;
         }
-        return false;
     };
+
+    // public async setContentText(type: IContentTextType, text: IContentText) {
+    //     const geometry = this.getGeometryByName(type);
+    //     if (geometry instanceof Mesh) {
+    //         this.straightText(geometry, text);
+    //         this.contentText.set(type, text);
+    //         return true;
+    //     }
+    //     return false;
+    // };
 
     public async setContentText(type: IContentTextType, text: IContentText) {
         const geometry = this.getGeometryByName(type);
@@ -297,6 +307,10 @@ export abstract class SceneObject implements ISceneObject {
 
     public addChild(sceneObject: ISceneObject): void {
         if (this.selectedSlot) {
+            // if (sceneObject instanceof Board) {
+            //     (sceneObject as IBoard).slotNumber = parseInt(this.selectedSlot.name);
+            // }
+    
             sceneObject.exchangeSlot(this.selectedSlot);
             this.children.push(sceneObject);
             // sceneObject.selectedChild = this;
@@ -492,6 +506,8 @@ export interface ITextureSource {
 }
 
 export interface IContentMaterial {
+    image?: ITextureSource;
+    video?: ITextureSource;
     diffuse?: ITextureSource;
     opacity?: ITextureSource;
     roughness?: ITextureSource;
@@ -567,6 +583,7 @@ export interface IContentText {
 export interface ExportedSceneObject {
     name: string | null;
     type: string;
+    slotNumber?: number;
     position: { x: number; y: number; z: number } | null;
     rotation: { x: number; y: number; z: number } | null;
     scale?: { x: number; y: number; z: number };

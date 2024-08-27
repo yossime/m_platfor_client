@@ -29,6 +29,7 @@ export class SceneModel implements IScene {
     constructor(onLoad?: (model: Object3D) => void) {
         this.onLoad = onLoad;
     }
+    
     // exportToJson = async () => {
     //     return new Promise<string>((resolve, reject) => {
     //         resolve('json')
@@ -55,7 +56,6 @@ export class SceneModel implements IScene {
     }
 
     exportToJson = async () => {
-        console.log('11234', this)
         if (!this.root) return null;
         return this.root.exportToJson();
     };
