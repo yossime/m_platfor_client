@@ -13,7 +13,6 @@ export interface IScene {
     setSelectedObject: (selected: ISceneObject | null) => void;
     buildingFromScratch: (type: ArchitectureType, onLoad: (model: Object3D) => void) => Promise<ISceneObject>;
     buildFromJson: (json: string) => Promise<ISceneObject>;
-    // exportToJson: () => string | null;
     exportToJson: () => Promise<string | null>;
 
 }
