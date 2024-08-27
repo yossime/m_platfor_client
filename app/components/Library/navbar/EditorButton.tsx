@@ -6,6 +6,7 @@ import { useProject } from '@/context/useProjectContext';
 import axios from '@/utils/axios';
 import { IconName } from '@constants/icon';
 import { useEditor, EditorState } from '@/context/useEditorContext';
+import { createSoundManager } from '@/components/editor/utils/SoundManager';
 
 const previewApi = "https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/preview";
 
@@ -15,11 +16,14 @@ const EditorButton: React.FC = () => {
   const { editorMode, currentProject } = useProject();
   const { editorState, setEditorState, sceneModel } = useEditor();
 
+  const { playNotificationSound, stopNotificationSound } = createSoundManager();
+
+
   const initiatePreview = async (): Promise<void> => {
     setEditorState(EditorState.LOADING);
     try {
         const dataParameters = await sceneModel?.exportToJson();
-        console.log("dataParameters",dataParameters);
+        console.log(dataParameters)
         if (currentProject && dataParameters) {
           await axios.post(`${previewApi}/${currentProject}`, {dataParameters});
             checkPreviewStatus();
@@ -35,13 +39,12 @@ const EditorButton: React.FC = () => {
 
   const checkPreviewStatus = async (): Promise<void> => {
     try {
-      console.log("response.status")
       const response = await axios.get(`${previewApi}/${currentProject}`);
-      // const response = await axios.get(`${previewApi}/index`);
-
-      console.log(response.status,"response.status")
+      console.log("response.status",response.status)
       if (response.status === 200) {
         setEditorState(EditorState.PREVIEW);
+        console.log("response",response)
+        playNotificationSound()
       } else if(response.status === 201){
         setTimeout(checkPreviewStatus, 5000); 
       }
@@ -75,7 +78,9 @@ const EditorButton: React.FC = () => {
 
   if (!editorMode) return null;
 
-  console.log("Current editor :", editorState);
+
+  document.addEventListener('click', stopNotificationSound);
+
 
   return (
     <Button

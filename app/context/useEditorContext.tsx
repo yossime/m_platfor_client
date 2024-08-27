@@ -63,6 +63,8 @@ export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setSceneModel,
   };
 
+
+  
   return (
     <EditorContext.Provider value={value}>
       {children}
