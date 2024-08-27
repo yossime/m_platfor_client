@@ -116,7 +116,7 @@ const App: React.FC = () => {
 
     const fetchFiles = async () => {
         try {
-            axios.get('http://localhost:3500/dev')
+            axios.get('https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/dev')
                 .then(response => {
                     console.log(response.data);
                     setFiles(response.data);
