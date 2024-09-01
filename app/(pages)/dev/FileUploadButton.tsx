@@ -32,7 +32,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({ folderPath, onUploa
       const filePath = `${folderPath}/${file.name}`;
 
       try {
-        await axios.post(`http://localhost:3500/dev/library?filePath=${filePath}`, formData, {
+          await axios.post(`/dev/library?filePath=${filePath}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

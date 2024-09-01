@@ -7,6 +7,7 @@ import FileUpload from './FileUpload';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 // import FileUpload from './FileUpload';
 
+const API = 'https://server-cloud-run-service-kruirvrv6a-uc.a.run.app'
 interface File {
     name: string;
     size: string | number | undefined;
@@ -36,9 +37,8 @@ const App: React.FC = () => {
 
     const fetchFiles = async () => {
         try {
-            axios.get('http://localhost:3500/dev/library')
+            axios.get(`/dev/library`)
                 .then(response => {
-                    console.log(response.data);
                     setFiles(response.data);
                 })
         } catch (error) {
