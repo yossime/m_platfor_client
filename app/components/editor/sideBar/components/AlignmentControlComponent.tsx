@@ -6,7 +6,8 @@ import { IconName } from '@constants/icon';
 
 interface AlignmentControlProps {
     onHorizontalAlignmentChange: (alignment: 'left' | 'center' | 'right') => void;
-    onVerticalAlignmentChange: (alignment: 'top' | 'middle' | 'bottom') => void;
+    onVerticalAlignmentChange: (alignment: 'top' | 'center' | 'bottom') => void;
+    // onVerticalAlignmentChange: (alignment: 'top' | 'middle' | 'bottom') => void;
 }
 
 const Container = styled.div`
@@ -70,7 +71,8 @@ const AlignmentControl: React.FC<AlignmentControlProps> = ({
                     size={ButtonSize.SMALL}
                     icon={IconName.ARROWSINLINEVERTICAL}
                     iconOnly={true}
-                    onClick={() => onVerticalAlignmentChange('middle')}
+                    onClick={() => onVerticalAlignmentChange('center')}
+                    // onClick={() => onVerticalAlignmentChange('middle')}
                 />
                 <Button
                     type={ButtonType.PRIMARY}

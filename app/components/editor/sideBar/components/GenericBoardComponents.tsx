@@ -6,35 +6,107 @@ import DataObfuscator from '@/components/Library/general/DataObfuscator';
 import { DeleteIcon, FileDisplay, FileName } from './CommonStyles';
 import DragAndDrop from '@/components/Library/general/DragAndDrop';
 import { useEditor } from '@/context/useEditorContext';
-import { IContentMaterialType, IContentTextType } from '../../interface/models';
+import { EConfigType, EConfiguration, ERenderType, IContentMaterial, IContentMaterialType, IContentText, IContentTextType, ISceneObject } from '../../interface/types';
+// import { EConfigType, EConfiguration, ERenderType, IContentMaterial, IContentMaterialType, IContentTextType } from '../../interface/models';
 import { uploadFile } from '../../utils/fileUploadService';
+import { IBoard } from '../../types/borad';
+import { Board } from '../../interface/models/Board';
+
+
+
 
 export const useBoardContent = () => {
   const { sceneModel } = useEditor();
-  const selectedObject = sceneModel?.getSelectedObject();
 
-  const getContentText = (type: IContentTextType) => {
-    return selectedObject?.getContentText(type);
+  const getSelectedObject = (): ISceneObject | null => {
+    if (!sceneModel) {
+      console.warn('Scene model is not initialized');
+      return null;
+    }
+    return sceneModel.getSelectedObject();
   };
 
-  const setContentText = (type: IContentTextType, value: string) => {
-    selectedObject?.setContentText(type, { text: value });
+  const getContentText = (type: IContentTextType): IContentText | null => {
+    const selectedObject = getSelectedObject();
+    if (!selectedObject) {
+      console.warn('No object selected');
+      return null;
+    }
+    return selectedObject.getContentText?.(type) ?? null;
   };
 
-  const getContentMaterial = (type: IContentMaterialType) => {
-    return selectedObject?.getContentMaterial(type);
+  const setContentText = (type: IContentTextType, value: string): void => {
+    const selectedObject = getSelectedObject();
+    if (!selectedObject) {
+      console.warn('No object selected');
+      return;
+    }
+    if (selectedObject.setContentText) {
+      selectedObject.setContentText(type, { text: value });
+    } else {
+      console.warn('Selected object does not support setting content text');
+    }
   };
 
-  const setContentMaterial = (type: IContentMaterialType, material: any) => {
-    console.log(`setContentMaterial ${type} ${material}`);
-    selectedObject?.setContentMaterial(type, material);
+  const getContentMaterial = (type: IContentMaterialType): IContentMaterial | null => {
+    const selectedObject = getSelectedObject();
+    if (!selectedObject) {
+      console.warn('No object selected');
+      return null;
+    }
+    return selectedObject.getContentMaterial?.(type) ?? null;
   };
+
+  const setContentMaterial = (type: IContentMaterialType, material: IContentMaterial): void => {
+    const selectedObject = getSelectedObject();
+    if (!selectedObject) {
+      console.warn('No object selected');
+      return;
+    }
+    if (selectedObject.setContentMaterial) {
+      try {
+    // const testMaterial = {
+    //   render: ERenderType.IRON
+    // };
+        selectedObject.setContentMaterial(type, material);
+        // selectedObject.setContentMaterial(IContentMaterialType.SELF, testMaterial);
+      } catch (error) {
+        console.error('Error setting content material:', error);
+      }
+    } else {
+      console.warn('Selected object does not support setting content material');
+    }
+  };
+
+  // const setContentMaterial = (type: IContentMaterialType, material: IContentMaterial) => {
+  //   const testMaterial = ERenderType.IRON;
+  //   console.log(`selectedObject selectedObject`, selectedObject);
+  //   console.log(`setContentMaterial type`, type);
+  //   if(material) {
+  //     selectedObject?.setContentMaterial(type, material);
+  //   }
+  // };
+
+  const setConfiguration = (type: EConfigType, config: EConfiguration) => {
+    const selectedObject = getSelectedObject();
+    if (!selectedObject) {
+      console.warn('No object selected');
+      return null;
+    }
+    (selectedObject as Board).setConfiguration(type, config);
+  };
+
+  // const setConfiguration = (type: EConfigType, config: EConfiguration) => {
+  //   console.log(`selectedObject selectedObject`, selectedObject);
+  //   (selectedObject as IBoard).setConfiguration(type, config);
+  // };
 
   return {
     getContentText,
     setContentText,
     getContentMaterial,
     setContentMaterial,
+    setConfiguration,
   };
 };
 
@@ -87,7 +159,7 @@ export const ContentSelect: React.FC<ContentSelectProps> = ({ type, options, pla
 //   type: IContentMaterialType;
 // }> = ({ type }) => {
 //   const { getContentMaterial, setContentMaterial } = useBoardContent();
-  
+
 //   const file = getContentMaterial(type)?.diffuse?.file;
 
 //   const handleFileAdded = (newFile: File) => {
@@ -122,15 +194,26 @@ export const ContentFileUpload: React.FC<{
 }> = ({ type }) => {
   const { getContentMaterial, setContentMaterial } = useBoardContent();
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  
-  const file = getContentMaterial(type)?.diffuse?.file;
 
+  const file = getContentMaterial(type)?.customMaterial?.diffuse?.map as File;
+
+  // setContentMaterial(type, { customMaterial: { diffuse: { url: 'https://storage.googleapis.com/barbiz-side/images/Bar10_L.jpeg' } }  });
   const handleFileAdded = async (newFile: File) => {
+
+    // setContentMaterial(type, { diffuse: { file: newFile } });
+    // console.log(`Setting type type`, IContentMaterialType.IMAGE)
+
+    setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } } });
     try {
       await uploadFile(newFile, type, {
         onSuccess: (url, contentType) => {
-          console.log(url, contentType,'')
-          setContentMaterial(contentType, { diffuse: { file: newFile, url: url } });
+          console.log(url, contentType, '')
+
+          if (typeof url === 'string') {
+            setContentMaterial(type, { customMaterial: { diffuse: { map: url } } });
+            console.log(`Upload successfully ${url}`)
+          }
+
           setUploadProgress(0);
         },
         onError: (error, contentType) => {

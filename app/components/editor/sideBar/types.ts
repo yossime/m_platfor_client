@@ -1,7 +1,8 @@
 
 import { IconName } from '@constants/icon';
 import { BaseSize, ButtonStyle, ImageStyle, TextStyle } from '../interface/paramsType';
-import { BoardType } from '../interface/models';
+import { BoardType } from '../interface/types';
+// import { BoardType } from '../interface/models';
 
 export interface WidgetData {
   name: string;

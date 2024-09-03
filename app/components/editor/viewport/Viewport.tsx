@@ -4,10 +4,12 @@ import { Canvas, ThreeEvent, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Stars } from '@react-three/drei';
 import { useEditor } from '@/context/useEditorContext';
 import styled from 'styled-components';
-import { SceneModel } from '../interface/Scene';
-import { ArchitectureType, CustomObject3D } from '../interface/models';
+// import { SceneModel } from '../interface/Scene';
+// import { ArchitectureType, CustomObject3D } from '../interface/models';
+import { ArchitectureType, CustomObject3D } from '../interface/types';
 import { Object3D, Vector3 } from 'three';
 import * as THREE from 'three';
+import { SceneService } from '../interface/SceneService';
 
 export const ViewportContainer = styled.div`
   flex-grow: 1;
@@ -21,9 +23,13 @@ const SceneComponent = () => {
 
   useEffect(() => {
     const buildScene = async () => {
-      const scene = new SceneModel(setModel);
-      const sceneModel = await scene.buildingFromScratch(ArchitectureType.Barbiz);
+      // const scene = new SceneModel(setModel);
+      // const sceneModel = await scene.buildingFromScratch(ArchitectureType.TOW_CIRCLES);
+      // setSceneModel(scene);
+      const scene = new SceneService();
+      const sceneModel = await scene.buildScene(ArchitectureType.TWO_CIRCLES, setModel)
       setSceneModel(scene);
+
       // console.log(sceneModel.addChild,"ggggggggggggggggggggg")
     }
     buildScene();
@@ -33,13 +39,14 @@ const SceneComponent = () => {
   const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
     const object = event.object as CustomObject3D;
     event.stopPropagation();
+    // console.log("event.target", event.object)
     let selected = null;
     if (object.interactive) {
       if (object.onPointerDown) {
         selected = object.onPointerDown(event);
       }
     }
-    sceneModel?.setSelectedObject(selected)
+    // sceneModel?.setSelectedObject(selected)
   }
 
   const CameraController = () => {

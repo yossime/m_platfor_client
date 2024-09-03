@@ -1,282 +1,80 @@
 {
-    "headerBoard": {
-      "name": "headerboard",
-      "type": "HeaderBoard",
-      "title": {
-        "text": "Welcome to Our Store",
-        "color": "#ffffff",
-        "scale": [1, 1, 1]
+  "name": null,
+  "type": "two_circles",
+  "position": null,
+  "rotation": null,
+  "scale": {
+    "x": 1,
+    "y": 1,
+    "z": 1
+  },
+  "children": [
+    {
+      "name": "Header",
+      "type": "header_image_null11",
+      "position": {
+        "x": -9.313225746154785e-10,
+        "y": 0,
+        "z": -8.673617379884035e-19
       },
-      "subTitle": {
-        "text": "subTitle",
-        "color": "#ffffff",
-        "scale": [1, 1, 1]
+      "rotation": {
+        "isEuler": true,
+        "_x": -1.4106487788571324e-7,
+        "_y": -2.443317225831709e-7,
+        "_z": 1.0471978187560862,
+        "_order": "XYZ"
       },
-      "materialParams": {
-        "map": "https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f"
-      }
-    },
-    "productBoard": {
-      "maxDisplay": 6,
-      "name": "ProductBoard",
-      "type": "ProductBoard",
-      "title": {
-        "text": "Welcome to Our Store",
-        "color": "purple",
-        "scale": [1, 1, 1]
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
       },
-      "displays": [
-        {
-          "materialParams": {
-            "color": "pink"
-          },
-          "products": [
-            {
-              "src": "heartglass1",
-              "title": {
-                "text": "Product Title 0",
-                "color": "purple",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "description": {
-                "text": "Product Description 0",
-                "color": "yellow",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "buttons": {
-                "price": {
-                  "text": {
-                    "text": "$299"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  },
-                  "type": null
-                },
-                "addToCart": {
-                  "type": null,
-                  "text": {
-                    "text": "111 Add 2 Cart",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  }
-                },
-                "quickView": {
-                  "type": null,
-                  "text": {
-                    "text": "111 Quick View",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#33C1FF"
-                  }
-                },
-                "buyNow": {
-                  "type": null,
-                  "text": {
-                    "text": "111 Buy Now",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#75FF33"
-                  }
-                }
-              },
-              "type": "Podium"
+      "children": [],
+      "slotNumber": 10,
+      "contentData": {
+        "image": {
+          "contentMaterial": {
+            "customMaterial": {
+              "diffuse": {
+                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/bar4_R.jpeg"
+              }
             }
-          ],
-          "type": "Podium"
+          },
+          "contentObjects": {
+            "contentName": "ph_image_C_R",
+            "position": {
+              "x": 0.015752797946333885,
+              "y": 0.004215866327285822,
+              "z": -0.0011630896478891442
+            },
+            "rotation": {
+              "isEuler": true,
+              "_x": 1.5707962504904696,
+              "_y": -0.1455234438180924,
+              "_z": -4.936988521018019e-9,
+              "_order": "XYZ"
+            }
+          }
         },
-        {
-          "materialParams": {
-            "color": "pink"
-          },
-          "products": [
-            {
-              "src": "heartglass1",
-              "title": {
-                "text": "Product Title 1",
-                "color": "blue",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "description": {
-                "text": "Product Description 1",
-                "color": "black",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "buttons": {
-                "price": {
-                  "text": {
-                    "text": "$299"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  },
-                  "type": null
-                },
-                "addToCart": {
-                  "type": null,
-                  "text": {
-                    "text": "Add 2 Cart",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#FFC300"
-                  }
-                },
-                "quickView": {
-                  "type": null,
-                  "text": {
-                    "text": "Quick View",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#C70039"
-                  }
-                },
-                "buyNow": {
-                  "type": null,
-                  "text": {
-                    "text": "Buy Now",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#900C3F"
-                  }
-                }
-              },
-              "type": "Podium"
+        "sub_title": {
+          "text": "ssssssssssssssssssssss",
+          "contentObjects": {
+            "contentName": "ph_button_C_R",
+            "position": {
+              "x": 0.04274604097008705,
+              "y": 0.0002642571926116388,
+              "z": -0.035892337560653687
+            },
+            "rotation": {
+              "isEuler": true,
+              "_x": -2.763590000090863e-16,
+              "_y": 3.5389650561546674e-16,
+              "_z": 1.32597541809082,
+              "_order": "XYZ"
             }
-          ],
-          "type": "Podium"
-        },
-        {
-          "materialParams": {
-            "color": "pink"
-          },
-          "products": [
-            {
-              "title": {
-                "text": "Product Title 2",
-                "color": "#ffffff",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "description": {
-                "text": "Product Description 2",
-                "color": "#cccccc",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "buttons": {
-                "price": {
-                  "text": {
-                    "text": "$299"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  },
-                  "type": null
-                },
-                "addToCart": {
-                  "type": null,
-                  "text": {
-                    "text": "Add 2 Cart",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#DAF7A6"
-                  }
-                },
-                "quickView": {
-                  "type": null,
-                  "text": {
-                    "text": "Quick View",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#FF6F61"
-                  }
-                },
-                "buyNow": {
-                  "type": null,
-                  "text": {
-                    "text": "Buy Now",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#D5AAFF"
-                  }
-                }
-              },
-              "type": "Podium"
-            }
-          ],
-          "type": "Podium"
-        },
-        {
-          "materialParams": {
-            "color": "pink"
-          },
-          "products": [
-            {
-              "title": {
-                "text": "Product Title 3",
-                "color": "#ffffff",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "description": {
-                "text": "Product Description 3",
-                "color": "#cccccc",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "buttons": {
-                "price": {
-                  "text": {
-                    "text": "$299"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  },
-                  "type": null
-                },
-                "addToCart": {
-                  "type": null,
-                  "text": {
-                    "text": "Add 2 Cart",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#00BFFF"
-                  }
-                },
-                "quickView": {
-                  "type": null,
-                  "text": {
-                    "text": "Quick View",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#FF1493"
-                  }
-                },
-                "buyNow": {
-                  "type": null,
-                  "text": {
-                    "text": "Buy dd Now",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#32CD32"
-                  }
-                }
-              },
-              "type": "Podium"
-            }
-          ],
-          "type": "Podium"
+          }
         }
-      ]
+      }
     }
-  }
-  
+  ]
+}
