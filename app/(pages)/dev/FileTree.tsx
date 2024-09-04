@@ -11,12 +11,18 @@ interface FileTreeProps {
 }
 
 const TreeContainer = styled.ul<{ level: number }>`
-overflow-y: auto;
-  list-style-type: none;
+  max-height: 90vh;
+  overflow-y: auto;
+  
   padding-left: ${props => props.level * 20}px;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 `;
 
 const TreeItem = styled.li`
+  min-height: 30px;
   margin: 5px 0;
 `;
 
@@ -29,10 +35,11 @@ const FolderName = styled.span`
 `;
 
 const FileName = styled.span`
+  height: 30px;
   color: #4a4a4a;
 `;
 
-const FileTree: React.FC<FileTreeProps> = ({ files, filePath = '', level = 0 , onRefresh}) => {
+const FileTree: React.FC<FileTreeProps> = ({ files, filePath = '', level = 0, onRefresh }) => {
   const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
 
   const toggleFolder = (folder: string) => {
@@ -50,14 +57,14 @@ const FileTree: React.FC<FileTreeProps> = ({ files, filePath = '', level = 0 , o
               <FolderName onClick={() => toggleFolder(key)}>
                 {expanded[key] ? '📂' : '📁'} {key}
               </FolderName>
-              <FileUploadButton folderPath={filePath? `${filePath}/${key}` : key}  onUploadSuccess={onRefresh} />
-              {expanded[key] && <FileTree files={value} level={level + 1} filePath={filePath? `${filePath}/${key}` : key} onRefresh={onRefresh} />}
+              <FileUploadButton folderPath={filePath ? `${filePath}/${key}` : key} onUploadSuccess={onRefresh} />
+              {expanded[key] && <FileTree files={value} level={level + 1} filePath={filePath ? `${filePath}/${key}` : key} onRefresh={onRefresh} />}
             </>
           ) : (
             <FileName>
               📄 {value.name.split('/').pop()}
-              {value.size !== undefined && ` - ${value.size} bytes`}
-              {value.updated && ` - ${new Date(value.updated).toLocaleString()}`}
+              {/* {value.size !== undefined && ` - ${value.size} bytes`} */}
+              {/* {value.updated && ` - ${new Date(value.updated).toLocaleString()}`} */}
             </FileName>
           )}
         </TreeItem>
