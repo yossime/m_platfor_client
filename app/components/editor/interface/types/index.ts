@@ -77,7 +77,7 @@ export enum BoardType {
 }
 
 export enum ProductType {
-  Poudiom = 'PoudiomProduct',
+  Poudiom = 'Poudiom',
   Header = 'HeaderBoard',
   Image = 'ImageBoard',
 }

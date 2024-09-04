@@ -9,7 +9,6 @@ import { useEditor } from '@/context/useEditorContext';
 import { EConfigType, EConfiguration, ERenderType, IContentMaterial, IContentMaterialType, IContentText, IContentTextType, ISceneObject } from '../../interface/types';
 // import { EConfigType, EConfiguration, ERenderType, IContentMaterial, IContentMaterialType, IContentTextType } from '../../interface/models';
 import { uploadFile } from '../../utils/fileUploadService';
-import { IBoard } from '../../types/borad';
 import { Board } from '../../interface/models/Board';
 
 

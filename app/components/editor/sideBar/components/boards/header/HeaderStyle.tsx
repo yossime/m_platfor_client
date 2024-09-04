@@ -8,7 +8,7 @@ import AlignmentControl from '../../AlignmentControlComponent';
 // import { EConfigType, EConfiguration, IContentMaterial, IContentMaterialType } from '@/components/editor/interface/models';
 import { useBoardContent } from '../../GenericBoardComponents';
 import TextureUploadComponent from '../../LoadTexturePopup';
-import { IContentMaterialType, IContentMaterial, EConfigType, EConfiguration } from '@/components/editor/interface/types';
+import { IContentMaterialType, IContentMaterial, EConfigType, EConfiguration, ICustomMaterial } from '@/components/editor/interface/types';
 
 export const HeaderStyleComponent: React.FC = () => {
   const { getContentMaterial, setContentMaterial, setConfiguration } = useBoardContent();
@@ -33,7 +33,7 @@ export const HeaderStyleComponent: React.FC = () => {
     }
   };
 
-  const handleTextureUpdate = (newTexture: IContentMaterial) => {
+  const handleTextureUpdate = (newTexture: ICustomMaterial) => {
     console.log("texture update", newTexture);
     // setContentMaterial(IContentMaterialType.TEST, newTexture );
     // setContentMaterial(IContentMaterialType.TEST, { diffuse: { file: newTexture.diffuse?.map } });

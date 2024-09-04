@@ -9,7 +9,7 @@ import { IconName } from '@constants/icon';
 import Popup from '@/components/Library/general/Popup';
 import DragAndDrop from '@/components/Library/general/DragAndDrop';
 import TextureUploadComponent from '../../LoadTexturePopup';
-import { ISceneObject } from '@/components/editor/interface/models';
+import { ISceneObject } from '@/components/editor/interface/types';
 
 interface PopupEditDisplayProps {
   display: ISceneObject;

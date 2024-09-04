@@ -9,11 +9,10 @@ import { FontWeight, TextSize } from "@constants/text";
 import Icon from "@/components/Library/icon/Icon";
 import { IconColor } from "@constants/colors";
 import PopupEditDisplay from "./PopupEditDisplay";
-import {
-  ISceneObject,
-  ProductType,
-} from "@/components/editor/interface/models";
-import { Product } from "@/components/editor/interface/Product";
+import { ISceneObject, ProductType } from "@/components/editor/interface/types";
+import { Product } from "@/components/editor/interface/models/Product";
+
+// import { Product } from "@/components/editor/interface/Product";
 
 export const DisplayList: React.FC = () => {
   const [activeDisplay, setActiveDisplay] = useState<{

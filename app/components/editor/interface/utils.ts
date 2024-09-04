@@ -1,8 +1,8 @@
 
 import { Object3D, Mesh, MeshStandardMaterial, TextureLoader, Texture, Color, Material } from 'three';
 import { FBXLoader, Font, FontLoader, TextGeometry } from 'three/examples/jsm/Addons.js';
-import { ContentText, CustomMaterial } from './typesA';
-import { ICustomMaterial } from './types';
+// import { ContentText, CustomMaterial } from './typesA';
+import { IContentText, ICustomMaterial } from './types';
 
 
 export async function loadModel(url: string): Promise<Object3D> {
@@ -27,12 +27,12 @@ export async function loadTexture(source: string | File): Promise<Texture> {
     });
 }
 
-export async function applyMaterialToMesh(mesh: Mesh, material: CustomMaterial): Promise<void> {
+export async function applyMaterialToMesh(mesh: Mesh, material: ICustomMaterial): Promise<void> {
     const newMaterial = new MeshStandardMaterial();
 
     if (material.diffuse) {
-        if (material.diffuse.url) {
-            newMaterial.map = await loadTexture(material.diffuse.url);
+        if (material.diffuse.map) {
+            newMaterial.map = await loadTexture(material.diffuse.map);
         } else if (material.diffuse.color) {
             newMaterial.color = new Color(material.diffuse.color);
         }
@@ -43,7 +43,7 @@ export async function applyMaterialToMesh(mesh: Mesh, material: CustomMaterial):
     mesh.material = newMaterial;
 }
 
-export async function createTextMesh(text: ContentText): Promise<Mesh> {
+export async function createTextMesh(text: IContentText): Promise<Mesh> {
     const font = await loadFont('path/to/font.json');
     const geometry = new TextGeometry(text.text, {
         font: font,
