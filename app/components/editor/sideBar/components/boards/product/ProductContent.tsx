@@ -2,9 +2,10 @@
 import React from 'react';
 import { Container } from '../../CommonStyles';
 import { ContentInput, ContentSelect } from '../../GenericBoardComponents';
-import { IContentTextType } from '@/components/editor/interface/models';
+// import { IContentTextType } from '@/components/editor/interface/models';
 import { DisplayType } from '@/components/editor/interface/paramsType';
 import { DisplayList } from './DisplayList';
+import { IContentTextType } from '@/components/editor/interface/types';
 
 const displayTypeOptions = [
   { value: DisplayType.DUO, label: "Spotlight Duo" },

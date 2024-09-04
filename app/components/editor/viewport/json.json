@@ -1,34 +1,10 @@
 {
   "name": null,
   "type": "two_circles",
-  "position": null,
-  "rotation": null,
-  "scale": {
-    "x": 1,
-    "y": 1,
-    "z": 1
-  },
   "children": [
     {
       "name": "Header",
       "type": "header_image_null11",
-      "position": {
-        "x": -9.313225746154785e-10,
-        "y": 0,
-        "z": -8.673617379884035e-19
-      },
-      "rotation": {
-        "isEuler": true,
-        "_x": -1.4106487788571324e-7,
-        "_y": -2.443317225831709e-7,
-        "_z": 1.0471978187560862,
-        "_order": "XYZ"
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      },
       "children": [],
       "slotNumber": 10,
       "contentData": {
@@ -36,7 +12,9 @@
           "contentMaterial": {
             "customMaterial": {
               "diffuse": {
-                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/bar4_R.jpeg"
+                "map": {
+                  "path": "synthetic_sponge.jpg"
+                }
               }
             }
           },
@@ -57,21 +35,59 @@
           }
         },
         "sub_title": {
-          "text": "ssssssssssssssssssssss",
           "contentObjects": {
-            "contentName": "ph_button_C_R",
+            "meshName": "ph_sub_title_C_R"
+          },
+          "contentText": {
+            "text": "zzzzzzzzzzzzzzzz"
+          }
+        },
+        "button": {
+          "contentObjects": {
+            "meshName": "ph_button_C_R"
+          },
+          "contentText": {
+            "text": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+          }
+        }
+      }
+    },
+    {
+      "name": "Header",
+      "type": "header_image_null11",
+      "children": [],
+      "slotNumber": 9,
+      "contentData": {
+        "image": {
+          "contentMaterial": {
+            "customMaterial": {
+              "diffuse": {
+                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/bar1_R.jpeg"
+              }
+            }
+          },
+          "contentObjects": {
+            "contentName": "ph_image_C_C",
             "position": {
-              "x": 0.04274604097008705,
-              "y": 0.0002642571926116388,
-              "z": -0.035892337560653687
+              "x": 5.320657692209365e-9,
+              "y": 0.005413740873336792,
+              "z": -0.004613840486854322
             },
             "rotation": {
               "isEuler": true,
-              "_x": -2.763590000090863e-16,
-              "_y": 3.5389650561546674e-16,
-              "_z": 1.32597541809082,
+              "_x": -7.549795459994183e-8,
+              "_y": 1.792691805598834e-14,
+              "_z": 1.971999287605285,
               "_order": "XYZ"
             }
+          }
+        },
+        "button": {
+          "contentObjects": {
+            "meshName": "ph_button_C_C"
+          },
+          "contentText": {
+            "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
           }
         }
       }

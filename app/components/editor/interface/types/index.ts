@@ -61,7 +61,7 @@ export enum ArchitectureType {
 
 export enum BoardType {
   Product = 'ProductBoard',
-  Header = 'header_image_null11',
+  Header = 'MasterBoard11',
   Image = 'header_image',
   Slider = 'SliderBoard',
   Video = 'VideoBoard',
@@ -98,9 +98,9 @@ export enum EConfiguration {
 
 // Content types
 export enum IContentTextType {
-  TITLE = 'text_B_L',
+  TITLE = 'title',
   SUB_TITLE = 'sub_title',
-  BUTTON = 'button',
+  BUTTON = 'button_text',
   TEST = 'Header',
   IMAGE_CONTENT = 'ImageCenter',
   IMAGE_Left = 'ImageLeft',
@@ -114,8 +114,8 @@ export enum IContentTextType {
 }
 
 export enum IContentMaterialType {
-  TITLE = 'Title',
-  SUB_TITLE = 'Sub_Title',
+  TITLE = 'title',
+  SUB_TITLE = 'sub_title',
   BUTTON = 'button',
   TEST = 'Header',
   IMAGE_CONTENT = 'ImageCenter',

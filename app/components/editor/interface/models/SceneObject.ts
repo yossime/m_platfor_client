@@ -220,16 +220,11 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   public exchangeSlot(slot: CustomObject3D): void {
-    if (!this.model) {
-      console.warn('Attempted to exchange slot without a model');
-      return;
-    }
-
     this.setPosition(slot.position);
     this.setRotation(slot.rotation);
     this.modelParent = slot.parent;
 
-    if (this.modelParent) {
+    if (this.model && this.modelParent ) {
       this.modelParent.attach(this.model);
       this.model.position.copy(slot.position);
       this.model.rotation.copy(slot.rotation);

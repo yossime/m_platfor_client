@@ -27,9 +27,11 @@ export class SceneService {
     }
     setSelectedObject(selected: ISceneObject | null): void {
         this.selectedObject = selected;
+        // this.root?.setSelectedObject(selected);
     }
 
     getSelectedObject(): ISceneObject | null {
+        // return this.root?.g;
         return this.selectedObject;
     }
 

@@ -65,7 +65,7 @@ export class Board extends SceneObject {
             this.contentMaterial.set(type, material);
 
             const oldContent = this.contentData.get(type);
-            this.contentData.set(type, {...oldContent, contentMaterial: material});
+            this.contentData.set(type, { ...oldContent, contentMaterial: material });
         }
     }
 
@@ -78,7 +78,7 @@ export class Board extends SceneObject {
         this.contentImages.set(type, material);
 
         const oldContent = this.contentData.get(type);
-        this.contentData.set(type, {...oldContent, contentMaterial: material});
+        this.contentData.set(type, { ...oldContent, contentMaterial: material });
 
         if (geometry instanceof Mesh) {
             await this.changeMaterial(geometry, material.customMaterial!);
@@ -88,20 +88,27 @@ export class Board extends SceneObject {
 
 
     public setContentText(type: IContentTextType, text: IContentText): void {
-        const geometry = this.getGeometryByName(IContentMaterialType.BUTTON);
-        // const geometry = this.getPlaceholder(type);
+        // const geometry = this.getGeometryByName(IContentTextType.BUTTON);
+        const geometry = this.getGeometryByName(type);
+        // const placeholder = this.getPlaceholder(type);
         const configV = this.configuration.get(EConfigType.VERTICAL);
         const configH = this.configuration.get(EConfigType.HORIZONTAL);
         const configImageName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
 
         const oldContent = this.contentData.get(type);
-        this.contentData.set(type, {contentObjects: {meshName: configImageName}, contentText: text});
+        this.contentData.set(type, { contentObjects: { meshName: configImageName }, contentText: text });
+        console.log('Mesh type', type)
 
         if (geometry instanceof Mesh) {
+            console.log('Mesh geometry')
             this.applyText(geometry, text);
             this.contentText.set(type, text);
         }
     }
+
+    protected handleSelected = (object: CustomObject3D) => { return this };
+
+
 
     private async loadModelAndDisplay(onLoad?: () => void): Promise<void> {
         try {
@@ -130,7 +137,7 @@ export class Board extends SceneObject {
             throw new Error('Failed to load board model');
         }
     }
-    
+
     private async setPlaceholders(): Promise<void> {
         try {
             if (!this.model) return;
@@ -187,13 +194,14 @@ export class Board extends SceneObject {
 
     private updateContentPositions(): void {
         this.contentMaterial.forEach((material, contentType) => {
-            console.log("contentType", contentType)
+            console.log("contentType  contentMaterial", contentType)
             const geometry = this.getGeometryByName(contentType);
             const placeholder = this.getPlaceholder(contentType);
             if (geometry && placeholder) {
                 // const newPosition = this.calculatePosition(contentType);
                 geometry.position.copy(placeholder.position);
                 geometry.rotation.copy(placeholder.rotation);
+                console.log("contentType  contentMaterial", contentType)
 
                 const oldMaterial = this.getContentMaterial(contentType);
 
@@ -205,14 +213,16 @@ export class Board extends SceneObject {
                 // this.setContentMaterial(contentType, updatedMaterial);
 
                 const oldContent = this.contentData.get(contentType);
-                this.contentData.set(contentType, {...oldContent, contentObjects: updatedObjects});
+                this.contentData.set(contentType, { ...oldContent, contentObjects: updatedObjects });
             }
         });
 
         this.contentText.forEach((material, contentType) => {
             console.log("contentType", contentType)
-            const geometry = this.getGeometryByName(IContentMaterialType.BUTTON);
-            const placeholder = this.getPlaceholder(IContentMaterialType.BUTTON);
+            // const geometry = this.getGeometryByName(IContentMaterialType.BUTTON);
+            // const placeholder = this.getPlaceholder(IContentMaterialType.BUTTON);
+            const geometry = this.getGeometryByName(contentType);
+            const placeholder = this.getPlaceholder(contentType);
             if (geometry && placeholder) {
                 // const newPosition = this.calculatePosition(contentType);
                 geometry.position.copy(placeholder.position);
@@ -226,8 +236,8 @@ export class Board extends SceneObject {
                 this.contentObjects.set(contentType, updatedContent);
 
                 const oldContent = this.contentData.get(contentType);
-                console.log("...oldContent", {...oldContent, contentObjects: updatedContent})
-                this.contentData.set(contentType, {...oldContent, contentObjects: updatedContent});
+                // console.log("...oldContent", { ...oldContent, contentObjects: updatedContent })
+                this.contentData.set(contentType, { ...oldContent, contentObjects: updatedContent });
             }
         });
 
@@ -265,7 +275,7 @@ export class Board extends SceneObject {
                         rotation: placeholder.rotation
                     }
                     this.contentObjects.set(contentType, updatedContent);
-                    this.contentData.set(contentType, {...this.contentData.get(contentType), contentObjects: updatedContent});
+                    this.contentData.set(contentType, { ...this.contentData.get(contentType), contentObjects: updatedContent });
                 }
             }
         });
@@ -331,7 +341,7 @@ export class Board extends SceneObject {
         const textureManager = TextureManager.getInstance();
         const textureUrl = `https://storage.googleapis.com/library-materials-test-all/${renderType}.jpg`;
 
-        await this.changeMaterial(mesh, {diffuse: {map: textureUrl}});
+        await this.changeMaterial(mesh, { diffuse: { map: textureUrl } });
 
 
         // try {
