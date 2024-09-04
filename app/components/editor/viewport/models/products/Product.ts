@@ -1,7 +1,7 @@
 import { Object3D, Vector3, Euler, Mesh, MeshStandardMaterial, RepeatWrapping, MeshPhongMaterial } from 'three';
-import { SceneObject } from './SceneObject';
-import { BoardType, ISceneObjectOptions, ISceneObject, CustomObject3D, IContentMaterial, IContentText, EConfigType, EConfiguration, IContentMaterialType, IContentTextType, EContentImagesType, ProductType } from '../types';
-import { TextureManager } from '../utils/TextureManager';
+import { SceneObject } from '../SceneObject';
+import { BoardType, ISceneObjectOptions, ISceneObject, CustomObject3D, IContentMaterial, IContentText, EConfigType, EConfiguration, IContentMaterialType, IContentTextType, EContentImagesType, ProductType } from '../../../interface/types';
+import { TextureManager } from '../../../interface/utils/TextureManager';
 import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/Addons.js';
 
@@ -110,7 +110,7 @@ export class Product extends SceneObject {
 
 
 
-    private async loadModelAndDisplay(onLoad?: () => void): Promise<void> {
+    async loadModelAndDisplay(onLoad?: () => void): Promise<void> {
         try {
             const boardUrl = `https://storage.googleapis.com/library-all-test/borads/${this.type}.fbx`;
             const model = await this.loadModel(boardUrl);

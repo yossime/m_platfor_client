@@ -1,17 +1,17 @@
 import { Object3D, Vector3, Euler, Material, Texture } from 'three';
 
 // Basic 3D types
-export interface IVector3 {
-  x: number;
-  y: number;
-  z: number;
-}
+// export interface IVector3 {
+//   x: number;
+//   y: number;
+//   z: number;
+// }
 
-export interface IEuler {
-  x: number;
-  y: number;
-  z: number;
-}
+// export interface IEuler {
+//   x: number;
+//   y: number;
+//   z: number;
+// }
 
 // Scene object types
 export interface ISceneObjectOptions {
@@ -19,6 +19,10 @@ export interface ISceneObjectOptions {
   position?: Vector3 | null;
   rotation?: Euler | null;
   scale?: Vector3;
+  exportedScenObj? :ExportedSceneObject,
+  onLoad?: (model?: Object3D) => void;
+  // children?: ExportedSceneObject;
+  // contentData?: { [key in ContentDataType]?: ContentData };
 }
 
 export interface ISceneObject {
@@ -60,8 +64,10 @@ export enum ArchitectureType {
 }
 
 export enum BoardType {
-  Product = 'ProductBoard',
-  Header = 'MasterBoard11',
+  // Product = 'ProductBoard',
+  Product = 'MasterTextOn',
+  // Header = 'MasterBoard',
+  Header = 'MasterTextOn2',
   Image = 'header_image',
   Slider = 'SliderBoard',
   Video = 'VideoBoard',
@@ -80,6 +86,11 @@ export enum ProductType {
   Poudiom = 'Poudiom',
   Header = 'HeaderBoard',
   Image = 'ImageBoard',
+}
+
+export enum DisplayType {
+  DUO = "Spotlight Duo",
+  STANDS = "Podium stands",
 }
 
 // Configuration types
@@ -189,6 +200,12 @@ export enum ERenderType {
   IRON = 'iron',
 }
 
+export enum ESkybox {
+  DEFAULT = "Default",
+  DARK = "Dark",
+}
+
+
 // Text content type
 export interface IContentText {
   text: string;
@@ -203,12 +220,11 @@ export interface ExportedSceneObject {
   name: string | null;
   type: string;
   slotNumber?: number;
-  position: IVector3 | null;
-  rotation: IEuler | null;
-  scale?: IVector3;
+  position: Vector3 | null;
+  rotation: Euler | null;
+  scale?: Vector3;
   children: ExportedSceneObject[];
-  contentMaterial: { [key in IContentMaterialType]?: IContentMaterial };
-  contentText: { [key in IContentTextType]?: IContentText };
+  contentData: { [key in ContentDataType]?: ContentData };
 }
 
 // Scene management types
@@ -304,3 +320,29 @@ export interface IPluginManager {
   getPlugin(pluginName: string): IPlugin | undefined;
 }
 
+
+
+
+
+export enum BaseSize {
+  SMALL = "Small",
+  MEDIUM = "Medium",
+  LARGE = "Large",
+}
+
+export enum TextStyle {
+  DARK = "Dark",
+  BLUE = "Blue",
+  BRIGHT = "Bright",
+}
+
+export enum ButtonStyle {
+  BLUE = "Blue",
+  BRIGHT = "Bright",
+  DARK = "Dark",
+}
+
+export enum ImageStyle {
+  CROP = "Crop",
+  FILL = "Fill",
+}

@@ -1,7 +1,7 @@
 
 import { IconName } from '@constants/icon';
-import { BaseSize, ButtonStyle, ImageStyle, TextStyle } from '../interface/paramsType';
-import { BoardType } from '../interface/types';
+// import { BaseSize, ButtonStyle, ImageStyle, TextStyle } from '../interface/paramsType';
+import { BaseSize, BoardType, ButtonStyle, ImageStyle, TextStyle } from '../interface/types';
 // import { BoardType } from '../interface/models';
 
 export interface WidgetData {
@@ -52,6 +52,7 @@ export const headers: Record<HeaderType, SubMenuData[]> = {
     ])
   ),
 };
+
 
 
 export const textSizeOptions = [

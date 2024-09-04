@@ -10,7 +10,7 @@ import Icon from "@/components/Library/icon/Icon";
 import { IconColor } from "@constants/colors";
 import PopupEditDisplay from "./PopupEditDisplay";
 import { ISceneObject, ProductType } from "@/components/editor/interface/types";
-import { Product } from "@/components/editor/interface/models/Product";
+import { Product } from "@/components/editor/viewport/models/products/Product";
 
 // import { Product } from "@/components/editor/interface/Product";
 

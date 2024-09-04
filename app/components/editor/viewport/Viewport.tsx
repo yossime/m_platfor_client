@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { ArchitectureType, CustomObject3D } from '../interface/types';
 import { Object3D, Vector3 } from 'three';
 import * as THREE from 'three';
-import { SceneService } from '../interface/SceneService';
+import { SceneService } from './SceneService';
 
 export const ViewportContainer = styled.div`
   flex-grow: 1;

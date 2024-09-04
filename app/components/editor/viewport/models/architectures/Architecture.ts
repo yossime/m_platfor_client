@@ -1,7 +1,8 @@
 import { Object3D, Vector3, Euler } from 'three';
-import { SceneObject } from './SceneObject';
-import { ArchitectureType, ISceneObjectOptions, ISceneObject, CustomObject3D } from '../types';
-import { Board } from './Board';
+import { SceneObject } from '../SceneObject';
+import { ArchitectureType, ISceneObjectOptions, ISceneObject, CustomObject3D, ExportedSceneObject, BoardType } from '../../../interface/types';
+import { Board } from '../boards/Board';
+import { MasterBoard } from '../boards/MasterBoard';
 
 export class Architecture extends SceneObject {
     private placeholderPath: string;
@@ -12,17 +13,19 @@ export class Architecture extends SceneObject {
         super(type, options);
         this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}.fbx`;
         // this.setPlaceholders();
-        this.loadModelAndDisplay(onLoad);
+        // this.loadModelAndDisplay(onLoad);
     }
 
-    public addChild(sceneObject: ISceneObject): void {
+    public addChild(sceneObject: ISceneObject, slotNumber?: number): void {
+        if (slotNumber) {
+            const slot = this.placeholders.find(placeholder => parseInt(placeholder.name.replace(/\D/g, ''), 10) === slotNumber);
+            this.selectedSlot = slot || null;
+        }
+
         if (this.selectedSlot) {
-            
             if (sceneObject instanceof Board) {
-                console.log('addChild slot');
                 const slotNumber = parseInt(this.selectedSlot.name.replace(/\D/g, ''), 10);
                 (sceneObject as Board).slotNumber = slotNumber;
-                console.log('addChild slot (sceneObject as Board)');
 
                 sceneObject.exchangeSlot(this.selectedSlot);
             }
@@ -44,7 +47,8 @@ export class Architecture extends SceneObject {
         this.setSlotsVisible(true);
     }
 
-    private async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
+    async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
+        console.log('Loading model loadModelAndDisplay');
         try {
             const archUrl = `https://storage.googleapis.com/library-all-test/architectures/${this.type}.fbx`;
             const model = await this.loadModel(archUrl);
@@ -96,7 +100,7 @@ export class Architecture extends SceneObject {
     protected handleSelectSlot = (object: CustomObject3D): ISceneObject => {
         // super.handleSelectSlot(object);
         this.selectedSlot = object;
-        
+
         if (this.childToAdd) {
             console.log('Select slot');
             this.addChild(this.childToAdd);
@@ -108,4 +112,24 @@ export class Architecture extends SceneObject {
     //     // Implement selection logic here
     //     return this;
     //   };
+
+    // export interface ExportedSceneObject {
+    //     name: string | null;
+    //     type: string;
+    //     slotNumber?: number;
+    //     position: Vector3 | null;
+    //     rotation: Euler | null;
+    //     scale?: Vector3;
+    //     children: ExportedSceneObject[];
+    //     contentData: { [key in ContentDataType]?: ContentData };
+    //   }
+
+    public buildFromJson(exportedObj: ExportedSceneObject) {
+        super.buildFromJson(exportedObj);
+        
+        exportedObj.children.forEach(childData => {
+            const board = new MasterBoard(childData.type as BoardType, {exportedScenObj: childData});
+            this.addChild(board, childData.slotNumber);
+        })
+    }
 }

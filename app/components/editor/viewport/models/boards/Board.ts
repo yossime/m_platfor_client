@@ -1,23 +1,29 @@
-import { Object3D, Vector3, Euler, Mesh, MeshStandardMaterial, RepeatWrapping, MeshPhongMaterial } from 'three';
-import { SceneObject } from './SceneObject';
-import { BoardType, ISceneObjectOptions, ISceneObject, CustomObject3D, IContentMaterial, IContentText, EConfigType, EConfiguration, IContentMaterialType, IContentTextType, EContentImagesType } from '../types';
-import { TextureManager } from '../utils/TextureManager';
+import { Vector3, Mesh, MeshPhongMaterial, Object3D } from 'three';
+import {
+    BoardType, ISceneObjectOptions, ISceneObject, CustomObject3D, IContentMaterial,
+    IContentText, EConfigType, EConfiguration, IContentMaterialType, IContentTextType, EContentImagesType,
+    ExportedSceneObject,
+    ContentDataType
+} from '@/components/editor/interface/types';
 import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/Addons.js';
+import { SceneObject } from '../SceneObject';
+import { TextureManager } from '@/components/editor/interface/utils/TextureManager';
 
-export class Board extends SceneObject {
+export abstract class Board extends SceneObject {
     public slotNumber = -1;
-    private selectedSlot: CustomObject3D | null = null;
-    private configuration = new Map<EConfigType, EConfiguration>([
+    protected selectedSlot: CustomObject3D | null = null;
+    protected configuration = new Map<EConfigType, EConfiguration>([
         [EConfigType.HORIZONTAL, EConfiguration.CENTER],
         [EConfigType.VERTICAL, EConfiguration.CENTER],
     ]);
-    // private contentMaterial = new Map<string, IContentMaterial>();
-    // private contentText = new Map<string, IContentText>();
+    // protected contentMaterial = new Map<string, IContentMaterial>();
+    // protected contentText = new Map<string, IContentText>();
 
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
-        this.loadModelAndDisplay(onBoardLoaded);
+        console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
+        // this.loadModelAndDisplay(onBoardLoaded);
     }
 
     public addChild(sceneObject: ISceneObject): void {
@@ -106,11 +112,12 @@ export class Board extends SceneObject {
         }
     }
 
-    protected handleSelected = (object: CustomObject3D) => { return this };
+    // protected handleSelected = (object: CustomObject3D) => { return this };
 
 
+    async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
 
-    private async loadModelAndDisplay(onLoad?: () => void): Promise<void> {
+        // async loadModelAndDisplay(onLoad?: () => void): Promise<void> {
         try {
             const boardUrl = `https://storage.googleapis.com/library-all-test/borads/${this.type}.fbx`;
             const model = await this.loadModel(boardUrl);
@@ -123,22 +130,22 @@ export class Board extends SceneObject {
 
             await this.setPlaceholders();
 
-            if (this.modelParent && this.position && this.rotation) {
+            if (this.model && this.modelParent && this.position && this.rotation) {
                 this.modelParent.attach(this.model);
                 this.model.position.copy(this.position);
                 this.model.rotation.copy(this.rotation);
             }
 
-            this.initializeContentAreas();
-
+            // this.initializeContentAreas();
             onLoad && onLoad();
+
         } catch (error) {
             console.error('Error loading board model:', error);
             throw new Error('Failed to load board model');
         }
     }
 
-    private async setPlaceholders(): Promise<void> {
+    protected async setPlaceholders(): Promise<void> {
         try {
             if (!this.model) return;
 
@@ -170,7 +177,7 @@ export class Board extends SceneObject {
     }
 
 
-    private getPlaceholder(type: IContentMaterialType | EContentImagesType | IContentTextType) {
+    protected getPlaceholder(type: IContentMaterialType | EContentImagesType | IContentTextType) {
         const configV = this.configuration.get(EConfigType.VERTICAL);
         const configH = this.configuration.get(EConfigType.HORIZONTAL);
         const placeholderName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
@@ -178,7 +185,7 @@ export class Board extends SceneObject {
         return placeholder;
     }
 
-    private initializeContentAreas(): void {
+    protected initializeContentAreas(): void {
         this.model?.traverse(content => {
             if (content instanceof Mesh && !content.name.startsWith('ph_')) {
                 // const contentType = content.name.split('_')[0];
@@ -192,7 +199,7 @@ export class Board extends SceneObject {
         });
     }
 
-    private updateContentPositions(): void {
+    protected updateContentPositions(): void {
         this.contentMaterial.forEach((material, contentType) => {
             console.log("contentType  contentMaterial", contentType)
             const geometry = this.getGeometryByName(contentType);
@@ -281,12 +288,12 @@ export class Board extends SceneObject {
         });
     }
 
-    private calculatePosition(contentType: string): Vector3 {
+    protected calculatePosition(contentType: string): Vector3 {
         // Implement position calculation based on configuration
         return new Vector3();
     }
 
-    private applyText(mesh: Mesh, text: IContentText): void {
+    protected applyText(mesh: Mesh, text: IContentText): void {
         this.straightText(mesh, text)
     }
 
@@ -337,7 +344,7 @@ export class Board extends SceneObject {
 
 
 
-    private async applyRenderMaterial(mesh: Mesh, renderType: string): Promise<void> {
+    protected async applyRenderMaterial(mesh: Mesh, renderType: string): Promise<void> {
         const textureManager = TextureManager.getInstance();
         const textureUrl = `https://storage.googleapis.com/library-materials-test-all/${renderType}.jpg`;
 
@@ -362,5 +369,14 @@ export class Board extends SceneObject {
         // } catch (error) {
         //     console.error(`Failed to load render material: ${renderType}`, error);
         // }
+    }
+
+    public buildFromJson(exportedObj: ExportedSceneObject) {
+        super.buildFromJson(exportedObj);
+        
+        // exportedObj.children.forEach(childData => {
+        //     const board = new MasterBoard(childData.type as BoardType, {exportedScenObj: childData});
+        //     this.addChild(board, childData.slotNumber);
+        // })
     }
 }

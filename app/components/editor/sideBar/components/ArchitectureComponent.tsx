@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useEditor } from '@/context/useEditorContext';
-import { Skybox } from '../../interface/paramsType';
 import { InputMode, InputSize } from '@constants/input';
 import { ButtonMode, ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 import { FontWeight, TextSize } from '@constants/text';
@@ -12,10 +11,11 @@ import Button from '@/components/Library/button/Button';
 import Text from '@/components/Library/text/Text';
 import { IconColor } from '@constants/colors';
 import { SubButton, SubContainer, SubWrapper, Container, Divider } from './CommonStyles';
+import { ESkybox } from '../../interface/types';
 
 const options = [
-  { value: Skybox.DEFAULT, label: "Default" },
-  { value: Skybox.DARK, label: "Dark" },
+  { value: ESkybox.DEFAULT, label: "Default" },
+  { value: ESkybox.DARK, label: "Dark" },
 ];
 
 interface ArchitectureComponentProps {
@@ -24,7 +24,7 @@ interface ArchitectureComponentProps {
 }
 
 export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ handleBackOrAdd, setActiveSidebarHeader }) => {
-  const { sceneModel, dataParameters } = useEditor();
+  const { sceneModel } = useEditor();
   const [panels, setPanels] = useState<any[]>([]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
 
   return (
     <Container>
-      <SelectInput
+      {/* <SelectInput
         options={options}
         value={dataParameters?.sky || ''}
         onChange={() => { }}
@@ -50,7 +50,7 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
         mode={InputMode.DEFAULT}
         placeholder="Default Material"
         fullWidth={true}
-      />
+      /> */}
 
       <Divider />
       {panels.length > 0 && (

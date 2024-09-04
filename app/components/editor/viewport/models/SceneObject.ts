@@ -1,10 +1,12 @@
 import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture } from 'three';
 
-import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, IContentMaterialType, EContentImagesType, IContentMaterial, IContentText, IContentTextType, IContentObjects, ContentDataType, ContentData } from '../types';
+import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, IContentMaterialType, EContentImagesType, IContentMaterial, IContentText, IContentTextType, IContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../../interface/types';
 import { FBXLoader, GLTFLoader } from 'three/examples/jsm/Addons.js';
-import { TextureManager } from '../utils/TextureManager';
+import { TextureManager } from '../../interface/utils/TextureManager';
+import { EventManager } from '../../interface/utils/EventManager';
 
 export abstract class SceneObject implements ISceneObject {
+  protected eventManager: EventManager;
   protected name: string | null = null;
   protected type: string;
   protected model: Object3D | null = null;
@@ -20,19 +22,31 @@ export abstract class SceneObject implements ISceneObject {
   protected contentObjects: Map<ContentDataType, IContentObjects> = new Map<ContentDataType, IContentObjects>();
   protected contentText: Map<IContentTextType, IContentText> = new Map<IContentTextType, IContentText>();
   protected contentData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
+  // protected onLoad: (model?: Object3D) => void;
 
   constructor(type: string, options?: ISceneObjectOptions) {
     this.type = type;
+    this.eventManager = EventManager.getInstance();
+    console.log("zzzzzzzzzzzzz", this.type, options);
+
     if (options) {
       this.name = options.name ?? this.name;
       this.position = options.position ?? this.position;
       this.rotation = options.rotation ?? this.rotation;
     }
+
+    this.loadModelAndDisplay(options?.onLoad).then(() => {
+      console.log("GGGGGGGGGG", this.type)
+      if (options?.exportedScenObj !== undefined) {
+        this.buildFromJson(options.exportedScenObj);
+      }
+    });
   }
 
-  abstract addChild(sceneObject: ISceneObject): void;
+  abstract addChild(sceneObject: ISceneObject, slotNumber?: number): void;
   abstract displayEmptySlots(): void;
 
+  abstract loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void>;
   public setName(name: string): void {
     this.name = name;
   }
@@ -63,6 +77,8 @@ export abstract class SceneObject implements ISceneObject {
     return this.model;
   }
 
+  public setContentText(type: IContentTextType, text: IContentText): void { }
+
   public setPosition(position: Vector3): void {
     this.position = position;
     if (this.model) {
@@ -88,8 +104,14 @@ export abstract class SceneObject implements ISceneObject {
     console.log('setContentMaterial')
   }
 
-  public setContentObjects(type: ContentDataType, material: IContentObjects) {
-    console.log('setContentObjects')
+  // public setContentObjects(type: ContentDataType, material: IContentObjects) {
+  //   console.log('setContentObjects')
+  // }
+
+  protected setSlotsVisible(visible: boolean): void {
+    this.placeholders.forEach(slot => {
+      slot.visible = visible;
+    });
   }
 
   public exportToJson(): string {
@@ -104,10 +126,19 @@ export abstract class SceneObject implements ISceneObject {
     return JSON.stringify(exportObject, null, 2);
   }
 
-  protected setSlotsVisible(visible: boolean): void {
-    this.placeholders.forEach(slot => {
-      slot.visible = visible;
-    });
+
+  public buildFromJson(exportedObj: ExportedSceneObject) {
+    if (exportedObj.contentData) {
+      for (const [key, value] of Object.entries(exportedObj.contentData)) {
+
+        if (value.contentMaterial) {
+          this.setContentMaterial(key as IContentMaterialType, value.contentMaterial)
+        }
+        if (value.contentText) {
+          this.setContentText(key as IContentTextType, value.contentText)
+        }
+      }
+    }
   }
 
 
@@ -224,7 +255,7 @@ export abstract class SceneObject implements ISceneObject {
     this.setRotation(slot.rotation);
     this.modelParent = slot.parent;
 
-    if (this.model && this.modelParent ) {
+    if (this.model && this.modelParent) {
       this.modelParent.attach(this.model);
       this.model.position.copy(slot.position);
       this.model.rotation.copy(slot.rotation);
@@ -235,7 +266,12 @@ export abstract class SceneObject implements ISceneObject {
     }
   }
 
-  protected handleSelected = (object: CustomObject3D) => { return this };
+  protected handleSelected = (object: CustomObject3D) => {
+    console.log('Selected object changed: protected handleSelected  ', this);
+
+    this.eventManager.setSelectedObject(this);
+    return this
+  };
 
   // protected handleSelectSlot = (object: CustomObject3D): void => {
   //   this.highlightMesh(object);

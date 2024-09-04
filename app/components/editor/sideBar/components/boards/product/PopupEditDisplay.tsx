@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { IDisplay, IProduct } from '@/components/editor/interface/paramsType';
 import Input from '@/components/Library/input/Input';
 import { InputMode, InputSize } from '@constants/input';
 import Button from '@/components/Library/button/Button';
@@ -51,7 +50,7 @@ const PopupEditDisplay: React.FC<PopupEditDisplayProps> = ({ display, onClose, o
 
 
 
-  const handleInputChange = (field: keyof IProduct, value: string) => {
+  const handleInputChange = (field: keyof any, value: string) => {
     // setEditedDisplay(prev => ({
     //   ...prev,
     //   products: prev.products?.map((product, index) =>

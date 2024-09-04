@@ -48,7 +48,7 @@ export const HeaderContentComponent: React.FC = () => {
             isOpen={openSections.image}
             onToggle={handleSectionToggle('image')}
       >
-        <ContentFileUpload type={IContentMaterialType.IMAGE} />
+        <ContentFileUpload type={IContentMaterialType.BUTTON} />
       </DataObfuscator>
 
       <Divider />
