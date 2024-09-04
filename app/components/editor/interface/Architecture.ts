@@ -45,7 +45,7 @@ export class Architecture extends SceneObject implements IArchitecture {
 
     async loadModelAndDisplay(onLoad?: (model: Object3D) => void) {
         // const archUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/architectures%2FBarbiz.fbx?alt=media&token=1f805fdd-c127-45c5-b61f-2601b2aa8519`;
-        const archUrl = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/Barbiz_s.fbx?alt=media&token=09867917-fcc4-429a-9eed-b885c7631936`;
+        const archUrl = `https://storage.googleapis.com/library-all-test/architectures/${this.type}.fbx`;
         const placeholderPath = `fbx-bucket/architectures/${this.type}_slot_placeholder.glb`;
 
         const model = await this.loadModel(archUrl);
@@ -53,7 +53,7 @@ export class Architecture extends SceneObject implements IArchitecture {
         custommodel.onPointerDown = () => this.handleSelected(custommodel);
         custommodel.interactive = true;
         this.model = custommodel;
-        console.log("this.model,", this.model);
+        // console.log("this.model,", this.model);
         await this.setPlaceholders();
         
         onLoad && onLoad(this.model);

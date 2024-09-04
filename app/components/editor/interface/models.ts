@@ -379,7 +379,8 @@ export abstract class SceneObject implements ISceneObject {
     // async loadModelUrl(filePath: string, onLoad?: () => void, onError?: (error: Error) => void): Promise<Object3D> {
     //     return new Promise(async (resolve, reject) => {
     //         // Extract the file extension before any query parameters
-    //         const url = await getAuthDownloadUrl(filePath);
+    //         // const url = await getAuthDownloadUrl(filePath);
+    //         const url = 'await getAuthDownloadUrl(filePath)';
 
     //         if(!url) return;
 
