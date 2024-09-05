@@ -5,12 +5,13 @@ import { Container, Divider } from '../../CommonStyles';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
 import { textSizeOptions, textStyleOptions, buttonStyleOptions, imageStyleOptions, BackgroundOptions } from '../../../types';
 import AlignmentControl from '../../AlignmentControlComponent';
-import { IContentMaterial, IContentMaterialType } from '@/components/editor/interface/models';
+// import { EConfigType, EConfiguration, IContentMaterial, IContentMaterialType } from '@/components/editor/interface/models';
 import { useBoardContent } from '../../GenericBoardComponents';
 import TextureUploadComponent from '../../LoadTexturePopup';
+import { IContentMaterialType, IContentMaterial, EConfigType, EConfiguration, ICustomMaterial } from '@/components/editor/viewport/types';
 
 export const HeaderStyleComponent: React.FC = () => {
-  const { getContentMaterial, setContentMaterial } = useBoardContent();
+  const { getContentMaterial, setContentMaterial, setConfiguration } = useBoardContent();
   const [openSections, setOpenSections] = useState({
     background: true,
     textStyle: true,
@@ -28,20 +29,28 @@ export const HeaderStyleComponent: React.FC = () => {
     if (value === "Create new") {
       setShowUploadTexture(true);
     } else {
-      setContentMaterial(type, { style: value });
+      // setContentMaterial(type, { style: value });
     }
   };
 
-  const handleTextureUpdate = (newTexture: IContentMaterial) => {
+  const handleTextureUpdate = (newTexture: ICustomMaterial) => {
     console.log("texture update", newTexture);
     // setContentMaterial(IContentMaterialType.TEST, newTexture );
-    setContentMaterial(IContentMaterialType.TEST, { diffuse: { file: newTexture.diffuse?.map } });
+    // setContentMaterial(IContentMaterialType.TEST, { diffuse: { file: newTexture.diffuse?.map } });
 
     setShowUploadTexture(false);
   };
 
   const handleAlignmentChange = (type: 'horizontal' | 'vertical', alignment: string) => {
-    setContentMaterial(IContentMaterialType.TEST, { [type + 'Alignment']: alignment });
+    // setContentMaterial(IContentMaterialType.TEST, { [type + 'Alignment']: alignment });
+    switch (type) {
+      case 'horizontal':
+        setConfiguration(EConfigType.HORIZONTAL, (alignment.toUpperCase() as EConfiguration));
+        break;
+      case 'vertical':
+        setConfiguration(EConfigType.VERTICAL, (alignment.toUpperCase() as EConfiguration));
+        break;
+    }
   };
 
   return (
@@ -53,7 +62,7 @@ export const HeaderStyleComponent: React.FC = () => {
       >
         <SelectInput
           options={BackgroundOptions}
-          value={ ''}
+          value={''}
           onChange={(value) => handleStyleChange(IContentMaterialType.TEST, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}
@@ -84,7 +93,7 @@ export const HeaderStyleComponent: React.FC = () => {
       >
         <SelectInput
           options={textSizeOptions}
-          value={ ''}
+          value={''}
           onChange={(value) => handleStyleChange(IContentMaterialType.TITLE, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}
@@ -93,7 +102,7 @@ export const HeaderStyleComponent: React.FC = () => {
         />
         <SelectInput
           options={textStyleOptions}
-          value={ ''}
+          value={''}
           onChange={(value) => handleStyleChange(IContentMaterialType.SUB_TITLE, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}
@@ -111,7 +120,7 @@ export const HeaderStyleComponent: React.FC = () => {
       >
         <SelectInput
           options={imageStyleOptions}
-          value={ ''}
+          value={''}
           onChange={(value) => handleStyleChange(IContentMaterialType.IMAGE_CONTENT, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}
@@ -129,7 +138,7 @@ export const HeaderStyleComponent: React.FC = () => {
       >
         <SelectInput
           options={buttonStyleOptions}
-          value={ ''}
+          value={''}
           onChange={(value) => handleStyleChange(IContentMaterialType.BUTTON, value)}
           inputSize={InputSize.SMALL}
           mode={InputMode.DEFAULT}

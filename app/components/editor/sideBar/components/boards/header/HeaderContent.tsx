@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Divider } from '../../CommonStyles';
 import { ContentFileUpload, ContentInput } from '../../GenericBoardComponents';
-import { IContentMaterialType, IContentTextType } from '@/components/editor/interface/models';
+// import { IContentMaterialType, IContentTextType } from '@/components/editor/interface/models';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
+import { IContentMaterialType, IContentTextType } from '@/components/editor/viewport/types';
 
 export const HeaderContentComponent: React.FC = () => {
   const [openSections, setOpenSections] = useState({
@@ -47,7 +48,7 @@ export const HeaderContentComponent: React.FC = () => {
             isOpen={openSections.image}
             onToggle={handleSectionToggle('image')}
       >
-        <ContentFileUpload type={IContentMaterialType.TEST} />
+        <ContentFileUpload type={IContentMaterialType.IMAGE} />
       </DataObfuscator>
 
       <Divider />

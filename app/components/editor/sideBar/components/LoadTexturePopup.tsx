@@ -6,7 +6,7 @@ import Collapsible from '@/components/Library/general/Collapsible';
 import StrengthComponent from '@/components/Library/general/StrengthComponent ';
 import Popup from '@/components/Library/general/Popup';
 import { DeleteIcon, FileName, FileDisplay, Divider } from './CommonStyles'
-import { IContentMaterial, ITextureSource } from '../../interface/models';
+import { IContentMaterial, ICustomMaterial, ITextureSource } from '../../viewport/types';
 
 const Container = styled.div`
   display: flex;
@@ -54,7 +54,7 @@ const ImageContainer = styled.div`
 `;
 
 
-const initialImageState: IContentMaterial = {
+const initialImageState: ICustomMaterial = {
     diffuse: { color: '#ffffff', map: undefined, intensity: 50 },
     opacity: { color: '#ffffff', map: undefined, intensity: 50 },
     roughness: { color: '#808080', map: undefined, intensity: 50 },
@@ -66,13 +66,13 @@ const initialImageState: IContentMaterial = {
 
 interface ImageUploadProps {
     onClose?: () => void;
-    onSave?: (texture: IContentMaterial) => void;
+    onSave?: (texture: ICustomMaterial) => void;
     parentRef?: React.RefObject<HTMLElement>;
-    initialTexture?: IContentMaterial;
+    initialTexture?: ICustomMaterial;
 }
 
 const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, onSave, parentRef, initialTexture }) => {
-    const [texture, setTexture] = useState<IContentMaterial>( initialImageState);
+    const [texture, setTexture] = useState<ICustomMaterial>( initialImageState);
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [imageSrc, setImageSrc] = useState<string | null>(null);
 
@@ -91,7 +91,7 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, onSave, p
         setUploadedFile(file);
     };
 
-    const updateImage = (key: keyof IContentMaterial, field: keyof ITextureSource, value: any) => {
+    const updateImage = (key: keyof ICustomMaterial, field: keyof ITextureSource, value: any) => {
         setTexture(prevImage => ({
             ...prevImage,
             [key]: {
@@ -101,7 +101,7 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, onSave, p
         }));
     };
 
-    const renderSection = (key: keyof IContentMaterial) => {
+    const renderSection = (key: keyof ICustomMaterial) => {
         const handleImageUpload = (file: File) => {
             updateImage(key, 'map', file);
         };
@@ -176,7 +176,7 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({ onClose, onSave, p
                 <DragAndDrop type='image' onFileAdded={handleFileAdded} />
             )}
             <Collapsible title="Advanced">
-                {Object.keys(texture).map((key) => renderSection(key as keyof IContentMaterial))}
+                {Object.keys(texture).map((key) => renderSection(key as keyof ICustomMaterial))}
             </Collapsible>
         </Container>
     );

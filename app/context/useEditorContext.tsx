@@ -1,6 +1,7 @@
 "use client"
-import { IParams } from '@/components/editor/interface/paramsType';
-import { SceneModel } from '@/components/editor/interface/Scene';
+// import { IParams } from '@/components/editor/interface/paramsType';
+import { SceneService } from '@/components/editor/viewport/SceneService';
+// import { SceneModel } from '@/components/editor/interface/Scene';
 import React, { createContext, useState, ReactNode, useContext, Dispatch, SetStateAction } from 'react';
 
 
@@ -21,14 +22,16 @@ interface EditorContextType {
   setCameraPosition: (position: [number, number, number]) => void;
   cameraDirection: [number, number, number];
   setCameraDirection: (direction: [number, number, number]) => void;
-  dataParameters:  IParams | null;
-  setDataParameters: Dispatch<SetStateAction<IParams | null>>; 
+  // dataParameters:  IParams | null;
+  // setDataParameters: Dispatch<SetStateAction<IParams | null>>; 
   currentMode: EMode;
   setCurrentMode: (mode: EMode) => void;
   activeBoardIndex: number;
   setActiveBoardIndex: (index: number) => void;  
-  sceneModel: SceneModel | null;
-  setSceneModel: (model: SceneModel) => void;
+  sceneModel: SceneService | null;
+  setSceneModel: (model: SceneService) => void;
+  // sceneModel: SceneModel | null;
+  // setSceneModel: (model: SceneModel) => void;
   editorState: EditorState;
   setEditorState: (state: EditorState) => void;
 }
@@ -38,10 +41,11 @@ const EditorContext = createContext<EditorContextType | undefined>(undefined);
 export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([0, 5, 0]);
   const [cameraDirection, setCameraDirection] = useState<[number, number, number]>([0, 0, 0]);
-  const [dataParameters, setDataParameters] = useState<IParams | null>(null);
+  // const [dataParameters, setDataParameters] = useState<IParams | null>(null);
   const [currentMode, setCurrentMode] = useState<EMode>(EMode.View);
   const [activeBoardIndex, setActiveBoardIndex]= useState<number>(-1);
-  const [sceneModel, setSceneModel] = useState<SceneModel | null>(null);
+  const [sceneModel, setSceneModel] = useState<SceneService | null>(null);
+  // const [sceneModel, setSceneModel] = useState<SceneModel | null>(null);
   const [editorState, setEditorState] = useState<EditorState>(EditorState.EDITING);
 
 
@@ -55,8 +59,8 @@ export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setCameraPosition, 
     cameraDirection, 
     setCameraDirection,
-    dataParameters,
-    setDataParameters,
+    // dataParameters,
+    // setDataParameters,
     currentMode, 
     setCurrentMode,
     sceneModel,

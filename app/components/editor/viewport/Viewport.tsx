@@ -4,10 +4,15 @@ import { Canvas, ThreeEvent, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Stars } from '@react-three/drei';
 import { useEditor } from '@/context/useEditorContext';
 import styled from 'styled-components';
-import { SceneModel } from '../interface/Scene';
-import { ArchitectureType, CustomObject3D } from '../interface/models';
+// import { SceneModel } from '../interface/Scene';
+// import { ArchitectureType, CustomObject3D } from '../interface/models';
+import { CustomObject3D } from './types';
+import { ArchitectureType } from './models/architectures/types';
 import { Object3D, Vector3 } from 'three';
 import * as THREE from 'three';
+import { SceneService } from './SceneService';
+import { fetchProject } from '@/services/projectService';
+import { useProject } from '@/context/useProjectContext';
 
 export const ViewportContainer = styled.div`
   flex-grow: 1;
@@ -17,29 +22,40 @@ export const ViewportContainer = styled.div`
 
 const SceneComponent = () => {
   const { sceneModel, setSceneModel } = useEditor();
-  const [model, setModel] = useState<Object3D | null>(null);
+  const { currentProject } = useProject();
+
+  const [model, setModel] = useState<Object3D | undefined>(undefined);
 
   useEffect(() => {
     const buildScene = async () => {
-      const scene = new SceneModel(setModel);
-      const sceneModel = await scene.buildingFromScratch(ArchitectureType.Barbiz);
+      const scene = new SceneService();
+      const res = await fetchProject(currentProject || '', '');
+      if(res.data) {
+        const parsedData = JSON.parse(res.data.dataParameters);
+        await scene.buildScene(ArchitectureType.TWO_CIRCLES, setModel, parsedData);
+      }
+      else {
+        await scene.buildScene(ArchitectureType.TWO_CIRCLES, setModel);
+      }
+
       setSceneModel(scene);
-      // console.log(sceneModel.addChild,"ggggggggggggggggggggg")
     }
     buildScene();
+
   }, []);
 
-  
+
   const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
     const object = event.object as CustomObject3D;
     event.stopPropagation();
+    // console.log("event.target", event.object)
     let selected = null;
     if (object.interactive) {
       if (object.onPointerDown) {
         selected = object.onPointerDown(event);
       }
     }
-    sceneModel?.setSelectedObject(selected)
+    // sceneModel?.setSelectedObject(selected)
   }
 
   const CameraController = () => {

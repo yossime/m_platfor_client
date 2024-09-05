@@ -16,19 +16,21 @@ import Text from '@/components/Library/text/Text';
 import { TextSize } from '@constants/text';
 import Icon from '@/components/Library/icon/Icon';
 import { IconName } from '@constants/icon';
-import { ISceneObject } from '@/components/editor/interface/models';
+import { ISceneObject } from '../viewport/types';
+import { EventManager } from '../viewport/utils/EventManager';
+// import { ISceneObject } from '@/components/editor/interface/models';
 
 const Sidebar: React.FC = () => {
   const { sceneModel } = useEditor();
   const [activeSidebarHeader, setActiveSidebarHeader] = useState<HeaderType>('Edit Global');
   const [activeSidebarSubMenu, setActiveSidebarSubMenu] = useState<SubMenuType>('Architecture');
   const [isOpen, setIsOpen] = useState(true);
-  const [selectedObject, setSelectedObject] = useState<ISceneObject | null>(null); //yossi
+  // const [selectedObject, setSelectedObject] = useState<ISceneObject | null>(null); //yossi
 
   useEffect(() => {
     const handleSelectionChange = () => {
-      const selected =  sceneModel?.getSelectedObject() ?? null; // yossi
-      setSelectedObject(selected);
+      const selected = sceneModel?.getSelectedObject() ?? null; // yossi
+      // setSelectedObject(selected);
     };
 
     // sceneModel?.on('selectionChange', handleSelectionChange); //yossi
@@ -36,16 +38,19 @@ const Sidebar: React.FC = () => {
     return () => {
       // sceneModel?.off('selectionChange', handleSelectionChange); //yossi
     };
-    
+
   }, [sceneModel]);
 
   useEffect(() => {
+    const manager = EventManager.getInstance();
+    const selectedObject = sceneModel?.getSelectedObject();
+
     if (selectedObject && isBoardObject(selectedObject)) {
       setActiveSidebarHeader(`Edit ${selectedObject.name || 'Board'}` as HeaderType);
     } else {
       setActiveSidebarHeader('Edit Global');
     }
-  }, [selectedObject]); //yossi
+  }, [sceneModel?.getSelectedObject()]); //yossi
 
   useEffect(() => {
     if (activeSidebarHeader === 'Edit Global') {
@@ -56,7 +61,6 @@ const Sidebar: React.FC = () => {
   }, [activeSidebarHeader]);
 
   const handleBackOrAdd = () => {
-    console.log('Selected' , sceneModel?.getSelectedObject() )
 
     if (activeSidebarHeader === 'Edit Global') {
       setActiveSidebarHeader('Choose Board Widget');

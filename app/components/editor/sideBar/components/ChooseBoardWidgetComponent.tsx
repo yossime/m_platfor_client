@@ -7,7 +7,10 @@ import Text from '@/components/Library/text/Text';
 import { IconColor, TextColor } from '@constants/colors';
 import { FontWeight, TextSize } from '@constants/text';
 import { IconSize } from '@constants/icon';
-import { Board } from '../../interface/Board';
+import { Board } from '../../viewport/models/boards/Board';
+import { MasterBoard } from '../../viewport/models/boards/MasterBoard';
+import { ProductDouBoard } from '../../viewport/models/boards/productBoards/ProductDouBoard';
+// import { Board } from '../../interface/Board';
 
 interface ChooseBoardWidgetComponentProps {
   setActiveSidebarHeader: (header: HeaderType) => void;
@@ -16,7 +19,8 @@ interface ChooseBoardWidgetComponentProps {
 export const ChooseBoardWidgetComponent: React.FC<ChooseBoardWidgetComponentProps> = ({
   setActiveSidebarHeader
 }) => {
-  const { sceneModel, setDataParameters } = useEditor();
+  // const { sceneModel, setDataParameters } = useEditor();
+  const { sceneModel } = useEditor();
   const [selectedWidget, setSelectedWidget] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<number>(0);
 
@@ -32,7 +36,8 @@ export const ChooseBoardWidgetComponent: React.FC<ChooseBoardWidgetComponentProp
 
     setSelectedWidget(widget.name);
 
-    const newBoard = new Board(widget.type, {name: widget.name});
+    // const newBoard = new MasterBoard(widget.type, {name: widget.name});
+    const newBoard = new ProductDouBoard(widget.type, {name: widget.name});
     
     if (sceneModel?.root && newBoard) {
       sceneModel.root.addChild(newBoard);

@@ -1,282 +1,167 @@
 {
-    "headerBoard": {
-      "name": "headerboard",
-      "type": "HeaderBoard",
-      "title": {
-        "text": "Welcome to Our Store",
-        "color": "#ffffff",
-        "scale": [1, 1, 1]
-      },
-      "subTitle": {
-        "text": "subTitle",
-        "color": "#ffffff",
-        "scale": [1, 1, 1]
-      },
-      "materialParams": {
-        "map": "https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/textura_4.jpeg?alt=media&token=642299bf-7758-4516-a0ae-9ac132c26c9f"
+  "name": null,
+  "type": "two_circles",
+  "children": [
+    {
+      "name": null,
+      "type": "MasterTextOn2",
+      "children": [],
+      "slotNumber": 9,
+      "contentData": {
+        "title": {
+          "contentObjects": {
+            "meshName": "ph_title_C_C"
+          },
+          "contentText": {
+            "text": "sssssssssss"
+          }
+        },
+        "sub_title": {
+          "contentObjects": {
+            "meshName": "ph_sub_title_C_C"
+          },
+          "contentText": {
+            "text": "sssssssssssss"
+          }
+        },
+        "button_text": {
+          "contentObjects": {
+            "meshName": "ph_button_text_C_C"
+          },
+          "contentText": {
+            "text": "ssssssssssssssssss"
+          }
+        },
+        "button": {
+          "contentMaterial": {
+            "customMaterial": {
+              "diffuse": {
+                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/bar1_R.jpeg"
+              }
+            }
+          }
+        }
       }
     },
-    "productBoard": {
-      "maxDisplay": 6,
-      "name": "ProductBoard",
-      "type": "ProductBoard",
-      "title": {
-        "text": "Welcome to Our Store",
-        "color": "purple",
-        "scale": [1, 1, 1]
-      },
-      "displays": [
-        {
-          "materialParams": {
-            "color": "pink"
+    {
+      "name": null,
+      "type": "MasterTextOn",
+      "children": [],
+      "slotNumber": 8,
+      "contentData": {}
+    },
+    {
+      "name": null,
+      "type": "MasterTextOn2",
+      "children": [],
+      "slotNumber": 3,
+      "contentData": {
+        "title": {
+          "contentObjects": {
+            "meshName": "ph_title_C_C"
           },
-          "products": [
-            {
-              "src": "heartglass1",
-              "title": {
-                "text": "Product Title 0",
-                "color": "purple",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "description": {
-                "text": "Product Description 0",
-                "color": "yellow",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "buttons": {
-                "price": {
-                  "text": {
-                    "text": "$299"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  },
-                  "type": null
-                },
-                "addToCart": {
-                  "type": null,
-                  "text": {
-                    "text": "111 Add 2 Cart",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  }
-                },
-                "quickView": {
-                  "type": null,
-                  "text": {
-                    "text": "111 Quick View",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#33C1FF"
-                  }
-                },
-                "buyNow": {
-                  "type": null,
-                  "text": {
-                    "text": "111 Buy Now",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#75FF33"
-                  }
-                }
-              },
-              "type": "Podium"
-            }
-          ],
-          "type": "Podium"
+          "contentText": {
+            "text": "sssssssssssssss"
+          }
         },
-        {
-          "materialParams": {
-            "color": "pink"
+        "sub_title": {
+          "contentObjects": {
+            "meshName": "ph_sub_title_C_C"
           },
-          "products": [
-            {
-              "src": "heartglass1",
-              "title": {
-                "text": "Product Title 1",
-                "color": "blue",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "description": {
-                "text": "Product Description 1",
-                "color": "black",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "buttons": {
-                "price": {
-                  "text": {
-                    "text": "$299"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  },
-                  "type": null
-                },
-                "addToCart": {
-                  "type": null,
-                  "text": {
-                    "text": "Add 2 Cart",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#FFC300"
-                  }
-                },
-                "quickView": {
-                  "type": null,
-                  "text": {
-                    "text": "Quick View",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#C70039"
-                  }
-                },
-                "buyNow": {
-                  "type": null,
-                  "text": {
-                    "text": "Buy Now",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#900C3F"
-                  }
-                }
-              },
-              "type": "Podium"
-            }
-          ],
-          "type": "Podium"
+          "contentText": {
+            "text": "ssssssssssssssss"
+          }
         },
-        {
-          "materialParams": {
-            "color": "pink"
+        "button_text": {
+          "contentObjects": {
+            "meshName": "ph_button_text_C_C"
           },
-          "products": [
-            {
-              "title": {
-                "text": "Product Title 2",
-                "color": "#ffffff",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "description": {
-                "text": "Product Description 2",
-                "color": "#cccccc",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "buttons": {
-                "price": {
-                  "text": {
-                    "text": "$299"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  },
-                  "type": null
-                },
-                "addToCart": {
-                  "type": null,
-                  "text": {
-                    "text": "Add 2 Cart",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#DAF7A6"
-                  }
-                },
-                "quickView": {
-                  "type": null,
-                  "text": {
-                    "text": "Quick View",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#FF6F61"
-                  }
-                },
-                "buyNow": {
-                  "type": null,
-                  "text": {
-                    "text": "Buy Now",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#D5AAFF"
-                  }
-                }
-              },
-              "type": "Podium"
-            }
-          ],
-          "type": "Podium"
+          "contentText": {
+            "text": "ssssssssssssssssssssssssss"
+          }
         },
-        {
-          "materialParams": {
-            "color": "pink"
-          },
-          "products": [
-            {
-              "title": {
-                "text": "Product Title 3",
-                "color": "#ffffff",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "description": {
-                "text": "Product Description 3",
-                "color": "#cccccc",
-                "scale": [0.1, 0.1, 0.1]
-              },
-              "buttons": {
-                "price": {
-                  "text": {
-                    "text": "$299"
-                  },
-                  "material": {
-                    "color": "#FF5733"
-                  },
-                  "type": null
-                },
-                "addToCart": {
-                  "type": null,
-                  "text": {
-                    "text": "Add 2 Cart",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#00BFFF"
-                  }
-                },
-                "quickView": {
-                  "type": null,
-                  "text": {
-                    "text": "Quick View",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#FF1493"
-                  }
-                },
-                "buyNow": {
-                  "type": null,
-                  "text": {
-                    "text": "Buy dd Now",
-                    "color": "#ffffff"
-                  },
-                  "material": {
-                    "color": "#32CD32"
-                  }
-                }
-              },
-              "type": "Podium"
+        "button": {
+          "contentMaterial": {
+            "customMaterial": {
+              "diffuse": {
+                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/Bar10_L.jpeg"
+              }
             }
-          ],
-          "type": "Podium"
+          }
         }
-      ]
+      }
+    },
+    {
+      "name": null,
+      "type": "MasterTextOn2",
+      "children": [],
+      "slotNumber": 1,
+      "contentData": {}
+    },
+    {
+      "name": "Header",
+      "type": "MasterTextOn2",
+      "children": [],
+      "slotNumber": 4,
+      "contentData": {
+        "self": {
+          "contentMaterial": {
+            "customMaterial": {
+              "diffuse": {
+                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/bar1_R.jpeg"
+              }
+            }
+          }
+        },
+        "sub_title": {
+          "contentObjects": {
+            "contentName": "ph_sub_title_C_R",
+            "position": {
+              "x": 6.055564403533936,
+              "y": 0.26911163330078125,
+              "z": 0.45933061838149847
+            },
+            "rotation": {
+              "isEuler": true,
+              "_x": 1.5707956274184545,
+              "_y": -0.6603891253470588,
+              "_z": -3.5731248100927365e-7,
+              "_order": "XYZ"
+            }
+          },
+          "contentText": {
+            "text": "qqqqqqqqqqqqq"
+          }
+        },
+        "title": {
+          "contentObjects": {
+            "contentName": "ph_title_C_R",
+            "position": {
+              "x": 6.055564403533936,
+              "y": 0.2691040039062358,
+              "z": 2.4065723419189453
+            },
+            "rotation": {
+              "isEuler": true,
+              "_x": 1.5707962311981136,
+              "_y": -0.6603891849517778,
+              "_z": -9.1116155348297e-8,
+              "_order": "XYZ"
+            }
+          },
+          "contentText": {
+            "text": "qqqqqqqqqqqq"
+          }
+        },
+        "button_text": {
+          "contentObjects": {
+            "meshName": "ph_button_text_C_C"
+          },
+          "contentText": {
+            "text": "qqqqqqqqqqqqqq"
+          }
+        }
+      }
     }
-  }
-  
+  ]
+}
