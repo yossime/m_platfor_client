@@ -16,8 +16,8 @@ import Text from '@/components/Library/text/Text';
 import { TextSize } from '@constants/text';
 import Icon from '@/components/Library/icon/Icon';
 import { IconName } from '@constants/icon';
-import { ISceneObject } from '../interface/types';
-import { EventManager } from '../interface/utils/EventManager';
+import { ISceneObject } from '../viewport/types';
+import { EventManager } from '../viewport/utils/EventManager';
 // import { ISceneObject } from '@/components/editor/interface/models';
 
 const Sidebar: React.FC = () => {
@@ -43,11 +43,8 @@ const Sidebar: React.FC = () => {
 
   useEffect(() => {
     const manager = EventManager.getInstance();
-    console.log('manager.getSelectedObject()', manager.getSelectedObject());
-
-    console.log('jjjjj')
     const selectedObject = sceneModel?.getSelectedObject();
-    console.log('jjjjj', selectedObject)
+
     if (selectedObject && isBoardObject(selectedObject)) {
       setActiveSidebarHeader(`Edit ${selectedObject.name || 'Board'}` as HeaderType);
     } else {
@@ -64,7 +61,6 @@ const Sidebar: React.FC = () => {
   }, [activeSidebarHeader]);
 
   const handleBackOrAdd = () => {
-    console.log('Selected', sceneModel?.getSelectedObject())
 
     if (activeSidebarHeader === 'Edit Global') {
       setActiveSidebarHeader('Choose Board Widget');

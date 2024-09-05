@@ -3,26 +3,14 @@
   "type": "two_circles",
   "children": [
     {
-      "name": "Header",
+      "name": null,
       "type": "MasterTextOn2",
       "children": [],
       "slotNumber": 9,
       "contentData": {
         "title": {
           "contentObjects": {
-            "contentName": "ph_title_T_C",
-            "position": {
-              "x": 0.0027069663628935814,
-              "y": -0.14675140380860796,
-              "z": 5.599712371826172
-            },
-            "rotation": {
-              "isEuler": true,
-              "_x": 1.5707965006753224,
-              "_y": -0.3569421768188451,
-              "_z": 4.579144374593181e-8,
-              "_order": "XYZ"
-            }
+            "meshName": "ph_title_C_C"
           },
           "contentText": {
             "text": "sssssssssss"
@@ -30,46 +18,10 @@
         },
         "sub_title": {
           "contentObjects": {
-            "contentName": "ph_sub_title_T_C",
-            "position": {
-              "x": 0.0027069663628935814,
-              "y": -0.1467437744140625,
-              "z": 3.6524705886840785
-            },
-            "rotation": {
-              "isEuler": true,
-              "_x": 1.5707965006753224,
-              "_y": -0.3569421768188451,
-              "_z": 4.579144374593181e-8,
-              "_order": "XYZ"
-            }
+            "meshName": "ph_sub_title_C_C"
           },
           "contentText": {
             "text": "sssssssssssss"
-          }
-        },
-        "button": {
-          "contentMaterial": {
-            "customMaterial": {
-              "diffuse": {
-                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/bar1_R.jpeg"
-              }
-            }
-          },
-          "contentObjects": {
-            "contentName": "ph_button_T_C",
-            "position": {
-              "x": 0.017621422186493874,
-              "y": 0.9501876831054688,
-              "z": -0.5074840188026428
-            },
-            "rotation": {
-              "isEuler": true,
-              "_x": 3.576279329505257e-7,
-              "_y": 1.537323566761474e-13,
-              "_z": 1.570197105407715,
-              "_order": "XYZ"
-            }
           }
         },
         "button_text": {
@@ -79,15 +31,137 @@
           "contentText": {
             "text": "ssssssssssssssssss"
           }
+        },
+        "button": {
+          "contentMaterial": {
+            "customMaterial": {
+              "diffuse": {
+                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/bar1_R.jpeg"
+              }
+            }
+          }
         }
       }
     },
     {
-      "name": "Product",
+      "name": null,
       "type": "MasterTextOn",
       "children": [],
       "slotNumber": 8,
       "contentData": {}
+    },
+    {
+      "name": null,
+      "type": "MasterTextOn2",
+      "children": [],
+      "slotNumber": 3,
+      "contentData": {
+        "title": {
+          "contentObjects": {
+            "meshName": "ph_title_C_C"
+          },
+          "contentText": {
+            "text": "sssssssssssssss"
+          }
+        },
+        "sub_title": {
+          "contentObjects": {
+            "meshName": "ph_sub_title_C_C"
+          },
+          "contentText": {
+            "text": "ssssssssssssssss"
+          }
+        },
+        "button_text": {
+          "contentObjects": {
+            "meshName": "ph_button_text_C_C"
+          },
+          "contentText": {
+            "text": "ssssssssssssssssssssssssss"
+          }
+        },
+        "button": {
+          "contentMaterial": {
+            "customMaterial": {
+              "diffuse": {
+                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/Bar10_L.jpeg"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": null,
+      "type": "MasterTextOn2",
+      "children": [],
+      "slotNumber": 1,
+      "contentData": {}
+    },
+    {
+      "name": "Header",
+      "type": "MasterTextOn2",
+      "children": [],
+      "slotNumber": 4,
+      "contentData": {
+        "self": {
+          "contentMaterial": {
+            "customMaterial": {
+              "diffuse": {
+                "map": "https://storage.googleapis.com/users-assets-a/ftPorQH3UBcQwJMd0hRmQvdX7Ed2/bar1_R.jpeg"
+              }
+            }
+          }
+        },
+        "sub_title": {
+          "contentObjects": {
+            "contentName": "ph_sub_title_C_R",
+            "position": {
+              "x": 6.055564403533936,
+              "y": 0.26911163330078125,
+              "z": 0.45933061838149847
+            },
+            "rotation": {
+              "isEuler": true,
+              "_x": 1.5707956274184545,
+              "_y": -0.6603891253470588,
+              "_z": -3.5731248100927365e-7,
+              "_order": "XYZ"
+            }
+          },
+          "contentText": {
+            "text": "qqqqqqqqqqqqq"
+          }
+        },
+        "title": {
+          "contentObjects": {
+            "contentName": "ph_title_C_R",
+            "position": {
+              "x": 6.055564403533936,
+              "y": 0.2691040039062358,
+              "z": 2.4065723419189453
+            },
+            "rotation": {
+              "isEuler": true,
+              "_x": 1.5707962311981136,
+              "_y": -0.6603891849517778,
+              "_z": -9.1116155348297e-8,
+              "_order": "XYZ"
+            }
+          },
+          "contentText": {
+            "text": "qqqqqqqqqqqq"
+          }
+        },
+        "button_text": {
+          "contentObjects": {
+            "meshName": "ph_button_text_C_C"
+          },
+          "contentText": {
+            "text": "qqqqqqqqqqqqqq"
+          }
+        }
+      }
     }
   ]
 }

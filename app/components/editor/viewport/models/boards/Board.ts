@@ -1,14 +1,14 @@
-import { Vector3, Mesh, MeshPhongMaterial, Object3D } from 'three';
+import { Vector3, Mesh, Object3D } from 'three';
 import {
-    BoardType, ISceneObjectOptions, ISceneObject, CustomObject3D, IContentMaterial,
+    ISceneObjectOptions, ISceneObject, CustomObject3D, IContentMaterial,
     IContentText, EConfigType, EConfiguration, IContentMaterialType, IContentTextType, EContentImagesType,
     ExportedSceneObject,
-    ContentDataType
-} from '@/components/editor/interface/types';
-import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
-import { TextGeometry } from 'three/examples/jsm/Addons.js';
+    ProductType
+} from '@/components/editor/viewport/types';
+import { BoardType } from './types';
 import { SceneObject } from '../SceneObject';
-import { TextureManager } from '@/components/editor/interface/utils/TextureManager';
+import { TextureManager } from '@/components/editor/viewport/utils/TextureManager';
+import { DouProduct } from '../products/DouProduct';
 
 export abstract class Board extends SceneObject {
     public slotNumber = -1;
@@ -17,118 +17,24 @@ export abstract class Board extends SceneObject {
         [EConfigType.HORIZONTAL, EConfiguration.CENTER],
         [EConfigType.VERTICAL, EConfiguration.CENTER],
     ]);
-    // protected contentMaterial = new Map<string, IContentMaterial>();
-    // protected contentText = new Map<string, IContentText>();
+
 
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
-        console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
-        // this.loadModelAndDisplay(onBoardLoaded);
     }
 
-    public addChild(sceneObject: ISceneObject): void {
-        // Implement child adding logic if needed
-    }
+    public abstract addChild(sceneObject: ISceneObject): void;
 
-    // protected handleSelectSlot = (object: CustomObject3D) => {
-    //     this.highlightMesh(object);
-    //     this.selectedSlot = object;
-    //   };
-
-    protected handleSelectSlot = (object: CustomObject3D) => {
-        this.highlightMesh(object);
-        this.selectedSlot = object;
-
-        // if (this.childToAdd) {
-        //     this.addChild(this.childToAdd)
-        // }
-        return this;
-    };
-
-
-    public displayEmptySlots(): void {
-        // Implement empty slots display logic
-    }
-
-    public setConfiguration(type: EConfigType, config: EConfiguration): void {
-        this.configuration.set(type, config);
-        this.updateContentPositions();
-    }
-
-    public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial): Promise<void> {
-
-        if (type === IContentMaterialType.IMAGE) {
-            this.setContentImage(EContentImagesType.IMAGE, material);
-            return;
-        }
-        const geometry = this.getGeometryByName(type);
-        if (geometry instanceof Mesh) {
-            if (material.customMaterial) {
-                await this.changeMaterial(geometry, material.customMaterial);
-            } else if (material.render) {
-                await this.applyRenderMaterial(geometry, material.render);
-            }
-            this.contentMaterial.set(type, material);
-
-            const oldContent = this.contentData.get(type);
-            this.contentData.set(type, { ...oldContent, contentMaterial: material });
-        }
-    }
-
-    async setContentImage(type: EContentImagesType, material: IContentMaterial): Promise<void> {
-        const configV = this.configuration.get(EConfigType.VERTICAL);
-        const configH = this.configuration.get(EConfigType.HORIZONTAL);
-        const configImageName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
-        const geometry = this.getGeometryByName(configImageName);
-
-        this.contentImages.set(type, material);
-
-        const oldContent = this.contentData.get(type);
-        this.contentData.set(type, { ...oldContent, contentMaterial: material });
-
-        if (geometry instanceof Mesh) {
-            await this.changeMaterial(geometry, material.customMaterial!);
-        }
-
-    }
-
-
-    public setContentText(type: IContentTextType, text: IContentText): void {
-        // const geometry = this.getGeometryByName(IContentTextType.BUTTON);
-        const geometry = this.getGeometryByName(type);
-        // const placeholder = this.getPlaceholder(type);
-        const configV = this.configuration.get(EConfigType.VERTICAL);
-        const configH = this.configuration.get(EConfigType.HORIZONTAL);
-        const configImageName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
-
-        const oldContent = this.contentData.get(type);
-        this.contentData.set(type, { contentObjects: { meshName: configImageName }, contentText: text });
-        console.log('Mesh type', type)
-
-        if (geometry instanceof Mesh) {
-            console.log('Mesh geometry')
-            this.applyText(geometry, text);
-            this.contentText.set(type, text);
-        }
-    }
-
-    // protected handleSelected = (object: CustomObject3D) => { return this };
-
-
-    async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
-
-        // async loadModelAndDisplay(onLoad?: () => void): Promise<void> {
+    protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
         try {
             const boardUrl = `https://storage.googleapis.com/library-all-test/borads/${this.type}.fbx`;
-            const model = await this.loadModel(boardUrl);
+            const model = await this.loader.loadModel(boardUrl);
 
             const customModel = model.children[0] as CustomObject3D;
 
             customModel.onPointerDown = () => this.handleSelected(customModel);
             customModel.interactive = true;
             this.model = customModel;
-
-            await this.setPlaceholders();
 
             if (this.model && this.modelParent && this.position && this.rotation) {
                 this.modelParent.attach(this.model);
@@ -145,35 +51,59 @@ export abstract class Board extends SceneObject {
         }
     }
 
-    protected async setPlaceholders(): Promise<void> {
-        try {
-            if (!this.model) return;
+    public setConfiguration(type: EConfigType, config: EConfiguration): void {
+        this.configuration.set(type, config);
+        this.updateContentPositions();
+    }
 
-            const slots = this.model.children[0].children.filter(child => child.name.startsWith('Slot_'));
+    public async setContentMaterial(type: IContentMaterialType, material: IContentMaterial): Promise<void> {
+        let geometry;
 
-            // const placeholderPath = `fbx-bucket/boards/${this.type}_slot_placeholder.glb`;
-            const placeholderPath = `https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/boards%2Fplaceholder.fbx?alt=media&token=fc38725e-1a24-49e4-9d78-2282cc112387`;
-            const placeholder = await this.loadModel(placeholderPath);
+        if (type === IContentMaterialType.IMAGE) {
 
+            const configV = this.configuration.get(EConfigType.VERTICAL);
+            const configH = this.configuration.get(EConfigType.HORIZONTAL);
+            const geometryName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
 
-            slots.forEach(slot => {
-                const placeholderClone = placeholder.clone().children[0] as CustomObject3D;
-
-                placeholderClone.onPointerDown = () => this.handleSelectSlot(placeholderClone);
-                // placeholderClone.onPointerDown = () => this.handleSelectSlot(placeholderClone);
-                placeholderClone.interactive = true;
-                slot.parent?.attach(placeholderClone);
-                placeholderClone.position.copy(slot.position);
-                placeholderClone.rotation.copy(slot.rotation);
-                placeholderClone.visible = false;
-                slot.parent?.remove(slot);
-                this.placeholders.push(placeholderClone);
-            });
-
-        } catch (error) {
-            console.error("Error loading or setting placeholders:", error);
+            geometry = this.getGeometryByName(geometryName);
+            const imageGeometry = geometry;
+            if (imageGeometry instanceof Mesh) {
+                imageGeometry.visible = true;
+                imageGeometry.parent?.children.forEach(child => {
+                    if (child.name !== imageGeometry.name) {
+                        child.visible = false;
+                        return;
+                    }
+                })
+            }
         }
+        geometry = geometry || this.getGeometryByName(type);
 
+
+        if (geometry instanceof Mesh) {
+            if (material.customMaterial) {
+                await this.changeMaterial(geometry, material.customMaterial);
+
+            } else if (material.render) {
+                await this.applyRenderMaterial(geometry, material.render);
+            }
+
+            this.contentData.set(type, { ...this.contentData.get(type), contentMaterial: material });
+        }
+    }
+
+
+    public setContentText(type: IContentTextType, text: IContentText): void {
+        const geometry = this.getGeometryByName(type);
+        const configV = this.configuration.get(EConfigType.VERTICAL);
+        const configH = this.configuration.get(EConfigType.HORIZONTAL);
+        const configImageName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
+
+        this.contentData.set(type, { contentObjects: { meshName: configImageName }, contentText: text });
+
+        if (geometry instanceof Mesh) {
+            this.applyText(geometry, text);
+        }
     }
 
 
@@ -200,90 +130,30 @@ export abstract class Board extends SceneObject {
     }
 
     protected updateContentPositions(): void {
-        this.contentMaterial.forEach((material, contentType) => {
-            console.log("contentType  contentMaterial", contentType)
+
+        this.contentData.forEach(async (data, contentType) => {
+
             const geometry = this.getGeometryByName(contentType);
             const placeholder = this.getPlaceholder(contentType);
             if (geometry && placeholder) {
-                // const newPosition = this.calculatePosition(contentType);
-                geometry.position.copy(placeholder.position);
-                geometry.rotation.copy(placeholder.rotation);
-                console.log("contentType  contentMaterial", contentType)
 
-                const oldMaterial = this.getContentMaterial(contentType);
+                const oldMaterial = this.contentData.get(contentType);
+                if (contentType === IContentMaterialType.IMAGE) {
+                    await this.setContentMaterial(IContentMaterialType.IMAGE, oldMaterial?.contentMaterial!);
+
+                } else {
+                    geometry.position.copy(placeholder.position);
+                    geometry.rotation.copy(placeholder.rotation);
+                }
 
                 const updatedObjects = {
                     contentName: placeholder.name,
                     position: placeholder.position,
                     rotation: placeholder.rotation
                 }
-                // this.setContentMaterial(contentType, updatedMaterial);
 
                 const oldContent = this.contentData.get(contentType);
                 this.contentData.set(contentType, { ...oldContent, contentObjects: updatedObjects });
-            }
-        });
-
-        this.contentText.forEach((material, contentType) => {
-            console.log("contentType", contentType)
-            // const geometry = this.getGeometryByName(IContentMaterialType.BUTTON);
-            // const placeholder = this.getPlaceholder(IContentMaterialType.BUTTON);
-            const geometry = this.getGeometryByName(contentType);
-            const placeholder = this.getPlaceholder(contentType);
-            if (geometry && placeholder) {
-                // const newPosition = this.calculatePosition(contentType);
-                geometry.position.copy(placeholder.position);
-                geometry.rotation.copy(placeholder.rotation);
-
-                const updatedContent = {
-                    contentName: placeholder.name,
-                    position: placeholder.position,
-                    rotation: placeholder.rotation
-                }
-                this.contentObjects.set(contentType, updatedContent);
-
-                const oldContent = this.contentData.get(contentType);
-                // console.log("...oldContent", { ...oldContent, contentObjects: updatedContent })
-                this.contentData.set(contentType, { ...oldContent, contentObjects: updatedContent });
-            }
-        });
-
-        this.contentImages.forEach(async (material, contentType) => {
-            const geometry = this.getGeometryByName(contentType);
-            const placeholder = this.getPlaceholder(contentType);
-
-            if (geometry && placeholder) {
-                placeholder.visible = true;
-                placeholder.parent?.children.forEach(child => {
-                    if (child.name !== placeholder.name) {
-                        child.visible = false;
-                        return;
-                    }
-                })
-                const testMaterial: IContentMaterial = {
-                    customMaterial: {
-                        tint: {
-                            color: 'green',
-                        },
-                        // diffuse: {
-                        //     url: `https://storage.googleapis.com/library-materials-test-all/iron.jpg`
-                        // }
-                    }
-                }
-                const oldMaterial = this.getContentImage(contentType);
-                if (oldMaterial?.customMaterial) {
-                    // console.log("gem.oldMaterial", oldMaterial)
-
-                    await this.setContentMaterial(IContentMaterialType.IMAGE, oldMaterial);
-
-                    const updatedContent = {
-                        contentName: placeholder.name,
-                        position: placeholder.position,
-                        rotation: placeholder.rotation
-                    }
-                    this.contentObjects.set(contentType, updatedContent);
-                    this.contentData.set(contentType, { ...this.contentData.get(contentType), contentObjects: updatedContent });
-                }
             }
         });
     }
@@ -293,46 +163,14 @@ export abstract class Board extends SceneObject {
         return new Vector3();
     }
 
-    protected applyText(mesh: Mesh, text: IContentText): void {
-        this.straightText(mesh, text)
-    }
 
-    async loadFont(url: string): Promise<Font> {
-        const loader = new FontLoader();
-
-        return new Promise((resolve, reject) => {
-            loader.load(url, resolve, undefined, reject);
-        });
-    }
-
-    async straightText(mesh: Mesh, text: IContentText) {
-        try {
-            const font = await this.loadFont('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json');
-            const geometry = new TextGeometry(text.text, {
-                font: font,
-                size: 0.5,
-                depth: 0.1,
-            });
-
-            const material = new MeshPhongMaterial({ color: 0xffffff });
-            const newMesh = new Mesh(geometry, material);
-            newMesh.position.copy(mesh.position);
-
-            mesh.geometry.dispose();
-            mesh.geometry = geometry;
-            mesh = newMesh;
-
-        } catch (error) {
-            console.error('Error replacing text:', error);
-        }
-    }
 
 
     public exportToJson(): string {
         const exportObject = {
             ...JSON.parse(super.exportToJson()),
             slotNumber: this.slotNumber,
-            // configuration: Object.fromEntries(this.configuration),
+            configuration: Object.fromEntries(this.configuration),
             // contentMaterial: Object.fromEntries(this.contentMaterial),
             // contentText: Object.fromEntries(this.contentText),
             // contentObjects: Object.fromEntries(this.contentObjects),
@@ -350,33 +188,32 @@ export abstract class Board extends SceneObject {
 
         await this.changeMaterial(mesh, { diffuse: { map: textureUrl } });
 
-
-        // try {
-
-        //     const texture = await textureManager.loadTexture(textureUrl, {
-        //         wrapS: RepeatWrapping,
-        //         wrapT: RepeatWrapping,
-        //         repeat: { x: 2, y: 2 }
-        //     });
-
-        //     const material = new MeshStandardMaterial({
-        //         map: texture,
-        //         metalness: 0.5,
-        //         roughness: 0.5
-        //     });
-
-        //     mesh.material = material;
-        // } catch (error) {
-        //     console.error(`Failed to load render material: ${renderType}`, error);
-        // }
     }
 
     public buildFromJson(exportedObj: ExportedSceneObject) {
+        for (const [key, value] of Object.entries(exportedObj.configuration)) {
+            this.setConfiguration(key as EConfigType, value);
+        }
         super.buildFromJson(exportedObj);
-        
-        // exportedObj.children.forEach(childData => {
-        //     const board = new MasterBoard(childData.type as BoardType, {exportedScenObj: childData});
-        //     this.addChild(board, childData.slotNumber);
-        // })
+
+        exportedObj.children.forEach(childData => {
+            let product;
+
+            switch (childData.type as ProductType) {
+                case ProductType.ProductDuo:
+                    product = new DouProduct(childData.type as ProductType, { exportedScenObj: childData });
+                    break;
+                case ProductType.Poudiom:
+                    // board = new MasterBoard(childData.type as BoardType, { exportedScenObj: childData });
+                    break;
+                default:
+                    break;
+            }
+            if (product) {
+                this.addChild(product);
+                // this.addChild(board, childData.slotNumber);
+            }
+        })
+
     }
 }

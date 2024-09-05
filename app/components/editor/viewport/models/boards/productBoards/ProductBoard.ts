@@ -1,10 +1,6 @@
-import { Vector3, Mesh,MeshPhongMaterial } from 'three';
-import { BoardType, ISceneObjectOptions, ISceneObject, CustomObject3D, IContentMaterial, 
-    IContentText, EConfigType, EConfiguration, IContentMaterialType, IContentTextType, EContentImagesType } from '@/components/editor/interface/types';
-import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
-import { TextGeometry } from 'three/examples/jsm/Addons.js';
-// import { SceneObject } from '../SceneObject';
-import { TextureManager } from '@/components/editor/interface/utils/TextureManager';
+import { Object3D } from 'three';
+import { ISceneObjectOptions, ISceneObject } from '@/components/editor/viewport/types';
+import { BoardType } from '../types';
 import { Board } from '../Board';
 
 export abstract class ProductBoard extends Board {
@@ -12,4 +8,15 @@ export abstract class ProductBoard extends Board {
         super(type, options);
         this.loadModelAndDisplay(onBoardLoaded);
     }
+
+    public abstract addChild(sceneObject: ISceneObject): void;
+
+    protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
+
+        await super.loadModelAndDisplay(onLoad);
+
+        this.slots = this.getSlotsPosition();
+    }
+
+
 }

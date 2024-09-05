@@ -1,39 +1,37 @@
 import { Object3D, Vector3, Euler } from 'three';
 import { SceneObject } from '../SceneObject';
-import { ArchitectureType, ISceneObjectOptions, ISceneObject, CustomObject3D, ExportedSceneObject, BoardType } from '../../../interface/types';
+import { ISceneObjectOptions, ISceneObject, CustomObject3D, ExportedSceneObject } from '../../types';
+import { ArchitectureType } from './types';
+import { BoardType } from '../boards/types';
 import { Board } from '../boards/Board';
 import { MasterBoard } from '../boards/MasterBoard';
+import { ProductDouBoard } from '../boards/productBoards/ProductDouBoard';
 
 export class Architecture extends SceneObject {
     private placeholderPath: string;
     private selectedSlot: CustomObject3D | null = null;
-    private childToAdd: ISceneObject | null = null;
+    private childToAdd: Board | null = null;
 
-    constructor(type: ArchitectureType, onLoad?: (model: Object3D) => void, options?: ISceneObjectOptions) {
+    constructor(type: ArchitectureType, options?: ISceneObjectOptions) {
         super(type, options);
         this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}.fbx`;
-        // this.setPlaceholders();
-        // this.loadModelAndDisplay(onLoad);
     }
 
-    public addChild(sceneObject: ISceneObject, slotNumber?: number): void {
+
+    public addChild(sceneObject: Board, slotNumber?: number): void {
         if (slotNumber) {
-            const slot = this.placeholders.find(placeholder => parseInt(placeholder.name.replace(/\D/g, ''), 10) === slotNumber);
+            const slot = this.slots.find(placeholder => parseInt(placeholder.name.replace(/\D/g, ''), 10) === slotNumber);
             this.selectedSlot = slot || null;
         }
 
         if (this.selectedSlot) {
-            if (sceneObject instanceof Board) {
-                const slotNumber = parseInt(this.selectedSlot.name.replace(/\D/g, ''), 10);
-                (sceneObject as Board).slotNumber = slotNumber;
-
-                sceneObject.exchangeSlot(this.selectedSlot);
-            }
-
+            const slotNumber = parseInt(this.selectedSlot.name.replace(/\D/g, ''), 10);
+            sceneObject.slotNumber = slotNumber;
+            sceneObject.exchangeSlot(this.selectedSlot);
             this.children.push(sceneObject);
 
             this.setSlotsVisible(false);
-            this.placeholders = this.placeholders.filter(placeholder => placeholder !== this.selectedSlot);
+            this.slots = this.slots.filter(placeholder => placeholder !== this.selectedSlot);
             this.selectedSlot = null;
             this.childToAdd = null;
         } else {
@@ -43,21 +41,19 @@ export class Architecture extends SceneObject {
         }
     }
 
-    public displayEmptySlots(): void {
-        this.setSlotsVisible(true);
-    }
+
+
 
     async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
-        console.log('Loading model loadModelAndDisplay');
         try {
             const archUrl = `https://storage.googleapis.com/library-all-test/architectures/${this.type}.fbx`;
-            const model = await this.loadModel(archUrl);
+            const model = await this.loader.loadModel(archUrl);
             const customModel = model as CustomObject3D;
             customModel.onPointerDown = () => this.handleSelected(customModel);
             customModel.interactive = true;
             this.model = customModel;
 
-            await this.setPlaceholders();
+            await this.loadPlaceholders(this.placeholderPath, this.handleSelectSlot)
 
             onLoad && onLoad(this.model);
         } catch (error) {
@@ -66,70 +62,45 @@ export class Architecture extends SceneObject {
         }
     }
 
-    private async setPlaceholders(): Promise<void> {
-        if (!this.model) return;
-
-        try {
-            const [groupA, groupB] = [
-                this.model.children[0].children[0].children,
-                this.model.children[0].children[1].children
-            ];
-
-            const slots = [...groupA, ...groupB].filter(child => child.name.startsWith('slot_'));
-            const placeholder = await this.loadModel(this.placeholderPath);
-
-            slots.forEach(slot => {
-                const placeholderClone = placeholder.clone().children[0] as CustomObject3D;
-                placeholderClone.onPointerDown = () => this.handleSelectSlot(placeholderClone);
-                placeholderClone.interactive = true;
-                slot.parent?.attach(placeholderClone);
-                placeholderClone.position.copy(slot.position);
-                placeholderClone.rotation.copy(slot.rotation);
-                placeholderClone.name = slot.name;
-                placeholderClone.visible = false;
-                slot.parent?.remove(slot);
-                this.placeholders.push(placeholderClone);
-
-            });
-        } catch (error) {
-            console.error('Error setting placeholders:', error);
-            throw new Error('Failed to set placeholders');
-        }
-    }
 
     protected handleSelectSlot = (object: CustomObject3D): ISceneObject => {
         // super.handleSelectSlot(object);
         this.selectedSlot = object;
 
         if (this.childToAdd) {
-            console.log('Select slot');
             this.addChild(this.childToAdd);
         }
+        this.highlightMesh(object);
         return this;
     };
 
-    //   protected handleSelected = (object: CustomObject3D): ISceneObject => {
-    //     // Implement selection logic here
-    //     return this;
-    //   };
-
-    // export interface ExportedSceneObject {
-    //     name: string | null;
-    //     type: string;
-    //     slotNumber?: number;
-    //     position: Vector3 | null;
-    //     rotation: Euler | null;
-    //     scale?: Vector3;
-    //     children: ExportedSceneObject[];
-    //     contentData: { [key in ContentDataType]?: ContentData };
-    //   }
 
     public buildFromJson(exportedObj: ExportedSceneObject) {
         super.buildFromJson(exportedObj);
-        
+
         exportedObj.children.forEach(childData => {
-            const board = new MasterBoard(childData.type as BoardType, {exportedScenObj: childData});
-            this.addChild(board, childData.slotNumber);
+            let board;
+
+            switch (childData.type as BoardType) {
+                case BoardType.Product:
+                    board = new ProductDouBoard(childData.type as BoardType, { exportedScenObj: childData });
+                    break;
+                case BoardType.Header:
+                    board = new MasterBoard(childData.type as BoardType, { exportedScenObj: childData });
+                    break;
+                // case BoardType.DisplayDuo:
+                //     board = new ProductDouBoard(childData.type as BoardType, { exportedScenObj: childData });
+                //     break;
+                // case BoardType.DisplayDuo:
+                //     board = new ProductDouBoard(childData.type as BoardType, { exportedScenObj: childData });
+                //     break;
+                default:
+                    break;
+            }
+            if (board) {
+                this.addChild(board, childData.slotNumber);
+            }
         })
     }
 }
+

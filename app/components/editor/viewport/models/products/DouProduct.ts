@@ -1,10 +1,8 @@
 import { Object3D} from 'three';
-import { SceneObject } from '../SceneObject';
 import { ISceneObjectOptions, ISceneObject, CustomObject3D, ProductType } from '../../types';
+import { Product } from './Product';
 
-
-export class Product extends SceneObject {
-    public slotNumber = -1;
+export class DouProduct extends Product {
 
     constructor(type: ProductType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
@@ -16,9 +14,8 @@ export class Product extends SceneObject {
 
     
     protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
-
         try {
-            const boardUrl = `https://storage.googleapis.com/library-all-test/borads/${this.type}.fbx`;
+            const boardUrl = `https://storage.googleapis.com/library-all-test/products/${this.type}.fbx`;
             const model = await this.loader.loadModel(boardUrl);
 
             const customModel = model.children[0] as CustomObject3D;
@@ -26,7 +23,7 @@ export class Product extends SceneObject {
             customModel.onPointerDown = () => this.handleSelected(customModel);
             customModel.interactive = true;
             this.model = customModel;
-
+            
             if (this.model && this.modelParent && this.position && this.rotation) {
                 this.modelParent.attach(this.model);
                 this.model.position.copy(this.position);

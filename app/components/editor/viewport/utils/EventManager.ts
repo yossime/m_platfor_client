@@ -6,7 +6,7 @@ export class EventManager {
     private static instance: EventManager;
     private static selectedObject: ISceneObject | null = null;
 
-    private constructor() {}
+    private constructor() { }
 
     public static getInstance(): EventManager {
         if (!EventManager.instance) {
@@ -20,7 +20,11 @@ export class EventManager {
     }
 
     public setSelectedObject(obj: ISceneObject): void {
-        console.log('Selected object changed:', obj);
+        if (EventManager.selectedObject) {
+            EventManager.selectedObject.isSelected(false);
+        }
         EventManager.selectedObject = obj;
+        EventManager.selectedObject.isSelected(true);
+
     }
 }

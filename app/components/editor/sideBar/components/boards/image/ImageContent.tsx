@@ -126,7 +126,7 @@ import React, { useState } from 'react';
 import { Container, Divider } from '../../CommonStyles';
 import { ContentFileUpload, ContentInput } from '../../GenericBoardComponents';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
-import { IContentMaterialType, IContentTextType } from '@/components/editor/interface/types';
+import { IContentMaterialType, IContentTextType } from '@/components/editor/viewport/types';
 
 export const ImageContentComponent: React.FC = () => {
   const [openSections, setOpenSections] = useState({

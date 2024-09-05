@@ -1,9 +1,10 @@
-import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture } from 'three';
+import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture, MeshPhongMaterial } from 'three';
 
-import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, IContentMaterialType, EContentImagesType, IContentMaterial, IContentText, IContentTextType, IContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../../interface/types';
-import { FBXLoader, GLTFLoader } from 'three/examples/jsm/Addons.js';
-import { TextureManager } from '../../interface/utils/TextureManager';
-import { EventManager } from '../../interface/utils/EventManager';
+import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, IContentMaterialType, EContentImagesType, IContentMaterial, IContentText, IContentTextType, IContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../types';
+import { FBXLoader, Font, FontLoader, GLTFLoader, TextGeometry } from 'three/examples/jsm/Addons.js';
+import { TextureManager } from '../utils/TextureManager';
+import { EventManager } from '../utils/EventManager';
+import { ModelLoader } from '../loaderes/ModelLoader';
 
 export abstract class SceneObject implements ISceneObject {
   protected eventManager: EventManager;
@@ -11,108 +12,127 @@ export abstract class SceneObject implements ISceneObject {
   protected type: string;
   protected model: Object3D | null = null;
   public children: ISceneObject[] = [];
-  protected placeholders: CustomObject3D[] = [];
+  // protected placeholders: CustomObject3D[] = [];
+  protected slots: CustomObject3D[] = [];
   protected position: Vector3 | null = null;
   protected rotation: Euler | null = null;
   protected scale: Vector3 = new Vector3(1, 1, 1);
   protected modelParent: Object3D | null = null;
-
-  protected contentMaterial: Map<IContentMaterialType, IContentMaterial> = new Map<IContentMaterialType, IContentMaterial>();
-  protected contentImages: Map<EContentImagesType, IContentMaterial> = new Map<EContentImagesType, IContentMaterial>();
-  protected contentObjects: Map<ContentDataType, IContentObjects> = new Map<ContentDataType, IContentObjects>();
-  protected contentText: Map<IContentTextType, IContentText> = new Map<IContentTextType, IContentText>();
   protected contentData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
   // protected onLoad: (model?: Object3D) => void;
+  protected loader = new ModelLoader();
 
   constructor(type: string, options?: ISceneObjectOptions) {
     this.type = type;
     this.eventManager = EventManager.getInstance();
-    console.log("zzzzzzzzzzzzz", this.type, options);
 
     if (options) {
-      this.name = options.name ?? this.name;
+      this.name = options.exportedScenObj?.name || options.name || this.name;
       this.position = options.position ?? this.position;
       this.rotation = options.rotation ?? this.rotation;
     }
 
     this.loadModelAndDisplay(options?.onLoad).then(() => {
-      console.log("GGGGGGGGGG", this.type)
       if (options?.exportedScenObj !== undefined) {
         this.buildFromJson(options.exportedScenObj);
       }
     });
   }
 
-  abstract addChild(sceneObject: ISceneObject, slotNumber?: number): void;
-  abstract displayEmptySlots(): void;
+  public abstract addChild(sceneObject: ISceneObject, slotNumber?: number): void;
 
-  abstract loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void>;
-  public setName(name: string): void {
-    this.name = name;
-  }
+  public displayEmptySlots(visible: boolean = true): void {
+    this.setSlotsVisible(visible);
+}
+
+  protected setSlotsVisible(visible: boolean): void {
+    this.slots.forEach(slot => {
+      slot.visible = visible;
+    });
+  };
+
+  protected abstract loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void>;
+
+  public setName(name: string): void { this.name = name };
 
   public getContentMaterial(type: IContentMaterialType): IContentMaterial | null {
-    return this.contentMaterial.get(type) ?? null;
+    return this.contentData.get(type)?.contentMaterial ?? null;
   };
-  public getContentText(type: IContentTextType): IContentText | null {
-    return this.contentText.get(type) ?? null;
-  };
-  public getContentImage(type: EContentImagesType): IContentMaterial | null {
-    return this.contentImages.get(type) ?? null;
-  }
 
-  public getContentObjects(type: ContentDataType): IContentObjects | null {
-    return this.contentObjects.get(type) ?? null;
-  }
+  public getContentText(type: IContentTextType): IContentText | null {
+    return this.contentData.get(type)?.contentText ?? null;
+  };
 
   public getChildren(): ISceneObject[] | null {
     return this.children.length > 0 ? this.children : null;
   }
 
   public getEmptySlots(): CustomObject3D[] {
-    return this.placeholders;
-  }
-
-  public getModel(): Object3D | null {
-    return this.model;
+    return this.slots;
   }
 
   public setContentText(type: IContentTextType, text: IContentText): void { }
 
-  public setPosition(position: Vector3): void {
+  public setContentMaterial(type: IContentMaterialType, material: IContentMaterial) { }
+
+
+  protected setPosition(position: Vector3): void {
     this.position = position;
     if (this.model) {
       this.model.position.copy(position);
     }
   }
 
-  public setRotation(rotation: Euler): void {
+  protected setRotation(rotation: Euler): void {
     this.rotation = rotation;
     if (this.model) {
       this.model.rotation.copy(rotation);
     }
   }
 
-  public setScale(scale: Vector3): void {
+  protected setScale(scale: Vector3): void {
     this.scale = scale;
     if (this.model) {
       this.model.scale.copy(scale);
     }
   }
 
-  public setContentMaterial(type: IContentMaterialType, material: IContentMaterial) {
-    console.log('setContentMaterial')
-  }
+  protected getSlotsPosition(): Object3D[] {
+    if (!this.model) [];
 
-  // public setContentObjects(type: ContentDataType, material: IContentObjects) {
-  //   console.log('setContentObjects')
-  // }
-
-  protected setSlotsVisible(visible: boolean): void {
-    this.placeholders.forEach(slot => {
-      slot.visible = visible;
+    const slots: Object3D[] = [];
+    this.model?.traverse((child) => {
+      if (child.name.startsWith('slot_')) {
+        slots.push(child)
+      }
     });
+    return slots;
   }
+
+  protected async loadPlaceholders(placeholderPath: string, handleSelectSlot: (object: CustomObject3D) => any): Promise<void> {
+    if (!this.model) return;
+
+    const placeholder = await this.loader.loadModel(placeholderPath);
+    const slots = this.getSlotsPosition();
+
+    slots.forEach(slot => {
+      const placeholderClone = placeholder.clone().children[0] as CustomObject3D;
+      placeholderClone.onPointerDown = () => handleSelectSlot(placeholderClone);
+      placeholderClone.interactive = true;
+      slot.parent?.attach(placeholderClone);
+      placeholderClone.position.copy(slot.position);
+      placeholderClone.rotation.copy(slot.rotation);
+      placeholderClone.name = slot.name;
+      placeholderClone.visible = false;
+      slot.parent?.remove(slot);
+      this.slots.push(placeholderClone);
+
+    });
+  } catch(error: any) {
+    console.error('Error setting placeholders:', error);
+    throw new Error('Failed to set placeholders');
+  }
+
 
   public exportToJson(): string {
     const exportObject = {
@@ -141,48 +161,6 @@ export abstract class SceneObject implements ISceneObject {
     }
   }
 
-
-
-  protected async loadModel(modelPath: string, onLoad?: () => void, onError?: (error: Error) => void): Promise<CustomObject3D> {
-    return new Promise((resolve, reject) => {
-      const loader = new FBXLoader();
-
-      loader.load(
-        modelPath,
-        model => resolve(model as CustomObject3D),
-        undefined,
-        (error) => reject(error)
-      );
-    });
-  }
-  // protected async loadModel(modelPath: string): Promise<CustomObject3D> {
-  //   const fileExtension = modelPath.split('.').pop()?.toLowerCase();
-  //   let loader;
-
-  //   switch (fileExtension) {
-  //     case 'fbx':
-  //       loader = new FBXLoader();
-  //       break;
-  //     case 'gltf':
-  //     case 'glb':
-  //       loader = new GLTFLoader();
-  //       break;
-  //     default:
-  //       throw new Error(`Unsupported file format: ${fileExtension}`);
-  //   }
-
-  //   return new Promise((resolve, reject) => {
-  //     loader.load(
-  //       modelPath,
-  //       (loadedModel) => {
-  //         const model = loadedModel instanceof Object3D ? loadedModel : loadedModel.scene;
-  //         resolve(model as CustomObject3D);
-  //       },
-  //       undefined,
-  //       (error: { message: any; }) => reject(new Error(`Error loading model: ${error.message}`))
-  //     );
-  //   });
-  // }
 
   protected async changeMaterial(mesh: Object3D, material: ICustomMaterial): Promise<void> {
     if (!(mesh instanceof Mesh)) {
@@ -227,17 +205,6 @@ export abstract class SceneObject implements ISceneObject {
     mesh.material = newMaterial;
   }
 
-  private async loadTexture(path: string): Promise<Texture> {
-    return new Promise((resolve, reject) => {
-      new TextureLoader().load(
-        path,
-        resolve,
-        undefined,
-        (error) => reject(new Error(`Error loading texture: ${(error as Error).message}`))
-      );
-    });
-  }
-
   protected getGeometryByName(name: string): Object3D | null {
     if (!this.model) return null;
 
@@ -253,8 +220,8 @@ export abstract class SceneObject implements ISceneObject {
   public exchangeSlot(slot: CustomObject3D): void {
     this.setPosition(slot.position);
     this.setRotation(slot.rotation);
+    
     this.modelParent = slot.parent;
-
     if (this.model && this.modelParent) {
       this.modelParent.attach(this.model);
       this.model.position.copy(slot.position);
@@ -267,18 +234,21 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   protected handleSelected = (object: CustomObject3D) => {
-    console.log('Selected object changed: protected handleSelected  ', this);
-
+    this.highlightMesh(object);
     this.eventManager.setSelectedObject(this);
     return this
   };
 
-  // protected handleSelectSlot = (object: CustomObject3D): void => {
-  //   this.highlightMesh(object);
-  //   this.selectedSlot = object;
-  // };
+  public isSelected = (selected: boolean): void => {
+    const selectedMesh = this.getGeometryByName('selected');
+    if (!selectedMesh) return;
+
+    selectedMesh.visible = selected;
+  }
 
   protected highlightMesh = (object: Object3D): void => {
+
+
     object.traverse((child) => {
       if (child instanceof Mesh) {
         const highlightMaterial = new MeshStandardMaterial({
@@ -291,6 +261,40 @@ export abstract class SceneObject implements ISceneObject {
     });
   };
 
+  protected applyText(mesh: Mesh, text: IContentText): void {
+    this.straightText(mesh, text)
+  }
+
+  async loadFont(url: string): Promise<Font> {
+    const loader = new FontLoader();
+
+    return new Promise((resolve, reject) => {
+      loader.load(url, resolve, undefined, reject);
+    });
+  }
+
+  async straightText(mesh: Mesh, text: IContentText) {
+    try {
+      const font = await this.loadFont('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json');
+      const geometry = new TextGeometry(text.text, {
+        font: font,
+        size: 0.5,
+        depth: 0.1,
+      });
+
+      const material = new MeshPhongMaterial({ color: 0xffffff });
+      const newMesh = new Mesh(geometry, material);
+      newMesh.position.copy(mesh.position);
+
+      mesh.geometry.dispose();
+      mesh.geometry = geometry;
+      mesh = newMesh;
+
+    } catch (error) {
+      console.error('Error replacing text:', error);
+    }
+  }
+
   // Performance optimization for large scenes
   public updateMatrixWorld(force?: boolean): void {
     if (this.model) {
@@ -299,28 +303,28 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   // Utility method for cloning
-  public clone(): SceneObject {
-    const clone = Object.create(Object.getPrototypeOf(this));
-    Object.assign(clone, this);
-    if (this.model) {
-      clone.model = this.model.clone();
-    }
-    clone.children = this.children.map(child => child.clone());
-    return clone;
-  }
+  // public clone(): SceneObject {
+  //   const clone = Object.create(Object.getPrototypeOf(this));
+  //   Object.assign(clone, this);
+  //   if (this.model) {
+  //     clone.model = this.model.clone();
+  //   }
+  //   clone.children = this.children.map(child => child.clone());
+  //   return clone;
+  // }
 
   // Cleanup method
-  public dispose(): void {
-    if (this.model) {
-      this.model.traverse((object) => {
-        if (object instanceof Mesh) {
-          object.geometry.dispose();
-          if (object.material instanceof Material) {
-            object.material.dispose();
-          }
-        }
-      });
-    }
-    this.children.forEach(child => child.dispose());
-  }
+  // public dispose(): void {
+  //   if (this.model) {
+  //     this.model.traverse((object) => {
+  //       if (object instanceof Mesh) {
+  //         object.geometry.dispose();
+  //         if (object.material instanceof Material) {
+  //           object.material.dispose();
+  //         }
+  //       }
+  //     });
+  //   }
+  //   this.children.forEach(child => child.dispose());
+  // }
 }

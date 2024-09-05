@@ -9,8 +9,9 @@ import { FontWeight, TextSize } from "@constants/text";
 import Icon from "@/components/Library/icon/Icon";
 import { IconColor } from "@constants/colors";
 import PopupEditDisplay from "./PopupEditDisplay";
-import { ISceneObject, ProductType } from "@/components/editor/interface/types";
+import { ISceneObject, ProductType } from "@/components/editor/viewport/types";
 import { Product } from "@/components/editor/viewport/models/products/Product";
+import { DouProduct } from "@/components/editor/viewport/models/products/DouProduct";
 
 // import { Product } from "@/components/editor/interface/Product";
 
@@ -62,7 +63,7 @@ export const DisplayList: React.FC = () => {
 
   const handleAddDisplay = () => {
     if (!selectedObject || availableSlots === 0) return;
-    const newDisplay = new Product(ProductType.Poudiom);
+    const newDisplay = new DouProduct(ProductType.ProductDuo);
     if (newDisplay)
       selectedObject.addChild(newDisplay);
 

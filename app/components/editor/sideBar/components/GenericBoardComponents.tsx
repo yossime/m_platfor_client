@@ -6,7 +6,7 @@ import DataObfuscator from '@/components/Library/general/DataObfuscator';
 import { DeleteIcon, FileDisplay, FileName } from './CommonStyles';
 import DragAndDrop from '@/components/Library/general/DragAndDrop';
 import { useEditor } from '@/context/useEditorContext';
-import { EConfigType, EConfiguration, ERenderType, IContentMaterial, IContentMaterialType, IContentText, IContentTextType, ISceneObject } from '../../interface/types';
+import { EConfigType, EConfiguration, ERenderType, IContentMaterial, IContentMaterialType, IContentText, IContentTextType, ISceneObject } from '../../viewport/types';
 // import { EConfigType, EConfiguration, ERenderType, IContentMaterial, IContentMaterialType, IContentTextType } from '../../interface/models';
 import { uploadFile } from '../../utils/fileUploadService';
 import { Board } from '../../viewport/models/boards/Board';
@@ -196,21 +196,14 @@ export const ContentFileUpload: React.FC<{
 
   const file = getContentMaterial(type)?.customMaterial?.diffuse?.map as File;
 
-  // setContentMaterial(type, { customMaterial: { diffuse: { url: 'https://storage.googleapis.com/barbiz-side/images/Bar10_L.jpeg' } }  });
   const handleFileAdded = async (newFile: File) => {
-
-    // setContentMaterial(type, { diffuse: { file: newFile } });
-    // console.log(`Setting type type`, IContentMaterialType.IMAGE)
 
     setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } } });
     try {
       await uploadFile(newFile, type, {
         onSuccess: (url, contentType) => {
-          console.log(url, contentType, '')
-
           if (typeof url === 'string') {
             setContentMaterial(type, { customMaterial: { diffuse: { map: url } } });
-            console.log(`Upload successfully ${url}`)
           }
 
           setUploadProgress(0);

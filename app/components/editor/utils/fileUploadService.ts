@@ -1,6 +1,6 @@
 import axios from '@/utils/axios';
 import { AxiosResponse } from 'axios';
-import { IContentMaterialType } from '../interface/types';
+import { IContentMaterialType } from '../viewport/types';
 
 interface UploadResponse {
   url: string;

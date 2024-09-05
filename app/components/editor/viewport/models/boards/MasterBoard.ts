@@ -1,16 +1,12 @@
-import { Vector3, Mesh,MeshPhongMaterial } from 'three';
-import { BoardType, ISceneObjectOptions, ISceneObject, CustomObject3D, IContentMaterial, 
-    IContentText, EConfigType, EConfiguration, IContentMaterialType, IContentTextType, EContentImagesType, 
-    ExportedSceneObject} from '@/components/editor/interface/types';
-import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
-import { TextGeometry } from 'three/examples/jsm/Addons.js';
-// import { SceneObject } from '../SceneObject';
-import { TextureManager } from '@/components/editor/interface/utils/TextureManager';
+import { ISceneObjectOptions, ISceneObject } from '@/components/editor/viewport/types';
+import { BoardType } from './types';
 import { Board } from './Board';
 
 export class MasterBoard extends Board {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
-        // this.loadModelAndDisplay(onBoardLoaded);
+    }
+
+    public addChild(sceneObject: ISceneObject): void {
     }
 }

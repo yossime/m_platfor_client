@@ -8,7 +8,7 @@ import AlignmentControl from '../../AlignmentControlComponent';
 // import { EConfigType, EConfiguration, IContentMaterial, IContentMaterialType } from '@/components/editor/interface/models';
 import { useBoardContent } from '../../GenericBoardComponents';
 import TextureUploadComponent from '../../LoadTexturePopup';
-import { IContentMaterialType, IContentMaterial, EConfigType, EConfiguration, ICustomMaterial } from '@/components/editor/interface/types';
+import { IContentMaterialType, IContentMaterial, EConfigType, EConfiguration, ICustomMaterial } from '@/components/editor/viewport/types';
 
 export const HeaderStyleComponent: React.FC = () => {
   const { getContentMaterial, setContentMaterial, setConfiguration } = useBoardContent();
@@ -43,9 +43,6 @@ export const HeaderStyleComponent: React.FC = () => {
 
   const handleAlignmentChange = (type: 'horizontal' | 'vertical', alignment: string) => {
     // setContentMaterial(IContentMaterialType.TEST, { [type + 'Alignment']: alignment });
-    console.log("Alignment changed", alignment);
-    console.log(`${type.charAt(0).toUpperCase() + type.slice(1)} alignment set to: ${alignment}`);
-
     switch (type) {
       case 'horizontal':
         setConfiguration(EConfigType.HORIZONTAL, (alignment.toUpperCase() as EConfiguration));

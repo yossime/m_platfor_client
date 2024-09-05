@@ -1,28 +1,15 @@
 import { Object3D, Vector3, Euler, Material, Texture } from 'three';
+import { BoardType } from '../models/boards/types';
+import { ArchitectureType } from '../models/architectures/types';
 
-// Basic 3D types
-// export interface IVector3 {
-//   x: number;
-//   y: number;
-//   z: number;
-// }
 
-// export interface IEuler {
-//   x: number;
-//   y: number;
-//   z: number;
-// }
-
-// Scene object types
 export interface ISceneObjectOptions {
   name?: string | null;
   position?: Vector3 | null;
   rotation?: Euler | null;
   scale?: Vector3;
-  exportedScenObj? :ExportedSceneObject,
+  exportedScenObj?: ExportedSceneObject,
   onLoad?: (model?: Object3D) => void;
-  // children?: ExportedSceneObject;
-  // contentData?: { [key in ContentDataType]?: ContentData };
 }
 
 export interface ISceneObject {
@@ -33,58 +20,22 @@ export interface ISceneObject {
   getEmptySlots(): CustomObject3D[];
   displayEmptySlots(): void;
   exportToJson(): string;
-  getModel(): Object3D | null;
-  setPosition(position: Vector3): void;
-  setRotation(rotation: Euler): void;
-  setScale(scale: Vector3): void;
-  updateMatrixWorld(force?: boolean): void;
-  clone(): ISceneObject;
-  dispose(): void;
 
-  getContentMaterial(type: IContentMaterialType): IContentMaterial| null;
-  getContentImage(type: EContentImagesType): IContentMaterial | null;
+  isSelected(selected: boolean): void;
+  getContentMaterial(type: IContentMaterialType): IContentMaterial | null;
   getContentText(type: IContentTextType): IContentText | null;
-  getContentObjects(type: ContentDataType): IContentObjects | null;
   setContentMaterial(type: IContentMaterialType, material: IContentMaterial): void;
-  setContentImage?(type: EContentImagesType, material: IContentMaterial): void;
   setContentText?(type: IContentTextType, text: IContentText): void;
-  setContentObjects?(type: ContentDataType, text: IContentObjects): void;
 }
 
 export interface CustomObject3D extends Object3D {
-  // onPointerDown: (event: any) => ISceneObject;
   onPointerDown?: (event: any) => ISceneObject;
   interactive?: boolean;
 }
 
-// Enums for different types of objects
-export enum ArchitectureType {
-  Barbiz = 'barbiz',
-  TWO_CIRCLES = 'two_circles'
-}
-
-export enum BoardType {
-  // Product = 'ProductBoard',
-  Product = 'MasterTextOn',
-  // Header = 'MasterBoard',
-  Header = 'MasterTextOn2',
-  Image = 'header_image',
-  Slider = 'SliderBoard',
-  Video = 'VideoBoard',
-  Testimonials = 'TestimonialsBoard',
-  Subscription = 'SubscriptionBoard',
-  Services = 'ServicesBoard',
-  Gamification = 'GamificationBoard',
-  Form = 'FormBoard',
-  Socials = 'SocialsBoard',
-  Article = 'ArticleBoard',
-  DisplayStands = 'stands',
-  DisplayDuo = 'DisplayDuo',
-}
-
 export enum ProductType {
   Poudiom = 'Poudiom',
-  Header = 'HeaderBoard',
+  ProductDuo = 'Product_Duo_Podium',
   Image = 'ImageBoard',
 }
 
@@ -93,7 +44,6 @@ export enum DisplayType {
   STANDS = "Podium stands",
 }
 
-// Configuration types
 export enum EConfigType {
   HORIZONTAL = 'HORIZONTAL',
   VERTICAL = 'VERTICAL',
@@ -107,7 +57,6 @@ export enum EConfiguration {
   BOTTOM = 'BOTTOM',
 }
 
-// Content types
 export enum IContentTextType {
   TITLE = 'title',
   SUB_TITLE = 'sub_title',
@@ -165,12 +114,9 @@ export interface IContentObjects {
   rotation?: Euler | null;
 }
 
-// Material and texture types
 export interface ITextureSource {
   color?: string;
   map?: string | File;
-  // file?: File;
-  // url?: string;
   intensity?: number;
   value?: number;
 }
@@ -190,9 +136,6 @@ export interface IContentMaterial {
   video?: ITextureSource;
   render?: ERenderType;
   customMaterial?: ICustomMaterial;
-  // contentName?: string;
-  // position?: Vector3 | null;
-  // rotation?: Euler | null;
 }
 
 export enum ERenderType {
@@ -206,7 +149,6 @@ export enum ESkybox {
 }
 
 
-// Text content type
 export interface IContentText {
   text: string;
   font?: string;
@@ -215,10 +157,10 @@ export interface IContentText {
   scale?: [number, number, number];
 }
 
-// Export types
 export interface ExportedSceneObject {
   name: string | null;
   type: string;
+  configuration: { [key in EConfiguration]?: EConfiguration };
   slotNumber?: number;
   position: Vector3 | null;
   rotation: Euler | null;
@@ -227,7 +169,6 @@ export interface ExportedSceneObject {
   contentData: { [key in ContentDataType]?: ContentData };
 }
 
-// Scene management types
 export interface ISceneManager {
   root: ISceneObject | null;
   selectedObject: ISceneObject | null;
@@ -239,7 +180,6 @@ export interface ISceneManager {
   importScene(sceneData: string): void;
 }
 
-// Undo/Redo types
 export interface ICommand {
   execute(): void;
   undo(): void;
@@ -253,7 +193,6 @@ export interface IUndoRedoManager {
   canRedo(): boolean;
 }
 
-// Event system types
 export type EventCallback = (...args: any[]) => void;
 
 export interface IEventEmitter {
@@ -262,14 +201,12 @@ export interface IEventEmitter {
   emit(event: string, ...args: any[]): void;
 }
 
-// Performance optimization types
 export interface ISceneOptimizer {
   optimizeScene(scene: ISceneObject): void;
   enableLevelOfDetail(object: ISceneObject): void;
   batchGeometries(objects: ISceneObject[]): ISceneObject;
 }
 
-// Asset management types
 export interface IAssetManager {
   loadTexture(url: string): Promise<Texture>;
   loadModel(url: string): Promise<Object3D>;
@@ -277,7 +214,6 @@ export interface IAssetManager {
   getLoadedAssets(): string[];
 }
 
-// UI interaction types
 export interface IInteractionManager {
   enableDragAndDrop(object: ISceneObject): void;
   disableDragAndDrop(object: ISceneObject): void;
@@ -287,7 +223,6 @@ export interface IInteractionManager {
   disableScaling(object: ISceneObject): void;
 }
 
-// Rendering types
 export interface IRenderingOptions {
   shadows: boolean;
   antialiasing: boolean;
@@ -299,14 +234,12 @@ export interface IRenderer {
   render(scene: ISceneObject, camera: Object3D): void;
 }
 
-// Camera types
 export interface ICameraManager {
   setActiveCamera(cameraType: 'perspective' | 'orthographic'): void;
   zoomToObject(object: ISceneObject): void;
   resetView(): void;
 }
 
-// Plugin system types
 export interface IPlugin {
   name: string;
   version: string;
