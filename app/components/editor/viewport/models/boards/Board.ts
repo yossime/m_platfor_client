@@ -181,15 +181,6 @@ export abstract class Board extends SceneObject {
     }
 
 
-
-    protected async applyRenderMaterial(mesh: Mesh, renderType: string): Promise<void> {
-        const textureManager = TextureManager.getInstance();
-        const textureUrl = `https://storage.googleapis.com/library-materials-test-all/${renderType}.jpg`;
-
-        await this.changeMaterial(mesh, { diffuse: { map: textureUrl } });
-
-    }
-
     public buildFromJson(exportedObj: ExportedSceneObject) {
         for (const [key, value] of Object.entries(exportedObj.configuration)) {
             this.setConfiguration(key as EConfigType, value);

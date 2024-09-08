@@ -247,8 +247,6 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   protected highlightMesh = (object: Object3D): void => {
-
-
     object.traverse((child) => {
       if (child instanceof Mesh) {
         const highlightMaterial = new MeshStandardMaterial({
@@ -264,6 +262,13 @@ export abstract class SceneObject implements ISceneObject {
   protected applyText(mesh: Mesh, text: IContentText): void {
     this.straightText(mesh, text)
   }
+
+  protected async applyRenderMaterial(mesh: Mesh, renderType: string): Promise<void> {
+    const textureManager = TextureManager.getInstance();
+    const textureUrl = `https://storage.googleapis.com/library-materials-test-all/${renderType}.jpg`;
+
+    await this.changeMaterial(mesh, { diffuse: { map: textureUrl } });
+}
 
   async loadFont(url: string): Promise<Font> {
     const loader = new FontLoader();
