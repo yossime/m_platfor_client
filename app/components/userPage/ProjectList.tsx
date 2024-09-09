@@ -1,24 +1,29 @@
-"use client"
-import { useState, useEffect } from 'react';
+"use client";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useProject } from '@/context/useProjectContext';
-import { useAuth } from '@/context/AuthContext';
-import { fetchProjects, fetchProject, deleteProject } from '@/services/projectService';
-import Text from '@components/Library/text/Text';
+import { useProject } from "@/context/useProjectContext";
+import { useAuth } from "@/context/AuthContext";
+import {
+  fetchProjects,
+  fetchProject,
+  deleteProject,
+} from "@/services/projectService";
+import Text from "@components/Library/text/Text";
 import {
   Container,
   ErrorMessage,
   TextContainer,
   ItemsContainer,
-} from './ProjectListStyles';
-import CreateProjectBox from '../Library/boxes/projectBox/createProjectBox/CreateProjectBox';
-import ProjectBox from '../Library/boxes/projectBox/projectBox/ProjectBox';
-import { FontFamily, FontWeight, TextSize } from '@constants/text';
-import { TextColor } from '@constants/colors';
+} from "./ProjectListStyles";
+import CreateProjectBox from "../Library/boxes/projectBox/createProjectBox/CreateProjectBox";
+import ProjectBox from "../Library/boxes/projectBox/projectBox/ProjectBox";
+import { FontFamily, FontWeight, TextSize } from "@constants/text";
+import { TextColor } from "@constants/colors";
+import Tooltip from "../Library/general/Tooltip";
 
 const ProjectList: React.FC = () => {
   const { setCurrentProject, projects, setProjects } = useProject();
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   const { user } = useAuth();
   const router = useRouter();
@@ -29,9 +34,9 @@ const ProjectList: React.FC = () => {
       try {
         const fetchedProjects = await fetchProjects(user.uid);
         setProjects(fetchedProjects);
-        console.log(fetchedProjects)
+        console.log(fetchedProjects);
       } catch (error) {
-        setError('Error fetching projects');
+        setError("Error fetching projects");
         console.error(error);
       }
     };
@@ -40,18 +45,18 @@ const ProjectList: React.FC = () => {
   }, [user, setProjects]);
 
   const selectProject = async (projectId: string) => {
-    router.push('/editor');
+    router.push("/editor");
     setCurrentProject(projectId);
     try {
       const project = await fetchProject(projectId, user?.uid as string);
     } catch (error) {
-      console.error('Error selecting project:', error);
-      setError('Failed to select project');
+      console.error("Error selecting project:", error);
+      setError("Failed to select project");
     }
   };
 
   const handleCreateProject = () => {
-    router.push('createProject/create-via-questionnaire');
+    router.push("createProject/create-via-questionnaire");
   };
 
   const handleDeleteProject = async (projectId: string) => {
@@ -59,10 +64,10 @@ const ProjectList: React.FC = () => {
 
     try {
       await deleteProject(projectId, user);
-      setProjects(projects.filter(project => project.id !== projectId));
+      setProjects(projects.filter((project) => project.id !== projectId));
     } catch (error) {
-      console.error('Error deleting project:', error);
-      setError('Failed to delete project');
+      console.error("Error deleting project:", error);
+      setError("Failed to delete project");
     }
   };
 
@@ -71,26 +76,56 @@ const ProjectList: React.FC = () => {
   return (
     <Container>
       <TextContainer>
-      <Text size={TextSize.H2} weight={FontWeight.NORMAL} color={TextColor.SECONDARY_TEXT} family={FontFamily.Poppins}>
-      {hasProjects ? `Welcome Back ${user?.displayName || 'User'}!` : "Let's get started!"}
+        <Text
+          size={TextSize.H2}
+          weight={FontWeight.NORMAL}
+          color={TextColor.SECONDARY_TEXT}
+          family={FontFamily.Poppins}
+        >
+          {hasProjects
+            ? `Welcome Back ${user?.displayName || "User"}!`
+            : "Let's get started!"}
         </Text>
-        <Text size={TextSize.D1} weight={FontWeight.SEMI_BOLD} color={TextColor.PRIMARY_TEXT} family={FontFamily.Poppins}>
-          {hasProjects ? 'My Web Spaces' : 'Start creating your 3D web space'}
+        <Text
+          size={TextSize.D1}
+          weight={FontWeight.SEMI_BOLD}
+          color={TextColor.PRIMARY_TEXT}
+          family={FontFamily.Poppins}
+        >
+          {hasProjects ? "My Web Spaces" : "Start creating your 3D web space"}
         </Text>
       </TextContainer>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <ItemsContainer>
+      <Tooltip content="test">
+        <div>
         <CreateProjectBox onClick={handleCreateProject} text="New Project" />
-        <CreateProjectBox disabled={true} onClick={() => {/* handle URL creation */}} text="Create with URL" />
-        <CreateProjectBox disabled={true} onClick={() => {/* handle AI creation */}} text="Create with AI" />
-        {projects.map(project => (
-          <ProjectBox
-            key={project.id}
-            project={project}
-            onSelect={selectProject}
-            onDelete={handleDeleteProject}
-          />
+
+        </div>
+        </Tooltip>
+
+        <CreateProjectBox
+          disabled={true}
+          onClick={() => {
+            /* handle URL creation */
+          }}
+          text="Create with URL"
+        />
+        <CreateProjectBox
+          disabled={true}
+          onClick={() => {
+            /* handle AI creation */
+          }}
+          text="Create with AI"
+        />
+        {projects.map((project) => (
+            <ProjectBox
+              key={project.id}
+              project={project}
+              onSelect={selectProject}
+              onDelete={handleDeleteProject}
+            />
         ))}
       </ItemsContainer>
     </Container>

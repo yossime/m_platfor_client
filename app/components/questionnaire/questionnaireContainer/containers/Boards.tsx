@@ -159,9 +159,9 @@ const Boards: React.FC = () => {
             </IndexContainer>
             <TextContainer>
                 <Text size={TextSize.D1} family={FontFamily.Poppins} weight={FontWeight.SEMI_BOLD}
-                    color={TextColor.PRIMARY_TEXT}>    Choose widgets you’d like to add</Text>
+                    color={TextColor.PRIMARY_TEXT}>Choose widgets you’d like to add</Text>
                 <Text size={TextSize.H3} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
-                    color={TextColor.PRIMARY_TEXT}>  Give your site more functionality with Mocart business solutions.</Text>
+                    color={TextColor.PRIMARY_TEXT}>Give your site more functionality with Mocart business solutions.</Text>
             </TextContainer>
             <ContentWrapper>
                 <TextContainer>

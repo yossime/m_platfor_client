@@ -11,12 +11,21 @@ import Text from '../../text/Text';
 import { FontWeight, TextSize } from '@constants/text';
 import { IconColor, TextColor } from '@constants/colors';
 
+export enum BoxSize {
+  XS = 'xs',
+  SMALL = 'small',
+  MEDIUM = 'medium',
+  LARGE = 'large',
+}
+
+
 interface BoardProps {
   title: string;
-  body: string;
+  body?: string;
   clicked: boolean;
   onClick: (type: string) => void;
-  iconName: IconName;
+  size?: BoxSize;
+  iconName?: IconName;
   iconSize?: IconSize;
   iconColor?: IconColor;
   disabled?: boolean;
@@ -28,16 +37,18 @@ const BoardBox: React.FC<BoardProps> = ({
   clicked,
   onClick,
   iconName,
+  size = BoxSize.SMALL, 
   iconSize = IconSize.MEDIUM,
   iconColor = IconColor.ICONCOLOR,
   disabled = false
 }) => {
   return (
-    <BoardContainer $clicked={clicked} $disabled={disabled} onClick={() => onClick(title)}>
+    <BoardContainer $size={size} $clicked={clicked} $disabled={disabled} onClick={() => onClick(title)}>
       <ContentWrapper>
+ {     iconName &&
         <IconWrapper>
           <Icon name={iconName} size={iconSize} color={disabled ? IconColor.DISABLED : iconColor} />
-        </IconWrapper>
+        </IconWrapper>}
         <TextWrapper>
           <Text size = {TextSize.TEXT2} weight={FontWeight.BOLD} color={disabled ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT} >{title}</Text>
           <Text size = {TextSize.TEXT2} weight={FontWeight.NORMAL} color={disabled ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT} >{body}</Text>

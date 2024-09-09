@@ -4,7 +4,6 @@ import React from "react";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 import Navbar from "./Library/navbar/Navbar";
 import { handleSignOut } from "@/services/login";
-import { EditorProvider } from "@/context/useEditorContext";
 
 const NavbarWithAuth = () => {
   const { user } = useAuth();

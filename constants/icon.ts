@@ -88,9 +88,28 @@ export enum IconName {
     ARROWSINLINEHORIZONTAL = 'ARROWSINLINEHORIZONTAL',
     ARROWLINELEFT = 'ARROWLINELEFT',
     SPINNERGAP = 'SPINNERGAP',
+    BRIEFCASE ='BRIEFCASE',
+    HANDSHAKE = 'HANDSHAKE',
+    FINNTHEHUMAN = 'FINNTHEHUMAN',
+    PENNIBSTRAIGHT = 'PENNIBSTRAIGHT',
+    DEVICES = 'DEVICES',
+    CHARTLINEUP ='CHARTLINEUP',
+    DETECTIVE = 'DETECTIVE',
+
+
 }
 
+
+
+
 export const IconComponents: { [key in IconName]: IconType } = {
+    [IconName.BRIEFCASE]: PiIcons.PiBriefcase,
+    [IconName.HANDSHAKE]: PiIcons.PiHandshake,
+    [IconName.FINNTHEHUMAN]: PiIcons.PiFinnTheHuman,
+    [IconName.PENNIBSTRAIGHT]: PiIcons.PiPenNibStraight,
+    [IconName.DEVICES]: PiIcons.PiDevices,
+    [IconName.CHARTLINEUP]: PiIcons.PiChartLineUp,
+    [IconName.DETECTIVE]: PiIcons.PiDetective,
     [IconName.SPINNERGAP]: PiIcons.PiSpinnerGap,
     [IconName.ARROWLINEDOWN]: PiIcons.PiArrowLineDown,
     [IconName.ARROWSINLINEVERTICAL]: PiIcons.PiArrowsInLineVertical,

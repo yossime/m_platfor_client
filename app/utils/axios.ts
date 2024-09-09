@@ -11,11 +11,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(async (config) => {
     const user = auth.currentUser;
-    // console.log("User: " + user?.uid)
     if (user) {
       try {
         const token = await user.getIdToken(/* forceRefresh */ true); 
-        // console.log("Refreshed token: " + token)
         config.headers.Authorization = `Bearer ${token}`;
       } catch (error) {
         console.error('Error refreshing token:', error);

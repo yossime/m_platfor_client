@@ -21,8 +21,6 @@ export const isCurrentPageValid = (currentIndex: QuestionnaireStatus | null, con
       return contextData.Type.valid;
     case QuestionnaireStatus.QuestionnaireBusinessName:
       return contextData.Name.valid;
-    // case QuestionnaireStatus.QuestionnaireApps:
-      // return contextData.Apps.valid;
     case QuestionnaireStatus.QuestionnaireBoards:
       return contextData.Boards.valid;
     case QuestionnaireStatus.QuestionnaireTemplates:

@@ -7,6 +7,8 @@ import { GoogleAuthProvider } from "firebase/auth";
 
 export const handleGoogleLogin = async (setError: (error: string) => void) => {
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+
     try {
         const userCredential = await signInWithPopup(auth, provider);
         // Signed in 
@@ -66,7 +68,6 @@ export const handleSignOut = async (setError: (error: string) => void) => {
     try {
         await auth.signOut();
         console.log('jhhgyhgh')
-        // ... handle successful sign-out (e.g., redirect to home page)
     } catch (error) {
         console.error('Error signing out:', error);
         setError('Error signing out');

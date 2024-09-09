@@ -1,23 +1,15 @@
 import styled from 'styled-components';
-import { NAVBAR_HEIGHTS, MEDIA_QUERIES } from '@constants/screenSizes';
 
 export const Container = styled.div`
+  width: 658px;
+  height: 471px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  width: 668px;
-  height: calc(100vh - ${NAVBAR_HEIGHTS.LAPTOP});
-  gap: 64px;
-  padding: 64px 0;
-  margin: ${NAVBAR_HEIGHTS.LAPTOP} auto 0;
-  overflow-y: auto;
-
-  scrollbar-width: thin;
-  scrollbar-color: #DEDCFF transparent;
+  gap: 60px;
+  padding: 64px, 0px, 64px, 0px;
 
 `;
-
 export const IndexContainer = styled.div`
   width: 580px;
   height: 28px;

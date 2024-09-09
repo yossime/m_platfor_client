@@ -38,10 +38,3 @@ const Text: React.FC<TextComponentProps> = ({
 
 export default Text;
 
-{/* <Text 
-size={TextSize.TEXT1} 
-family={FontFamily.Figtree} 
-weight={FontWeight.NORMAL} 
-color={TextColor.SECONDARY_TEXT}
->
-</Text> */}

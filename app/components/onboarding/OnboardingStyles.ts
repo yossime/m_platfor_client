@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 
-export const QuestionnaireWrapper = styled.div`
+export const OnboardingWrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -12,7 +12,5 @@ export const QuestionnaireWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: linear-gradient(to top, #E3E1FF, #ffffff);
 `;
 
