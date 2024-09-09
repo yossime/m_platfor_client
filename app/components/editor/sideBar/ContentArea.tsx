@@ -14,7 +14,6 @@ const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* padding: 16px; */
 `;
 
 interface ContentAreaProps {
@@ -31,14 +30,16 @@ export const ContentArea: React.FC<ContentAreaProps> = ({ activeSidebarHeader, a
     }
 
     switch (activeSidebarSubMenu) {
-      case 'Global':
-        return <GlobalComponent />;
-      case 'Architecture':
-        return <ArchitectureComponent handleBackOrAdd={handleBackOrAdd} setActiveSidebarHeader={setActiveSidebarHeader}/>;
-      case 'Content':
-        return <ContentComponent activeSidebarHeader={activeSidebarHeader} />;
-      case 'Style':
-        return <StyleComponent activeSidebarHeader={activeSidebarHeader} />;
+      case 'Design':
+        if (activeSidebarHeader === 'Architecture') {
+          return <GlobalComponent />;
+        }
+        else  return <StyleComponent activeSidebarHeader={activeSidebarHeader} />;
+      case 'Edit':
+        if (activeSidebarHeader === 'Architecture') {
+          return <ArchitectureComponent handleBackOrAdd={handleBackOrAdd} setActiveSidebarHeader={setActiveSidebarHeader}/>;
+        }
+        else  return <ContentComponent activeSidebarHeader={activeSidebarHeader} />;
       default:
         return <div>No component available for this selection.</div>;
     }

@@ -22,8 +22,8 @@ import { EventManager } from '../viewport/utils/EventManager';
 
 const Sidebar: React.FC = () => {
   const { sceneModel } = useEditor();
-  const [activeSidebarHeader, setActiveSidebarHeader] = useState<HeaderType>('Edit Global');
-  const [activeSidebarSubMenu, setActiveSidebarSubMenu] = useState<SubMenuType>('Architecture');
+  const [activeSidebarHeader, setActiveSidebarHeader] = useState<HeaderType>('Architecture');
+  const [activeSidebarSubMenu, setActiveSidebarSubMenu] = useState<SubMenuType>('Edit');
   const [isOpen, setIsOpen] = useState(true);
   // const [selectedObject, setSelectedObject] = useState<ISceneObject | null>(null); //yossi
 
@@ -48,25 +48,25 @@ const Sidebar: React.FC = () => {
     if (selectedObject && isBoardObject(selectedObject)) {
       setActiveSidebarHeader(`Edit ${selectedObject.name || 'Board'}` as HeaderType);
     } else {
-      setActiveSidebarHeader('Edit Global');
+      setActiveSidebarHeader('Architecture');
     }
   }, [sceneModel?.getSelectedObject()]); //yossi
 
   useEffect(() => {
-    if (activeSidebarHeader === 'Edit Global') {
-      setActiveSidebarSubMenu('Architecture');
-    } else if (activeSidebarHeader !== 'Choose Board Widget') {
-      setActiveSidebarSubMenu('Content');
-    }
+    // if (activeSidebarHeader === 'Architecture') {
+    //   setActiveSidebarSubMenu('Edit');
+    // } else if (activeSidebarHeader !== 'Choose Board Widget') {
+    // }
+    setActiveSidebarSubMenu('Edit');
   }, [activeSidebarHeader]);
 
   const handleBackOrAdd = () => {
 
-    if (activeSidebarHeader === 'Edit Global') {
+    if (activeSidebarHeader === 'Architecture') {
       setActiveSidebarHeader('Choose Board Widget');
       sceneModel?.root?.displayEmptySlots();
     } else if (activeSidebarHeader === 'Choose Board Widget') {
-      setActiveSidebarHeader('Edit Global');
+      setActiveSidebarHeader('Architecture');
     } else {
       setActiveSidebarHeader('Choose Board Widget');
       sceneModel?.setSelectedObject(null);
@@ -83,7 +83,7 @@ const Sidebar: React.FC = () => {
         <>
           <HeaderContainer $isChooseBoardWidget={activeSidebarHeader === 'Choose Board Widget'}>
             <HeaderIcon>
-              {activeSidebarHeader !== 'Edit Global' && (
+              {activeSidebarHeader !== 'Architecture' && (
                 <Icon name={IconName.CARETLEFT} onClick={handleBackOrAdd} />
               )}
             </HeaderIcon>

@@ -7,6 +7,7 @@ import { BackgroundColor, BorderColor, IconColor, SemanticColors, TextColor } fr
 import Text from '@/components/Library/text/Text';
 import { TextSize } from '@constants/text';
 import { IconSize } from '@constants/icon';
+import Tooltip from '@/components/Library/general/Tooltip';
 
 const MenuContainer = styled.div`
   display: flex;
@@ -82,6 +83,8 @@ export const HeaderMenu: React.FC<HeaderMenuProps> = ({
       {headers[activeSidebarHeader].map((subMenuData: SubMenuData) => {
         const isActive = activeSidebarSubMenu === subMenuData.name;
         return (
+          <Tooltip   key={subMenuData.name}
+          delay={800} content={subMenuData.body}>
           <MenuItem
             key={subMenuData.name}
             $active={isActive}
@@ -101,6 +104,7 @@ export const HeaderMenu: React.FC<HeaderMenuProps> = ({
               {subMenuData.name}
             </Text>
           </MenuItem>
+          </Tooltip>
         );
       })}
     </MenuContainer>

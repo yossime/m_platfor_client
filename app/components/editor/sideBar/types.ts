@@ -1,55 +1,52 @@
 
 import { IconName } from '@constants/icon';
-// import { BaseSize, ButtonStyle, ImageStyle, TextStyle } from '../interface/paramsType';
 import { BaseSize, ButtonStyle, ImageStyle, TextStyle } from '../viewport/types';
 import { BoardType } from '../viewport/models/boards/types';
-// import { BoardType } from '../interface/models';
 
 export interface WidgetData {
   name: string;
   icon: IconName;
   type: BoardType;
+  body?: string;
 }
 
 export const widgets = [
-  { type: BoardType.Header, name: 'Header', icon: IconName.ALIGNTOP },
-  { type: BoardType.Product, name: 'Product', icon: IconName.BASKET },
-  { type: BoardType.Slider, name: 'Slider', icon: IconName.SLIDESHOW },
-  { type: BoardType.Image, name: 'Image', icon: IconName.IMAGE },
-  { type: BoardType.Video, name: 'Video', icon: IconName.VIDEO },
-  { type: BoardType.Testimonials, name: 'Testimonials', icon: IconName.QUOTES },
-  { type: BoardType.Subscription, name: 'Subscription', icon: IconName.TEXTBOX },
-  { type: BoardType.Services, name: 'Services', icon: IconName.SQUARESFOUR },
-  { type: BoardType.Gamification, name: 'Gamification', icon: IconName.GAMECONTROLLER },
-  { type: BoardType.Form, name: 'Form', icon: IconName.TABLE },
-  { type: BoardType.Socials, name: 'Socials', icon: IconName.SMILEY },
-  { type: BoardType.Article, name: 'Article', icon: IconName.ARTICLE }
+  { type: BoardType.Header, name: 'Header', icon: IconName.ALIGNTOP , body: "Clickable social media icons"},
+  { type: BoardType.Product, name: 'Product', icon: IconName.BASKET,  body: "Create and display your products"},
+  { type: BoardType.Slider, name: 'Slider', icon: IconName.SLIDESHOW ,body: "Display content with a slider"},
+  { type: BoardType.Image, name: 'Image', icon: IconName.IMAGE, body: "Display an \n image" },
+  { type: BoardType.Video, name: 'Video', icon: IconName.VIDEO , body: "show a video including 360°"},
+  { type: BoardType.Testimonials, name: 'Testimonials', icon: IconName.QUOTES ,body: "quote your customers"},
+  { type: BoardType.Subscription, name: 'Subscription', icon: IconName.TEXTBOX , body: "Present a single field to fill and promote easy subscription"},
+  { type: BoardType.Services, name: 'Services', icon: IconName.SQUARESFOUR,body: "Showcase your best features" },
+  { type: BoardType.Gamification, name: 'Gamification', icon: IconName.GAMECONTROLLER, body: "Add a captivating  interaction" },
+  { type: BoardType.Form, name: 'Form', icon: IconName.TABLE,  body: "Clickable social media icons"},
+  { type: BoardType.Socials, name: 'Socials', icon: IconName.SMILEY , body: "Make it easy to contact with you"},
+  { type: BoardType.Article, name: 'Article', icon: IconName.ARTICLE ,body: "Add textual content" }
 ];
-export type HeaderType = `Edit ${typeof widgets[number]['name']}` | 'Edit Global' | 'Choose Board Widget';
+export type HeaderType = `Edit ${typeof widgets[number]['name']}` |  'Architecture' | 'Choose Board Widget';
 
 
 export interface SubMenuData {
   name: SubMenuType;
   icon: IconName;
+  body: string;
 }
 
-export type SubMenuType = 'Architecture' | 'Global' | 'Content' | 'Style' | 'Advanced';
+export type SubMenuType =  'Edit' | 'Design';
 
 export const subMenus: SubMenuData[] = [
-  { name: 'Architecture', icon: IconName.BUILDING },
-  { name: 'Global', icon: IconName.GLOBE },
-  { name: 'Content', icon: IconName.PENNIB },
-  { name: 'Style', icon: IconName.PRINTROLLRE },
-  { name: 'Advanced', icon: IconName.BRAIN }
+  { name: 'Edit', icon: IconName.EDIT, body: "Edit content" },
+  { name: 'Design', icon: IconName.ARTICLE, body: "Make design changes" }
 ];
 
 export const headers: Record<HeaderType, SubMenuData[]> = {
-  'Edit Global': subMenus.filter(menu => [ 'Architecture','Global'].includes(menu.name)),
+  'Architecture': subMenus.filter(menu => [ 'Edit','Design'].includes(menu.name)),
   'Choose Board Widget': [],
   ...Object.fromEntries(
     widgets.map(widget => [
       `Edit ${widget.name}`,
-      subMenus.filter(menu => ['Content', 'Style'].includes(menu.name))
+      subMenus.filter(menu => ['Edit', 'Design'].includes(menu.name))
     ])
   ),
 };

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ProjectProvider } from "./context/useProjectContext";
-import AuthWrapper from "./components/AuthWrapper";
+import AuthWrapper from "./AuthWrapper";
 import { poppins, figtree } from './fonts'
 import StyledComponentsRegistry from "./registry";
 import { EditorProvider } from "./context/useEditorContext";

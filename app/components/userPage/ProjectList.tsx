@@ -76,6 +76,8 @@ const ProjectList: React.FC = () => {
   return (
     <Container>
       <TextContainer>
+      <Tooltip delay={800} content={"gjyhvkuy"}>
+
         <Text
           size={TextSize.H2}
           weight={FontWeight.NORMAL}
@@ -86,6 +88,7 @@ const ProjectList: React.FC = () => {
             ? `Welcome Back ${user?.displayName || "User"}!`
             : "Let's get started!"}
         </Text>
+        </Tooltip>
         <Text
           size={TextSize.D1}
           weight={FontWeight.SEMI_BOLD}
@@ -98,12 +101,7 @@ const ProjectList: React.FC = () => {
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <ItemsContainer>
-      <Tooltip content="test">
-        <div>
         <CreateProjectBox onClick={handleCreateProject} text="New Project" />
-
-        </div>
-        </Tooltip>
 
         <CreateProjectBox
           disabled={true}
@@ -118,14 +116,14 @@ const ProjectList: React.FC = () => {
             /* handle AI creation */
           }}
           text="Create with AI"
-        />
+          />
         {projects.map((project) => (
             <ProjectBox
               key={project.id}
               project={project}
               onSelect={selectProject}
               onDelete={handleDeleteProject}
-            />
+              />
         ))}
       </ItemsContainer>
     </Container>

@@ -95,6 +95,9 @@ export enum IconName {
     DEVICES = 'DEVICES',
     CHARTLINEUP ='CHARTLINEUP',
     DETECTIVE = 'DETECTIVE',
+    SKECHLOGO = 'SKECHLOGO',
+    PLAYCIRCLE = 'PLAYCIRCLE',
+    EXPORT = 'EXPORT',
 
 
 }
@@ -103,6 +106,9 @@ export enum IconName {
 
 
 export const IconComponents: { [key in IconName]: IconType } = {
+    [IconName.EXPORT]: PiIcons.PiExport,
+    [IconName.PLAYCIRCLE]: PiIcons.PiPlayCircle,
+    [IconName.SKECHLOGO]: PiIcons.PiSketchLogo,
     [IconName.BRIEFCASE]: PiIcons.PiBriefcase,
     [IconName.HANDSHAKE]: PiIcons.PiHandshake,
     [IconName.FINNTHEHUMAN]: PiIcons.PiFinnTheHuman,

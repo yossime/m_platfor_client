@@ -1,7 +1,6 @@
-
+import React, { forwardRef, ForwardedRef } from 'react';
 import { IconColor } from '@constants/colors';
-import {  IconComponents, IconName, IconSize } from '@constants/icon';
-import React from 'react';
+import { IconComponents, IconName, IconSize } from '@constants/icon';
 
 interface IconProps {
   name: IconName;
@@ -11,28 +10,27 @@ interface IconProps {
   onClick?: () => void;
 }
 
- const Icon: React.FC<IconProps> = ({ 
+const Icon = forwardRef<SVGSVGElement, IconProps>(({
   name, 
   size = IconSize.MEDIUM, 
   color = IconColor.ICONCOLOR,
   className,
   onClick
-}) => {
+}, ref) => {
   const IconComponent = IconComponents[name];
   
   return (
-    <IconComponent
-      size={size}
-      color={color}
-      className={className}
-      onClick={onClick}
-    />
+    <span ref={ref as ForwardedRef<HTMLSpanElement>}>
+      <IconComponent
+        size={size}
+        color={color}
+        className={className}
+        onClick={onClick}
+      />
+    </span>
   );
-};
+});
+
+Icon.displayName = 'Icon';
 
 export default Icon;
-
-{/* <div>
-<Icon name={IconName.HOME} size={IconSize.LARGE} color={IconColor.PRIMARY} />
-<span>Home Icon</span>
-</div> */}
