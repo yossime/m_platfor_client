@@ -25,7 +25,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ logo = null, userName, onSignOut, imageUrl }) => {
   return (
-    <NavbarWrapper>
+    <NavbarWrapper className='navbar'>
       <NavbarContainer>
         <LogoContainer>
           {logo != null ? logo : <LogoIcon />}

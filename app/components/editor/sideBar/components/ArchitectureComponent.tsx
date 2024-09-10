@@ -72,7 +72,7 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
         </SubWrapper>
       )}
     
-      <Button
+      <Button 
         type={ButtonType.PRIMARY}
         variant={ButtonVariant.SECONDARY}
         size={ButtonSize.LARGE}
