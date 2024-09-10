@@ -1,7 +1,12 @@
-import { BackgroundColor } from '@constants/colors';
-import styled from 'styled-components';
+import { BackgroundColor } from "@constants/colors";
+import styled from "styled-components";
 
 export const SideBarContainer = styled.div`
+  position:absolute;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
   width: 392px;
   min-width: 216px;
   max-width: 50%;
@@ -9,6 +14,7 @@ export const SideBarContainer = styled.div`
   resize: horizontal;
   display: flex;
   flex-direction: column;
+  z-index:1;
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
 `;
 
@@ -29,7 +35,8 @@ export const HeaderContainer = styled.div<{ $isChooseBoardWidget: boolean }>`
   min-height: 48px;
   width: 100%;
   padding: 0 16px;
-  background-color: ${props => props.$isChooseBoardWidget ? 'white' : 'transparent'};
+  background-color: ${(props) =>
+    props.$isChooseBoardWidget ? "white" : "transparent"};
 `;
 
 export const HeaderTitle = styled.div`
@@ -49,14 +56,13 @@ export const SubHeaderContainer = styled.div`
   }
 `;
 
-
 export const ScrollableContent = styled.div`
   flex-grow: 1;
   overflow-y: auto;
-  scrollbar-width: none; 
-  -ms-overflow-style: none;  
-  
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
   &::-webkit-scrollbar {
-    display: none; 
+    display: none;
   }
 `;

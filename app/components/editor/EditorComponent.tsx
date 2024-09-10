@@ -1,24 +1,19 @@
-"use client"
+"use client";
 
-import Viewport from '@/components/editor/viewport/Viewport';
+import React from "react";
+import styled from "styled-components";
+import Viewport from "@/components/editor/viewport/Viewport";
 import SideBar from "@/components/editor/sideBar/SideBar";
-import styled from 'styled-components';
-import { EditorState, useEditor } from '@/context/useEditorContext';
-import UnityViewer from './preView/UnityViewer';
+import { EditorState, useEditor } from "@/context/useEditorContext";
+import UnityViewer from "./preView/UnityViewer";
+import JoyrideEditor from "../JoyrideEditor";
 
-export const EditorLayout = styled.div`
-  display: flex;
-  height: calc(100vh - 55px);
-  top: 55px;
-  margin-top: 55px;
-  flex: 1;
+const EditorLayout = styled.div`
+  display: flex; 
+  height: 100vh;
+  width: 100vw;
   overflow: hidden;
-`;
 
-export const ResizableHandle = styled.div`
-  width: 5px;
-  background-color: #d0d0d0;
-  cursor: col-resize;
 `;
 
 const EditorComponent: React.FC = () => {
@@ -26,18 +21,19 @@ const EditorComponent: React.FC = () => {
 
   return (
     <>
-      {(editorState !== EditorState.PREVIEW) ? (
+      {editorState !== EditorState.PREVIEW ? (
         <EditorLayout>
+          <JoyrideEditor />
           <SideBar />
           <Viewport />
         </EditorLayout>
       ) : (
         <EditorLayout>
-          <UnityViewer/>
+          <UnityViewer />
         </EditorLayout>
       )}
     </>
   );
-}
+};
 
 export default EditorComponent;

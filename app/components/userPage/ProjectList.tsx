@@ -21,6 +21,7 @@ import { FontFamily, FontWeight, TextSize } from "@constants/text";
 import { TextColor } from "@constants/colors";
 import Tooltip from "../Library/general/Tooltip";
 
+
 const ProjectList: React.FC = () => {
   const { setCurrentProject, projects, setProjects } = useProject();
   const [error, setError] = useState<string>("");
@@ -75,6 +76,7 @@ const ProjectList: React.FC = () => {
 
   return (
     <Container>
+
       <TextContainer>
       <Tooltip delay={800} content={"gjyhvkuy"}>
 

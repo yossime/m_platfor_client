@@ -17,7 +17,7 @@ import { useProject } from '@/context/useProjectContext';
 export const ViewportContainer = styled.div`
   flex-grow: 1;
   overflow: hidden;
-  background: linear-gradient(to bottom, #1e1e2e, #2a2a3a);
+  background-color: #717074;
 `;
 
 const SceneComponent = () => {
@@ -90,11 +90,11 @@ const SceneComponent = () => {
   );
 };
 
-const Viewport = () => {
+const Viewport: React.FC = () => {
+
   return (
-    <ViewportContainer>
-      <div style={{ position: 'absolute', width: '100%', height: '100%' }}>
-        <Canvas style={{ height: '100%', width: '100%' }}
+    <ViewportContainer className="viewport">
+        <Canvas 
           camera={{ fov: 75, near: 0.1, far: 1000, position: [5, 8, 5] }} //yossi - Adjusted initial camera position
         >
           <OrbitControls enableDamping dampingFactor={0.05} />
@@ -104,7 +104,6 @@ const Viewport = () => {
           <Environment preset="sunset" />
           <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
         </Canvas>
-      </div>
     </ViewportContainer>
   );
 };

@@ -20,6 +20,7 @@ import { ISceneObject } from '../viewport/types';
 import { EventManager } from '../viewport/utils/EventManager';
 // import { ISceneObject } from '@/components/editor/interface/models';
 
+
 const Sidebar: React.FC = () => {
   const { sceneModel } = useEditor();
   const [activeSidebarHeader, setActiveSidebarHeader] = useState<HeaderType>('Architecture');
@@ -78,7 +79,7 @@ const Sidebar: React.FC = () => {
   }
 
   return (
-    <SideBarContainer style={{ width: isOpen ? '340px' : '20px' }}>
+    <SideBarContainer className="sidebar">
       {isOpen && (
         <>
           <HeaderContainer $isChooseBoardWidget={activeSidebarHeader === 'Choose Board Widget'}>

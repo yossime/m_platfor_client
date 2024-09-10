@@ -1,7 +1,7 @@
 "use client"
-import React from 'react';
-import styled, { css } from 'styled-components';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import React from 'react';
+import styled from 'styled-components';
 
 
 const EditorLayout = ({ children }: { children: React.ReactNode }) => {
@@ -18,10 +18,13 @@ const EditorLayout = ({ children }: { children: React.ReactNode }) => {
 };
 
 const StyledChild = styled.div`
-  ${props => css`
-    height: 100vh; 
-    overflow: hidden; 
-  `}
+  position: relative;
+  height: 100vh;
+  padding-top: 55px;
+  display: flex;
+  overflow: hidden;
 `;
+
+
 
 export default EditorLayout;

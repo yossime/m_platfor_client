@@ -8,12 +8,6 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 width: 658px;
-height: calc(100vh - ${NAVBAR_HEIGHTS.LAPTOP});
-gap: 40px;
-padding: 64px, 0px, 64px, 0px;
-margin: ${NAVBAR_HEIGHTS.LAPTOP} auto 0;
-overflow-y: auto;
-
 scrollbar-width: thin;
 scrollbar-color: #DEDCFF transparent;
 
