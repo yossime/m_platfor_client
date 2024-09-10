@@ -43,3 +43,6 @@ functions/
 
 cors.json
 .gitignore
+
+
+*temp/
