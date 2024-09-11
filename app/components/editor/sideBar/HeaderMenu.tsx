@@ -84,7 +84,7 @@ export const HeaderMenu: React.FC<HeaderMenuProps> = ({
         const isActive = activeSidebarSubMenu === subMenuData.name;
         return (
           <Tooltip   key={subMenuData.name}
-          delay={800} content={subMenuData.body}>
+         content={subMenuData.body}>
           <MenuItem
             key={subMenuData.name}
             $active={isActive}

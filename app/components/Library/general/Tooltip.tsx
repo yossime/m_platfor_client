@@ -12,11 +12,11 @@ interface TooltipProps {
 
 const Tooltip = React.forwardRef<HTMLElement, TooltipProps>(
   (
-    { content, placement = "bottom", delay = 800, children, arrow = true },
+    { content, placement = "bottom", delay = [800, 100], children, arrow = true },
     ref
   ) => (
     <Tippy
-      content={<div style={{ textAlign: "center"}}>{content}</div>}
+      content={<div style={{ textAlign: "center" }}>{content}</div>}
       placement={placement}
       delay={delay}
       maxWidth={200}
@@ -29,5 +29,3 @@ const Tooltip = React.forwardRef<HTMLElement, TooltipProps>(
 Tooltip.displayName = "Tooltip";
 
 export default Tooltip;
-
-
