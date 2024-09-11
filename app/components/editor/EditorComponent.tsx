@@ -9,11 +9,10 @@ import UnityViewer from "./preView/UnityViewer";
 import JoyrideEditor from "../JoyrideEditor";
 
 const EditorLayout = styled.div`
-  display: flex; 
+  display: flex;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-
 `;
 
 const EditorComponent: React.FC = () => {
@@ -25,6 +24,7 @@ const EditorComponent: React.FC = () => {
         <EditorLayout>
           <JoyrideEditor />
           <SideBar />
+          {/* <hi className="sidebar">"dthyerytuhertyuhert"</hi> */}
           <Viewport />
         </EditorLayout>
       ) : (

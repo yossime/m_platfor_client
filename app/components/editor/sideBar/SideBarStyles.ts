@@ -16,17 +16,9 @@ export const SideBarContainer = styled.div`
   flex-direction: column;
   z-index:1;
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
+  /* background-color: aqua; */
 `;
 
-export const ToggleButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  z-index: 10;
-`;
 
 export const HeaderContainer = styled.div<{ $isChooseBoardWidget: boolean }>`
   display: flex;
