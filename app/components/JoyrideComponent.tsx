@@ -15,7 +15,7 @@ const JoyrideComponent: React.FC<JoyrideComponentProps> = ({
   steps,
 }) => {
   const [run, setRun] = useState(false);
-  const [stepIndex, setStepIndex] = useState(2);
+  const [stepIndex, setStepIndex] = useState(4);
 
   useEffect(() => {
     if (isEnabled) {
@@ -42,20 +42,20 @@ const JoyrideComponent: React.FC<JoyrideComponentProps> = ({
 
   return (
 <Joyride
-  callback={handleJoyrideCallback}
+  // callback={handleJoyrideCallback}
   continuous
-  hideCloseButton
+  // hideCloseButton
   run={run}
-  scrollToFirstStep={false}
-  disableScrolling={true}
+  // scrollToFirstStep={false}
+  disableScrolling={false}
   showProgress
-  stepIndex={stepIndex}
+  // stepIndex={stepIndex}
   steps={steps}
   styles={{
     options: {
       arrowColor: "#594DED",
       backgroundColor: "#594DED",
-      overlayColor: "rgba(0, 0, 0, 0.5)",
+      // overlayColor: "rgba(0, 0, 0, 0.5)",
       primaryColor: "#ffffff",
       textColor: "#ffffff",
       zIndex: 1000,
