@@ -20,16 +20,23 @@ const JoyrideEditor: React.FC = () => {
   const tourSteps: TourStep[] = [ 
     {
       target: ".viewport",
-      content: "We’ll walk you through the basics in just a few steps,",
-      title: ".Hi !Welcome to the Mocart Editor!",
+      content: "We’ll walk you through the basics in just a few steps",
+      title: "Hi !Welcome to the Mocart Editor!",
       placement: "center",
       disableBeacon: true,
     },
     {
       target: ".viewport",
       content: "This environment was designed for you to start with based on your business profile.you can later modify everything using the side bar",
-      title: "Lets dive in!",
+      title: "Let's dive in!",
       placement: "center",
+      disableBeacon: true,
+    },
+    {
+      target: ".sidebar",
+      content: "you can edit them by clicking on them, or click on the “+” to add a new one.",
+      title: "Here’s a list of the boards we added",
+      placement: "right",
       disableBeacon: true,
     },
     {
@@ -44,13 +51,6 @@ const JoyrideEditor: React.FC = () => {
       content: "Left drag - orbit around Right drag - pan (move in a straight line) Scroll - Zoom",
       title: "Use the mouse to navigate",
       placement: "center",
-      disableBeacon: true,
-    },
-    {
-      target: ".sidebar",
-      content: "you can edit them by clicking on them, or click on the “+” to add a new one.",
-      title: "Here’s a list of the boards we added",
-      placement: "right",
       disableBeacon: true,
     },
   ];

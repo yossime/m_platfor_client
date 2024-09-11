@@ -24,7 +24,7 @@ const EditorComponent: React.FC = () => {
         <EditorLayout>
           <JoyrideEditor />
           <SideBar />
-          {/* <hi className="sidebar">"dthyerytuhertyuhert"</hi> */}
+          {/* <div className="sidebar">דת'ירי טוהרטיוהרט</div> */}
           <Viewport />
         </EditorLayout>
       ) : (
