@@ -1,4 +1,3 @@
-import { AppTest } from '@/components/Test';
 
 
 
