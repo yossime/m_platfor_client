@@ -40,7 +40,7 @@ const JoyrideEditor: React.FC = () => {
       disableBeacon: true,
     },
     {
-      target: ".navbar",
+      target: ".navbarButton",
       content: "When ready you can click here to preview your web space in play mode. when done creating click Publish to make your 3D experience live online! ",
       title: "Wrap it all up!",
       placement: "bottom",
@@ -58,6 +58,7 @@ const JoyrideEditor: React.FC = () => {
   useEffect(() => {
     const hasSeenTour = localStorage.getItem("hasSeenEditorTour") === "true";
     setIsJoyrideEnabled(!hasSeenTour);
+    // resetTour();
   }, []);
 
   useLayoutEffect(() => {

@@ -6,7 +6,7 @@ import Viewport from "@/components/editor/viewport/Viewport";
 import SideBar from "@/components/editor/sideBar/SideBar";
 import { EditorState, useEditor } from "@/context/useEditorContext";
 import UnityViewer from "./preView/UnityViewer";
-import JoyrideEditor from "../JoyrideEditor";
+import JoyrideEditor from "../Library/Joyride/JoyrideEditor";
 
 const EditorLayout = styled.div`
   display: flex;
@@ -24,7 +24,6 @@ const EditorComponent: React.FC = () => {
         <EditorLayout>
           <JoyrideEditor />
           <SideBar />
-          {/* <div className="sidebar">דת'ירי טוהרטיוהרט</div> */}
           <Viewport />
         </EditorLayout>
       ) : (
