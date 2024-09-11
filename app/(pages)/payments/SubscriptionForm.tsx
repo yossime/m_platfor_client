@@ -18,7 +18,7 @@ const CustomCardElement = () => {
         color: '#9e2146',
       },
     },
-    hidePostalCode: true,
+    // hidePostalCode: true,
   };
 
   return <CardElement options={cardElementOptions} />;
@@ -40,11 +40,12 @@ const SubscriptionForm = () => {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:3500/payments/validate-discount', {
+      const response = await axios.post('payments/validate-discount', {
         code: discountCode
       });
 
       const data = response.data;
+      console.log("validate-discount", response.data)
       if (data.valid) {
         setDiscountInfo(data);
         setIsFreeMonth(data.isFreeMonth || false);
@@ -67,7 +68,7 @@ const SubscriptionForm = () => {
 
     try {
       if (isFreeMonth) {
-        const response = await axios.post('http://localhost:3500/payments/create-free-subscription', {
+        const response = await axios.post('payments/create-free-subscription', {
           plan,
           interval,
           discountCode,
@@ -95,7 +96,7 @@ const SubscriptionForm = () => {
           throw new Error(paymentMethodError.message);
         }
 
-        const subscriptionResponse = await axios.post('http://localhost:3500/payments/create-subscription', {
+        const subscriptionResponse = await axios.post('payments/create-subscription', {
           paymentMethodId: paymentMethod.id,
           plan,
           interval,

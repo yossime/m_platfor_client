@@ -11,7 +11,7 @@ export default function App() {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const response = await axios.get('http://localhost:3500/payments/config');
+        const response = await axios.get('payments/config');
         const { publishableKey } = response.data;
         setStripePromise(loadStripe(publishableKey));
       } catch (error) {
