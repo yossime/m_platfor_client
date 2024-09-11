@@ -59,7 +59,6 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
     .join('')
     .toUpperCase()
     .slice(0, 2);
-console.log(imageUrl);
   return (
     <AvatarContainer $size={size} $backgroundColor={backgroundColor} onClick={onClick}>
       {imageUrl ? (

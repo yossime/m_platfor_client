@@ -1,60 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components";
 import JoyrideComponent, { TourStep } from "./JoyrideComponent";
 
-const EditorLayout = styled.div`
-  position: relative;
-`;
-
-const JoyrideOverlay = styled.div`
-  overflow: hidden;
+const Layout = styled.div`
+  position: fixed;
   top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-pointer-events: none; /* Ensures the Joyride component doesn't affect the layout */
-z-index: 1000;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* z-index: 1000; */
 `;
 
-0;
 
 const JoyrideEditor: React.FC = () => {
   const [isJoyrideEnabled, setIsJoyrideEnabled] = useState(true);
+  const [isTourReady, setIsTourReady] = useState(false);
 
-  const tourSteps: TourStep[] = [
+  const tourSteps: TourStep[] = [ 
     {
-      target: ".navbarButton",
-      content:
-        "This is the navigation bar where you can access different sections of the editor.",
-      title: "Navbar",
+      target: ".viewport",
+      content: "We’ll walk you through the basics in just a few steps,",
+      title: ".Hi !Welcome to the Mocart Editor!",
+      placement: "center",
+      disableBeacon: true,
+    },
+    {
+      target: ".viewport",
+      content: "This environment was designed for you to start with based on your business profile.you can later modify everything using the side bar",
+      title: "Lets dive in!",
+      placement: "center",
+      disableBeacon: true,
+    },
+    {
+      target: ".navbar",
+      content: "When ready you can click here to preview your web space in play mode. when done creating click Publish to make your 3D experience live online! ",
+      title: "Wrap it all up!",
       placement: "bottom",
+      disableBeacon: true,
     },
     {
       target: ".viewport",
-      content:
-        "This is the main viewport where you can see and interact with your 3D scene.",
-      title: "Viewport",
+      content: "Left drag - orbit around Right drag - pan (move in a straight line) Scroll - Zoom",
+      title: "Use the mouse to navigate",
       placement: "center",
-    },
-    {
-      target: ".viewport",
-      content:
-        "This is the main viewport where you can see and interact with your 3D scene.",
-      title: "Viewport",
-      placement: "center",
+      disableBeacon: true,
     },
     {
       target: ".sidebar",
-      content: "This is the sidebar where you can edit your project settings.",
-      title: "Sidebar",
+      content: "you can edit them by clicking on them, or click on the “+” to add a new one.",
+      title: "Here’s a list of the boards we added",
       placement: "right",
-    },
-    {
-      target: ".viewport",
-      content:
-        "This is the main viewport where you can see and interact with your 3D scene.",
-      title: "Viewport",
-      placement: "center",
+      disableBeacon: true,
     },
   ];
 
@@ -63,14 +60,39 @@ const JoyrideEditor: React.FC = () => {
     setIsJoyrideEnabled(!hasSeenTour);
   }, []);
 
+  useLayoutEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsTourReady(true);
+    }, 500); 
+
+    return () => clearTimeout(timeout); 
+  }, []);
+
+  const clearTourMemory = () => {
+    localStorage.removeItem('hasSeenEditorTour');
+  };
+
+  const resetTour = () => {
+    clearTourMemory();
+    setIsJoyrideEnabled(true);
+  };
+
+  useLayoutEffect(() => {
+    const navbarExists = document.querySelector(".navbar");
+    const sidebarExists = document.querySelector(".sidebar");
+  
+    if (!navbarExists || !sidebarExists) {
+      console.log("Navbar or Sidebar element not found!");
+    }
+  }, []);
+  
+
   return (
-    <EditorLayout>
-      {isJoyrideEnabled && (
-        <JoyrideOverlay>
-          <JoyrideComponent steps={tourSteps} isEnabled={true} />
-        </JoyrideOverlay>
+    <Layout>
+      {isJoyrideEnabled && isTourReady && (
+          <JoyrideComponent isEnabled={isJoyrideEnabled} steps={tourSteps} />
       )}
-    </EditorLayout>
+    </Layout>
   );
 };
 

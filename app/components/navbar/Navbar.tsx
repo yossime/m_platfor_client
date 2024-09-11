@@ -2,7 +2,6 @@
 "use client"
 import React from 'react';
 import { ButtonType, ButtonVariant, ButtonSize, ButtonMode } from '@constants/button';
-import Text from '@components/Library/text/Text';
 import LogoIcon from './LogoIcon.svg';
 import {
   NavbarWrapper,
@@ -41,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = ({ logo = null, userName, onSignOut, image
           size={ButtonSize.SMALL}
           icon={IconName.SKECHLOGO}
           text="Get Plus"
-          onClick={() => console.log('Sign out clicked')}
+          onClick={() => console.log('Get Plus clicked')}
           />
           </Tooltip>
           <UserAvatar name={userName} size={40} imageUrl={imageUrl} />

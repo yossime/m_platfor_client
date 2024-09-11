@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import EditorComponent from "@/components/editor/EditorComponent";
 import { useProject } from '@/context/useProjectContext';
+import JoyrideEditor from '@/components/JoyrideEditor';
 
 
 const Editor: React.FC = () => {
@@ -15,7 +16,9 @@ const Editor: React.FC = () => {
   }, [setEditorMode]);
 
   return (
+    <>
     <EditorComponent />
+    </>
   );
 }
 
