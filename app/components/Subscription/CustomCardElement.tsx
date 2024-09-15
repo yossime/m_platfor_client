@@ -2,6 +2,7 @@ import React from 'react';
 import { CardElement } from "@stripe/react-stripe-js";
 import styled from 'styled-components';
 import { TextColor } from '@constants/colors';
+import { Center } from '@react-three/drei';
 
 const CardElementContainer = styled.div`
   width: 100%;
@@ -11,6 +12,7 @@ const CardElementContainer = styled.div`
   border-radius: 4px;
   background-color: white;
   align-items: center; 
+  text-align:center;
   justify-content: center; 
 `;
 
@@ -24,10 +26,6 @@ const CustomCardElement = () => {
         '::placeholder': {
           color: '#e2e9f0',
         },
-        padding: '10px 12px',
-        display: 'flex',
-        alignItems: 'center', 
-        justifyContent: 'center', 
       },
       invalid: {
         color: `${TextColor.BLACK}`,

@@ -4,7 +4,7 @@ export const SubscriptionBoxContainer = styled.div`
   background-color: white;
   max-width: 320px;
   min-width: 168px;
-  min-height: 700px;
+  height: 700px;
   gap: 16px;
   border-radius: 12px;
   display: flex;

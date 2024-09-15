@@ -36,7 +36,6 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
   title,
   onClick,
 }) => {
-
   const renderPrice = () => {
     if (typeof price === "number") {
       const salePrice = Math.floor(price - price * 0.18);
@@ -67,7 +66,7 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
             weight={FontWeight.NORMAL}
             color={TextColor.PRIMARY_TEXT}
           >
-            {`$${(salePrice * 12)} Billed Annually`}
+            {`$${salePrice * 12} Billed Annually`}
           </Text>
         </>
       );
@@ -87,25 +86,40 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
   };
 
   return (
-    <SubscriptionBoxContainer onClick={() => onClick(title)}>
+    <SubscriptionBoxContainer>
       <TopContainer>
         <SubscriptionTitle>
           <Text size={TextSize.H2} weight={FontWeight.SEMI_BOLD}>
             {title}
           </Text>
-          <Text weight={FontWeight.LIGHT} size={TextSize.H3} family={FontFamily.Poppins}>{subTitle}</Text>
+          <Text
+            weight={FontWeight.LIGHT}
+            size={TextSize.H3}
+            family={FontFamily.Poppins}
+          >
+            {subTitle}
+          </Text>
         </SubscriptionTitle>
         <PriceContainer>{renderPrice()}</PriceContainer>
       </TopContainer>
       <Button
         size={ButtonSize.LARGE}
         type={ButtonType.PRIMARY}
-        variant={buttonText === "Get Plus" ? ButtonVariant.PRIMARY: ButtonVariant.SECONDARY}
+        variant={
+          buttonText === "Get Plus"
+            ? ButtonVariant.PRIMARY
+            : ButtonVariant.SECONDARY
+        }
         text={buttonText}
         fullWidth
+        onClick={() => onClick(title)}
       ></Button>
       <Includes>
-        <Text size={TextSize.TEXT2} color={TextColor.SECONDARY_TEXT} weight={FontWeight.SEMI_BOLD}>
+        <Text
+          size={TextSize.TEXT2}
+          color={TextColor.SECONDARY_TEXT}
+          weight={FontWeight.SEMI_BOLD}
+        >
           {includeTitle}
         </Text>
         {includes.map((item, index) => (
