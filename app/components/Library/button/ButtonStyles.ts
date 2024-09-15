@@ -13,7 +13,10 @@ interface StyledButtonProps {
 export const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
-  justify-content: ${props => props.$iconOnly ? 'center' : 'flex-start'};
+  text-align: center;
+  /* justify-content: ${props => props.$iconOnly ? 'center' : 'flex-start'}; */
+  justify-content: center;
+
   border-radius: 4px;
   width: ${props => props.$fullWidth ? '100%' : 'auto'};
   transform: translateY(0);

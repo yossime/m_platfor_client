@@ -34,8 +34,8 @@ const ButtonsContainer: React.FC = () => {
         projectName: contextData.Name.value,
         projectParams: contextData
       };
-      const result = await createProject(newProject, user);
       router.push('/editor');
+      const result = await createProject(newProject, user);
       toast.success('Project created successfully!');
       setProjects([...projects, { id: result.projectId, projectName: contextData.Name.value }]);
       setCurrentProject(result.projectId);

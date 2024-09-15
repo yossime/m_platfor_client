@@ -1,12 +1,28 @@
 import { TextColor } from "@constants/colors";
 import {
-  createTextStyle,
   FontFamily,
   FontWeight,
   TextSize,
   TextStyleProps,
 } from "@constants/text";
 import React from "react";
+
+
+
+export const createTextStyle = ({
+  size,
+  family,
+  weight,
+  color,
+  cursorStyle
+}: TextStyleProps) => ({
+  fontSize: size,
+  fontFamily: family,
+  fontWeight: weight,
+  color: color,
+  cursor: cursorStyle,
+  whiteSpace: 'pre-wrap'
+});
 
 interface TextComponentProps extends TextStyleProps {
   children: React.ReactNode;

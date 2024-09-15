@@ -50,6 +50,7 @@ export enum TextColor {
     PLACEHOLDER = '#676879',
     LINK = '#1877F2',
     BLACK = '#000000',
+    PRIMARY = "#594DED",
 }
 
 export enum IconColor {

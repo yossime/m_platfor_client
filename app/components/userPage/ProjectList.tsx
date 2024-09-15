@@ -78,7 +78,6 @@ const ProjectList: React.FC = () => {
     <Container>
 
       <TextContainer>
-      <Tooltip delay={800} content={"gjyhvkuy"}>
 
         <Text
           size={TextSize.H2}
@@ -90,7 +89,6 @@ const ProjectList: React.FC = () => {
             ? `Welcome Back ${user?.displayName || "User"}!`
             : "Let's get started!"}
         </Text>
-        </Tooltip>
         <Text
           size={TextSize.D1}
           weight={FontWeight.SEMI_BOLD}

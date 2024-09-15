@@ -1,19 +1,24 @@
-
-"use client"
-import React from 'react';
-import { ButtonType, ButtonVariant, ButtonSize, ButtonMode } from '@constants/button';
-import LogoIcon from './LogoIcon.svg';
+"use client";
+import React, { useState } from "react";
+import {
+  ButtonType,
+  ButtonVariant,
+  ButtonSize,
+  ButtonMode,
+} from "@constants/button";
+import LogoIcon from "./LogoIcon.svg";
 import {
   NavbarWrapper,
   NavbarContainer,
   LogoContainer,
   UserContainer,
-} from './NavbarStyles';
-import UserAvatar from './UserAvatar';  // Import the new UserAvatar component
-import EditorButtons from './EditorButton';
-import Button from '../Library/button/Button';
-import { IconName } from '@constants/icon';
-import Tooltip from '../Library/general/Tooltip';
+} from "./NavbarStyles";
+import UserAvatar from "./UserAvatar"; // Import the new UserAvatar component
+import EditorButtons from "./EditorButton";
+import Button from "../Library/button/Button";
+import { IconName } from "@constants/icon";
+import Tooltip from "../Library/general/Tooltip";
+import { usePathname, useRouter } from "next/navigation";
 
 interface NavbarProps {
   userName?: string | null;
@@ -22,30 +27,47 @@ interface NavbarProps {
   imageUrl?: string | null;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ logo = null, userName, onSignOut, imageUrl }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  logo = null,
+  userName,
+  onSignOut,
+  imageUrl,
+}) => {
+  const router = useRouter();
+
+  const handlePlus = () => {
+    router.push("/pricing_plans");
+  };
+  const pathname = usePathname();
+
+  const isSubscriptionPage = pathname.startsWith("/pricing_plans");
   return (
-    <NavbarWrapper className='navbar'>
+    <NavbarWrapper className="navbar">
       <NavbarContainer>
-        <LogoContainer>
-          {logo != null ? logo : <LogoIcon />}
-        </LogoContainer>
+        <LogoContainer>{logo != null ? logo : <LogoIcon />}</LogoContainer>
         <UserContainer>
-          <EditorButtons/>
-          {userName && 
-          <>
-          <Tooltip content={"Click here to upgrade account or review pricing plans"}>
-          <Button
-          type={ButtonType.PRIMARY}
-          variant={ButtonVariant.TERTIARY}
-          size={ButtonSize.SMALL}
-          icon={IconName.SKECHLOGO}
-          text="Get Plus"
-          onClick={() => console.log('Get Plus clicked')}
-          />
-          </Tooltip>
-          <UserAvatar name={userName} size={40} imageUrl={imageUrl} />
-          </>
-          }   
+          <EditorButtons />
+          {userName && (
+            <>
+              {!isSubscriptionPage && (
+                <Tooltip
+                  content={
+                    "Click here to upgrade account or review pricing plans"
+                  }
+                >
+                  <Button
+                    type={ButtonType.PRIMARY}
+                    variant={ButtonVariant.TERTIARY}
+                    size={ButtonSize.SMALL}
+                    icon={IconName.SKECHLOGO}
+                    text="Get Plus"
+                    onClick={handlePlus}
+                  />
+                </Tooltip>
+              )}
+              <UserAvatar name={userName} size={40} imageUrl={imageUrl} />
+            </>
+          )}
         </UserContainer>
       </NavbarContainer>
     </NavbarWrapper>

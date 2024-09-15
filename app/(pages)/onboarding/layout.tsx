@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import ProtectedRoute from '@/components/ProtectedRoute';
+import ProtectedRoute from '@/utils/ProtectedRoute';
 import {OnboardingProvider} from '@/context/useOnboarding'
 
 

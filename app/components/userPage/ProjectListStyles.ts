@@ -10,7 +10,7 @@ justify-content: center;
 width: 658px;
 scrollbar-width: thin;
 scrollbar-color: #DEDCFF transparent;
-gap: 24px;
+gap: 40px;
 
 `;
 

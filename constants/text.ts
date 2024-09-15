@@ -36,17 +36,3 @@ export interface TextStyleProps {
     cursorStyle?: 'default' | 'pointer' | 'text';
 }
 
-export const createTextStyle = ({
-    size,
-    family,
-    weight,
-    color,
-    cursorStyle
-}: TextStyleProps) => ({
-    fontSize: size,
-    fontFamily: family,
-    fontWeight: weight,
-    color: color,
-    cursor: cursorStyle,
-    whiteSpace: 'pre-wrap'
-});
