@@ -1,3 +1,4 @@
+
 import { TextColor } from "@constants/colors";
 import {
   FontFamily,
@@ -6,23 +7,25 @@ import {
   TextStyleProps,
 } from "@constants/text";
 import React from "react";
+import styled from "styled-components";
 
-
-
-export const createTextStyle = ({
-  size,
-  family,
-  weight,
-  color,
-  cursorStyle
-}: TextStyleProps) => ({
-  fontSize: size,
-  fontFamily: family,
-  fontWeight: weight,
-  color: color,
-  cursor: cursorStyle,
-  whiteSpace: 'pre-wrap'
-});
+const StyledText = styled.span<TextStyleProps>`
+  font-size: ${({ size }) => size};
+  font-family: ${({ family }) => {
+    switch (family) {
+      case FontFamily.Poppins:
+        return 'var(--font-poppins)';
+      case FontFamily.Figtree:
+        return 'var(--font-figtree)';
+      default:
+        return 'var(--font-figtree)'; 
+    }
+  }};
+  font-weight: ${({ weight }) => weight};
+  color: ${({ color }) => color};
+  cursor: ${({ cursorStyle }) => cursorStyle || "default"};
+  white-space: pre-wrap;
+`;
 
 interface TextComponentProps extends TextStyleProps {
   children: React.ReactNode;
@@ -49,12 +52,20 @@ const Text = React.forwardRef<HTMLSpanElement, TextComponentProps>(
       else return FontFamily.Poppins;
     };
     family = getFont();
-    const style = createTextStyle({ size, family, weight, color, cursorStyle });
 
     return (
-      <span ref={ref} style={style} className={className} onClick={onClick}>
+      <StyledText
+        ref={ref}
+        size={size}
+        family={family}
+        weight={weight}
+        color={color}
+        cursorStyle={cursorStyle}
+        className={className}
+        onClick={onClick}
+      >
         {children}
-      </span>
+      </StyledText>
     );
   }
 );

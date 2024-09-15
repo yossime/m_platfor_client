@@ -91,7 +91,7 @@ const EditorButtons: React.FC = () => {
     < >
 
         <Tooltip content={"Preview your environment in play mode"}>
-        <Icon
+        <Icon 
           name={getIcon()}
           size={IconSize.LARGE}
           onClick={handlePreviewClick}
