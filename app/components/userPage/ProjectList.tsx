@@ -19,7 +19,6 @@ import CreateProjectBox from "../Library/boxes/projectBox/createProjectBox/Creat
 import ProjectBox from "../Library/boxes/projectBox/projectBox/ProjectBox";
 import { FontFamily, FontWeight, TextSize } from "@constants/text";
 import { TextColor } from "@constants/colors";
-import Tooltip from "../Library/general/Tooltip";
 
 
 const ProjectList: React.FC = () => {

@@ -50,7 +50,9 @@ const ProjectBox = React.forwardRef<HTMLDivElement, ProjectBoxProps>(
           <ProjectImage src={project.imageUrl} alt={project.projectName} />
         </ProjectImageContainer>
         <ProjectTitle>
-          <Text size={TextSize.TEXT2}>{project.projectName}</Text>
+          <Text size={TextSize.TEXT2} cursorStyle="pointer">
+            {project.projectName}
+          </Text>
         </ProjectTitle>
       </ProjectBoxContainer>
     );
