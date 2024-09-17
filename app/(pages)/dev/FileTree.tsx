@@ -162,7 +162,7 @@ const FileTree: React.FC<FileTreeProps> = ({
             </>
           ) : (
             <>
-              <ItemName onClick={() => isFolder && toggleFolder(key)}>
+              <ItemName onClick={() => isFolder ? toggleFolder(key) : onDownload(itemPath)}>
                 {isFolder ? (expanded[key] ? '📂' : '📁') : '📄'} {key}
               </ItemName>
               <StyledButton onClick={() => setEditingItem(itemPath)}><Edit2 size={16} /></StyledButton>
