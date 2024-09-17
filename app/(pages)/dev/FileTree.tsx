@@ -34,11 +34,16 @@ const TreeItem = styled.li`
   align-items: center;
 `;
 
-const ItemName = styled.span`
+
+const FolderName = styled.span`
   cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
+`;
+
+const ItemName = styled.span`
+  cursor: default;
 `;
 
 const StyledButton = styled.button`
@@ -162,18 +167,25 @@ const FileTree: React.FC<FileTreeProps> = ({
             </>
           ) : (
             <>
-              <ItemName onClick={() => isFolder ? toggleFolder(key) : onDownload(itemPath)}>
-                {isFolder ? (expanded[key] ? '📂' : '📁') : '📄'} {key}
-              </ItemName>
-              <StyledButton onClick={() => setEditingItem(itemPath)}><Edit2 size={16} /></StyledButton>
-              <StyledButton onClick={() => handleDelete(itemPath, isFolder)}><Trash2 size={16} /></StyledButton>
-              {isFolder && (
+              {isFolder ? (
                 <>
-                  {/* <StyledButton onClick={() => handleAddFolder(itemPath)}><FolderPlus size={16} /></StyledButton> */}
-                  {/* <StyledButton onClick={() => handleAddFile(itemPath)}><FilePlus size={16} /></StyledButton> */}
-                  <FileUploadButton folderPath={itemPath} onUploadSuccess={onRefresh} />
+                  <FolderName onClick={() => isFolder && toggleFolder(key)}>
+                    {expanded[key] ? '📂' : '📁'} {key}
+                  </FolderName>
                 </>
-              )}
+              ) :
+                (
+                  <>
+                    <ItemName>
+                      📄{key}
+                    </ItemName>
+                    <FileUploadButton folderPath={itemPath} onUploadSuccess={onRefresh} />
+                    <StyledButton onClick={() => setEditingItem(itemPath)}><Edit2 size={16} /></StyledButton>
+                    <StyledButton onClick={() => handleDelete(itemPath, isFolder)}><Trash2 size={16} /></StyledButton>
+                    {/* <StyledButton onClick={() => handleAddFolder(itemPath)}><FolderPlus size={16} /></StyledButton> */}
+                    {/* <StyledButton onClick={() => handleAddFile(itemPath)}><FilePlus size={16} /></StyledButton> */}
+                  </>
+                )}
             </>
           )}
           {!isFolder && (
