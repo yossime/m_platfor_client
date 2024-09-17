@@ -168,7 +168,6 @@ export abstract class SceneObject implements ISceneObject {
       console.warn('Attempted to apply video material to non-Mesh object');
       return;
     }
-    // https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/video_1.mp4?alt=media&token=d948abc7-d187-4612-b315-8109faf98b84
     const newMaterial = new MeshBasicMaterial();
     const textureManager = TextureManager.getInstance();
 
@@ -277,7 +276,6 @@ export abstract class SceneObject implements ISceneObject {
   };
 
   protected applyText(mesh: Mesh, text: IContentText): void {
-    console.log('apply', mesh, text);
     this.straightText(mesh, text)
   }
 
