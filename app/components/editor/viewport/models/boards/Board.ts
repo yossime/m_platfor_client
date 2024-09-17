@@ -13,43 +13,19 @@ import {
   ProductType,
   FormatBoard,
 } from "@/components/editor/types/index";
-import { BoardType } from "./types";
+import { BoardType } from "@/components/editor/types";
 import { SceneObject } from "../SceneObject";
 import { DouProduct } from "../products/DouProduct";
 
 export abstract class Board extends SceneObject {
-  // public abstract getConfiguration():Map<EConfigType, EConfiguration> | null;
-
-  // public abstract setLogoConfiguration(type: EConfigType, config: EConfiguration): void;
-
-  // public abstract getLogoConfiguration(): Map<EConfigType, EConfiguration> | null;
-
-  // public abstract getFormat(): FormatBoard | null;
-
-  // public abstract setFormat(format: FormatBoard ):void;
-
-  public getConfiguration(): Map<EConfigType, EConfiguration> | null {
-    return null;
-  }
-
-  public setLogoConfiguration(
-    type: EConfigType,
-    config: EConfiguration
-  ): void {}
-
-  public getLogoConfiguration(): Map<EConfigType, EConfiguration> | null {
-    return null;
-  }
-
-  public getFormat(): FormatBoard | null {
-    return null;
-  }
-
-  public setFormat(format: FormatBoard): void {}
-
+  private format: FormatBoard | null = null;
   public slotNumber = -1;
   protected selectedSlot: CustomObject3D | null = null;
   protected configuration = new Map<EConfigType, EConfiguration>([
+    [EConfigType.HORIZONTAL, EConfiguration.CENTER],
+    [EConfigType.VERTICAL, EConfiguration.CENTER],
+  ]);
+  protected logoConfiguration = new Map<EConfigType, EConfiguration>([
     [EConfigType.HORIZONTAL, EConfiguration.CENTER],
     [EConfigType.VERTICAL, EConfiguration.CENTER],
   ]);
@@ -64,11 +40,32 @@ export abstract class Board extends SceneObject {
 
   public abstract addChild(sceneObject: ISceneObject): void;
 
+  public getConfiguration(): Map<EConfigType, EConfiguration> | null { return this.configuration };
+
+  public getFormat(): FormatBoard | null { return this.format };
+
+  public getLogoConfiguration(): Map<EConfigType, EConfiguration> | null { return null };
+
+  public setLogoConfiguration(
+    type: EConfigType,
+    config: EConfiguration
+  ): void { }
+
+
+
+  public setFormat(format: FormatBoard): void {
+    this.format = format;
+    this.loadModelAndDisplay();
+  }
+
+
   protected async loadModelAndDisplay(
     onLoad?: (model?: Object3D) => void
   ): Promise<void> {
     try {
-      const boardUrl = `https://storage.googleapis.com/library-all-test/borads/${this.type}.fbx`;
+      if (!this.format) return;
+      // const boardUrl = `https://storage.googleapis.com/library-all-test/borads/${this.type}.fbx`;
+      const boardUrl = `${this.libraryUrl}/borads/${this.type}/${this.format}.fbx`;
       const model = await this.loader.loadModel(boardUrl);
 
       const customModel = model.children[0] as CustomObject3D;
@@ -102,6 +99,7 @@ export abstract class Board extends SceneObject {
   ): Promise<void> {
     let geometry;
 
+
     if (type === ContentDataType.IMAGE) {
       const configV = this.configuration.get(EConfigType.VERTICAL);
       const configH = this.configuration.get(EConfigType.HORIZONTAL);
@@ -123,9 +121,13 @@ export abstract class Board extends SceneObject {
 
     if (geometry instanceof Mesh) {
       if (material.customMaterial) {
-        await this.changeMaterial(geometry, material.customMaterial);
+        // await this.changeMaterial(geometry, material.customMaterial);
+        await this.applyVideoMaterial(geometry, material.customMaterial.diffuse?.map!);
+        console.log('sssssssssss', material.customMaterial.diffuse?.map)
       } else if (material.renderr) {
         await this.applyRenderMaterial(geometry, material.renderr);
+      } else if (material.video) {
+      await this.applyVideoMaterial(geometry, material.video);
       }
 
       this.contentData.set(type, {

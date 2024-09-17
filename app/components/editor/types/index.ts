@@ -1,5 +1,4 @@
 import { Object3D, Vector3, Euler, Material, Texture } from 'three';
-import { BoardType } from '../viewport/models/boards/types';
 import { ArchitectureType } from '../viewport/models/architectures/types';
 
 
@@ -60,16 +59,16 @@ export enum EConfiguration {
 
 
 export enum ContentDataType {
-  TITLE = 'TITLE',
-  SUB_TITLE = 'SUB_TITLE',
-  BUTTON = 'BUTTON',
-  TEXT = 'TEXT',
-  SELF = 'SELF',
-  IMAGE = 'IMAGE',
-  IMAGE_0 = 'IMAGE_0',
-  IMAGE_1 = 'IMAGE_1',
-  LOGO = 'LOGO',
-  FORM = 'FORM',
+  TITLE = 'title',
+  SUB_TITLE = 'sub_title',
+  BUTTON = 'button',
+  TEXT = 'text',
+  SELF = 'self',
+  IMAGE = 'image',
+  IMAGE_0 = 'image_0',
+  IMAGE_1 = 'image_1',
+  LOGO = 'logo',
+  FORM = 'form',
 }
 
 
@@ -123,7 +122,7 @@ export interface ICustomMaterial {
 
 export interface IContentMaterial {
   slotname?: MaterialSlotName;
-  video?: ITextureSource;
+  video?: string;
   renderr?: ERenderrType;
   customMaterial?: ICustomMaterial;
 }
@@ -272,7 +271,26 @@ export enum ImageStyle {
 
 
 export enum FormatBoard {
-  Model = "Model",
-  Frame = "Frame",
-  Simple = "Simple",
+  Model = "model",
+  Frame = "frame",
+  Simple = "simple",
+}
+export enum BoardType {
+  Product = 'Product_Duo_Test2',
+  // Product = 'DisplayDuo',
+  // Product = 'ProtBoard',
+  MasterTextOn = 'header',
+  Video = 'video',
+  Header = 'header',
+  Image = 'image',
+  Slider = 'SliderBoard',
+  Testimonials = 'TestimonialsBoard',
+  Subscription = 'SubscriptionBoard',
+  Services = 'ServicesBoard',
+  Gamification = 'GamificationBoard',
+  Form = 'FormBoard',
+  Socials = 'SocialsBoard',
+  Article = 'ArticleBoard',
+  DisplayStands = 'stands',
+  DisplayDuo = 'DisplayDuo'
 }
