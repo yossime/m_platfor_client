@@ -1,5 +1,4 @@
 import { Object3D, Vector3, Euler, Material, Texture } from 'three';
-import { BoardType } from '../viewport/models/boards/types';
 import { ArchitectureType } from '../viewport/models/architectures/types';
 
 
@@ -123,7 +122,7 @@ export interface ICustomMaterial {
 
 export interface IContentMaterial {
   slotname?: MaterialSlotName;
-  video?: ITextureSource;
+  video?: string | File;
   renderr?: ERenderrType;
   customMaterial?: ICustomMaterial;
 }
@@ -275,4 +274,22 @@ export enum FormatBoard {
   Model = "Model",
   Frame = "Frame",
   Simple = "Simple",
+}
+
+export enum BoardType {
+  Product = 'Product_Duo_Test2',
+  MasterTextOn = 'MasterTextOn2',
+  Header = 'MasterTextOn2',
+  Image = 'header_image',
+  Slider = 'SliderBoard',
+  Video = 'VideoBoard',
+  Testimonials = 'TestimonialsBoard',
+  Subscription = 'SubscriptionBoard',
+  Services = 'ServicesBoard',
+  Gamification = 'GamificationBoard',
+  Form = 'FormBoard',
+  Socials = 'SocialsBoard',
+  Article = 'ArticleBoard',
+  DisplayStands = 'stands',
+  DisplayDuo = 'DisplayDuo'
 }

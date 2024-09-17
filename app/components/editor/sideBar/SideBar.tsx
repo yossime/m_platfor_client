@@ -16,9 +16,8 @@ import Text from '@/components/Library/text/Text';
 import { TextSize } from '@constants/text';
 import Icon from '@/components/Library/icon/Icon';
 import { IconName } from '@constants/icon';
-import { ISceneObject } from '../types';
-import { EventManager } from '../viewport/utils/EventManager';
-// import { ISceneObject } from '@/components/editor/interface/models';
+import { BoardType, ISceneObject } from '../types';
+import { Board } from '../viewport/models/boards/Board';
 
 
 const Sidebar: React.FC = () => {
@@ -26,38 +25,20 @@ const Sidebar: React.FC = () => {
   const [activeSidebarHeader, setActiveSidebarHeader] = useState<HeaderType>('Architecture');
   const [activeSidebarSubMenu, setActiveSidebarSubMenu] = useState<SubMenuType>('Edit');
   const [isOpen, setIsOpen] = useState(true);
-  // const [selectedObject, setSelectedObject] = useState<ISceneObject | null>(null); //yossi
+
 
   useEffect(() => {
-    const handleSelectionChange = () => {
-      const selected = sceneModel?.getSelectedObject() ?? null; // yossi
-      // setSelectedObject(selected);
-    };
-
-    // sceneModel?.on('selectionChange', handleSelectionChange); //yossi
-
-    return () => {
-      // sceneModel?.off('selectionChange', handleSelectionChange); //yossi
-    };
-
-  }, [sceneModel]);
-
-  useEffect(() => {
-    const manager = EventManager.getInstance();
     const selectedObject = sceneModel?.getSelectedObject();
-
-    if (selectedObject && isBoardObject(selectedObject)) {
-      setActiveSidebarHeader(`Edit ${selectedObject.name || 'Board'}` as HeaderType);
+  
+    if (selectedObject && selectedObject instanceof  Board  ) {
+      setActiveSidebarHeader(`Edit ${selectedObject.type || 'Board'}` as HeaderType);
     } else {
       setActiveSidebarHeader('Architecture');
     }
-  }, [sceneModel?.getSelectedObject()]); //yossi
+  }, [sceneModel]);
+  
 
   useEffect(() => {
-    // if (activeSidebarHeader === 'Architecture') {
-    //   setActiveSidebarSubMenu('Edit');
-    // } else if (activeSidebarHeader !== 'Choose Board Widget') {
-    // }
     setActiveSidebarSubMenu('Edit');
   }, [activeSidebarHeader]);
 
@@ -74,9 +55,6 @@ const Sidebar: React.FC = () => {
     }
   };
 
-  function isBoardObject(obj: ISceneObject): obj is ISceneObject & { name: string } {
-    return 'type' in obj && typeof obj.type === 'string' && obj.type.includes('Board') && 'name' in obj;
-  }
 
   return (
 

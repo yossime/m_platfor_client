@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Divider } from "../../CommonStyles";
 import {
   ContentInput,
-  ContentMatrielUpload,
+  ContentImageUpload,
 } from "../../GenericBoardComponents";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import { ContentDataType } from "@/components/editor/types/index";
@@ -46,7 +46,7 @@ export const ImageContentComponent: React.FC = () => {
                 isOpen={openSections.image}
                 onToggle={handleSectionToggle("image")}
               >
-                <ContentMatrielUpload type={ContentDataType.IMAGE} />
+                <ContentImageUpload type={ContentDataType.IMAGE} />
               </DataObfuscator>
               <Divider />
             </>

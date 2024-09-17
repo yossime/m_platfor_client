@@ -1,5 +1,5 @@
 import { ISceneObjectOptions, ISceneObject } from '@/components/editor/types/index';
-import { BoardType } from './types';
+import { BoardType } from "@/components/editor/types";
 import { Board } from './Board';
 
 export class MasterBoard extends Board {

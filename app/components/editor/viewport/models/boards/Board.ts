@@ -13,7 +13,7 @@ import {
   ProductType,
   FormatBoard,
 } from "@/components/editor/types/index";
-import { BoardType } from "./types";
+import { BoardType } from "@/components/editor/types";
 import { SceneObject } from "../SceneObject";
 import { DouProduct } from "../products/DouProduct";
 
@@ -27,6 +27,7 @@ export abstract class Board extends SceneObject {
   // public abstract getFormat(): FormatBoard | null;
 
   // public abstract setFormat(format: FormatBoard ):void;
+
 
   public getConfiguration(): Map<EConfigType, EConfiguration> | null {
     return null;

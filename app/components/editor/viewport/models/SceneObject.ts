@@ -9,7 +9,7 @@ import { ModelLoader } from '../loaderes/ModelLoader';
 export abstract class SceneObject implements ISceneObject {
   protected eventManager: EventManager;
   protected name: string | null = null;
-  protected type: string;
+  public type: string;
   protected model: Object3D | null = null;
   public children: ISceneObject[] = [];
   // protected placeholders: CustomObject3D[] = [];

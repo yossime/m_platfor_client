@@ -42,16 +42,6 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
 
   return (
     <Container>
-      {/* <SelectInput
-        options={options}
-        value={dataParameters?.sky || ''}
-        onChange={() => { }}
-        inputSize={InputSize.SMALL}
-        mode={InputMode.DEFAULT}
-        placeholder="Default Material"
-        fullWidth={true}
-      /> */}
-
       <Divider />
       {panels.length > 0 && (
         <SubWrapper>

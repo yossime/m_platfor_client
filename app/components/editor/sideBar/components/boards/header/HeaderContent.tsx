@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Divider } from "../../CommonStyles";
-import {  ContentInput, ContentMatrielUpload } from "../../GenericBoardComponents";
+import {  ContentModelUpload, ContentInput, ContentImageUpload } from "../../GenericBoardComponents";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import {
   ContentDataType,
@@ -45,20 +45,20 @@ export const HeaderContentComponent: React.FC = () => {
                 isOpen={openSections.image}
                 onToggle={handleSectionToggle("image")}
               >
-                <ContentMatrielUpload type={ContentDataType.IMAGE} />
+                <ContentImageUpload type={ContentDataType.IMAGE} />
               </DataObfuscator>
               <Divider />
             </>
           )}
           {formatBoard === FormatBoard.Model && (
             <>
-              {/* <DataObfuscator
+              <DataObfuscator
                 title="Model"
                 isOpen={openSections.model}
-                onToggle={handleSectionToggle("Model")}
+                onToggle={handleSectionToggle("model")}
               >
-                <ContentFileUpload type={ContentDataType.IMAGE} />
-              </DataObfuscator> */}
+                <ContentModelUpload type={ContentDataType.IMAGE} />
+              </DataObfuscator>
               <Divider />
             </>
           )}
@@ -105,7 +105,7 @@ export const HeaderContentComponent: React.FC = () => {
             isOpen={openSections.logo}
             onToggle={handleSectionToggle("logo")}
           >
-            <ContentMatrielUpload type={ContentDataType.IMAGE} />
+            <ContentImageUpload type={ContentDataType.IMAGE} />
           </DataObfuscator>
         </Container>
       )}

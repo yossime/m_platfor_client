@@ -59,7 +59,7 @@ export const ContentSelect: React.FC<ContentSelectProps> = ({ type, options, pla
 
 
 
-export const ContentMatrielUpload: React.FC<{
+export const ContentImageUpload: React.FC<{
   type: ContentDataType;
 }> = ({ type }) => {
   const { getContentMaterial, setContentMaterial } = useBoardContent();
@@ -106,6 +106,120 @@ export const ContentMatrielUpload: React.FC<{
       ) : (
         <DragAndDrop
           type='image'
+          onFileAdded={handleFileAdded}
+          buttonOnly={true}
+        />
+      )}
+      {uploadProgress > 0 && <progress value={uploadProgress} max="100" />}
+    </>
+  );
+};
+
+
+export const ContentVideoUpload: React.FC<{
+  type: ContentDataType;
+}> = ({ type }) => {
+  const { getContentMaterial, setContentMaterial } = useBoardContent();
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+
+  const file = getContentMaterial(type)?.customMaterial?.diffuse?.map as File;
+
+  const handleFileAdded = async (newFile: File) => {
+
+    setContentMaterial(type, {video : newFile} );
+    try {
+      await uploadFile(newFile, type, {
+        onSuccess: (url, contentType) => {
+          if (typeof url === 'string') {
+            setContentMaterial(type, {video : url} );
+          }
+
+          setUploadProgress(0);
+        },
+        onError: (error, contentType) => {
+          console.error(`Error uploading file for ${contentType}:`, error);
+          setUploadProgress(0);
+        },
+        onProgress: (progress) => {
+          setUploadProgress(progress);
+        },
+      });
+    } catch (error) {
+      console.error('Unexpected error during file upload:', error);
+    }
+  };
+
+  const handleFileDelete = () => {
+    setContentMaterial(type, {});
+  };
+
+  return (
+    <>
+      {file ? (
+        <FileDisplay>
+          <FileName>{file.name}</FileName>
+          <DeleteIcon size={20} onClick={handleFileDelete} />
+        </FileDisplay>
+      ) : (
+        <DragAndDrop
+          type='video'
+          onFileAdded={handleFileAdded}
+          buttonOnly={true}
+        />
+      )}
+      {uploadProgress > 0 && <progress value={uploadProgress} max="100" />}
+    </>
+  );
+};
+
+
+export const ContentModelUpload: React.FC<{
+  type: ContentDataType;
+}> = ({ type }) => {
+  const { getContentMaterial, setContentMaterial } = useBoardContent();
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+
+  const file = getContentMaterial(type)?.customMaterial?.diffuse?.map as File;
+
+  const handleFileAdded = async (newFile: File) => {
+
+    // setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } } });
+    try {
+      await uploadFile(newFile, type, {
+        onSuccess: (url, contentType) => {
+          if (typeof url === 'string') {
+            setContentMaterial(type, { customMaterial: { diffuse: { map: url } } });
+          }
+
+          setUploadProgress(0);
+        },
+        onError: (error, contentType) => {
+          console.error(`Error uploading file for ${contentType}:`, error);
+          setUploadProgress(0);
+        },
+        onProgress: (progress) => {
+          setUploadProgress(progress);
+        },
+      });
+    } catch (error) {
+      console.error('Unexpected error during file upload:', error);
+    }
+  };
+
+  const handleFileDelete = () => {
+    setContentMaterial(type, {});
+  };
+
+  return (
+    <>
+      {file ? (
+        <FileDisplay>
+          <FileName>{file.name}</FileName>
+          <DeleteIcon size={20} onClick={handleFileDelete} />
+        </FileDisplay>
+      ) : (
+        <DragAndDrop
+          type='model'
           onFileAdded={handleFileAdded}
           buttonOnly={true}
         />

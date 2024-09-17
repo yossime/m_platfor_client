@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Container, Divider } from "../../CommonStyles";
 import {
   ContentInput,
-  ContentMatrielUpload,
+  ContentImageUpload,
+  ContentVideoUpload,
 } from "../../GenericBoardComponents";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import { ContentDataType } from "@/components/editor/types/index";
@@ -18,7 +19,7 @@ export const VideoContentComponent: React.FC = () => {
   const [openSections, setOpenSections] = useState({
     title: true,
     subtitle: true,
-    image: true,
+    video: true,
     button: true,
     logo: true,
     model: true,
@@ -42,11 +43,11 @@ export const VideoContentComponent: React.FC = () => {
           {formatBoard === FormatBoard.Frame && (
             <>
               <DataObfuscator
-                title="Image"
-                isOpen={openSections.image}
-                onToggle={handleSectionToggle("image")}
+                title="Video"
+                isOpen={openSections.video}
+                onToggle={handleSectionToggle("video")}
               >
-                <ContentMatrielUpload type={ContentDataType.IMAGE} />
+                <ContentVideoUpload type={ContentDataType.IMAGE} />
               </DataObfuscator>
               <Divider />
             </>

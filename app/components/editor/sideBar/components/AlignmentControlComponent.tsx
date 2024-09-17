@@ -14,9 +14,9 @@ interface AlignmentControlProps {
   onVerticalAlignmentChange?: (alignment: "top" | "center" | "bottom") => void;
 }
 
-const Container = styled.div<{ isCentered: boolean }>`
+const Container = styled.div<{ $isCentered: boolean }>`
   display: flex;
-  justify-content: ${(props) => (!props.isCentered ? "center" : "space-between")};
+  justify-content: ${(props) => (!props.$isCentered ? "center" : "space-between")};
   align-items: center;
   width: 100%;
 `;
@@ -33,7 +33,7 @@ const AlignmentControl: React.FC<AlignmentControlProps> = ({
   const isCentered = !!onVerticalAlignmentChange; 
 
   return (
-    <Container isCentered={isCentered}>
+    <Container $isCentered={isCentered}>
       <ButtonGroup>
         <Button
           type={ButtonType.PRIMARY}

@@ -2,7 +2,7 @@ import { Object3D, Vector3, Euler } from 'three';
 import { SceneObject } from '../SceneObject';
 import { ISceneObjectOptions, ISceneObject, CustomObject3D, ExportedSceneObject } from '../../../types';
 import { ArchitectureType } from './types';
-import { BoardType } from '../boards/types';
+import { BoardType } from "@/components/editor/types";
 import { Board } from '../boards/Board';
 import { MasterBoard } from '../boards/MasterBoard';
 import { ProductDouBoard } from '../boards/productBoards/ProductDouBoard';
