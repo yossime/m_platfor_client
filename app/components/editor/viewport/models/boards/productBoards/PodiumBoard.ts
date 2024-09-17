@@ -1,5 +1,5 @@
 
-import { ISceneObjectOptions } from '@/components/editor/viewport/types';
+import { ISceneObjectOptions }  from '@/components/editor/types/index';
 import { BoardType } from '../types';
 import { ProductBoard } from './ProductBoard';
 import { Product } from '../../products/Product';

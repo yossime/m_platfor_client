@@ -1,6 +1,6 @@
 import { Object3D, Vector3, Euler } from 'three';
 import { SceneObject } from '../SceneObject';
-import { ISceneObjectOptions, ISceneObject, CustomObject3D, ExportedSceneObject } from '../../types';
+import { ISceneObjectOptions, ISceneObject, CustomObject3D, ExportedSceneObject } from '../../../types';
 import { ArchitectureType } from './types';
 import { BoardType } from '../boards/types';
 import { Board } from '../boards/Board';

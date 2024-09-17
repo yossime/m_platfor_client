@@ -1,5 +1,5 @@
 import { Object3D } from 'three';
-import { ExportedSceneObject, ISceneObject } from './types';
+import { ExportedSceneObject, ISceneObject } from '../types';
 import { ArchitectureType } from './models/architectures/types';
 import { Architecture } from './models/architectures/Architecture';
 

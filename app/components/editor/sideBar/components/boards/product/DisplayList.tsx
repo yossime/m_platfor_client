@@ -9,7 +9,7 @@ import { FontWeight, TextSize } from "@constants/text";
 import Icon from "@/components/Library/icon/Icon";
 import { IconColor } from "@constants/colors";
 import PopupEditDisplay from "./PopupEditDisplay";
-import { ISceneObject, ProductType } from "@/components/editor/viewport/types";
+import { ISceneObject, ProductType } from '@/components/editor/types/index';
 import { Product } from "@/components/editor/viewport/models/products/Product";
 import { DouProduct } from "@/components/editor/viewport/models/products/DouProduct";
 

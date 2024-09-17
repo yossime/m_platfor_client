@@ -11,7 +11,7 @@ import Button from '@/components/Library/button/Button';
 import Text from '@/components/Library/text/Text';
 import { IconColor } from '@constants/colors';
 import { SubButton, SubContainer, SubWrapper, Container, Divider } from './CommonStyles';
-import { ESkybox } from '../../viewport/types';
+import { ESkybox } from '../../types';
 
 const options = [
   { value: ESkybox.DEFAULT, label: "Default" },

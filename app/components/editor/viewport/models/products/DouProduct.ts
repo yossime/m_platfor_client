@@ -1,5 +1,5 @@
 import { Object3D} from 'three';
-import { ISceneObjectOptions, ISceneObject, CustomObject3D, ProductType } from '../../types';
+import { ISceneObjectOptions, ISceneObject, CustomObject3D, ProductType } from '../../../types';
 import { Product } from './Product';
 
 export class DouProduct extends Product {

@@ -33,6 +33,6 @@ export interface TextStyleProps {
     family?: FontFamily;
     weight?: FontWeight;
     color?: TextColor;
-    cursorStyle?: 'default' | 'pointer' | 'text';
+    $cursorStyle?: 'default' | 'pointer' | 'text';
 }
 

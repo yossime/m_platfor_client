@@ -23,7 +23,7 @@ const StyledText = styled.span<TextStyleProps>`
   }};
   font-weight: ${({ weight }) => weight};
   color: ${({ color }) => color};
-  cursor: ${({ cursorStyle }) => cursorStyle || "default"};
+  cursor: ${({ $cursorStyle }) => $cursorStyle || "default"};
   white-space: pre-wrap;
 `;
 
@@ -40,7 +40,7 @@ const Text = React.forwardRef<HTMLSpanElement, TextComponentProps>(
       family = FontFamily.Figtree,
       weight = FontWeight.NORMAL,
       color = TextColor.PRIMARY_TEXT,
-      cursorStyle = "default",
+      $cursorStyle = "default",
       children,
       className,
       onClick,
@@ -60,7 +60,7 @@ const Text = React.forwardRef<HTMLSpanElement, TextComponentProps>(
         family={family}
         weight={weight}
         color={color}
-        cursorStyle={cursorStyle}
+        $cursorStyle={$cursorStyle}
         className={className}
         onClick={onClick}
       >

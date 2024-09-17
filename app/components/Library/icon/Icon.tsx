@@ -20,12 +20,12 @@ const rotateAnimation = keyframes`
   }
 `;
 
-const IconWrapper = styled.span<{ shouldRotate?: boolean; onClick?: () => void }>`
+const IconWrapper = styled.span<{ $shouldRotate?: boolean; onClick?: () => void }>`
   ${({ onClick }) => onClick && css`
     cursor: pointer;
   `}
   
-  ${({ shouldRotate }) => shouldRotate && css`
+  ${({ $shouldRotate }) => $shouldRotate && css`
   animation: ${rotateAnimation} 2s linear infinite;
   `}
 `;
@@ -45,7 +45,7 @@ const Icon = forwardRef<SVGSVGElement, IconProps>(({
       ref={ref as ForwardedRef<HTMLSpanElement>}
       className={className}
       onClick={onClick}
-      shouldRotate={shouldRotate}
+      $shouldRotate={shouldRotate}
     >
       <IconComponent
         size={size}

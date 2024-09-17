@@ -69,7 +69,7 @@ export const ChooseBoardWidgetComponent: React.FC<
               }
             />
             <Text
-              cursorStyle="pointer"
+              $cursorStyle="pointer"
               size={TextSize.TEXT2}
               weight={FontWeight.NORMAL}
               color={

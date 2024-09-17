@@ -2,23 +2,21 @@ import { BackgroundColor } from "@constants/colors";
 import styled from "styled-components";
 
 export const SideBarContainer = styled.div`
-  position:absolute;
-  margin-left: 10px;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  position: absolute;
+
   border-radius: 8px;
-  width: 392px;
+  width: 335px;
   min-width: 216px;
   max-width: 50%;
-  height: 100%;
+  height: calc(100% - 87px);
   resize: horizontal;
   display: flex;
   flex-direction: column;
-  z-index:1;
+  z-index: 1;
+  bottom: 16px;
+  left: 16px;
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
-  /* background-color: aqua; */
 `;
-
 
 export const HeaderContainer = styled.div<{ $isChooseBoardWidget: boolean }>`
   display: flex;

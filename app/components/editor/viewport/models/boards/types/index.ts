@@ -6,8 +6,6 @@ export enum BoardType {
   // Product = 'ProtBoard',
   MasterTextOn = 'MasterTextOn2',
   Header = 'MasterTextOn2',
-  // Header = 'MasterBoard',
-
   Image = 'header_image',
   Slider = 'SliderBoard',
   Video = 'VideoBoard',

@@ -111,7 +111,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             weight={FontWeight.NORMAL}
             color={textColor as TextColor}
             family={FontFamily.Figtree}
-            cursorStyle="pointer"
+            $cursorStyle="pointer"
           >
             {text}
           </Text>

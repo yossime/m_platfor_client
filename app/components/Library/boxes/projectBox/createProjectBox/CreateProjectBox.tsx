@@ -35,8 +35,8 @@ const CreateProjectBox: React.FC<CreateProjectBoxProps> = ({
           <Text
             size={TextSize.TEXT2}
             color={TextColor.TEXT_ON_PRIMARY}
-            cursorStyle="pointer"
-          >
+            $cursorStyle="pointer"
+            >
             COMING SOON
           </Text>
         </ComingSoon>
@@ -47,7 +47,7 @@ const CreateProjectBox: React.FC<CreateProjectBoxProps> = ({
       />
       <CreateProjectText>
         <Text
-          cursorStyle="pointer"
+          $cursorStyle="pointer"
           size={TextSize.TEXT2}
           color={disabled ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT}
         >

@@ -1,5 +1,5 @@
 import { Texture, TextureLoader, LinearFilter, RGBAFormat, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, Material, MeshStandardMaterial } from 'three';
-import { ICustomMaterial } from '../types';
+import { ICustomMaterial } from '../../types';
 
 export class TextureManager {
     private static instance: TextureManager;

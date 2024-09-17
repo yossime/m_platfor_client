@@ -1,6 +1,6 @@
 import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture, MeshPhongMaterial } from 'three';
 
-import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, IContentMaterialType, EContentImagesType, IContentMaterial, IContentText, IContentTextType, IContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../types';
+import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, EContentImagesType, IContentMaterial, IContentText, IContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../../types';
 import { FBXLoader, Font, FontLoader, GLTFLoader, TextGeometry } from 'three/examples/jsm/Addons.js';
 import { TextureManager } from '../utils/TextureManager';
 import { EventManager } from '../utils/EventManager';
@@ -55,11 +55,11 @@ export abstract class SceneObject implements ISceneObject {
 
   public setName(name: string): void { this.name = name };
 
-  public getContentMaterial(type: IContentMaterialType): IContentMaterial | null {
+  public getContentMaterial(type: ContentDataType): IContentMaterial | null {
     return this.contentData.get(type)?.contentMaterial ?? null;
   };
 
-  public getContentText(type: IContentTextType): IContentText | null {
+  public getContentText(type: ContentDataType): IContentText | null {
     return this.contentData.get(type)?.contentText ?? null;
   };
 
@@ -71,9 +71,9 @@ export abstract class SceneObject implements ISceneObject {
     return this.slots;
   }
 
-  public setContentText(type: IContentTextType, text: IContentText): void { }
+  public setContentText(type: ContentDataType, text: IContentText): void { }
 
-  public setContentMaterial(type: IContentMaterialType, material: IContentMaterial) { }
+  public setContentMaterial(type: ContentDataType, material: IContentMaterial) { }
 
 
   protected setPosition(position: Vector3): void {
@@ -152,10 +152,10 @@ export abstract class SceneObject implements ISceneObject {
       for (const [key, value] of Object.entries(exportedObj.contentData)) {
 
         if (value.contentMaterial) {
-          this.setContentMaterial(key as IContentMaterialType, value.contentMaterial)
+          this.setContentMaterial(key as ContentDataType, value.contentMaterial)
         }
         if (value.contentText) {
-          this.setContentText(key as IContentTextType, value.contentText)
+          this.setContentText(key as ContentDataType, value.contentText)
         }
       }
     }

@@ -1,4 +1,4 @@
-import { ISceneObject } from "../types";
+import { ISceneObject } from "../../types";
 
 
 

@@ -1,5 +1,5 @@
 import { Object3D } from 'three';
-import { ISceneObjectOptions, ISceneObject } from '@/components/editor/viewport/types';
+import { ISceneObjectOptions, ISceneObject } from '@/components/editor/types/index';
 import { BoardType } from '../types';
 import { Board } from '../Board';
 
@@ -18,5 +18,7 @@ export abstract class ProductBoard extends Board {
         this.slots = this.getSlotsPosition();
     }
 
+
+    
 
 }

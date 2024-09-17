@@ -16,7 +16,7 @@ import Text from '@/components/Library/text/Text';
 import { TextSize } from '@constants/text';
 import Icon from '@/components/Library/icon/Icon';
 import { IconName } from '@constants/icon';
-import { ISceneObject } from '../viewport/types';
+import { ISceneObject } from '../types';
 import { EventManager } from '../viewport/utils/EventManager';
 // import { ISceneObject } from '@/components/editor/interface/models';
 
@@ -79,7 +79,6 @@ const Sidebar: React.FC = () => {
   }
 
   return (
-    // <SideBarContainer className="sidebar">jsssssssssssssdddddddddddd</SideBarContainer>
 
     <SideBarContainer className="sidebar">
       {isOpen && (

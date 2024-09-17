@@ -1,4 +1,4 @@
-import { ISceneObjectOptions, ISceneObject } from '@/components/editor/viewport/types';
+import { ISceneObjectOptions, ISceneObject } from '@/components/editor/types/index';
 import { BoardType } from './types';
 import { Board } from './Board';
 

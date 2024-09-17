@@ -6,7 +6,7 @@ import { useEditor } from '@/context/useEditorContext';
 import styled from 'styled-components';
 // import { SceneModel } from '../interface/Scene';
 // import { ArchitectureType, CustomObject3D } from '../interface/models';
-import { CustomObject3D } from './types';
+import { CustomObject3D } from '../types';
 import { ArchitectureType } from './models/architectures/types';
 import { Object3D, Vector3 } from 'three';
 import * as THREE from 'three';

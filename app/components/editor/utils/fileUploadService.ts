@@ -1,20 +1,20 @@
 import axios from '@/utils/axios';
 import { AxiosResponse } from 'axios';
-import { IContentMaterialType } from '../viewport/types';
+import { ContentDataType } from '../types';
 
 interface UploadResponse {
   url: string;
 }
 
 interface UploadOptions {
-  onSuccess?: (url: UploadResponse, type: IContentMaterialType) => void;
-  onError?: (error: Error, type: IContentMaterialType) => void;
+  onSuccess?: (url: UploadResponse, type: ContentDataType) => void;
+  onError?: (error: Error, type: ContentDataType) => void;
   onProgress?: (progress: number) => void;
 }
 
 export const uploadFile = async (
   file: File, 
-  type: IContentMaterialType, 
+  type: ContentDataType, 
   options: UploadOptions = {}
 ): Promise<void> => {
   const { onSuccess, onError, onProgress } = options;

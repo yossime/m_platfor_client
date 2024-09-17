@@ -8,8 +8,16 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 40px;
   gap: 32px;
+  overflow: visible;
+`;
+
+export const ContainerStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  width: 100%;
+  gap: 8px;
   overflow: visible;
 `;
 

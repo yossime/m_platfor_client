@@ -6,12 +6,11 @@ export const WidgetContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  padding: 16px;
   gap: 16px;
 `;
 
 export const WidgetButton = styled.button<{ $clicked: boolean }>`
-  width: 144px;
+  width: 133px;
   height: 100px;
   padding: 16px 0;
   background-color: ${BackgroundColor.PRIMARY_BACKGROUND};
@@ -39,6 +38,5 @@ export const WidgetButton = styled.button<{ $clicked: boolean }>`
 
   &:disabled {
     background-color: ${BackgroundColor.DISABLED_BACKGROUND};
-    cursor: not-allowed;
   }
 `;

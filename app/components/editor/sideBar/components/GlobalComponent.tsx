@@ -5,7 +5,7 @@ import SelectInput from '@/components/Library/input/SelectInput';
 
 import { useEditor } from '@/context/useEditorContext';
 import { Container } from './CommonStyles';
-import { ESkybox } from '../../viewport/types';
+import { ESkybox } from '../../types';
 
 
 

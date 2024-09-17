@@ -1,6 +1,6 @@
 import { Object3D} from 'three';
 import { SceneObject } from '../SceneObject';
-import { ISceneObjectOptions, ISceneObject, CustomObject3D, ProductType } from '../../types';
+import { ISceneObjectOptions, ISceneObject, CustomObject3D, ProductType } from '../../../types';
 
 
 export class Product extends SceneObject {

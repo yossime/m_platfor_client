@@ -1,6 +1,6 @@
 import { Object3D, Vector3, Euler, Material, Texture } from 'three';
-import { BoardType } from '../models/boards/types';
-import { ArchitectureType } from '../models/architectures/types';
+import { BoardType } from '../viewport/models/boards/types';
+import { ArchitectureType } from '../viewport/models/architectures/types';
 
 
 export interface ISceneObjectOptions {
@@ -22,10 +22,10 @@ export interface ISceneObject {
   exportToJson(): string;
 
   isSelected(selected: boolean): void;
-  getContentMaterial(type: IContentMaterialType): IContentMaterial | null;
-  getContentText(type: IContentTextType): IContentText | null;
-  setContentMaterial(type: IContentMaterialType, material: IContentMaterial): void;
-  setContentText?(type: IContentTextType, text: IContentText): void;
+  getContentMaterial(type: ContentDataType): IContentMaterial | null;
+  getContentText(type: ContentDataType): IContentText | null;
+  setContentMaterial(type: ContentDataType, material: IContentMaterial): void;
+  setContentText?(type: ContentDataType, text: IContentText): void;
 }
 
 export interface CustomObject3D extends Object3D {
@@ -57,39 +57,28 @@ export enum EConfiguration {
   BOTTOM = 'BOTTOM',
 }
 
-export enum IContentTextType {
-  TITLE = 'title',
-  SUB_TITLE = 'sub_title',
-  BUTTON = 'button_text',
-  TEST = 'Header',
-  IMAGE_CONTENT = 'ImageCenter',
-  IMAGE_Left = 'ImageLeft',
-  IMAGE_RIGHT = 'ImageRight',
-  TEXT = 'Text',
-  CTA = 'CTA',
-  TESTIMONIALS = 'Testimonials',
-  FORM = 'Form',
-  IMAGE_0 = 'Image_0',
-  IMAGE_1 = 'Image_1',
+
+
+export enum ContentDataType {
+  TITLE = 'TITLE',
+  SUB_TITLE = 'SUB_TITLE',
+  BUTTON = 'BUTTON',
+  TEXT = 'TEXT',
+  SELF = 'SELF',
+  IMAGE = 'IMAGE',
+  IMAGE_0 = 'IMAGE_0',
+  IMAGE_1 = 'IMAGE_1',
+  LOGO = 'LOGO',
+  FORM = 'FORM',
 }
 
-export enum IContentMaterialType {
-  TITLE = 'title',
-  SUB_TITLE = 'sub_title',
-  BUTTON = 'button',
-  TEST = 'Header',
-  IMAGE_CONTENT = 'ImageCenter',
-  IMAGE_Left = 'ImageLeft',
-  IMAGE_RIGHT = 'ImageRight',
-  TEXT = 'Text',
-  CTA = 'CTA',
-  TESTIMONIALS = 'Testimonials',
-  FORM = 'Form',
-  SELF = 'self',
-  IMAGE = 'image',
-  IMAGE_0 = 'image_0',
-  IMAGE_1 = 'image_1',
+
+
+export enum MaterialSlotName {
+  RIM = 'RIM',
+  BACKGROUND = 'BACKGROUND'
 }
+
 
 
 export enum EContentImagesType {
@@ -98,13 +87,13 @@ export enum EContentImagesType {
   IMAGE_1 = 'image_1',
 }
 
-export type ContentDataType = EContentImagesType | IContentMaterialType | IContentTextType;
 
 
 export interface ContentData {
   contentObjects?: IContentObjects;
   contentText?: IContentText;
-  contentMaterial?: IContentMaterial;
+  contentMaterial?: IContentMaterial 
+  // contentMaterial?: IContentMaterial | IContentMaterial[];
 }
 
 export interface IContentObjects {
@@ -133,12 +122,13 @@ export interface ICustomMaterial {
 }
 
 export interface IContentMaterial {
+  slotname?: MaterialSlotName;
   video?: ITextureSource;
-  render?: ERenderType;
+  renderr?: ERenderrType;
   customMaterial?: ICustomMaterial;
 }
 
-export enum ERenderType {
+export enum ERenderrType {
   STONE = 'stone',
   IRON = 'iron',
 }
@@ -278,4 +268,11 @@ export enum ButtonStyle {
 export enum ImageStyle {
   CROP = "Crop",
   FILL = "Fill",
+}
+
+
+export enum FormatBoard {
+  Model = "Model",
+  Frame = "Frame",
+  Simple = "Simple",
 }

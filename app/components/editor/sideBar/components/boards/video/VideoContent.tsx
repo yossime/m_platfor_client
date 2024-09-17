@@ -1,68 +1,95 @@
-import React, { ChangeEvent, useState } from 'react';
-import Input from '@/components/Library/input/Input';
-import { InputMode, InputSize } from '@constants/input';
-import { Container, Divider} from '../../CommonStyles';
-import DataObfuscator from '@/components/Library/general/DataObfuscator';
-
-
-
-interface FileData {
-  id: string;
-  name: string;
-  content: ArrayBuffer;
-}
-
-
-
-interface ISubscription {
-  Caption: string;
-  video?: FileData;
-}
+import React, { useState } from "react";
+import { Container, Divider } from "../../CommonStyles";
+import {
+  ContentInput,
+  ContentMatrielUpload,
+} from "../../GenericBoardComponents";
+import DataObfuscator from "@/components/Library/general/DataObfuscator";
+import { ContentDataType } from "@/components/editor/types/index";
+import { ChooseBoardFormat, FormatBoard } from "../../FormatBoard";
+import { useBoardContent } from "../../useBoardContent";
 
 export const VideoContentComponent: React.FC = () => {
-  const [subscription, setSubscription] = useState<ISubscription>({
-    Caption: 'Subscribe to our newsletter!',
-  });
+  const { getFormat } = useBoardContent();
+  const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(
+    getFormat()
+  );
 
   const [openSections, setOpenSections] = useState({
     title: true,
     subtitle: true,
+    image: true,
     button: true,
+    logo: true,
+    model: true,
   });
 
- 
-  const handleInputChange = (field: keyof ISubscription) => (event: ChangeEvent<HTMLInputElement>) => {
-    console.log('handle', event.target.value);
-    setSubscription(prev => ({ ...prev, [field]: event.target.value }));
-  };
-
-  const handleSectionToggle = (section: keyof typeof openSections) => (isOpen: boolean) => {
-    setOpenSections(prev => ({ ...prev, [section]: isOpen }));
-    if (!isOpen) {
-      setOpenSections(prev => ({ ...prev, [section]: null }));
-    }
-  }
-
+  const handleSectionToggle =
+    (section: keyof typeof openSections) => (isOpen: boolean) => {
+      setOpenSections((prev) => ({ ...prev, [section]: isOpen }));
+    };
 
   return (
-    <Container>
-      <DataObfuscator
-        title='Title'
-        isOpen={openSections.title}
-        onToggle={handleSectionToggle('title')}
-      >
-        <Input
-          placeholder='Enter title'
-          inputSize={InputSize.SMALL}
-          mode={InputMode.NORMAL}
-          value={subscription.Caption}
-          onChange={handleInputChange('Caption')}
+    <>
+      {formatBoard === null ? (
+        <ChooseBoardFormat
+          formatModel={false}
+          formatBoard={formatBoard}
+          setFormatBoard={setFormatBoard}
         />
-      </DataObfuscator>
+      ) : (
+        <Container>
+          {formatBoard === FormatBoard.Frame && (
+            <>
+              <DataObfuscator
+                title="Image"
+                isOpen={openSections.image}
+                onToggle={handleSectionToggle("image")}
+              >
+                <ContentMatrielUpload type={ContentDataType.IMAGE} />
+              </DataObfuscator>
+              <Divider />
+            </>
+          )}
+          <DataObfuscator
+            title="Title"
+            isOpen={openSections.title}
+            onToggle={handleSectionToggle("title")}
+          >
+            <ContentInput
+              type={ContentDataType.TITLE}
+              placeholder="Enter title"
+            />
+          </DataObfuscator>
 
-      <Divider/>
-      
-      <Divider/>
-    </Container>
+          <DataObfuscator
+            title="Subtitle"
+            isOpen={openSections.subtitle}
+            onToggle={handleSectionToggle("subtitle")}
+          >
+            <ContentInput
+              type={ContentDataType.SUB_TITLE}
+              placeholder="Enter subtitle"
+            />
+          </DataObfuscator>
+
+          <DataObfuscator
+            title="Button"
+            isOpen={openSections.button}
+            onToggle={handleSectionToggle("button")}
+          >
+            <ContentInput
+              type={ContentDataType.BUTTON}
+              placeholder="Get Started!"
+            />
+            <ContentInput
+              type={ContentDataType.BUTTON}
+              placeholder="Destination URL"
+            />
+          </DataObfuscator>
+          <Divider />
+        </Container>
+      )}
+    </>
   );
 };

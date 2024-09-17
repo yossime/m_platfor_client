@@ -8,7 +8,7 @@ import { IconName } from '@constants/icon';
 import Popup from '@/components/Library/general/Popup';
 import DragAndDrop from '@/components/Library/general/DragAndDrop';
 import TextureUploadComponent from '../../LoadTexturePopup';
-import { ISceneObject } from '@/components/editor/viewport/types';
+import { ISceneObject } from '@/components/editor/types/index';
 
 interface PopupEditDisplayProps {
   display: ISceneObject;

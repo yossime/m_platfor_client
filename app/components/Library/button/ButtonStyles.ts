@@ -25,10 +25,10 @@ export const StyledButton = styled.button<StyledButtonProps>`
   justify-content: center;
   cursor:pointer ;
   border-radius: 4px;
-  width: ${(props) => (props.$fullWidth ? "100%" : "auto")};
+  /* width: 100%; */
+  min-width: ${(props) => (props.$fullWidth ? "100%" : "auto")};
   transform: translateY(0);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-
   ${(props) =>
     props.$mode !== "disabled" &&
     css`

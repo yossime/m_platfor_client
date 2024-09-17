@@ -1,5 +1,5 @@
 
-import { ISceneObjectOptions } from '@/components/editor/viewport/types';
+import { ISceneObjectOptions } from '@/components/editor/types/index';
 import { BoardType } from '../types';
 import { ProductBoard } from './ProductBoard';
 import { Product } from '../../products/Product';
@@ -23,4 +23,10 @@ export class ProductDouBoard extends ProductBoard {
             sceneObject.exchangeSlot(slot);
             this.children.push(sceneObject);
     }
+
+
+
+
+  
+  
 }

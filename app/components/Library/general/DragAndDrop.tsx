@@ -1,9 +1,10 @@
 import { BackgroundColor } from '@constants/colors';
 import Button from '../button/Button';
-import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
+import { ButtonMode, ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 import React, { useCallback, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
+import { IconName } from '@constants/icon';
 
 interface FileUploadProps {
   onFileAdded: (file: File) => void;
@@ -47,18 +48,20 @@ const DragAndDrop: React.FC<FileUploadProps> = ({ onFileAdded, type, buttonOnly 
     <Button
       type={ButtonType.PRIMARY}
       variant={ButtonVariant.SECONDARY}
-      size={ButtonSize.SMALL}
-      text="Select File"
+      size={ButtonSize.MEDIUM}
+      text="Upload image"
+      icon={IconName.CLOUDARROWUP}
       onClick={handleButtonClick}
-    />
+      mode={ButtonMode.NORMAL}
+      fullWidth={true}    />
   );
 
   if (buttonOnly) {
     return (
-      <>
-        {renderButton()}
-        <input {...getInputProps()} ref={fileInputRef} style={{ display: 'none' }} />
-      </>
+      <div style={{ width: '100%' }}>
+      {renderButton()}
+    <input {...getInputProps()} ref={fileInputRef} style={{ display: 'none' }} />
+    </div>
     );
   }
 
