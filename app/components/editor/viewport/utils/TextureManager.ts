@@ -1,5 +1,6 @@
-import { Texture, TextureLoader, LinearFilter, RGBAFormat, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, Material, MeshStandardMaterial } from 'three';
+import { Texture, TextureLoader, LinearFilter, RGBAFormat, RepeatWrapping, ClampToEdgeWrapping, MirroredRepeatWrapping, Material, MeshStandardMaterial, VideoTexture } from 'three';
 import { ICustomMaterial } from '../../types';
+import * as THREE from 'three';
 
 export class TextureManager {
     private static instance: TextureManager;
@@ -153,6 +154,32 @@ export class TextureManager {
     //         console.error('Error applying textures:', error);
     //     }
     // }
+
+
+    public async loadVideoTexture(src: string | File): Promise<VideoTexture> {
+        let url: string;
+
+        if (typeof src === 'string') {
+            url = src;
+        } else if (src instanceof File) {
+            url = URL.createObjectURL(src);
+        } else {
+            throw new Error('Invalid texture source');
+        }
+        const video = document.createElement('video');
+        video.src = url;
+        video.loop = true;
+        video.muted = true;
+        video.play();
+        video.crossOrigin = "anonymous";
+
+        const videoTexture = new THREE.VideoTexture(video);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+        videoTexture.format = THREE.RGBFormat;
+
+        return videoTexture;
+    }
 }
 
 interface TextureOptions {
@@ -165,3 +192,6 @@ interface TextureOptions {
     offset?: { x: number; y: number };
     flipY?: boolean;
 }
+
+
+

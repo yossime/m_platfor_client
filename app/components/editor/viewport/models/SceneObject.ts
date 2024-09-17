@@ -1,4 +1,4 @@
-import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture, MeshPhongMaterial } from 'three';
+import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture, MeshPhongMaterial, MeshBasicMaterial } from 'three';
 
 import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, EContentImagesType, IContentMaterial, IContentText, IContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../../types';
 import { FBXLoader, Font, FontLoader, GLTFLoader, TextGeometry } from 'three/examples/jsm/Addons.js';
@@ -21,8 +21,10 @@ export abstract class SceneObject implements ISceneObject {
   protected contentData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
   // protected onLoad: (model?: Object3D) => void;
   protected loader = new ModelLoader();
+  protected readonly libraryUrl: string;
 
   constructor(type: string, options?: ISceneObjectOptions) {
+    this.libraryUrl = 'https://storage.googleapis.com/library-all-test';
     this.type = type;
     this.eventManager = EventManager.getInstance();
 
@@ -43,7 +45,7 @@ export abstract class SceneObject implements ISceneObject {
 
   public displayEmptySlots(visible: boolean = true): void {
     this.setSlotsVisible(visible);
-}
+  }
 
   protected setSlotsVisible(visible: boolean): void {
     this.slots.forEach(slot => {
@@ -161,6 +163,21 @@ export abstract class SceneObject implements ISceneObject {
     }
   }
 
+  protected async applyVideoMaterial(mesh: Object3D, src: string | File): Promise<void> {
+    if (!(mesh instanceof Mesh)) {
+      console.warn('Attempted to apply video material to non-Mesh object');
+      return;
+    }
+    // https://firebasestorage.googleapis.com/v0/b/fbx-bucket/o/video_1.mp4?alt=media&token=d948abc7-d187-4612-b315-8109faf98b84
+    const newMaterial = new MeshBasicMaterial();
+    const textureManager = TextureManager.getInstance();
+
+    if (src) {
+      const videoTexture = await textureManager.loadVideoTexture(src);
+      newMaterial.map = videoTexture;
+      mesh.material = newMaterial;
+    }
+  }
 
   protected async changeMaterial(mesh: Object3D, material: ICustomMaterial): Promise<void> {
     if (!(mesh instanceof Mesh)) {
@@ -220,7 +237,7 @@ export abstract class SceneObject implements ISceneObject {
   public exchangeSlot(slot: CustomObject3D): void {
     this.setPosition(slot.position);
     this.setRotation(slot.rotation);
-    
+
     this.modelParent = slot.parent;
     if (this.model && this.modelParent) {
       this.modelParent.attach(this.model);
@@ -260,6 +277,7 @@ export abstract class SceneObject implements ISceneObject {
   };
 
   protected applyText(mesh: Mesh, text: IContentText): void {
+    console.log('apply', mesh, text);
     this.straightText(mesh, text)
   }
 
@@ -268,7 +286,7 @@ export abstract class SceneObject implements ISceneObject {
     const textureUrl = `https://storage.googleapis.com/library-materials-test-all/${renderType}.jpg`;
 
     await this.changeMaterial(mesh, { diffuse: { map: textureUrl } });
-}
+  }
 
   async loadFont(url: string): Promise<Font> {
     const loader = new FontLoader();

@@ -59,16 +59,16 @@ export enum EConfiguration {
 
 
 export enum ContentDataType {
-  TITLE = 'TITLE',
-  SUB_TITLE = 'SUB_TITLE',
-  BUTTON = 'BUTTON',
-  TEXT = 'TEXT',
-  SELF = 'SELF',
-  IMAGE = 'IMAGE',
-  IMAGE_0 = 'IMAGE_0',
-  IMAGE_1 = 'IMAGE_1',
-  LOGO = 'LOGO',
-  FORM = 'FORM',
+  TITLE = 'title',
+  SUB_TITLE = 'sub_title',
+  BUTTON = 'button',
+  TEXT = 'text',
+  SELF = 'self',
+  IMAGE = 'image',
+  IMAGE_0 = 'image_0',
+  IMAGE_1 = 'image_1',
+  LOGO = 'logo',
+  FORM = 'form',
 }
 
 
