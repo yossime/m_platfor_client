@@ -172,6 +172,7 @@ const FileTree: React.FC<FileTreeProps> = ({
                   <FolderName onClick={() => isFolder && toggleFolder(key)}>
                     {expanded[key] ? '📂' : '📁'} {key}
                   </FolderName>
+                  { !expanded[key] && <FileUploadButton folderPath={itemPath} onUploadSuccess={onRefresh} />}
                 </>
               ) :
                 (
@@ -179,7 +180,6 @@ const FileTree: React.FC<FileTreeProps> = ({
                     <ItemName>
                       📄{key}
                     </ItemName>
-                    <FileUploadButton folderPath={itemPath} onUploadSuccess={onRefresh} />
                     <StyledButton onClick={() => setEditingItem(itemPath)}><Edit2 size={16} /></StyledButton>
                     <StyledButton onClick={() => handleDelete(itemPath, isFolder)}><Trash2 size={16} /></StyledButton>
                     {/* <StyledButton onClick={() => handleAddFolder(itemPath)}><FolderPlus size={16} /></StyledButton> */}
