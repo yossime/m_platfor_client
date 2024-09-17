@@ -271,18 +271,19 @@ export enum ImageStyle {
 
 
 export enum FormatBoard {
-  Model = "Model",
-  Frame = "Frame",
-  Simple = "Simple",
+  Model = "model",
+  Frame = "frame",
+  Simple = "simple",
 }
-
 export enum BoardType {
   Product = 'Product_Duo_Test2',
-  MasterTextOn = 'MasterTextOn2',
-  Header = 'MasterTextOn2',
-  Image = 'header_image',
+  // Product = 'DisplayDuo',
+  // Product = 'ProtBoard',
+  MasterTextOn = 'header',
+  Video = 'video',
+  Header = 'header',
+  Image = 'image',
   Slider = 'SliderBoard',
-  Video = 'VideoBoard',
   Testimonials = 'TestimonialsBoard',
   Subscription = 'SubscriptionBoard',
   Services = 'ServicesBoard',
