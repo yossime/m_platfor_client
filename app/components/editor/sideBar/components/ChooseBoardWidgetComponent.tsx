@@ -37,8 +37,8 @@ export const ChooseBoardWidgetComponent: React.FC<
 
     setSelectedWidget(widget.name);
 
-    // const newBoard = new MasterBoard(widget.type, {name: widget.name});
-    const newBoard = new ProductDouBoard(widget.type, { name: widget.name });
+    const newBoard = new MasterBoard(widget.type, {name: widget.name});
+    // const newBoard = new ProductDouBoard(widget.type, { name: widget.name });
 
     if (sceneModel?.root && newBoard) {
       sceneModel.root.addChild(newBoard);
