@@ -159,6 +159,9 @@ export abstract class SceneObject implements ISceneObject {
         if (value.contentText) {
           this.setContentText(key as ContentDataType, value.contentText)
         }
+        if (value.contentForm) {
+          // this.setContentText(key as ContentDataType, value.contentText)
+        }
       }
     }
   }
