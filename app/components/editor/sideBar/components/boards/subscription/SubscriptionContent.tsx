@@ -13,7 +13,7 @@ import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
 import styled from "styled-components";
 import { ContentInput, ContentInputForm } from "../../GenericBoardComponents";
-import { ContentDataType } from "@/components/editor/types";
+import { ContentDataType, InputLabelType } from "@/components/editor/types";
 
 const FieldWrapper = styled.div`
   display: flex;
@@ -113,7 +113,7 @@ export const SubscriptionContentComponent: React.FC = () => {
               <ContentInputForm
                 type={ContentDataType.FORM}
                 placeholder="Enter your name here"
-                label="Name"
+                label={InputLabelType.NAME}
               />
             </FieldWrapper>
           </Collapsible>
@@ -126,8 +126,7 @@ export const SubscriptionContentComponent: React.FC = () => {
               <ContentInputForm
                 type={ContentDataType.FORM}
                 placeholder="Enter your email here"
-                label="Email"
-              />
+                label={InputLabelType.EMAIL}              />
             </FieldWrapper>
           </Collapsible>
         </SubContainer>
