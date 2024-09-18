@@ -6,9 +6,9 @@ import { Object3D } from 'three';
 export abstract class MasterBoardABC extends Board {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
-        if(options?.exportedScenObj?.format) {
-            this.setFormat(options?.exportedScenObj?.format);
-          }
+        // if(options?.exportedScenObj?.format) {
+        //     this.setFormat(options?.exportedScenObj?.format);
+        //   }
     }
     protected boardUrl = `${this.libraryUrl}/borads/${this.type}`;
     protected getBoardUrl(): string { return `${this.boardUrl}/${this.format}.fbx`; };

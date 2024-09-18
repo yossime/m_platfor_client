@@ -225,14 +225,13 @@ export abstract class Board extends SceneObject {
   }
 
   public buildFromJson(exportedObj: ExportedSceneObject) {
-    if (exportedObj.format) {
-      this.format = exportedObj.format;
-    }
-
     for (const [key, value] of Object.entries(exportedObj.configuration)) {
       this.setConfiguration(key as EConfigType, value);
     }
     super.buildFromJson(exportedObj);
+    
+    if(exportedObj.format)
+    this.setFormat(exportedObj.format)
 
     // exportedObj.children.forEach((childData) => {
     //   let product;
