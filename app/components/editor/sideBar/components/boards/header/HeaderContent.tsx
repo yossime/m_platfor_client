@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Container, Divider } from "../../CommonStyles";
-import {  ContentModelUpload, ContentInput, ContentImageUpload } from "../../GenericBoardComponents";
-import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import {
-  ContentDataType,
-} from "@/components/editor/types/index";
+  ContentModelUpload,
+  ContentInput,
+  ContentImageUpload,
+} from "../../GenericBoardComponents";
+import DataObfuscator from "@/components/Library/general/DataObfuscator";
+import { ContentDataType } from "@/components/editor/types/index";
 import { ChooseBoardFormat, FormatBoard } from "../../FormatBoard";
 import { useBoardContent } from "../../useBoardContent";
+import { useMaterialRenderer } from "@/components/editor/utils/useMaterialRenderer";
+import { Material2D, MaterialRenderer } from "@/components/editor/utils/materialRenderer";
 
 export const HeaderContentComponent: React.FC = () => {
   const { getFormat } = useBoardContent();
@@ -14,14 +18,14 @@ export const HeaderContentComponent: React.FC = () => {
     getFormat()
   );
 
-
   const [openSections, setOpenSections] = useState({
     title: true,
     subtitle: true,
     image: true,
     button: true,
-    logo:true,
-    model:true,
+    logo: true,
+    model: true,
+    material: true,
   });
 
   const handleSectionToggle =
@@ -29,15 +33,39 @@ export const HeaderContentComponent: React.FC = () => {
       setOpenSections((prev) => ({ ...prev, [section]: isOpen }));
     };
 
+  const canvas = document.createElement("canvas");
+  canvas.id = "materialCanvas";
+  // const canvas = document.getElementById("materialCanvas") as HTMLCanvasElement;
+  const renderer = new MaterialRenderer(canvas);
+
+  const material: Material2D = {
+    id: "1",
+    name: "Stone",
+    layers: [
+      { type: "diffuse", texture: "stone_diffuse.png" },
+      { type: "normal", texture: "stone_normal.png" },
+      { type: "emission", texture: null, color: "rgba(255, 165, 0, 0.1)" },
+    ],
+  };
+
+  const materialCanvasRef = useMaterialRenderer(material);
+
   return (
     <>
-      {formatBoard ===  null ? (
+      {formatBoard === null ? (
         <ChooseBoardFormat
           formatBoard={formatBoard}
           setFormatBoard={setFormatBoard}
         />
       ) : (
         <Container>
+          <DataObfuscator
+            title="Material"
+            isOpen={openSections.material}
+            onToggle={handleSectionToggle("material")}
+          >
+            <canvas ref={materialCanvasRef} width={400} height={400} />
+          </DataObfuscator>
           {formatBoard === FormatBoard.Frame && (
             <>
               <DataObfuscator
