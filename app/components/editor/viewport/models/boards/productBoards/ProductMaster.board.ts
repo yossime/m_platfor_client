@@ -1,10 +1,10 @@
 
 import { ISceneObjectOptions } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
-import { ProductBoard } from './ProductBoard';
+import { ProductBoard } from '.';
 import { Product } from '../../products/Product';
 
-export class ProductDouBoard extends ProductBoard {
+export class ProductMaster extends ProductBoard {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
     }

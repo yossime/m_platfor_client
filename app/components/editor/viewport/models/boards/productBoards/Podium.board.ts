@@ -1,7 +1,7 @@
 
 import { ISceneObjectOptions }  from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
-import { ProductBoard } from './ProductBoard';
+import { ProductBoard } from '.';
 import { Product } from '../../products/Product';
 
 export class PodiumBoard extends ProductBoard {

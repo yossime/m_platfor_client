@@ -10,7 +10,7 @@ export abstract class ProductBoard extends Board {
     }
 
     public abstract addChild(sceneObject: ISceneObject): void;
-
+    
     protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
 
         await super.loadModelAndDisplay(onLoad);

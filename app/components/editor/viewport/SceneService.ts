@@ -5,7 +5,7 @@ import { Architecture } from './models/architectures/Architecture';
 
 
 export class SceneService {
-  public root: ISceneObject | null = null;
+  public root: Architecture | null = null;
   private selectedObject: ISceneObject | null = null;
   private history: string[] = [];
   private historyIndex: number = -1;

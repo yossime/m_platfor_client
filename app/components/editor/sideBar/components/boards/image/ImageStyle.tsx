@@ -53,7 +53,6 @@ export const ImageStyleComponent: React.FC = () => {
   };
 
   const handleTextureUpdate = (newTexture: ICustomMaterial) => {
-    console.log("texture update", newTexture);
     setShowUploadTexture(false);
   };
 
@@ -115,7 +114,7 @@ export const ImageStyleComponent: React.FC = () => {
             options={BackgroundOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.IMAGE, value)
+              handleStyleChange(ContentDataType.FRAME, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}
@@ -153,7 +152,7 @@ export const ImageStyleComponent: React.FC = () => {
             options={imageStyleOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.IMAGE, value)
+              handleStyleChange(ContentDataType.FRAME, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}

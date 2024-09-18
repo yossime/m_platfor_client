@@ -1,13 +1,13 @@
 import { Object3D, Vector3, Euler } from 'three';
 import { SceneObject } from '../SceneObject';
-import { ISceneObjectOptions, ISceneObject, CustomObject3D, ExportedSceneObject } from '../../../types';
+import { ISceneObjectOptions, ISceneObject, CustomObject3D, ExportedSceneObject, IArchitecture, IBoard } from '../../../types';
 import { ArchitectureType } from './types';
 import { BoardType } from "@/components/editor/types";
 import { Board } from '../boards/Board';
-import { MasterBoard } from '../boards/MasterBoard';
-import { ProductDouBoard } from '../boards/productBoards/ProductDouBoard';
+import { ProductMaster } from '../boards/productBoards/ProductMaster.board';
+import { createBoardByType } from '@/components/editor/utils/CraeteBoard';
 
-export class Architecture extends SceneObject {
+export class Architecture extends SceneObject implements IArchitecture {
     private placeholderPath: string;
     private selectedSlot: CustomObject3D | null = null;
     private childToAdd: Board | null = null;
@@ -15,6 +15,12 @@ export class Architecture extends SceneObject {
     constructor(type: ArchitectureType, options?: ISceneObjectOptions) {
         super(type, options);
         this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}.fbx`;
+    }
+    addBoard(board: IBoard): void {
+        throw new Error('Method not implemented.');
+    }
+    removeChild?(sceneObject: ISceneObject): void {
+        throw new Error('Method not implemented.');
     }
 
 
@@ -79,27 +85,8 @@ export class Architecture extends SceneObject {
         super.buildFromJson(exportedObj);
 
         exportedObj.children.forEach(childData => {
-            let board;
-
-            switch (childData.type as BoardType) {
-                case BoardType.Product:
-                    board = new ProductDouBoard(childData.type as BoardType, { exportedScenObj: childData });
-                    break;
-                case BoardType.Header:
-                    board = new MasterBoard(childData.type as BoardType, { exportedScenObj: childData });
-                    break;
-                // case BoardType.DisplayDuo:
-                //     board = new ProductDouBoard(childData.type as BoardType, { exportedScenObj: childData });
-                //     break;
-                // case BoardType.DisplayDuo:
-                //     board = new ProductDouBoard(childData.type as BoardType, { exportedScenObj: childData });
-                //     break;
-                default:
-                    break;
-            }
-            if (board) {
-                this.addChild(board, childData.slotNumber);
-            }
+            const board = createBoardByType(childData.type as BoardType, { exportedScenObj: childData });
+            this.addChild(board, childData.slotNumber);
         })
     }
 }

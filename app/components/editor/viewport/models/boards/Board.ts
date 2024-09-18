@@ -38,7 +38,6 @@ export abstract class Board extends SceneObject {
     super(type, options);
   }
 
-  public abstract addChild(sceneObject: ISceneObject): void;
 
   public getConfiguration(): Map<EConfigType, EConfiguration> | null { return this.configuration };
 
@@ -100,7 +99,7 @@ export abstract class Board extends SceneObject {
     let geometry;
 
 
-    if (type === ContentDataType.IMAGE) {
+    if (type === ContentDataType.FRAME) {
       const configV = this.configuration.get(EConfigType.VERTICAL);
       const configH = this.configuration.get(EConfigType.HORIZONTAL);
       const geometryName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
@@ -181,9 +180,9 @@ export abstract class Board extends SceneObject {
       const placeholder = this.getPlaceholder(contentType);
       if (geometry && placeholder) {
         const oldMaterial = this.contentData.get(contentType);
-        if (contentType === ContentDataType.IMAGE) {
+        if (contentType === ContentDataType.FRAME) {
           await this.setContentMaterial(
-            ContentDataType.IMAGE,
+            ContentDataType.FRAME,
             oldMaterial?.contentMaterial!
           );
         } else {
@@ -226,30 +225,34 @@ export abstract class Board extends SceneObject {
   }
 
   public buildFromJson(exportedObj: ExportedSceneObject) {
+    if (exportedObj.format) {
+      this.format = exportedObj.format;
+    }
+
     for (const [key, value] of Object.entries(exportedObj.configuration)) {
       this.setConfiguration(key as EConfigType, value);
     }
     super.buildFromJson(exportedObj);
 
-    exportedObj.children.forEach((childData) => {
-      let product;
+    // exportedObj.children.forEach((childData) => {
+    //   let product;
 
-      switch (childData.type as ProductType) {
-        case ProductType.ProductDuo:
-          product = new DouProduct(childData.type as ProductType, {
-            exportedScenObj: childData,
-          });
-          break;
-        case ProductType.Poudiom:
-          // board = new MasterBoard(childData.type as BoardType, { exportedScenObj: childData });
-          break;
-        default:
-          break;
-      }
-      if (product) {
-        this.addChild(product);
-        // this.addChild(board, childData.slotNumber);
-      }
-    });
+    //   switch (childData.type as ProductType) {
+    //     case ProductType.ProductDuo:
+    //       product = new DouProduct(childData.type as ProductType, {
+    //         exportedScenObj: childData,
+    //       });
+    //       break;
+    //     case ProductType.Poudiom:
+    //       // board = new MasterBoard(childData.type as BoardType, { exportedScenObj: childData });
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    //   if (product) {
+    //     this.addChild(product);
+    //     // this.addChild(board, childData.slotNumber);
+    //   }
+    // });
   }
 }

@@ -52,7 +52,6 @@ export const VideoStyleComponent: React.FC = () => {
   };
 
   const handleTextureUpdate = (newTexture: ICustomMaterial) => {
-    console.log("texture update", newTexture);
     setShowUploadTexture(false);
   };
 
@@ -114,7 +113,7 @@ export const VideoStyleComponent: React.FC = () => {
             options={BackgroundOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.IMAGE, value)
+              handleStyleChange(ContentDataType.FRAME, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}
@@ -152,7 +151,7 @@ export const VideoStyleComponent: React.FC = () => {
             options={imageStyleOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.IMAGE, value)
+              handleStyleChange(ContentDataType.FRAME, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}

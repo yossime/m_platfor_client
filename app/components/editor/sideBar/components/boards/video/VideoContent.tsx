@@ -47,7 +47,7 @@ export const VideoContentComponent: React.FC = () => {
                 isOpen={openSections.video}
                 onToggle={handleSectionToggle("video")}
               >
-                <ContentVideoUpload type={ContentDataType.IMAGE} />
+                <ContentVideoUpload type={ContentDataType.FRAME} />
               </DataObfuscator>
               <Divider />
             </>

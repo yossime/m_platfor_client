@@ -14,7 +14,7 @@ export const ProductContentComponent: React.FC = () => {
   return (
     <Container>
       <ContentSelect
-        type={ContentDataType.IMAGE}
+        type={ContentDataType.FRAME}
         options={displayTypeOptions}
         label="Display type"
         placeholder="Choose..."

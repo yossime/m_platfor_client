@@ -41,7 +41,7 @@ export abstract class SceneObject implements ISceneObject {
     });
   }
 
-  public abstract addChild(sceneObject: ISceneObject, slotNumber?: number): void;
+  // public abstract addChild(sceneObject: ISceneObject, slotNumber?: number): void;
 
   public displayEmptySlots(visible: boolean = true): void {
     this.setSlotsVisible(visible);
@@ -227,6 +227,7 @@ export abstract class SceneObject implements ISceneObject {
     let found: Object3D | null = null;
     this.model.traverse((child) => {
       if (child.name === name) {
+
         found = child;
       }
     });

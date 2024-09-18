@@ -13,7 +13,7 @@ export interface ISceneObjectOptions {
 
 export interface ISceneObject {
   children: ISceneObject[];
-  addChild(sceneObject: ISceneObject): void;
+  addChild?(sceneObject: ISceneObject): void;
   removeChild?(sceneObject: ISceneObject): void;
   getChildren(): ISceneObject[] | null;
   getEmptySlots(): CustomObject3D[];
@@ -25,6 +25,14 @@ export interface ISceneObject {
   getContentText(type: ContentDataType): IContentText | null;
   setContentMaterial(type: ContentDataType, material: IContentMaterial): void;
   setContentText?(type: ContentDataType, text: IContentText): void;
+}
+
+export interface IArchitecture extends ISceneObject {
+  addBoard(board: IBoard): void;
+}
+
+export interface IBoard extends ISceneObject {
+  // addBoard(board: IBoard): void;
 }
 
 export interface CustomObject3D extends Object3D {
@@ -64,9 +72,9 @@ export enum ContentDataType {
   BUTTON = 'button',
   TEXT = 'text',
   SELF = 'self',
-  IMAGE = 'image',
-  IMAGE_0 = 'image_0',
-  IMAGE_1 = 'image_1',
+  FRAME = 'frame',
+  FRAME_0 = 'frame_0',
+  FRAME_1 = 'frame_1',
   LOGO = 'logo',
   FORM = 'form',
 }
@@ -149,6 +157,7 @@ export interface IContentText {
 export interface ExportedSceneObject {
   name: string | null;
   type: string;
+  format?: FormatBoard;
   configuration: { [key in EConfiguration]?: EConfiguration };
   slotNumber?: number;
   position: Vector3 | null;
@@ -275,22 +284,21 @@ export enum FormatBoard {
   Frame = "frame",
   Simple = "simple",
 }
+
+
 export enum BoardType {
-  Product = 'Product_Duo_Test2',
-  // Product = 'DisplayDuo',
-  // Product = 'ProtBoard',
-  MasterTextOn = 'header',
   Video = 'video',
   Header = 'header',
   Image = 'image',
+  Podium = 'podium',
+  ProductDou = 'productDou',
+  Form = 'form',
+  Subscription = 'subscription',
+
   Slider = 'SliderBoard',
   Testimonials = 'TestimonialsBoard',
-  Subscription = 'SubscriptionBoard',
   Services = 'ServicesBoard',
   Gamification = 'GamificationBoard',
-  Form = 'FormBoard',
   Socials = 'SocialsBoard',
   Article = 'ArticleBoard',
-  DisplayStands = 'stands',
-  DisplayDuo = 'DisplayDuo'
 }
