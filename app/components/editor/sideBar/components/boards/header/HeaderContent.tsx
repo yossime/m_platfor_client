@@ -73,7 +73,7 @@ export const HeaderContentComponent: React.FC = () => {
                 isOpen={openSections.image}
                 onToggle={handleSectionToggle("image")}
               >
-                <ContentImageUpload type={ContentDataType.IMAGE} />
+                <ContentImageUpload type={ContentDataType.FRAME} />
               </DataObfuscator>
               <Divider />
             </>
@@ -85,7 +85,7 @@ export const HeaderContentComponent: React.FC = () => {
                 isOpen={openSections.model}
                 onToggle={handleSectionToggle("model")}
               >
-                <ContentModelUpload type={ContentDataType.IMAGE} />
+                <ContentModelUpload type={ContentDataType.FORM} />
               </DataObfuscator>
               <Divider />
             </>
@@ -133,7 +133,7 @@ export const HeaderContentComponent: React.FC = () => {
             isOpen={openSections.logo}
             onToggle={handleSectionToggle("logo")}
           >
-            <ContentImageUpload type={ContentDataType.IMAGE} />
+            <ContentImageUpload type={ContentDataType.FRAME} />
           </DataObfuscator>
         </Container>
       )}

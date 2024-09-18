@@ -46,7 +46,7 @@ export const ImageContentComponent: React.FC = () => {
                 isOpen={openSections.image}
                 onToggle={handleSectionToggle("image")}
               >
-                <ContentImageUpload type={ContentDataType.IMAGE} />
+                <ContentImageUpload type={ContentDataType.FRAME} />
               </DataObfuscator>
               <Divider />
             </>

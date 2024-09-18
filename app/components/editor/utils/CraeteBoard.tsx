@@ -1,25 +1,26 @@
 import { Board } from "../viewport/models/boards/Board";
 import { ProductDouBoard } from "../viewport/models/boards/productBoards/ProductDouBoard";
-import { BoardType } from "../types";
-import { MasterBoard } from "../viewport/models/boards/MasterBoard";
+import { BoardType, ISceneObjectOptions } from "../types";
 import { HeaderBoard } from "../viewport/models/boards/Header.bord";
 import { ImageBoard } from "../viewport/models/boards/Image.bord";
 import { VideoBoard } from "../viewport/models/boards/Video.bord";
+import { MasterBoard } from "../viewport/models/boards/MasterBoard";
 
-export const createBoardByType = (type: string, name: string): Board => {
+export const createBoardByType = (type: BoardType, options?: ISceneObjectOptions): Board => {
   switch (type) {
-    case "HeaderBoard":
-      return new HeaderBoard(BoardType.Header, { name: name });
+    case BoardType.Header:
+      return new HeaderBoard(BoardType.Header, options);
 
-    case "ImageBoard":
-      return new ImageBoard(BoardType.Image, { name: name });
+    case BoardType.Image:
+      return new ImageBoard(BoardType.Image, options);
 
-    case "ProductBoard":
-      return new ProductDouBoard(BoardType.Product, { name: name });
+    case BoardType.Video:
+      return new VideoBoard(BoardType.Video, options);
 
-    case "VideoBoard":
-      return new VideoBoard(BoardType.Product, { name: name });
+    case BoardType.Product:
+      return new ProductDouBoard(BoardType.Product, options);
+
     default:
-      return new MasterBoard(BoardType.Header, { name: name });
-  }
+      return new MasterBoard(BoardType.Header, options);
+    }
 };

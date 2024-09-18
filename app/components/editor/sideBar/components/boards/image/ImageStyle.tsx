@@ -17,7 +17,7 @@ import {
   EConfiguration,
   ICustomMaterial,
   ContentDataType,
-  ERenderrType,
+  ERendererType,
   FormatBoard,
 } from "@/components/editor/types/index";
 import { FontWeight, TextSize } from "@constants/text";
@@ -48,7 +48,7 @@ export const ImageStyleComponent: React.FC = () => {
     if (value === "Create new") {
       setShowUploadTexture(true);
     } else {
-      setContentMaterial(type, { renderr: ERenderrType.IRON });
+      setContentMaterial(type, { renderer: ERendererType.IRON });
     }
   };
 
@@ -115,7 +115,7 @@ export const ImageStyleComponent: React.FC = () => {
             options={BackgroundOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.IMAGE, value)
+              handleStyleChange(ContentDataType.FRAME, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}
@@ -153,7 +153,7 @@ export const ImageStyleComponent: React.FC = () => {
             options={imageStyleOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.IMAGE, value)
+              handleStyleChange(ContentDataType.FRAME, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}

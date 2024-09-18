@@ -100,7 +100,7 @@ export abstract class Board extends SceneObject {
     let geometry;
 
 
-    if (type === ContentDataType.IMAGE) {
+    if (type === ContentDataType.FRAME) {
       const configV = this.configuration.get(EConfigType.VERTICAL);
       const configH = this.configuration.get(EConfigType.HORIZONTAL);
       const geometryName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
@@ -122,8 +122,8 @@ export abstract class Board extends SceneObject {
     if (geometry instanceof Mesh) {
       if (material.customMaterial) {
         await this.changeMaterial(geometry, material.customMaterial);
-      } else if (material.renderr) {
-        await this.applyRenderMaterial(geometry, material.renderr);
+      } else if (material.renderer) {
+        await this.applyRenderMaterial(geometry, material.renderer);
       } else if (material.video) {
       await this.applyVideoMaterial(geometry, material.video);
       }
@@ -181,9 +181,9 @@ export abstract class Board extends SceneObject {
       const placeholder = this.getPlaceholder(contentType);
       if (geometry && placeholder) {
         const oldMaterial = this.contentData.get(contentType);
-        if (contentType === ContentDataType.IMAGE) {
+        if (contentType === ContentDataType.FRAME) {
           await this.setContentMaterial(
-            ContentDataType.IMAGE,
+            ContentDataType.FRAME,
             oldMaterial?.contentMaterial!
           );
         } else {

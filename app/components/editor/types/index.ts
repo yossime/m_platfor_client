@@ -56,19 +56,22 @@ export enum EConfiguration {
   BOTTOM = 'BOTTOM',
 }
 
-
-
 export enum ContentDataType {
   TITLE = 'title',
   SUB_TITLE = 'sub_title',
   BUTTON = 'button',
   TEXT = 'text',
   SELF = 'self',
-  IMAGE = 'image',
-  IMAGE_0 = 'image_0',
-  IMAGE_1 = 'image_1',
   LOGO = 'logo',
   FORM = 'form',
+  FRAME = 'frame',
+  FRAME_0 = 'form_0',
+  FRAME_1 = 'form_1',
+  NAME = 'name',
+  DESCRIPTION ='description',
+  PRIC = 'price',
+  PRODUCT = 'product'
+
 }
 
 
@@ -92,11 +95,23 @@ export interface ContentData {
   contentObjects?: IContentObjects;
   contentText?: IContentText;
   contentMaterial?: IContentMaterial 
-  // contentMaterial?: IContentMaterial | IContentMaterial[];
+  contentForm?: IContentForn;
 }
 
+export interface IContentForn {
+inputs?: IInputFile[]
+Required?:boolean;
+}
+
+export interface IInputFile {
+  label? :IContentText;
+  placeholder?:IContentText;
+  default?:IContentText;
+}
+
+
 export interface IContentObjects {
-  fbx?: string;
+  model?: string;
   meshName?: string;
   position?: Vector3 | null;
   rotation?: Euler | null;
@@ -123,11 +138,11 @@ export interface ICustomMaterial {
 export interface IContentMaterial {
   slotname?: MaterialSlotName;
   video?: string | File;
-  renderr?: ERenderrType;
+  renderer?: ERendererType;
   customMaterial?: ICustomMaterial;
 }
 
-export enum ERenderrType {
+export enum ERendererType {
   STONE = 'stone',
   IRON = 'iron',
 }
@@ -294,3 +309,9 @@ export enum BoardType {
   DisplayStands = 'stands',
   DisplayDuo = 'DisplayDuo'
 }
+
+
+
+
+
+
