@@ -1,5 +1,4 @@
 import { Object3D, Vector3, Euler, Material, Texture } from 'three';
-import { ArchitectureType } from '../viewport/models/architectures/types';
 
 
 export interface ISceneObjectOptions {
@@ -199,7 +198,7 @@ export interface ExportedSceneObject {
   rotation: Euler | null;
   scale?: Vector3;
   children: ExportedSceneObject[];
-  contentData: { [key in ContentDataType]?: ContentData };
+  contentsData: { [key in ContentDataType]?: ContentData };
 }
 
 export interface ISceneManager {
@@ -335,6 +334,10 @@ export enum BoardType {
   Gamification = 'GamificationBoard',
   Socials = 'SocialsBoard',
   Article = 'ArticleBoard',
+}
+
+export enum ArchitectureType {
+  TWO_CIRCLES = 'two_circles'
 }
 
 

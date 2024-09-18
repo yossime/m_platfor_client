@@ -7,7 +7,6 @@ export abstract class MasterBoardABC extends Board {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
     }
-    // protected boardUrl = `${this.libraryUrl}/borads/${this.type}/${this.format}.fbx`;
     protected boardUrl = `${this.libraryUrl}/borads/${this.type}`;
     protected getBoardUrl(): string { return `${this.boardUrl}/${this.format}.fbx`; };
 

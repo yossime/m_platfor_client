@@ -1,7 +1,7 @@
 import { Object3D, Vector3, Euler } from 'three';
 import { SceneObject } from '../SceneObject';
 import { ISceneObjectOptions, ISceneObject, CustomObject3D, ExportedSceneObject, IArchitecture, IBoard } from '../../../types';
-import { ArchitectureType } from './types';
+import { ArchitectureType } from "@/components/editor/types";
 import { BoardType } from "@/components/editor/types";
 import { Board } from '../boards/Board';
 import { ProductMaster } from '../boards/productBoards/ProductMaster.board';

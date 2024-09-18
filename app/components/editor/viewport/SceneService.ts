@@ -1,6 +1,6 @@
 import { Object3D } from 'three';
 import { ExportedSceneObject, ISceneObject } from '../types';
-import { ArchitectureType } from './models/architectures/types';
+import { ArchitectureType } from "../types";
 import { Architecture } from './models/architectures/Architecture';
 
 

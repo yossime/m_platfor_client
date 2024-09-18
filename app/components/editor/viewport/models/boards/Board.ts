@@ -64,9 +64,6 @@ export abstract class Board extends SceneObject {
 
   protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
     try {
-      // if (!this.format) return;
-      // const boardUrl = `https://storage.googleapis.com/library-all-test/borads/${this.type}.fbx`;
-      // const boardUrl = `${this.libraryUrl}/borads/${this.type}/${this.format}.fbx`;
       const model = await this.loader.loadModel(this.getBoardUrl());
 
       const customModel = model.children[0] as CustomObject3D;
@@ -129,8 +126,8 @@ export abstract class Board extends SceneObject {
         await this.applyVideoMaterial(geometry, material.video);
       }
 
-      this.contentData.set(type, {
-        ...this.contentData.get(type),
+      this.contentsData.set(type, {
+        ...this.contentsData.get(type),
         contentMaterial: material,
       });
     }
@@ -142,7 +139,7 @@ export abstract class Board extends SceneObject {
     const configH = this.configuration.get(EConfigType.HORIZONTAL);
     const configImageName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
 
-    this.contentData.set(type, {
+    this.contentsData.set(type, {
       contentObjects: { meshName: configImageName },
       contentText: text,
     });
@@ -177,11 +174,11 @@ export abstract class Board extends SceneObject {
   }
 
   protected updateContentPositions(): void {
-    this.contentData.forEach(async (data, contentType) => {
+    this.contentsData.forEach(async (data, contentType) => {
       const geometry = this.getGeometryByName(contentType);
       const placeholder = this.getPlaceholder(contentType);
       if (geometry && placeholder) {
-        const oldMaterial = this.contentData.get(contentType);
+        const oldMaterial = this.contentsData.get(contentType);
         if (contentType === ContentDataType.FRAME) {
           await this.setContentMaterial(
             ContentDataType.FRAME,
@@ -198,8 +195,8 @@ export abstract class Board extends SceneObject {
           rotation: placeholder.rotation,
         };
 
-        const oldContent = this.contentData.get(contentType);
-        this.contentData.set(contentType, {
+        const oldContent = this.contentsData.get(contentType);
+        this.contentsData.set(contentType, {
           ...oldContent,
           contentObjects: updatedObjects,
         });
@@ -221,7 +218,7 @@ export abstract class Board extends SceneObject {
       // contentText: Object.fromEntries(this.contentText),
       // contentObjects: Object.fromEntries(this.contentObjects),
       // contentImages: Object.fromEntries(this.contentImages),
-      contentData: Object.fromEntries(this.contentData),
+      contentData: Object.fromEntries(this.contentsData),
     };
     return JSON.stringify(exportObject, null, 2);
   }

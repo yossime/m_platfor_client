@@ -18,7 +18,7 @@ export abstract class SceneObject implements ISceneObject {
   protected rotation: Euler | null = null;
   protected scale: Vector3 = new Vector3(1, 1, 1);
   protected modelParent: Object3D | null = null;
-  protected contentData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
+  protected contentsData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
   // protected onLoad: (model?: Object3D) => void;
   protected loader = new ModelLoader();
   protected readonly libraryUrl: string;
@@ -58,11 +58,11 @@ export abstract class SceneObject implements ISceneObject {
   public setName(name: string): void { this.name = name };
 
   public getContentMaterial(type: ContentDataType): ContentMaterial | null {
-    return this.contentData.get(type)?.contentMaterial ?? null;
+    return this.contentsData.get(type)?.contentMaterial ?? null;
   };
 
   public getContentText(type: ContentDataType): ContentText | null {
-    return this.contentData.get(type)?.contentText ?? null;
+    return this.contentsData.get(type)?.contentText ?? null;
   };
 
   public getChildren(): ISceneObject[] | null {
@@ -150,8 +150,8 @@ export abstract class SceneObject implements ISceneObject {
 
 
   public buildFromJson(exportedObj: ExportedSceneObject) {
-    if (exportedObj.contentData) {
-      for (const [key, value] of Object.entries(exportedObj.contentData)) {
+    if (exportedObj.contentsData) {
+      for (const [key, value] of Object.entries(exportedObj.contentsData)) {
 
         if (value.contentMaterial) {
           this.setContentMaterial(key as ContentDataType, value.contentMaterial)
