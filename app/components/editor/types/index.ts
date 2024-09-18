@@ -35,6 +35,11 @@ export interface IBoard extends ISceneObject {
   // addBoard(board: IBoard): void;
 }
 
+export interface ProductBoard extends ISceneObject {
+  addChild?(sceneObject: ISceneObject): void;
+  addProduct?(board: IBoard): void;
+}
+
 export interface CustomObject3D extends Object3D {
   onPointerDown?: (event: any) => ISceneObject;
   interactive?: boolean;

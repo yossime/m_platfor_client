@@ -1,8 +1,8 @@
 import { ISceneObjectOptions, ISceneObject } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
-import { MasterBoard } from './masterBoard';
+import { MasterBoardABC } from './masterBoard';
 
-export class HeaderBoard extends MasterBoard {
+export class HeaderBoard extends MasterBoardABC {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
     }

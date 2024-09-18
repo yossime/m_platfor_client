@@ -1,9 +1,9 @@
 import { Object3D } from 'three';
-import { ISceneObjectOptions, ISceneObject } from '@/components/editor/types/index';
+import { ISceneObjectOptions, ISceneObject, ProductBoard } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
 import { Board } from '../Board';
 
-export abstract class ProductBoard extends Board {
+export abstract class ProductBoardABC extends Board implements ProductBoard {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
         this.loadModelAndDisplay(onBoardLoaded);

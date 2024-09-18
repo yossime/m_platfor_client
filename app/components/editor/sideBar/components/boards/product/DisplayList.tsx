@@ -56,7 +56,7 @@ export const DisplayList: React.FC = () => {
 
     // Update the scene object
     // selectedObject.removeChild(displays[activeDisplay.index]);
-    selectedObject.addChild(updatedDisplay);
+    selectedObject.addChild!(updatedDisplay);
 
     handleClosePopup();
   };
@@ -65,7 +65,7 @@ export const DisplayList: React.FC = () => {
     if (!selectedObject || availableSlots === 0) return;
     const newDisplay = new DouProduct(ProductType.ProductDuo);
     if (newDisplay)
-      selectedObject.addChild(newDisplay);
+      selectedObject.addChild!(newDisplay);
 
     setDisplays([...displays, newDisplay]);
     setAvailableSlots(availableSlots - 1);
