@@ -94,14 +94,7 @@ export const FormContentComponent: React.FC = () => {
       setForm((prev) => ({ ...prev, [field]: event.target.value }));
     };
 
-  // const updateField = (index: number, updates: Partial<IField>) => {
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     fields: prev.fields.map((field, i) =>
-  //       i === index ? { ...field, ...updates } : field
-  //     ),
-  //   }));
-  // };
+
 
   return (
     <Container>
