@@ -5,6 +5,9 @@ import { ProductBoardABC } from '.';
 import { Product } from '../../products/Product';
 
 export class ProductMaster extends ProductBoardABC {
+    protected getBoardUrl(): string {
+        throw new Error('Method not implemented.');
+    }
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
     }
