@@ -1,4 +1,4 @@
-import { ContentDataType, ContentForn, FormBoard, ISceneObject, ISceneObjectOptions } from '@/components/editor/types/index';
+import { ContentDataType, ContentForm, FormBoard, InputField, InputLabelType, ISceneObject, ISceneObjectOptions } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
 import { Board } from '../Board';
 
@@ -7,10 +7,15 @@ export abstract class FormBoardABC extends Board implements FormBoard{
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
     }
-    setContentForn(type: ContentDataType, contentForn: ContentForn): void {
+    setFormInput(type: ContentDataType, label: InputLabelType, contentFormInput: InputField): void {
+        // throw new Error('Method not implemented.');
+        console.log("hhhh")
+    }
+  
+    setContentForm(type: ContentDataType, contentForn: ContentForm): void {
         throw new Error('Method not implemented.');
     }
-    getContentForn(type: ContentDataType): ContentForn {
+    getContentForm(type: ContentDataType): ContentForm {
         throw new Error('Method not implemented.');
     }
     addChild?(sceneObject: ISceneObject): void {
@@ -18,5 +23,8 @@ export abstract class FormBoardABC extends Board implements FormBoard{
     }
     removeChild?(sceneObject: ISceneObject): void {
         throw new Error('Method not implemented.');
+    }
+    getFormInput(type: ContentDataType, label: InputLabelType): InputField | null {
+        return null;
     }
 }

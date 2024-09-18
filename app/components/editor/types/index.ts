@@ -40,8 +40,10 @@ export interface ProductBoard extends ISceneObject {
   addProduct?(board: IBoard): void;
 }
 export interface FormBoard extends ISceneObject {
-  setContentForn(type: ContentDataType,contentForn: ContentForn): void;
-  getContentForn(type: ContentDataType): ContentForn;
+  getFormInput(type: ContentDataType, label: InputLabelType): InputField | null;
+  setFormInput(type: ContentDataType, label: InputLabelType, contentFormInput: InputField): void;
+  getContentForm?(type: ContentDataType): ContentForm | null;
+  setContentForm?(type: ContentDataType,contentForn: ContentForm): void;
 }
 
 export interface CustomObject3D extends Object3D {
@@ -107,26 +109,34 @@ export enum EContentImagesType {
   IMAGE_1 = 'image_1',
 }
 
+export enum InputLabelType {
+  NAME = 'name',
+  EMAIL = 'email',
+  PHONE_NUMBER = 'phoneNumber',
+  COMPANY_NAME = 'companyName',
+  FREE_TEXT = 'freeText',
+}
 
 
 export interface ContentData {
   contentObjects?: ContentObjects;
   contentText?: ContentText;
   contentMaterial?: ContentMaterial
-  contentForm?: ContentForn;
+  contentForm?: ContentForm;
 }
 
-export interface ContentForn {
-  inputs?: InputFile[];
+
+
+export interface ContentForm {
+  inputs?: Map<InputLabelType, InputField>;
 }
 
-export interface InputFile {
+export interface InputField {
   label?: ContentText;
   placeholder?: ContentText;
   required?: boolean;
-  default?: ContentText;
+  default?:ContentText;
 }
-
 
 export interface ContentObjects {
   model?: string;

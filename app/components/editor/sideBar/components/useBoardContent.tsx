@@ -7,8 +7,12 @@ import {
   ContentMaterial,
   ContentText,
   ISceneObject,
+  ContentForm,
+  InputField,
+  InputLabelType,
 } from "../../types";
 import { Board } from "../../viewport/models/boards/Board";
+import { FormBoardABC } from "../../viewport/models/boards/formBoards";
 
 export const useBoardContent = () => {
   const { sceneModel } = useEditor();
@@ -37,6 +41,28 @@ export const useBoardContent = () => {
     }
     if (selectedObject.setContentText) {
       selectedObject.setContentText(type, { text: value });
+    } else {
+      console.warn("Selected object does not support setting content text");
+    }
+  };
+
+  const getFormInput = (type: ContentDataType, label:InputLabelType): InputField | null => {
+    const selectedObject = getSelectedObject();
+    if (!selectedObject) {
+      console.warn("No object selected");
+      return null;
+    }
+    return (selectedObject as FormBoardABC).getFormInput?.(type,label) ?? null;
+  };
+
+  const setFormInput = (type: ContentDataType,label:InputLabelType, input: InputField): void => {
+    const selectedObject = getSelectedObject();
+    if (!selectedObject) {
+      console.warn("No object selected");
+      return;
+    }
+    if (selectedObject.setContentText) {
+      (selectedObject as FormBoardABC).setFormInput(type,label,  input );
     } else {
       console.warn("Selected object does not support setting content text");
     }
@@ -135,6 +161,8 @@ export const useBoardContent = () => {
 
 
   return {
+    setFormInput,
+    getFormInput,
     getConfiguration,
     setConfiguration,
     getLogoConfiguration,

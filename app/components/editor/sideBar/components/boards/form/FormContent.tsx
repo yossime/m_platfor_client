@@ -12,7 +12,7 @@ import Collapsible from "@/components/Library/general/Collapsible";
 import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
 import styled from "styled-components";
-import { ContentInput } from "../../GenericBoardComponents";
+import { ContentInput, ContentInputForm } from "../../GenericBoardComponents";
 import { ContentDataType } from "@/components/editor/types";
 
 const FieldWrapper = styled.div`
@@ -122,17 +122,16 @@ export const FormContentComponent: React.FC = () => {
         onToggle={handleSectionToggle("title")}
       >
         <ContentInput type={ContentDataType.TITLE} placeholder="Enter title" />
-
       </DataObfuscator>
       <DataObfuscator
         title="Subtitle"
         isOpen={openSections.subtitle}
         onToggle={handleSectionToggle("subtitle")}
       >
-         <ContentInput
+        <ContentInput
           type={ContentDataType.SUB_TITLE}
           placeholder="Enter subtitle"
-        /> 
+        />
       </DataObfuscator>
       <SubWrapper>
         <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
@@ -146,13 +145,10 @@ export const FormContentComponent: React.FC = () => {
                   <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
                     Place holder text
                   </Text>
-                  <Input
-                    inputSize={InputSize.SMALL}
-                    mode={InputMode.NORMAL}
-                    value={field.placeholder}
-                    onChange={(e) =>
-                      updateField(index, { placeholder: e.target.value })
-                    }
+                  <ContentInputForm
+                    type={ContentDataType.FORM}
+                    placeholder={field.placeholder}
+                    label={field.label}
                   />
                 </FieldWrapper>
               </Collapsible>

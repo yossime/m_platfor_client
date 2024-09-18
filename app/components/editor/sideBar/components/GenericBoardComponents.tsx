@@ -4,7 +4,7 @@ import SelectInput from '@/components/Library/input/SelectInput';
 import { InputMode, InputSize } from '@constants/input';
 import { DeleteIcon, FileDisplay, FileName } from './CommonStyles';
 import DragAndDrop from '@/components/Library/general/DragAndDrop';
-import {   ContentDataType } from '../../types';
+import {   ContentDataType, InputLabelType } from '../../types';
 import { uploadFile } from '../../utils/fileUploadService';
 import { useBoardContent } from './useBoardContent';
 
@@ -32,6 +32,24 @@ export const ContentInput: React.FC<ContentInputProps> = ({ type, placeholder, l
   );
 };
 
+interface ContentInputProps {
+  type: ContentDataType;
+  placeholder: string;
+  label?: string;
+}
+
+export const ContentInputForm: React.FC<ContentInputProps> = ({ type, placeholder, label }) => {
+  const { getFormInput, setFormInput } = useBoardContent();
+  return (
+    <Input
+      placeholder={placeholder}
+      inputSize={InputSize.SMALL}
+      mode={InputMode.NORMAL}
+      value={getFormInput(type,label as InputLabelType)?.placeholder?.text}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => setFormInput(type,label as InputLabelType ,{label:{text: e.target.value}})}
+    />
+  );
+};
 
 interface ContentSelectProps {
   type: ContentDataType;

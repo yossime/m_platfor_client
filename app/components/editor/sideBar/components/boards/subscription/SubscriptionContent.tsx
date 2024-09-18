@@ -12,7 +12,7 @@ import Collapsible from "@/components/Library/general/Collapsible";
 import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
 import styled from "styled-components";
-import { ContentInput } from "../../GenericBoardComponents";
+import { ContentInput, ContentInputForm } from "../../GenericBoardComponents";
 import { ContentDataType } from "@/components/editor/types";
 
 const FieldWrapper = styled.div`
@@ -98,7 +98,7 @@ export const SubscriptionContentComponent: React.FC = () => {
         <ContentInput
           type={ContentDataType.SUB_TITLE}
           placeholder="Enter subtitle"
-        /> 
+        />
       </DataObfuscator>
       <SubWrapper>
         <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
@@ -110,12 +110,10 @@ export const SubscriptionContentComponent: React.FC = () => {
               <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
                 Place holder text
               </Text>
-              <Input
+              <ContentInputForm
+                type={ContentDataType.FORM}
                 placeholder="Enter your name here"
-                inputSize={InputSize.SMALL}
-                mode={InputMode.NORMAL}
-                value={subscription.placeholders.name}
-                onChange={handlePlaceholderChange("name")}
+                label="Name"
               />
             </FieldWrapper>
           </Collapsible>
@@ -125,12 +123,10 @@ export const SubscriptionContentComponent: React.FC = () => {
               <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
                 Place holder text
               </Text>
-              <Input
-                placeholder="Enter email placeholder"
-                inputSize={InputSize.SMALL}
-                mode={InputMode.NORMAL}
-                value={subscription.placeholders.email}
-                onChange={handlePlaceholderChange("email")}
+              <ContentInputForm
+                type={ContentDataType.FORM}
+                placeholder="Enter your email here"
+                label="Email"
               />
             </FieldWrapper>
           </Collapsible>

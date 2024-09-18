@@ -59,13 +59,13 @@ export const HeaderContentComponent: React.FC = () => {
         />
       ) : (
         <Container>
-          <DataObfuscator
+          {/* <DataObfuscator
             title="Material"
             isOpen={openSections.material}
             onToggle={handleSectionToggle("material")}
           >
             <canvas ref={materialCanvasRef} width={400} height={400} />
-          </DataObfuscator>
+          </DataObfuscator> */}
           {formatBoard === FormatBoard.Frame && (
             <>
               <DataObfuscator
