@@ -6,7 +6,7 @@ import Collapsible from '@/components/Library/general/Collapsible';
 import StrengthComponent from '@/components/Library/general/StrengthComponent ';
 import Popup from '@/components/Library/general/Popup';
 import { DeleteIcon, FileName, FileDisplay, Divider } from './CommonStyles'
-import { IContentMaterial, ICustomMaterial, ITextureSource } from '../../types';
+import { ContentMaterial, ICustomMaterial, ITextureSource } from '../../types';
 
 const Container = styled.div`
   display: flex;

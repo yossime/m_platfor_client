@@ -3,8 +3,8 @@ import {
   ISceneObjectOptions,
   ISceneObject,
   CustomObject3D,
-  IContentMaterial,
-  IContentText,
+  ContentMaterial,
+  ContentText,
   EConfigType,
   EConfiguration,
   ContentDataType,
@@ -94,7 +94,7 @@ export abstract class Board extends SceneObject {
 
   public async setContentMaterial(
     type: ContentDataType,
-    material: IContentMaterial
+    material: ContentMaterial
   ): Promise<void> {
     let geometry;
 
@@ -134,7 +134,7 @@ export abstract class Board extends SceneObject {
     }
   }
 
-  public setContentText(type: ContentDataType, text: IContentText): void {
+  public setContentText(type: ContentDataType, text: ContentText): void {
     const geometry = this.getGeometryByName(type);
     const configV = this.configuration.get(EConfigType.VERTICAL);
     const configH = this.configuration.get(EConfigType.HORIZONTAL);

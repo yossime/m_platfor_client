@@ -16,8 +16,8 @@ export const createBoardByType = (type: BoardType, options?: ISceneObjectOptions
     case BoardType.Video:
       return new VideoBoard(BoardType.Video, options);
 
-    case BoardType.Podium:
-      return new ProductMaster(BoardType.Podium, options);
+    case BoardType.Product:
+      return new ProductMaster(BoardType.Product, options);
 
     default:
       return new HeaderBoard(BoardType.Header, options);

@@ -1,6 +1,6 @@
 import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture, MeshPhongMaterial, MeshBasicMaterial } from 'three';
 
-import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, EContentImagesType, IContentMaterial, IContentText, IContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../../types';
+import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, EContentImagesType, ContentMaterial, ContentText, ContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../../types';
 import { FBXLoader, Font, FontLoader, GLTFLoader, TextGeometry } from 'three/examples/jsm/Addons.js';
 import { TextureManager } from '../utils/TextureManager';
 import { EventManager } from '../utils/EventManager';
@@ -57,11 +57,11 @@ export abstract class SceneObject implements ISceneObject {
 
   public setName(name: string): void { this.name = name };
 
-  public getContentMaterial(type: ContentDataType): IContentMaterial | null {
+  public getContentMaterial(type: ContentDataType): ContentMaterial | null {
     return this.contentData.get(type)?.contentMaterial ?? null;
   };
 
-  public getContentText(type: ContentDataType): IContentText | null {
+  public getContentText(type: ContentDataType): ContentText | null {
     return this.contentData.get(type)?.contentText ?? null;
   };
 
@@ -73,9 +73,9 @@ export abstract class SceneObject implements ISceneObject {
     return this.slots;
   }
 
-  public setContentText(type: ContentDataType, text: IContentText): void { }
+  public setContentText(type: ContentDataType, text: ContentText): void { }
 
-  public setContentMaterial(type: ContentDataType, material: IContentMaterial) { }
+  public setContentMaterial(type: ContentDataType, material: ContentMaterial) { }
 
 
   protected setPosition(position: Vector3): void {
@@ -276,7 +276,7 @@ export abstract class SceneObject implements ISceneObject {
     });
   };
 
-  protected applyText(mesh: Mesh, text: IContentText): void {
+  protected applyText(mesh: Mesh, text: ContentText): void {
     this.straightText(mesh, text)
   }
 
@@ -295,7 +295,7 @@ export abstract class SceneObject implements ISceneObject {
     });
   }
 
-  async straightText(mesh: Mesh, text: IContentText) {
+  async straightText(mesh: Mesh, text: ContentText) {
     try {
       const font = await this.loadFont('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json');
       const geometry = new TextGeometry(text.text, {

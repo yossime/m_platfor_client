@@ -4,8 +4,8 @@ import {
   EConfigType,
   EConfiguration,
   FormatBoard,
-  IContentMaterial,
-  IContentText,
+  ContentMaterial,
+  ContentText,
   ISceneObject,
 } from "../../types";
 import { Board } from "../../viewport/models/boards/Board";
@@ -20,7 +20,7 @@ export const useBoardContent = () => {
     }
     return sceneModel.getSelectedObject() ;
   };
-  const getContentText = (type: ContentDataType): IContentText | null => {
+  const getContentText = (type: ContentDataType): ContentText | null => {
     const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
@@ -44,7 +44,7 @@ export const useBoardContent = () => {
 
   const getContentMaterial = (
     type: ContentDataType
-  ): IContentMaterial | null => {
+  ): ContentMaterial | null => {
     const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
@@ -55,7 +55,7 @@ export const useBoardContent = () => {
 
   const setContentMaterial = (
     type: ContentDataType,
-    material: IContentMaterial
+    material: ContentMaterial
   ): void => {
     const selectedObject = getSelectedObject();
     if (!selectedObject) {

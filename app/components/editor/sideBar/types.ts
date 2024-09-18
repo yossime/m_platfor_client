@@ -12,7 +12,7 @@ export interface WidgetData {
 
 export const widgets = [
   { type: BoardType.Header, name: 'Header', icon: IconName.ALIGNTOP , body: "Clickable social media icons"},
-  { type: BoardType.Podium, name: 'Product', icon: IconName.BASKET,  body: "Create and display your products"},
+  { type: BoardType.Product, name: 'Product', icon: IconName.BASKET,  body: "Create and display your products"},
   { type: BoardType.Slider, name: 'Slider', icon: IconName.SLIDESHOW ,body: "Display content with a slider"},
   { type: BoardType.Image, name: 'Image', icon: IconName.IMAGE, body: "Display an \n image" },
   { type: BoardType.Video, name: 'Video', icon: IconName.VIDEO , body: "show a video including 360°"},

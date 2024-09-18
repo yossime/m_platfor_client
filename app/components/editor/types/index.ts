@@ -21,10 +21,10 @@ export interface ISceneObject {
   exportToJson(): string;
 
   isSelected(selected: boolean): void;
-  getContentMaterial(type: ContentDataType): IContentMaterial | null;
-  getContentText(type: ContentDataType): IContentText | null;
-  setContentMaterial(type: ContentDataType, material: IContentMaterial): void;
-  setContentText?(type: ContentDataType, text: IContentText): void;
+  getContentMaterial(type: ContentDataType): ContentMaterial | null;
+  getContentText(type: ContentDataType): ContentText | null;
+  setContentMaterial(type: ContentDataType, material: ContentMaterial): void;
+  setContentText?(type: ContentDataType, text: ContentText): void;
 }
 
 export interface IArchitecture extends ISceneObject {
@@ -38,6 +38,10 @@ export interface IBoard extends ISceneObject {
 export interface ProductBoard extends ISceneObject {
   addChild?(sceneObject: ISceneObject): void;
   addProduct?(board: IBoard): void;
+}
+export interface FormBoard extends ISceneObject {
+  setContentForn(type: ContentDataType,contentForn: ContentForn): void;
+  getContentForn(type: ContentDataType): ContentForn;
 }
 
 export interface CustomObject3D extends Object3D {
@@ -81,7 +85,7 @@ export enum ContentDataType {
   LOGO = 'logo',
   FORM = 'form',
   NAME = 'name',
-  DESCRIPTION ='description',
+  DESCRIPTION = 'description',
   PRIC = 'price',
   PRODUCT = 'product',
   EMAIL = 'email',
@@ -106,25 +110,25 @@ export enum EContentImagesType {
 
 
 export interface ContentData {
-  contentObjects?: IContentObjects;
-  contentText?: IContentText;
-  contentMaterial?: IContentMaterial 
-  contentForm?: IContentForn;
+  contentObjects?: ContentObjects;
+  contentText?: ContentText;
+  contentMaterial?: ContentMaterial
+  contentForm?: ContentForn;
 }
 
-export interface IContentForn {
-inputs?: IInputFile[]
-Required?:boolean;
+export interface ContentForn {
+  inputs?: InputFile[];
 }
 
-export interface IInputFile {
-  label? :IContentText;
-  placeholder?:IContentText;
-  default?:IContentText;
+export interface InputFile {
+  label?: ContentText;
+  placeholder?: ContentText;
+  required?: boolean;
+  default?: ContentText;
 }
 
 
-export interface IContentObjects {
+export interface ContentObjects {
   model?: string;
   meshName?: string;
   position?: Vector3 | null;
@@ -149,7 +153,7 @@ export interface ICustomMaterial {
   tint?: ITextureSource;
 }
 
-export interface IContentMaterial {
+export interface ContentMaterial {
   slotname?: MaterialSlotName;
   video?: string | File;
   renderer?: ERendererType;
@@ -167,7 +171,7 @@ export enum ESkybox {
 }
 
 
-export interface IContentText {
+export interface ContentText {
   text: string;
   font?: string;
   color?: string;
@@ -311,8 +315,7 @@ export enum BoardType {
   Video = 'video',
   Header = 'header',
   Image = 'image',
-  Podium = 'podium',
-  ProductDou = 'productDou',
+  Product = 'product',
   Form = 'form',
   Subscription = 'subscription',
 
