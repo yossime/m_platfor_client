@@ -117,7 +117,7 @@ export const HeaderStyleComponent: React.FC = () => {
             options={BackgroundOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.FRAME, value)
+              handleStyleChange(ContentDataType.SELF, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}
