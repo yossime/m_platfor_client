@@ -16,7 +16,7 @@ import {
   EConfiguration,
   ICustomMaterial,
   ContentDataType,
-  ERenderrType,
+  ERendererType,
   FormatBoard,
 } from "@/components/editor/types/index";
 import { FontWeight, TextSize } from "@constants/text";
@@ -47,7 +47,7 @@ export const HeaderStyleComponent: React.FC = () => {
     if (value === "Create new") {
       setShowUploadTexture(true);
     } else {
-      setContentMaterial(type, { renderr: ERenderrType.IRON });
+      setContentMaterial(type, { renderer: ERendererType.IRON });
     }
   };
 

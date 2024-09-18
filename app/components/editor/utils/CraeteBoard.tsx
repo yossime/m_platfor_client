@@ -5,7 +5,6 @@ import { HeaderBoard } from "../viewport/models/boards/Header.bord";
 import { ImageBoard } from "../viewport/models/boards/Image.bord";
 import { VideoBoard } from "../viewport/models/boards/Video.bord";
 
-
 export const createBoardByType = (type: BoardType, options?: ISceneObjectOptions): Board => {
   switch (type) {
     case BoardType.Header:

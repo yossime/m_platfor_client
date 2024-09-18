@@ -5,8 +5,7 @@ import SelectInput from '@/components/Library/input/SelectInput';
 import { Container, Divider } from '../../CommonStyles';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
 import { textSizeOptions, textStyleOptions, buttonStyleOptions, imageStyleOptions, BackgroundOptions } from '../../../types';
-import AlignmentControl from '../../AlignmentControlComponent';
-import TextureUploadComponent from '../../LoadTexturePopup';
+
 
 interface IHeaderStyle {
   titleSize: string;
@@ -96,19 +95,13 @@ export const SubscriptionStyleComponent: React.FC = () => {
           fullWidth={true}
         />
       </DataObfuscator>
-      {showUploadTexture && <TextureUploadComponent parentRef={ref} onClose={() => setShowUploadTexture(false)} />}
-      {showLibrary && <TextureUploadComponent parentRef={ref} onClose={() => setShowLibrary(false)} />}
 
-      <Divider />
-      <AlignmentControl
-        onHorizontalAlignmentChange={(alignment) => handleChange('horizontalAlignment', alignment)}
-        onVerticalAlignmentChange={(alignment) => handleChange('verticalAlignment', alignment)}
-      />
+
       <DataObfuscator
         title='Text style'
         isOpen={openSections.title}
         onToggle={handleSectionToggle('title')}
-      >
+        >
         <SelectInput
           options={textSizeOptions}
           value={style.titleSize}
@@ -117,38 +110,11 @@ export const SubscriptionStyleComponent: React.FC = () => {
           mode={InputMode.DEFAULT}
           placeholder="Choose..."
           fullWidth={true}
+          
+          />
 
-        />
-        <SelectInput
-          options={textStyleOptions}
-          value={style.titleStyle}
-          onChange={(value) => handleChange('titleStyle', value)}
-          inputSize={InputSize.SMALL}
-          mode={InputMode.DEFAULT}
-          placeholder="Choose..."
-          fullWidth={true}
-        />
       </DataObfuscator>
 
-      <Divider />
-
-      <DataObfuscator
-        title='Image'
-        isOpen={openSections.subtitle}
-        onToggle={handleSectionToggle('subtitle')}
-      >
-        <SelectInput
-          options={imageStyleOptions}
-          value={style.subtitleSize}
-          onChange={(value) => handleChange('subtitleSize', value)}
-          inputSize={InputSize.SMALL}
-          mode={InputMode.DEFAULT}
-          placeholder="Choose..."
-          fullWidth={true}
-        />
-      </DataObfuscator>
-
-      <Divider />
 
       <DataObfuscator
         title='Button'
@@ -163,7 +129,7 @@ export const SubscriptionStyleComponent: React.FC = () => {
           mode={InputMode.DEFAULT}
           placeholder="Choose..."
           fullWidth={true}
-        />
+          />
       </DataObfuscator>
     </Container>
   );
@@ -176,3 +142,5 @@ export const SubscriptionStyleComponent: React.FC = () => {
 
 
 
+
+{/* {showLibrary && <TextureUploadComponent parentRef={ref} onClose={() => setShowLibrary(false)} />} */}

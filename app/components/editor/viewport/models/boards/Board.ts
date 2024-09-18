@@ -121,8 +121,8 @@ export abstract class Board extends SceneObject {
     if (geometry instanceof Mesh) {
       if (material.customMaterial) {
         await this.changeMaterial(geometry, material.customMaterial);
-      } else if (material.renderr) {
-        await this.applyRenderMaterial(geometry, material.renderr);
+      } else if (material.renderer) {
+        await this.applyRenderMaterial(geometry, material.renderer);
       } else if (material.video) {
       await this.applyVideoMaterial(geometry, material.video);
       }
