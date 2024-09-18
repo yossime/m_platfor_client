@@ -43,7 +43,7 @@ export interface FormBoard extends ISceneObject {
   getFormInput(type: ContentDataType, label: InputLabelType): InputField | null;
   setFormInput(type: ContentDataType, label: InputLabelType, contentFormInput: InputField): void;
   getContentForm?(type: ContentDataType): ContentForm | null;
-  setContentForm?(type: ContentDataType,contentForn: ContentForm): void;
+  setContentForm?(type: ContentDataType,contentForn: ContentForm): void;
 }
 
 export interface CustomObject3D extends Object3D {
@@ -77,7 +77,7 @@ export enum EConfiguration {
 
 export enum ContentDataType {
   TITLE = 'title',
-  SUB_TITLE = 'sub_title',
+  SUB_TITLE = 'subtitle',
   BUTTON = 'button',
   TEXT = 'text',
   SELF = 'self',
@@ -109,14 +109,6 @@ export enum EContentImagesType {
   IMAGE_1 = 'image_1',
 }
 
-export enum InputLabelType {
-  NAME = 'name',
-  EMAIL = 'email',
-  PHONE_NUMBER = 'phoneNumber',
-  COMPANY_NAME = 'companyName',
-  FREE_TEXT = 'freeText',
-}
-
 
 export interface ContentData {
   contentObjects?: ContentObjects;
@@ -136,6 +128,14 @@ export interface InputField {
   placeholder?: ContentText;
   required?: boolean;
   default?:ContentText;
+}
+
+export enum InputLabelType {
+  NAME = 'name',
+  EMAIL = 'email',
+  PHONE_NUMBER = 'phoneNumber',
+  COMPANY_NAME = 'companyName',
+  FREE_TEXT = 'freeText',
 }
 
 export interface ContentObjects {

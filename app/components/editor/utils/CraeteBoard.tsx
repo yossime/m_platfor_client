@@ -1,11 +1,11 @@
 import { Board } from "../viewport/models/boards/Board";
 import { ProductMaster } from "../viewport/models/boards/productBoards/ProductMaster.board";
 import { BoardType, ISceneObjectOptions } from "../types";
-import { HeaderBoard } from "../viewport/models/boards/Header.bord";
-import { ImageBoard } from "../viewport/models/boards/Image.bord";
-import { VideoBoard } from "../viewport/models/boards/Video.bord";
-import { SubscriptionBoard } from "../viewport/models/boards/formBoards/Subscription.board";
 import { FormBoard } from "../viewport/models/boards/formBoards/Form.board";
+import { SubscriptionBoard } from "../viewport/models/boards/formBoards/Subscription.board";
+import { HeaderBoard } from "../viewport/models/boards/masterBoard/Header.bord";
+import { ImageBoard } from "../viewport/models/boards/masterBoard/Image.bord";
+import { VideoBoard } from "../viewport/models/boards/masterBoard/Video.bord";
 
 export const createBoardByType = (type: BoardType, options?: ISceneObjectOptions): Board => {
   switch (type) {
