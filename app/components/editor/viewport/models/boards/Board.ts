@@ -18,8 +18,8 @@ import { SceneObject } from "../SceneObject";
 import { DouProduct } from "../products/DouProduct";
 
 export abstract class Board extends SceneObject {
-  private format: FormatBoard | null = null;
   public slotNumber = -1;
+  protected format: FormatBoard | null = null;
   protected selectedSlot: CustomObject3D | null = null;
   protected configuration = new Map<EConfigType, EConfiguration>([
     [EConfigType.HORIZONTAL, EConfiguration.CENTER],
@@ -29,6 +29,10 @@ export abstract class Board extends SceneObject {
     [EConfigType.HORIZONTAL, EConfiguration.CENTER],
     [EConfigType.VERTICAL, EConfiguration.CENTER],
   ]);
+
+  // protected abstract boardUrl: string;
+
+  protected abstract getBoardUrl(): string ;
 
   constructor(
     type: BoardType,
@@ -58,14 +62,12 @@ export abstract class Board extends SceneObject {
   }
 
 
-  protected async loadModelAndDisplay(
-    onLoad?: (model?: Object3D) => void
-  ): Promise<void> {
+  protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
     try {
-      if (!this.format) return;
+      // if (!this.format) return;
       // const boardUrl = `https://storage.googleapis.com/library-all-test/borads/${this.type}.fbx`;
-      const boardUrl = `${this.libraryUrl}/borads/${this.type}/${this.format}.fbx`;
-      const model = await this.loader.loadModel(boardUrl);
+      // const boardUrl = `${this.libraryUrl}/borads/${this.type}/${this.format}.fbx`;
+      const model = await this.loader.loadModel(this.getBoardUrl());
 
       const customModel = model.children[0] as CustomObject3D;
 
@@ -124,7 +126,7 @@ export abstract class Board extends SceneObject {
       } else if (material.renderer) {
         await this.applyRenderMaterial(geometry, material.renderer);
       } else if (material.video) {
-      await this.applyVideoMaterial(geometry, material.video);
+        await this.applyVideoMaterial(geometry, material.video);
       }
 
       this.contentData.set(type, {
