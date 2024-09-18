@@ -213,12 +213,13 @@ export abstract class Board extends SceneObject {
     const exportObject = {
       ...JSON.parse(super.exportToJson()),
       slotNumber: this.slotNumber,
+      format: this.format,
       configuration: Object.fromEntries(this.configuration),
       // contentMaterial: Object.fromEntries(this.contentMaterial),
       // contentText: Object.fromEntries(this.contentText),
       // contentObjects: Object.fromEntries(this.contentObjects),
       // contentImages: Object.fromEntries(this.contentImages),
-      contentData: Object.fromEntries(this.contentsData),
+      contentsData: Object.fromEntries(this.contentsData),
     };
     return JSON.stringify(exportObject, null, 2);
   }
