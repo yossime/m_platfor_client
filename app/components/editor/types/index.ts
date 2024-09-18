@@ -83,7 +83,8 @@ export enum ContentDataType {
   NAME = 'name',
   DESCRIPTION ='description',
   PRIC = 'price',
-  PRODUCT = 'product'
+  PRODUCT = 'product',
+  EMAIL = 'email',
 
 }
 
