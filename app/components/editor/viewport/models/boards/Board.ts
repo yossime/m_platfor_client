@@ -192,14 +192,14 @@ export abstract class Board extends SceneObject {
 
         const updatedObjects = {
           contentName: placeholder.name,
-          position: placeholder.position,
-          rotation: placeholder.rotation,
+          // position: placeholder.position,
+          // rotation: placeholder.rotation,
         };
 
         const oldContent = this.contentData.get(contentType);
         this.contentData.set(contentType, {
           ...oldContent,
-          contentObjects: updatedObjects,
+          // contentObjects: updatedObjects,
         });
       }
     });

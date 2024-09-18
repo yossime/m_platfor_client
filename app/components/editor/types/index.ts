@@ -328,7 +328,6 @@ export enum BoardType {
   Product = 'product',
   Form = 'form',
   Subscription = 'subscription',
-
   Slider = 'SliderBoard',
   Testimonials = 'TestimonialsBoard',
   Services = 'ServicesBoard',
