@@ -85,10 +85,10 @@ export const HeaderStyleComponent: React.FC = () => {
         />
       )}
 
-      <AlignmentControl onHorizontalAlignmentChange={(alignment) =>
+      {/* <AlignmentControl onHorizontalAlignmentChange={(alignment) =>
           handleAlignmentChange("horizontal", alignment)
         }
-      />
+      /> */}
       {format === FormatBoard.Simple && (
         <AlignmentControl
           onHorizontalAlignmentChange={(alignment) =>

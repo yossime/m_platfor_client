@@ -13,7 +13,7 @@ import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
 import styled from "styled-components";
 import { ContentInput, ContentInputForm } from "../../GenericBoardComponents";
-import { ContentDataType } from "@/components/editor/types";
+import { ContentDataType, InputLabelType } from "@/components/editor/types";
 
 const FieldWrapper = styled.div`
   display: flex;
@@ -47,15 +47,15 @@ const getDefaultFieldProps = (
 ): { label: string; placeholder: string } => {
   switch (type) {
     case "Name":
-      return { label: "Name", placeholder: "Enter your name here" };
+      return { label: InputLabelType.NAME, placeholder: "Enter your name here" };
     case "Email":
-      return { label: "Email", placeholder: "Enter your email here" };
+      return { label: InputLabelType.EMAIL, placeholder: "Enter your email here" };
     case "Phone Number":
-      return { label: "Phone Number", placeholder: "Enter your phone number" };
+      return { label: InputLabelType.PHONE_NUMBER, placeholder: "Enter your phone number" };
     case "Company Name":
-      return { label: "Company Name", placeholder: "Enter your Company Name" };
+      return { label: InputLabelType.COMPANY_NAME, placeholder: "Enter your Company Name" };
     case "Free text":
-      return { label: "Free text", placeholder: "How can we help you?" };
+      return { label: InputLabelType.FREE_TEXT, placeholder: "How can we help you?" };
   }
 };
 
@@ -94,14 +94,14 @@ export const FormContentComponent: React.FC = () => {
       setForm((prev) => ({ ...prev, [field]: event.target.value }));
     };
 
-  const updateField = (index: number, updates: Partial<IField>) => {
-    setForm((prev) => ({
-      ...prev,
-      fields: prev.fields.map((field, i) =>
-        i === index ? { ...field, ...updates } : field
-      ),
-    }));
-  };
+  // const updateField = (index: number, updates: Partial<IField>) => {
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     fields: prev.fields.map((field, i) =>
+  //       i === index ? { ...field, ...updates } : field
+  //     ),
+  //   }));
+  // };
 
   return (
     <Container>

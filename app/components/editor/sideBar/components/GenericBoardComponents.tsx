@@ -46,7 +46,7 @@ export const ContentInputForm: React.FC<ContentInputProps> = ({ type, placeholde
       inputSize={InputSize.SMALL}
       mode={InputMode.NORMAL}
       value={getFormInput(type,label as InputLabelType)?.placeholder?.text}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => setFormInput(type,label as InputLabelType ,{label:{text: e.target.value}})}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => setFormInput(type,label as InputLabelType ,{placeholder:{text: e.target.value}})}
     />
   );
 };
