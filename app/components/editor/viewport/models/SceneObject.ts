@@ -251,7 +251,7 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   protected handleSelected = (object: CustomObject3D) => {
-    this.highlightMesh(object);
+    // this.highlightMesh(object);
     this.eventManager.setSelectedObject(this);
     return this
   };
