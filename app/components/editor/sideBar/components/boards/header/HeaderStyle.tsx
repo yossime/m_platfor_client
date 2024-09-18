@@ -24,8 +24,13 @@ import Text from "@/components/Library/text/Text";
 import { useBoardContent } from "../../useBoardContent";
 
 export const HeaderStyleComponent: React.FC = () => {
-  const {setLogoConfiguration ,getFormat, getContentMaterial, setContentMaterial, setConfiguration } =
-    useBoardContent();
+  const {
+    setLogoConfiguration,
+    getFormat,
+    getContentMaterial,
+    setContentMaterial,
+    setConfiguration,
+  } = useBoardContent();
 
   const format = getFormat();
 
@@ -58,7 +63,7 @@ export const HeaderStyleComponent: React.FC = () => {
   const handleAlignmentChange = (
     type: "horizontal" | "vertical",
     alignment: string
-  ) => {
+  ): void => {
     switch (type) {
       case "horizontal":
         setConfiguration(
@@ -85,17 +90,16 @@ export const HeaderStyleComponent: React.FC = () => {
         />
       )}
 
-      {/* <AlignmentControl onHorizontalAlignmentChange={(alignment) =>
+      <AlignmentControl
+        onHorizontalAlignmentChange={(alignment) =>
           handleAlignmentChange("horizontal", alignment)
         }
-      /> */}
-      {format === FormatBoard.Simple && (
-        <AlignmentControl
-          onHorizontalAlignmentChange={(alignment) =>
-            handleAlignmentChange("vertical", alignment)
-          }
-        />
-      )}
+        onVerticalAlignmentChange={
+          format === FormatBoard.Simple
+            ? (alignment) => handleAlignmentChange("vertical", alignment)
+            : undefined
+        }
+      />
 
       <Divider />
       <ContainerStyle>
@@ -181,7 +185,6 @@ export const HeaderStyleComponent: React.FC = () => {
       </ContainerStyle>
 
       <Divider />
-
 
       <AlignmentControl
         onHorizontalAlignmentChange={(alignment) =>
