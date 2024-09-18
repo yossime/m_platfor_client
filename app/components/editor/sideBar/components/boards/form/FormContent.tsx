@@ -12,6 +12,8 @@ import Collapsible from "@/components/Library/general/Collapsible";
 import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
 import styled from "styled-components";
+import { ContentInput } from "../../GenericBoardComponents";
+import { ContentDataType } from "@/components/editor/types";
 
 const FieldWrapper = styled.div`
   display: flex;
@@ -19,7 +21,12 @@ const FieldWrapper = styled.div`
   gap: 8px;
 `;
 
-type FieldType = "Name" | "Email" | "Phone Number" | "Company Name" | "Free text";
+type FieldType =
+  | "Name"
+  | "Email"
+  | "Phone Number"
+  | "Company Name"
+  | "Free text";
 
 interface IField {
   type: FieldType;
@@ -31,7 +38,7 @@ interface IForm {
   title: string | null;
   subtitle: string | null;
   button: string | null;
-  emailsubject:string | null;
+  emailsubject: string | null;
   fields: IField[];
 }
 
@@ -41,14 +48,14 @@ const getDefaultFieldProps = (
   switch (type) {
     case "Name":
       return { label: "Name", placeholder: "Enter your name here" };
-      case "Email":
-        return { label: "Email", placeholder: "Enter your email here" };
+    case "Email":
+      return { label: "Email", placeholder: "Enter your email here" };
     case "Phone Number":
       return { label: "Phone Number", placeholder: "Enter your phone number" };
     case "Company Name":
       return { label: "Company Name", placeholder: "Enter your Company Name" };
-      case "Free text":
-        return { label: "Free text", placeholder: "How can we help you?" };
+    case "Free text":
+      return { label: "Free text", placeholder: "How can we help you?" };
   }
 };
 
@@ -57,21 +64,20 @@ export const FormContentComponent: React.FC = () => {
     title: "Contact Us",
     subtitle: "Ask us anything you want!",
     button: "Submit!",
-    emailsubject:"",
+    emailsubject: "",
     fields: [
       { type: "Name", ...getDefaultFieldProps("Name") },
       { type: "Email", ...getDefaultFieldProps("Email") },
       { type: "Phone Number", ...getDefaultFieldProps("Phone Number") },
       { type: "Company Name", ...getDefaultFieldProps("Company Name") },
       { type: "Free text", ...getDefaultFieldProps("Free text") },
-
     ],
   });
   const [openSections, setOpenSections] = useState({
     title: true,
     subtitle: true,
     button: true,
-    emailsubject:true,
+    emailsubject: true,
   });
 
   const handleSectionToggle =
@@ -99,17 +105,14 @@ export const FormContentComponent: React.FC = () => {
 
   return (
     <Container>
-            <DataObfuscator
+      <DataObfuscator
         title="Email subject"
         isOpen={openSections.emailsubject}
         onToggle={handleSectionToggle("emailsubject")}
       >
-        <Input
+        <ContentInput
+          type={ContentDataType.EMAIL}
           placeholder="ENew message from a customer!"
-          inputSize={InputSize.SMALL}
-          mode={InputMode.NORMAL}
-          value={form.emailsubject || ""}
-          onChange={handleInputChange("emailsubject")}
         />
       </DataObfuscator>
       <Divider />
@@ -118,24 +121,18 @@ export const FormContentComponent: React.FC = () => {
         isOpen={openSections.title}
         onToggle={handleSectionToggle("title")}
       >
-        <Input
-          inputSize={InputSize.SMALL}
-          mode={InputMode.NORMAL}
-          value={form.title || ""}
-          onChange={handleInputChange("title")}
-        />
+        <ContentInput type={ContentDataType.TITLE} placeholder="Enter title" />
+
       </DataObfuscator>
       <DataObfuscator
         title="Subtitle"
         isOpen={openSections.subtitle}
         onToggle={handleSectionToggle("subtitle")}
       >
-        <Input
-          inputSize={InputSize.SMALL}
-          mode={InputMode.NORMAL}
-          value={form.subtitle || ""}
-          onChange={handleInputChange("subtitle")}
-        />
+         <ContentInput
+          type={ContentDataType.SUB_TITLE}
+          placeholder="Enter subtitle"
+        /> 
       </DataObfuscator>
       <SubWrapper>
         <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
@@ -146,9 +143,9 @@ export const FormContentComponent: React.FC = () => {
             <React.Fragment key={index}>
               <Collapsible title={field.label}>
                 <FieldWrapper>
-                <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
-                Place holder text
-              </Text>
+                  <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
+                    Place holder text
+                  </Text>
                   <Input
                     inputSize={InputSize.SMALL}
                     mode={InputMode.NORMAL}

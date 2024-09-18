@@ -143,4 +143,3 @@ export const SubscriptionStyleComponent: React.FC = () => {
 
 
 
-{/* {showLibrary && <TextureUploadComponent parentRef={ref} onClose={() => setShowLibrary(false)} />} */}

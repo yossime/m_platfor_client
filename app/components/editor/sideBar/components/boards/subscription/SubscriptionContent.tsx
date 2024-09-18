@@ -12,7 +12,8 @@ import Collapsible from "@/components/Library/general/Collapsible";
 import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
 import styled from "styled-components";
-import { TEXT } from "react-dnd-html5-backend/dist/NativeTypes";
+import { ContentInput } from "../../GenericBoardComponents";
+import { ContentDataType } from "@/components/editor/types";
 
 const FieldWrapper = styled.div`
   display: flex;
@@ -76,41 +77,28 @@ export const SubscriptionContentComponent: React.FC = () => {
         isOpen={openSections.emailsubject}
         onToggle={handleSectionToggle("emailsubject")}
       >
-        <Input
+        <ContentInput
+          type={ContentDataType.EMAIL}
           placeholder="ENew message from a customer!"
-          inputSize={InputSize.SMALL}
-          mode={InputMode.NORMAL}
-          value={subscription.emailsubject}
-          onChange={handleInputChange("emailsubject")}
         />
       </DataObfuscator>
       <Divider />
-
       <DataObfuscator
         title="Title"
         isOpen={openSections.title}
         onToggle={handleSectionToggle("title")}
       >
-        <Input
-          placeholder="Enter title"
-          inputSize={InputSize.SMALL}
-          mode={InputMode.NORMAL}
-          value={subscription.title}
-          onChange={handleInputChange("title")}
-        />
+        <ContentInput type={ContentDataType.TITLE} placeholder="Enter title" />
       </DataObfuscator>
       <DataObfuscator
         title="Subtitle"
         isOpen={openSections.subtitle}
         onToggle={handleSectionToggle("subtitle")}
       >
-        <Input
+        <ContentInput
+          type={ContentDataType.SUB_TITLE}
           placeholder="Enter subtitle"
-          inputSize={InputSize.SMALL}
-          mode={InputMode.NORMAL}
-          value={subscription.subtitle}
-          onChange={handleInputChange("subtitle")}
-        />
+        /> 
       </DataObfuscator>
       <SubWrapper>
         <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
