@@ -51,7 +51,7 @@ const Icon = forwardRef<SVGSVGElement, IconProps>(({
         size={size}
         color={color}
         className={className}
-      />
+        style={{ width: "Thin" }}          />
     </IconWrapper>
   );
 });

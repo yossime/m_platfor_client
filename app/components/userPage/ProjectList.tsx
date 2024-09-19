@@ -22,7 +22,7 @@ import { TextColor } from "@constants/colors";
 
 
 const ProjectList: React.FC = () => {
-  const { setCurrentProject, projects, setProjects } = useProject();
+  const {setProjectName, setCurrentProject, projects, setProjects } = useProject();
   const [error, setError] = useState<string>("");
 
   const { user } = useAuth();
@@ -44,8 +44,9 @@ const ProjectList: React.FC = () => {
     loadProjects();
   }, [user, setProjects]);
 
-  const selectProject = async (projectId: string) => {
+  const selectProject = async (projectId: string, projectName:string) => {
     router.push("/editor");
+    setProjectName(projectName)
     setCurrentProject(projectId);
     try {
       const project = await fetchProject(projectId, user?.uid as string);

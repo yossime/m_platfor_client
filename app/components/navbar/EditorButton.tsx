@@ -88,17 +88,16 @@ const EditorButtons: React.FC = () => {
   };
 
   return (
-    < >
-
-        <Tooltip content={"Preview your environment in play mode"}>
-        <Icon 
+    <>
+      <Tooltip content={"Preview your environment in play mode"}>
+        <Icon
+          shouldRotate={editorState === EditorState.LOADING ? true :false }
           name={getIcon()}
           size={IconSize.LARGE}
           onClick={handlePreviewClick}
         />
       </Tooltip>
-      <div   className='navbarButton'>     
-      </div>
+      <div className="navbarButton"></div>
       <Tooltip content={"Make your site live!"}>
         <Button
           type={ButtonType.PRIMARY}

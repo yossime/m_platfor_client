@@ -20,7 +20,7 @@ interface ProjectBoxProps {
   };
   clicked?: boolean;
   disabled?: boolean;
-  onSelect: (id: string) => void;
+  onSelect: (id: string,name:string) => void;
   onDelete: (id: string) => void;
 }
 
@@ -31,7 +31,7 @@ const ProjectBox = React.forwardRef<HTMLDivElement, ProjectBoxProps>(
       <ProjectBoxContainer
         ref={ref}
         $clicked={clicked}
-        onClick={() => onSelect(project.id)}
+        onClick={() => onSelect(project.id,project.projectName)}
         $disabled={disabled}
       >
         <DeleteIconWrapper>

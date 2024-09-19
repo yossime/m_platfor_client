@@ -4,15 +4,15 @@ export enum BackgroundColor {
     PRIMARY_BACKGROUND_HOVER = '#ECEDF5',
     DISABLED_BACKGROUND = '#ECEDF5',
     INVERTED_COLOR_BACKGROUND = '#323338',
-    GREY_BACKGROUND = '#ECEDF5',
-    ALL_GREY_BACKGROUND = '#ECEDF5'
+    GREY_BACKGROUND = '#F5F6F8',
+    ALL_GREY_BACKGROUND = '#F5F6F8'
 }
 
 export enum BorderColor {
     UI_BORDER = '#C5C7D0',
     DIVIDER = '#E6E6E6',
     LAYOUT_BORDER = '#E6E9EF',
-}
+} 
 
 export enum SemanticColors {
     TRANSPARENT = 'transparent',

@@ -1,22 +1,23 @@
-import styled from 'styled-components';
-import { SCREEN_SIZES, MEDIA_QUERIES, NAVBAR_HEIGHTS } from '@constants/screenSizes';
-
+import styled from "styled-components";
 
 export const Container = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-width: 658px;
-scrollbar-width: thin;
-scrollbar-color: #DEDCFF transparent;
-gap: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
+  width: 658px;
+  scrollbar-width: thin;
+  scrollbar-color: #dedcff transparent;
+  gap: 40px;
+  margin: 0;
 `;
 
 export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   text-align: center;
   gap: 8px;
@@ -34,7 +35,6 @@ export const ItemsContainer = styled.div`
   flex-shrink: 0;
   margin-bottom: 20px;
 `;
-
 
 export const ErrorMessage = styled.div`
   margin-bottom: 20px;

@@ -1,56 +1,177 @@
 
-import React from 'react';
-import { InputSize, InputMode } from '@constants/input';
-import SelectInput from '@/components/Library/input/SelectInput';
 
-import { useEditor } from '@/context/useEditorContext';
-import { Container } from './CommonStyles';
-import { ESkybox } from '../../types';
+import React, { useState, useRef } from "react";
+import { InputSize, InputMode } from "@constants/input";
+import SelectInput from "@/components/Library/input/SelectInput";
+import DataObfuscator from "@/components/Library/general/DataObfuscator";
 
-
-
-const options = [
-  { value: ESkybox.DEFAULT, label: "Default Sky" },
-  { value: ESkybox.DARK, label: "Dark" },
-];
-
-
+import {
+  EConfigType,
+  EConfiguration,
+  ICustomMaterial,
+  ContentDataType,
+  ERendererType,
+  FormatBoard,
+} from "@/components/editor/types/index";
+import { FontWeight, TextSize } from "@constants/text";
+import Text from "@/components/Library/text/Text";
+import { useBoardContent } from "./useBoardContent";
+import { Container, ContainerStyle, Divider } from "./CommonStyles";
+import TextureUploadComponent from "./LoadTexturePopup";
+import AlignmentControl from "./AlignmentControlComponent";
+import { BackgroundOptions, buttonStyleOptions, imageStyleOptions, textSizeOptions } from "../types";
 
 export const GlobalComponent: React.FC = () => {
-  // const { setDataParameters, dataParameters } = useEditor();
+  const {
+    setLogoConfiguration,
+    getFormat,
+    getContentMaterial,
+    setContentMaterial,
+    setConfiguration,
+  } = useBoardContent();
 
+  const format = getFormat();
 
-  const handleChange = (value: ESkybox) => {
-    // setDataParameters((prevParams) => {
-    //   if (!prevParams) return null;
-    //   return {
-    //     ...prevParams,
-    //     sky: value
-    //   };
-    // });
+  const [openSections, setOpenSections] = useState({
+    background: true,
+    RimLamp: true,
+    textStyle: true,
+    buttonStyle: true,
+  });
+  const [showUploadTexture, setShowUploadTexture] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const handleSectionToggle =
+    (section: keyof typeof openSections) => (isOpen: boolean) => {
+      setOpenSections((prev) => ({ ...prev, [section]: isOpen }));
+    };
+
+  const handleStyleChange = (type: ContentDataType, value: string) => {
+    if (value === "Create new") {
+      setShowUploadTexture(true);
+    } else {
+      setContentMaterial(type, { renderer: ERendererType.IRON });
+    }
+  };
+
+  const handleTextureUpdate = (newTexture: ICustomMaterial) => {
+    setShowUploadTexture(false);
+  };
+
+  const handleAlignmentChange = (
+    type: "horizontal" | "vertical",
+    alignment: string
+  ): void => {
+    switch (type) {
+      case "horizontal":
+        setConfiguration(
+          EConfigType.HORIZONTAL,
+          alignment.toUpperCase() as EConfiguration
+        );
+        break;
+      case "vertical":
+        setConfiguration(
+          EConfigType.VERTICAL,
+          alignment.toUpperCase() as EConfiguration
+        );
+        break;
+    }
   };
 
   return (
-    <Container>
-      {/* <SelectInput
-        options={options}
-        value={dataParameters?.sky || ''}
-        onChange={handleChange}
-        inputSize={InputSize.MEDIUM}
-        mode={InputMode.DEFAULT}
-        placeholder="Default Sky box"
-        fullWidth={true}
-      />
-      <SelectInput
-        options={options}
-        value={dataParameters?.sky || ''}
-        onChange={handleChange}
-        inputSize={InputSize.MEDIUM}
-        mode={InputMode.DEFAULT}
-        label='Choose Font'
-        placeholder="Default"
-        fullWidth={true}
-      /> */}
+    <Container ref={ref}>
+      {showUploadTexture && (
+        <TextureUploadComponent
+          parentRef={ref}
+          onClose={() => setShowUploadTexture(false)}
+          onSave={handleTextureUpdate}
+        />
+      )}
+
+
+
+      <ContainerStyle>
+        <Text size={TextSize.TEXT2} weight={FontWeight.SEMI_BOLD}>
+          Materials
+        </Text>
+
+        <DataObfuscator
+          textweight={FontWeight.NORMAL}
+          title="Background board"
+          isOpen={openSections.background}
+          onToggle={handleSectionToggle("background")}
+        >
+          <SelectInput
+            options={BackgroundOptions}
+            value={""}
+            onChange={(value) =>
+              handleStyleChange(ContentDataType.SELF, value)
+            }
+            inputSize={InputSize.SMALL}
+            mode={InputMode.DEFAULT}
+            placeholder="System Gradient"
+            fullWidth={true}
+          />
+        </DataObfuscator>
+
+        <DataObfuscator
+          title="Rim Lamp"
+          isOpen={openSections.RimLamp}
+          onToggle={handleSectionToggle("RimLamp")}
+          textweight={FontWeight.NORMAL}
+        >
+          <SelectInput
+            options={textSizeOptions}
+            value={""}
+            onChange={(value) =>
+              handleStyleChange(ContentDataType.TITLE, value)
+            }
+            inputSize={InputSize.SMALL}
+            mode={InputMode.DEFAULT}
+            placeholder="Choose..."
+            fullWidth={true}
+          />
+        </DataObfuscator>
+
+        <DataObfuscator
+          textweight={FontWeight.NORMAL}
+          title="Text style"
+          isOpen={openSections.textStyle}
+          onToggle={handleSectionToggle("textStyle")}
+        >
+          <SelectInput
+            options={imageStyleOptions}
+            value={""}
+            onChange={(value) =>
+              handleStyleChange(ContentDataType.FRAME, value)
+            }
+            inputSize={InputSize.SMALL}
+            mode={InputMode.DEFAULT}
+            placeholder="Choose..."
+            fullWidth={true}
+          />
+        </DataObfuscator>
+
+        <DataObfuscator
+          textweight={FontWeight.NORMAL}
+          title="Button style"
+          isOpen={openSections.buttonStyle}
+          onToggle={handleSectionToggle("buttonStyle")}
+        >
+          <SelectInput
+            options={buttonStyleOptions}
+            value={""}
+            onChange={(value) =>
+              handleStyleChange(ContentDataType.BUTTON, value)
+            }
+            inputSize={InputSize.SMALL}
+            mode={InputMode.DEFAULT}
+            placeholder="Choose..."
+            fullWidth={true}
+          />
+        </DataObfuscator>
+      </ContainerStyle>
+
     </Container>
   );
 };

@@ -14,6 +14,7 @@ const MenuContainer = styled.div`
   justify-content: space-between;
   max-height: 52px;
   background-color: ${BackgroundColor.PRIMARY_BACKGROUND};
+  height: 60px;
 `;
 
 const MenuItem = styled.button<{ $active: boolean }>`

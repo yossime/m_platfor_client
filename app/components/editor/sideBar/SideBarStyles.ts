@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const SideBarContainer = styled.div`
   position: absolute;
-
   border-radius: 8px;
   width: 335px;
   min-width: 216px;
@@ -18,15 +17,31 @@ export const SideBarContainer = styled.div`
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
 `;
 
-export const HeaderContainer = styled.div<{ $isChooseBoardWidget: boolean }>`
+export const SideBarContainerMini = styled.div`
+  position: absolute;
+  border-radius: 8px;
+  /* width: 335px; */
+  /* min-width: 216px; */
+  /* max-width: 50%; */
+  justify-content: end;
+  resize: horizontal;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  top: 87px;
+  left: 16px; 
+  background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
+  align-items: flex-end; 
+`;
+
+
+export const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 48px;
+  min-height: 40px;
   width: 100%;
   padding: 0 16px;
-  background-color: ${(props) =>
-    props.$isChooseBoardWidget ? "white" : "transparent"};
 `;
 
 export const HeaderTitle = styled.div`
@@ -37,6 +52,26 @@ export const HeaderTitle = styled.div`
 export const HeaderIcon = styled.div`
   cursor: pointer;
 `;
+
+
+export const ProjectContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 64px;
+  width: 100%;
+  padding: 0 16px;
+`;
+
+export const ProjectTitle = styled.div`
+  flex-grow: 1;
+  text-align: center;
+`;
+
+export const ProjectIcon = styled.div`
+  cursor: pointer;
+`;
+
 
 export const SubHeaderContainer = styled.div`
   &:empty {

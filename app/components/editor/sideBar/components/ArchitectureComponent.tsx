@@ -42,7 +42,6 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
 
   return (
     <Container>
-      <Divider />
       {panels.length > 0 && (
         <SubWrapper>
           <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
@@ -66,10 +65,8 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
         type={ButtonType.PRIMARY}
         variant={ButtonVariant.SECONDARY}
         size={ButtonSize.LARGE}
-        icon={IconName.PLUSCIRCLE}
-        iconPosition='left'
+        icon={IconName.PLUS}
         onClick={handleBackOrAdd}
-        text='Add Board'
         mode={ButtonMode.NORMAL}
         fullWidth={true}
       />

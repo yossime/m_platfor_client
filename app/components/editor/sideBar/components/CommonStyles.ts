@@ -27,7 +27,11 @@ export const Divider = styled.div`
   height: 2px;
   background-color: #e5e7eb;
 `;
-
+export const Divider2 = styled.div`
+  width: 100%;
+  height: 2px;
+  background-color: #e5e7eb;
+`;
 
 export const SubContainer = styled.div`
   display: flex;

@@ -11,6 +11,7 @@ const NavbarWithAuth = () => {
   function setError(error: string): void {
     console.error("Sign out error:", error);
   }
+  console.log(user)
   return (
     <Navbar
       imageUrl={user?.photoURL}

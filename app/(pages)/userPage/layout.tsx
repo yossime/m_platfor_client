@@ -24,7 +24,10 @@ const StyledChild = styled.div`
   overflow-y: auto;
   position: relative;
   display: flex;
-  justify-content: center;
+  
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
 `;
 
 

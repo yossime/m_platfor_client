@@ -1,58 +1,11 @@
-// "use client"
-// import React, { createContext, useState, ReactNode, useContext } from 'react';
-
-// interface ProjectContextType {
-//   currentProject: string | null;
-//   setCurrentProject: (project: string | null) => void;
-//   projects: any[];
-//   setProjects: (projects: any[]) => void;
-//   editorMode: boolean;
-//   setEditorMode: (mode: boolean) => void;
-
-// }
-
-// const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
-
-// export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-//   const [currentProject, setCurrentProject] = useState<string | null>(null);
-//   const [projects, setProjects] = useState<any[]>([]);
-//   const [editorMode, setEditorMode] = useState<boolean>(false);
-
-
-//   const value: ProjectContextType = {
-//     projects,
-//     setProjects,
-//     currentProject,
-//     setCurrentProject,
-//     editorMode,
-//     setEditorMode,
-
-//   };
-
-//   return (
-//     <ProjectContext.Provider value={value}>
-//       {children}
-//     </ProjectContext.Provider>
-//   );
-// }
-
-// export const useProject = () => {
-//   const context = useContext(ProjectContext);
-//   if (context === undefined) {
-//     throw new Error('useProject must be used within a ProjectProvider');
-//   }
-//   return context;
-// };
-
-
-
-
 "use client"
 import React, { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 
 interface ProjectContextType {
   currentProject: string | null;
   setCurrentProject: (project: string | null) => void;
+  projectName: string | null;
+  setProjectName: (project: string | null) => void;
   projects: any[];
   setProjects: (projects: any[]) => void;
   editorMode: boolean;
@@ -61,13 +14,32 @@ interface ProjectContextType {
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'currentProject';
+const CURRENT_PROJECT_STORAGE_KEY = 'currentProject';
+const PROJECT_NAME_STORAGE_KEY = 'projectName';
 
 export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentProject, setCurrentProject] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
-      const savedProject = localStorage.getItem(STORAGE_KEY);
-      return savedProject ? JSON.parse(savedProject) : null;
+      const savedCurrentProject = localStorage.getItem(CURRENT_PROJECT_STORAGE_KEY);
+      try {
+        return savedCurrentProject ? JSON.parse(savedCurrentProject) : null;
+      } catch (error) {
+        console.error("Error parsing currentProject from localStorage:", error);
+        return null;
+      }
+    }
+    return null;
+  });
+
+  const [projectName, setProjectName] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      const savedProjectName = localStorage.getItem(PROJECT_NAME_STORAGE_KEY);
+      try {
+        return savedProjectName ? JSON.parse(savedProjectName) : null;
+      } catch (error) {
+        console.error("Error parsing projectName from localStorage:", error);
+        return null;
+      }
     }
     return null;
   });
@@ -75,15 +47,25 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
   const [projects, setProjects] = useState<any[]>([]);
   const [editorMode, setEditorMode] = useState<boolean>(false);
 
+  // Save currentProject to localStorage when it changes
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(currentProject));
+    if (typeof window !== 'undefined' && currentProject !== null) {
+      localStorage.setItem(CURRENT_PROJECT_STORAGE_KEY, JSON.stringify(currentProject));
     }
   }, [currentProject]);
+
+  // Save projectName to localStorage when it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && projectName !== null) {
+      localStorage.setItem(PROJECT_NAME_STORAGE_KEY, JSON.stringify(projectName));
+    }
+  }, [projectName]);
 
   const value: ProjectContextType = {
     currentProject,
     setCurrentProject,
+    projectName,
+    setProjectName,
     projects,
     setProjects,
     editorMode,
@@ -95,7 +77,7 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
       {children}
     </ProjectContext.Provider>
   );
-}
+};
 
 export const useProject = () => {
   const context = useContext(ProjectContext);

@@ -33,12 +33,12 @@ export const ContentArea: React.FC<ContentAreaProps> = ({ activeSidebarHeader, a
 
     switch (activeSidebarSubMenu) {
       case 'Design':
-        if (activeSidebarHeader === 'Architecture') {
+        if (activeSidebarHeader === 'World') {
           return <GlobalComponent />;
         }
         else  return <StyleComponent activeSidebarHeader={activeSidebarHeader} />;
       case 'Edit':
-        if (activeSidebarHeader === 'Architecture') {
+        if (activeSidebarHeader === 'World') {
           return <ArchitectureComponent handleBackOrAdd={handleBackOrAdd} setActiveSidebarHeader={setActiveSidebarHeader}/>;
         }
         else  return <ContentComponent activeSidebarHeader={activeSidebarHeader} />;

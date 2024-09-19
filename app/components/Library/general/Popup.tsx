@@ -126,6 +126,7 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(({
           name={IconName.X}
           size={IconSize.SMALL}
           color={IconColor.ICONCOLOR}
+          onClick={onClose}
         />
       </CloseButton>
       <ChildrenContent>

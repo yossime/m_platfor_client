@@ -41,12 +41,14 @@ const Navbar: React.FC<NavbarProps> = ({
   const pathname = usePathname();
 
   const isSubscriptionPage = pathname.startsWith("/pricing_plans");
+  const isEditorPage = pathname.startsWith("/editor");
+
   return (
     <NavbarWrapper className="navbar">
       <NavbarContainer>
         <LogoContainer>{logo != null ? logo : <LogoIcon />}</LogoContainer>
         <UserContainer>
-          <EditorButtons />
+          {isEditorPage && <EditorButtons />}{" "}
           {userName && (
             <>
               {!isSubscriptionPage && (
@@ -65,7 +67,12 @@ const Navbar: React.FC<NavbarProps> = ({
                   />
                 </Tooltip>
               )}
-              <UserAvatar name={userName} size={40} imageUrl={imageUrl} />
+              <UserAvatar
+                onSignOut={onSignOut}
+                name={userName}
+                size={40}
+                imageUrl={imageUrl}
+              />
             </>
           )}
         </UserContainer>

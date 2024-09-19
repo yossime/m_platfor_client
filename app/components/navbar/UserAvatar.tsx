@@ -1,10 +1,13 @@
-import { FontFamily } from '@constants/text';
-import React from 'react';
-import styled from 'styled-components';
+import { FontFamily } from "@constants/text";
+import React, { useRef, useState } from "react";
+import styled from "styled-components";
+import Popup from "../Library/general/Popup";
+import Button from "../Library/button/Button";
+import { ButtonSize, ButtonType, ButtonVariant } from "@constants/button";
 
 interface UserAvatarProps {
   name: string;
-  onClick?: () => void;
+  onSignOut?: () => void;
   size?: number;
   backgroundColor?: string;
   color?: string;
@@ -17,11 +20,11 @@ interface AvatarContainerProps {
 }
 
 const AvatarContainer = styled.div<AvatarContainerProps>`
-  width: ${props => props.$size}px;
-  height: ${props => props.$size}px;
+  width: ${(props) => props.$size}px;
+  height: ${(props) => props.$size}px;
   border-radius: 50%;
-  border: 1px solid ${props => props.$backgroundColor};
-  background-color: ${props => props.$backgroundColor};
+  border: 1px solid ${(props) => props.$backgroundColor};
+  background-color: ${(props) => props.$backgroundColor};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,10 +36,18 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 `;
+const UserContainer = styled.div`
 
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  width: 100px;
+  height: 200px;
+
+`;
 const AvatarText = styled.span<{ $size: number; $color: string }>`
-  font-size: ${props => props.$size / 3}px;
-  color: ${props => props.$color};
+  font-size: ${(props) => props.$size / 3}px;
+  color: ${(props) => props.$color};
 `;
 
 const AvatarImage = styled.img`
@@ -47,26 +58,47 @@ const AvatarImage = styled.img`
 
 const UserAvatar: React.FC<UserAvatarProps> = ({
   name,
-  onClick,
   imageUrl,
   size = 40,
-  backgroundColor = '#1a73e8',
-  color = '#ffffff'
+  backgroundColor = "#1a73e8",
+  color = "#ffffff",
+  onSignOut
 }) => {
   const initials = name
-    .split(' ')
-    .map(n => n[0])
-    .join('')
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
     .toUpperCase()
     .slice(0, 2);
+
+
+  const [showPopup, setShowPopuo] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
   return (
-    <AvatarContainer $size={size} $backgroundColor={backgroundColor} onClick={onClick}>
+    <AvatarContainer
+      ref={ref}
+      $size={size}
+      $backgroundColor={backgroundColor}
+      onClick={()=>setShowPopuo(true)}
+    >
       {imageUrl ? (
         <AvatarImage src={imageUrl} alt={name} />
       ) : (
         <AvatarText $size={size} $color={color}>
           {initials}
         </AvatarText>
+      )}
+      {showPopup && (
+        <Popup
+          parentRef={ref}
+          isCentered={false}
+          onClose={() => {setShowPopuo(false)}}
+        >
+          <UserContainer>
+          <Button size={ButtonSize.SMALL} type={ButtonType.PRIMARY} variant={ButtonVariant.PRIMARY} text="Sing out" onClick={onSignOut}/>
+          </UserContainer>
+
+        </Popup>
       )}
     </AvatarContainer>
   );
