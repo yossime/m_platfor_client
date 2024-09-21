@@ -58,7 +58,7 @@ const BoardBox: React.FC<BoardProps> = ({
           <Text
             $cursorStyle="pointer"
             size={TextSize.TEXT2}
-            weight={FontWeight.BOLD}
+            $weight={FontWeight.BOLD}
             color={disabled ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT}
           >
             {title}
@@ -66,7 +66,7 @@ const BoardBox: React.FC<BoardProps> = ({
           <Text
             $cursorStyle="pointer"
             size={TextSize.TEXT2}
-            weight={FontWeight.NORMAL}
+            $weight={FontWeight.NORMAL}
             color={disabled ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT}
           >
             {body}

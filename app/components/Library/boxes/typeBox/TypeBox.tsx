@@ -26,7 +26,7 @@ const TypeBox: React.FC<TypeProps> = ({
         <Text
           $cursorStyle="pointer"
           size={TextSize.TEXT2}
-          weight={FontWeight.BOLD}
+          $weight={FontWeight.BOLD}
         >
           {title}
         </Text>

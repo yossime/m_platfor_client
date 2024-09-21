@@ -11,7 +11,7 @@ import styled from "styled-components";
 
 const StyledText = styled.span<TextStyleProps>`
   font-size: ${({ size }) => size};
-  font-family: ${({ family }) => {
+  font-family: ${({ $family: family }) => {
     switch (family) {
       case FontFamily.Poppins:
         return 'var(--font-poppins)';
@@ -21,7 +21,7 @@ const StyledText = styled.span<TextStyleProps>`
         return 'var(--font-figtree)'; 
     }
   }};
-  font-weight: ${({ weight }) => weight};
+  font-weight: ${({ $weight: weight }) => weight};
   color: ${({ color }) => color};
   cursor: ${({ $cursorStyle }) => $cursorStyle || "default"};
   white-space: pre-wrap;
@@ -37,8 +37,8 @@ const Text = React.forwardRef<HTMLSpanElement, TextComponentProps>(
   (
     {
       size = TextSize.TEXT2,
-      family = FontFamily.Figtree,
-      weight = FontWeight.NORMAL,
+      $family: family = FontFamily.Figtree,
+      $weight: weight = FontWeight.NORMAL,
       color = TextColor.PRIMARY_TEXT,
       $cursorStyle = "default",
       children,
@@ -57,8 +57,8 @@ const Text = React.forwardRef<HTMLSpanElement, TextComponentProps>(
       <StyledText
         ref={ref}
         size={size}
-        family={family}
-        weight={weight}
+        $family={family}
+        $weight={weight}
         color={color}
         $cursorStyle={$cursorStyle}
         className={className}

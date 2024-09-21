@@ -45,12 +45,12 @@ const SignUpComponent: React.FC<SignUpComponentProps> = ({ setLogin }) => {
   return (
     <Container>
       <TextContainer>
-        <Text size={TextSize.D1} weight={FontWeight.SEMI_BOLD} color={TextColor.BLACK} family={FontFamily.Poppins}>
+        <Text size={TextSize.D1} $weight={FontWeight.SEMI_BOLD} color={TextColor.BLACK} $family={FontFamily.Poppins}>
           Welcome
         </Text>
         <Spacer />
         <LinkContainer>
-          <Text size={TextSize.TEXT1} weight={FontWeight.NORMAL} color={TextColor.PRIMARY_TEXT} family={FontFamily.Figtree}>
+          <Text size={TextSize.TEXT1} $weight={FontWeight.NORMAL} color={TextColor.PRIMARY_TEXT} $family={FontFamily.Figtree}>
             &quot;Already have an account?&quot;
           </Text>
           <Link onClick={handleLoginClick}>Log in</Link>

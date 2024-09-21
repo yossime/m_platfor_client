@@ -13,6 +13,7 @@ import * as THREE from 'three';
 import { SceneService } from './SceneService';
 import { fetchProject } from '@/services/projectService';
 import { useProject } from '@/context/useProjectContext';
+import { CameraControls } from '../camera/Camera';
 
 export const ViewportContainer = styled.div`
   flex-grow: 1;
@@ -95,9 +96,8 @@ const Viewport: React.FC = () => {
   return (
     <ViewportContainer className="viewport">
         <Canvas 
-          camera={{ fov: 75, near: 0.1, far: 1000, position: [5, 8, 5] }} //yossi - Adjusted initial camera position
         >
-          <OrbitControls enableDamping dampingFactor={0.05} />
+          <CameraControls/>
           <ambientLight intensity={0.3} />
           <directionalLight position={[5, 5, 5]} intensity={0.5} />
           <SceneComponent />

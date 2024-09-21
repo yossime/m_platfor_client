@@ -103,7 +103,7 @@ export const HeaderStyleComponent: React.FC = () => {
 
       <Divider />
       <ContainerStyle>
-        <Text size={TextSize.TEXT2} weight={FontWeight.SEMI_BOLD}>
+        <Text size={TextSize.TEXT2} $weight={FontWeight.SEMI_BOLD}>
           Materials
         </Text>
 

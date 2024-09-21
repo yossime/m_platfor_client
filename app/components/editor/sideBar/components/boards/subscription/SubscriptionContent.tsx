@@ -101,13 +101,13 @@ export const SubscriptionContentComponent: React.FC = () => {
         />
       </DataObfuscator>
       <SubWrapper>
-        <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
+        <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
           Fields
         </Text>
         <SubContainer>
           <Collapsible title="Name">
             <FieldWrapper>
-              <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
+              <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
                 Place holder text
               </Text>
               <ContentInputForm
@@ -120,7 +120,7 @@ export const SubscriptionContentComponent: React.FC = () => {
           <Divider />
           <Collapsible title="Email">
             <FieldWrapper>
-              <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
+              <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
                 Place holder text
               </Text>
               <ContentInputForm

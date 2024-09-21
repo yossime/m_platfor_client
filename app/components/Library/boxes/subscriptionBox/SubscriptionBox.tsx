@@ -43,12 +43,12 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
         <>
           <Text
             size={TextSize.H1}
-            weight={FontWeight.SEMI_BOLD}
+            $weight={FontWeight.SEMI_BOLD}
             color={TextColor.PRIMARY}
           >{`$${price}/mo`}</Text>
           <Text
             size={TextSize.TEXT2}
-            weight={FontWeight.NORMAL}
+            $weight={FontWeight.NORMAL}
             color={TextColor.PRIMARY_TEXT}
           >
             {"Billed Monthly"}
@@ -58,12 +58,12 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
         <>
           <Text
             size={TextSize.H1}
-            weight={FontWeight.SEMI_BOLD}
+            $weight={FontWeight.SEMI_BOLD}
             color={TextColor.PRIMARY}
           >{`$${salePrice}/mo`}</Text>
           <Text
             size={TextSize.TEXT2}
-            weight={FontWeight.NORMAL}
+            $weight={FontWeight.NORMAL}
             color={TextColor.PRIMARY_TEXT}
           >
             {`$${salePrice * 12} Billed Annually`}
@@ -74,7 +74,7 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
       return (
         <Text
           size={TextSize.H1}
-          weight={FontWeight.SEMI_BOLD}
+          $weight={FontWeight.SEMI_BOLD}
           color={TextColor.PRIMARY}
         >
           {price}
@@ -92,15 +92,15 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
           <Text
             $cursorStyle="pointer"
             size={TextSize.H2}
-            weight={FontWeight.SEMI_BOLD}
+            $weight={FontWeight.SEMI_BOLD}
           >
             {title}
           </Text>
           <Text
             $cursorStyle="pointer"
-            weight={FontWeight.LIGHT}
+            $weight={FontWeight.LIGHT}
             size={TextSize.H3}
-            family={FontFamily.Poppins}
+            $family={FontFamily.Poppins}
           >
             {subTitle}
           </Text>
@@ -124,7 +124,7 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
           $cursorStyle="pointer"
           size={TextSize.TEXT2}
           color={TextColor.SECONDARY_TEXT}
-          weight={FontWeight.SEMI_BOLD}
+          $weight={FontWeight.SEMI_BOLD}
         >
           {includeTitle}
         </Text>
@@ -133,7 +133,7 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
             key={index}
             size={TextSize.TEXT2}
             $cursorStyle="pointer"
-            weight={FontWeight.NORMAL}
+            $weight={FontWeight.NORMAL}
           >
             {item}
           </Text>

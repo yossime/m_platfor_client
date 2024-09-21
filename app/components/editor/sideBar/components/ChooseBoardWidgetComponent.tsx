@@ -66,7 +66,7 @@ export const ChooseBoardWidgetComponent: React.FC<
             <Text
               $cursorStyle="pointer"
               size={TextSize.TEXT2}
-              weight={FontWeight.NORMAL}
+              $weight={FontWeight.NORMAL}
               color={
                 availableSlots === 0
                   ? TextColor.DISABLED_TEXT

@@ -39,10 +39,10 @@ const Design: React.FC = () => {
         <QuestionnaireIndexContainer />
       </IndexContainer>
       <TextContainer>
-        <Text size={TextSize.D1} family={FontFamily.Poppins} weight={FontWeight.SEMI_BOLD}
+        <Text size={TextSize.D1} $family={FontFamily.Poppins} $weight={FontWeight.SEMI_BOLD}
           color={TextColor.PRIMARY_TEXT}> Choose a template to start designing with:
         </Text>
-        <Text size={TextSize.H3} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
+        <Text size={TextSize.H3} $family={FontFamily.Poppins} $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}> Give your web space a matching theme
         </Text>
       </TextContainer>

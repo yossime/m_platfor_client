@@ -37,7 +37,7 @@ const StyledButton = styled.button`
 const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onClick }) => {
     return (
         <StyledButton onClick={onClick}>
-            <Text size={TextSize.TEXT2} weight={FontWeight.BOLD}
+            <Text size={TextSize.TEXT2} $weight={FontWeight.BOLD}
                 color={TextColor.TEXT_ON_PRIMARY}>Continue with Google</Text>
         </StyledButton>
     );

@@ -60,16 +60,16 @@ const BuildFor: React.FC = () => {
       <TextContainer>
         <Text
           size={TextSize.H3}
-          family={FontFamily.Poppins}
-          weight={FontWeight.NORMAL}
+          $family={FontFamily.Poppins}
+          $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}
         >
           Let's dive in!
         </Text>
         <Text
           size={TextSize.D1}
-          family={FontFamily.Poppins}
-          weight={FontWeight.SEMI_BOLD}
+          $family={FontFamily.Poppins}
+          $weight={FontWeight.SEMI_BOLD}
           color={TextColor.PRIMARY_TEXT}
         >
           Who are you building this web space for?

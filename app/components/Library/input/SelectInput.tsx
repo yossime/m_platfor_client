@@ -63,9 +63,9 @@ const SelectInput: React.FC<SelectInputProps> = ({
     <SelectWrapper $fullWidth={fullWidth} ref={selectRef}>
       {label && (
         <LabelText
-          family={FontFamily.Poppins}
+          $family={FontFamily.Poppins}
           size={TextSize.TEXT2}
-          weight={FontWeight.SEMI_BOLD}
+          $weight={FontWeight.SEMI_BOLD}
           color={mode === InputMode.DISABLED ? TextColor.DISABLED_TEXT : TextColor.PRIMARY_TEXT}
         >
           {label}
@@ -97,9 +97,9 @@ const SelectInput: React.FC<SelectInputProps> = ({
       )}
       {helperText && mode === InputMode.ERROR && (
         <HelperText
-          family={FontFamily.Poppins}
+          $family={FontFamily.Poppins}
           size={TextSize.TEXT2}
-          weight={FontWeight.NORMAL}
+          $weight={FontWeight.NORMAL}
           color={mode === InputMode.ERROR ? TextColor.NEGATIVE : TextColor.SECONDARY_TEXT}
         >
           {helperText}

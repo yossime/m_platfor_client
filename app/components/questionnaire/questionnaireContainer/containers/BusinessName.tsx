@@ -47,10 +47,10 @@ const BusinessName: React.FC = () => {
         <QuestionnaireIndexContainer />
       </IndexContainer>
       <TextContainer>
-        <Text size={TextSize.D1} family={FontFamily.Poppins} weight={FontWeight.SEMI_BOLD}
+        <Text size={TextSize.D1} $family={FontFamily.Poppins} $weight={FontWeight.SEMI_BOLD}
           color={TextColor.PRIMARY_TEXT}>
          Enter Your Business Name</Text>
-        <Text size={TextSize.H3} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
+        <Text size={TextSize.H3} $family={FontFamily.Poppins} $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}>
          Input your current brand name, or come up with a new one</Text>
       </TextContainer>

@@ -62,12 +62,12 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
     return (
         <Container>
             <TextContainer>
-            <Text size={TextSize.D1} weight={FontWeight.SEMI_BOLD} color={TextColor.BLACK} family={FontFamily.Poppins}>
+            <Text size={TextSize.D1} $weight={FontWeight.SEMI_BOLD} color={TextColor.BLACK} $family={FontFamily.Poppins}>
                     Welcome
                 </Text>
                 <Spacer />
                 <LinkContainer>
-                    <Text size={TextSize.TEXT1} weight={FontWeight.NORMAL} color={TextColor.PRIMARY_TEXT} family={FontFamily.Figtree}>
+                    <Text size={TextSize.TEXT1} $weight={FontWeight.NORMAL} color={TextColor.PRIMARY_TEXT} $family={FontFamily.Figtree}>
                         "Don't have an account? "
                     </Text>
                     <Link onClick={handleLoginClick}>sign up</Link>

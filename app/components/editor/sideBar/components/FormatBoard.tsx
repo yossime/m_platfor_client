@@ -88,7 +88,7 @@ export const ChooseBoardFormat: React.FC<ChooseBoardWidgetComponentProps> = ({
           onClick={() => handleWidgetClick(FormatBoard.Simple)}
           $clicked={formatBoard === FormatBoard.Simple ? true : false}
         />
-        <Text size={TextSize.TEXT2} weight={FontWeight.NORMAL}>
+        <Text size={TextSize.TEXT2} $weight={FontWeight.NORMAL}>
           {"Simple"}
         </Text>
       </FormatContainer>
@@ -98,7 +98,7 @@ export const ChooseBoardFormat: React.FC<ChooseBoardWidgetComponentProps> = ({
           onClick={() => handleWidgetClick(FormatBoard.Frame)}
           $clicked={formatBoard === FormatBoard.Frame ? true : false}
         />
-        <Text size={TextSize.TEXT2} weight={FontWeight.NORMAL}>
+        <Text size={TextSize.TEXT2} $weight={FontWeight.NORMAL}>
           {"Frame"}
         </Text>
       </FormatContainer>
@@ -108,7 +108,7 @@ export const ChooseBoardFormat: React.FC<ChooseBoardWidgetComponentProps> = ({
             onClick={() => handleWidgetClick(FormatBoard.Model)}
             $clicked={formatBoard === FormatBoard.Model ? true : false}
           />
-          <Text size={TextSize.TEXT2} weight={FontWeight.NORMAL}>
+          <Text size={TextSize.TEXT2} $weight={FontWeight.NORMAL}>
             {"Model"}
           </Text>
         </FormatContainer>

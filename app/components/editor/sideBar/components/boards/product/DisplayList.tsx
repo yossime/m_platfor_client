@@ -73,7 +73,7 @@ export const DisplayList: React.FC = () => {
 
   return (
     <div ref={ref}>
-      <Text size={TextSize.TEXT2} weight={FontWeight.NORMAL}>
+      <Text size={TextSize.TEXT2} $weight={FontWeight.NORMAL}>
         Displays: {displays.length} of {displays.length + availableSlots}
       </Text>
       <SubWrapper>

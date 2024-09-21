@@ -7,6 +7,7 @@ import SideBar from "@/components/editor/sideBar/SideBar";
 import { EditorState, useEditor } from "@/context/useEditorContext";
 import UnityViewer from "./preView/UnityViewer";
 import JoyrideEditor from "../Library/Joyride/JoyrideEditor";
+import { CameraProvider } from "@/context/CameraContext";
 
 const EditorLayout = styled.div`
   display: flex;
@@ -23,8 +24,10 @@ const EditorComponent: React.FC = () => {
       {editorState !== EditorState.PREVIEW ? (
         <EditorLayout>
           <JoyrideEditor />
+          <CameraProvider>
           <SideBar />
           <Viewport />
+          </CameraProvider>
         </EditorLayout>
       ) : (
         <EditorLayout>

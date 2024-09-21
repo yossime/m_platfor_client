@@ -101,16 +101,16 @@ const SubscriptionPlan: React.FC = () => {
       <TextContainer>
         <Text
           size={TextSize.D1}
-          family={FontFamily.Poppins}
-          weight={FontWeight.SEMI_BOLD}
+          $family={FontFamily.Poppins}
+          $weight={FontWeight.SEMI_BOLD}
           color={TextColor.PRIMARY_TEXT}
         >
           Pricing Plans
         </Text>
         <Text
           size={TextSize.H3}
-          family={FontFamily.Poppins}
-          weight={FontWeight.NORMAL}
+          $family={FontFamily.Poppins}
+          $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}
         >
           Get started with the free plan
@@ -134,7 +134,7 @@ const SubscriptionPlan: React.FC = () => {
           >
             <Text
               size={TextSize.TEXT1}
-              weight={FontWeight.NORMAL}
+              $weight={FontWeight.NORMAL}
               color={TextColor.PRIMARY_TEXT}
             >
               {"Monthly"}

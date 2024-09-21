@@ -66,14 +66,14 @@ const WhoUsing: React.FC = () => {
                 <QuestionnaireIndexContainer />
             </IndexContainer>
             <TextContainer>
-            <Text size={TextSize.D1} family={FontFamily.Poppins} weight={FontWeight.SEMI_BOLD}
+            <Text size={TextSize.D1} $family={FontFamily.Poppins} $weight={FontWeight.SEMI_BOLD}
                   color={TextColor.PRIMARY_TEXT}>Who is using Mocart?</Text>
-              <Text size={TextSize.H3} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
+              <Text size={TextSize.H3} $family={FontFamily.Poppins} $weight={FontWeight.NORMAL}
                   color={TextColor.PRIMARY_TEXT}>Knowing this will help us improve.</Text>
             </TextContainer>
             <ContentWrapper>
             <TextContainer>
-                    <Text size={TextSize.TEXT2} family={FontFamily.Poppins} weight={FontWeight.NORMAL}
+                    <Text size={TextSize.TEXT2} $family={FontFamily.Poppins} $weight={FontWeight.NORMAL}
                         color={TextColor.PRIMARY_TEXT}>What describes you best?</Text>
                 </TextContainer>
                 <ItemsContainer>

@@ -44,7 +44,7 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
     <Container>
       {panels.length > 0 && (
         <SubWrapper>
-          <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
+          <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
             My Boards
           </Text>
           <SubContainer>

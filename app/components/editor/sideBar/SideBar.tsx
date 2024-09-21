@@ -61,9 +61,30 @@ const Sidebar: React.FC = () => {
     }
   };
 
+
+  const handleFocus = () => {
+    if (activeSidebarHeader === "World") {
+      setActiveSidebarHeader("Choose Board Widget");
+      sceneModel?.root?.displayEmptySlots();
+    } else if (activeSidebarHeader === "Choose Board Widget") {
+      setActiveSidebarHeader("World");
+    } else {
+      setActiveSidebarHeader("Choose Board Widget");
+      sceneModel?.setSelectedObject(null);
+    }
+  };
+
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
   };
+
+
+
+  useEffect(() => {
+    const selectedObject = sceneModel?.getSelectedObject();
+
+    console.log("selected" , selectedObject);
+  }, [activeSidebarHeader,activeSidebarSubMenu]);
 
   return (
     <>
@@ -95,6 +116,11 @@ const Sidebar: React.FC = () => {
             <HeaderTitle>
               <Text size={TextSize.TEXT2}>{activeSidebarHeader}</Text>
             </HeaderTitle>
+            <HeaderIcon>
+              {activeSidebarHeader !== "World" && (
+                <Icon name={IconName.FOLDER} onClick={handleFocus} />
+              )}
+            </HeaderIcon>
           </HeaderContainer>
 
           <Divider />

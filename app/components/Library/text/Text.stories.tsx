@@ -9,8 +9,8 @@ const meta: Meta<typeof Text> = {
   component: Text,
   argTypes: {
     size: { control: 'select', options: Object.keys(TextSize) },
-    family: { control: 'select', options: Object.keys(FontFamily) },
-    weight: { control: 'select', options: Object.keys(FontWeight) },
+    $family: { control: 'select', options: Object.keys(FontFamily) },
+    $weight: { control: 'select', options: Object.keys(FontWeight) },
     color: { control: 'select', options: Object.keys(TextColor) },
     children: { control: 'text' },
     onClick: { action: 'clicked' },
@@ -23,8 +23,8 @@ type Story = StoryObj<typeof Text>;
 export const Default: Story = {
   args: {
     size: TextSize.TEXT1,
-    family: FontFamily.Figtree,
-    weight: FontWeight.NORMAL,
+    $family: FontFamily.Figtree,
+    $weight: FontWeight.NORMAL,
     color: TextColor.PRIMARY_TEXT,
     children: 'This is a sample text',
   },
@@ -34,8 +34,8 @@ export const Heading: Story = {
   args: {
     ...Default.args,
     size: TextSize.H1,
-    family: FontFamily.Poppins,
-    weight: FontWeight.BOLD,
+    $family: FontFamily.Poppins,
+    $weight: FontWeight.BOLD,
     children: 'Main Heading',
   },
 };
@@ -44,7 +44,7 @@ export const SecondaryText: Story = {
   args: {
     ...Default.args,
     size: TextSize.TEXT2,
-    weight: FontWeight.LIGHT,
+    $weight: FontWeight.LIGHT,
     color: TextColor.SECONDARY_TEXT,
     children: 'This is a secondary text example',
   },

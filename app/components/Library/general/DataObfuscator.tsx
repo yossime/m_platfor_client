@@ -56,7 +56,7 @@ const DataObfuscator: React.FC<DataObfuscatorProps> = ({
       <DataObfuscatorHeader onClick={handleToggle}>
         <Text
           size={TextSize.TEXT2}
-          weight={textweight}
+          $weight={textweight}
           color={TextColor.PRIMARY_TEXT}
         >
           {title}

@@ -127,7 +127,7 @@ export const FormContentComponent: React.FC = () => {
         />
       </DataObfuscator>
       <SubWrapper>
-        <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
+        <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
           Fields
         </Text>
         <SubContainer>
@@ -135,7 +135,7 @@ export const FormContentComponent: React.FC = () => {
             <React.Fragment key={index}>
               <Collapsible title={field.label}>
                 <FieldWrapper>
-                  <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
+                  <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
                     Place holder text
                   </Text>
                   <ContentInputForm

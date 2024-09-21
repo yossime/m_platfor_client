@@ -83,7 +83,7 @@ export const TestimonialsContentComponent: React.FC = () => {
       </DataObfuscator>
 
       <SubWrapper>
-        <Text weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
+        <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT2}>
           Testimonials
         </Text>
 

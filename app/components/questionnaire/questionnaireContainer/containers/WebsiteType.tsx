@@ -44,7 +44,7 @@ const WebsiteType: React.FC = () => {
       </IndexContainer>
         <TextContainer>
           <Text
-           size={TextSize.D1} family={FontFamily.Poppins} weight={FontWeight.SEMI_BOLD}
+           size={TextSize.D1} $family={FontFamily.Poppins} $weight={FontWeight.SEMI_BOLD}
             color={TextColor.PRIMARY_TEXT}>What business type are you creating 3D web space for?
             </Text>
         </TextContainer>

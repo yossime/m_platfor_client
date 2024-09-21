@@ -81,9 +81,9 @@ const ProjectList: React.FC = () => {
 
         <Text
           size={TextSize.H2}
-          weight={FontWeight.NORMAL}
+          $weight={FontWeight.NORMAL}
           color={TextColor.SECONDARY_TEXT}
-          family={FontFamily.Poppins}
+          $family={FontFamily.Poppins}
         >
           {hasProjects
             ? `Welcome Back ${user?.displayName || "User"}!`
@@ -91,9 +91,9 @@ const ProjectList: React.FC = () => {
         </Text>
         <Text
           size={TextSize.D1}
-          weight={FontWeight.SEMI_BOLD}
+          $weight={FontWeight.SEMI_BOLD}
           color={TextColor.PRIMARY_TEXT}
-          family={FontFamily.Poppins}
+          $family={FontFamily.Poppins}
         >
           {hasProjects ? "My Web Spaces" : "Start creating your 3D web space"}
         </Text>

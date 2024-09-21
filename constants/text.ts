@@ -30,8 +30,8 @@ export enum FontWeight {
 
 export interface TextStyleProps {
     size: TextSize;
-    family?: FontFamily;
-    weight?: FontWeight;
+    $family?: FontFamily;
+    $weight?: FontWeight;
     color?: TextColor;
     $cursorStyle?: 'default' | 'pointer' | 'text';
 }

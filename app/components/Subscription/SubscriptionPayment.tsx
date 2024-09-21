@@ -183,16 +183,16 @@ const SubscriptionPayment: React.FC = ({}) => {
       <TextContainer>
         <Text
           size={TextSize.D1}
-          family={FontFamily.Poppins}
-          weight={FontWeight.SEMI_BOLD}
+          $family={FontFamily.Poppins}
+          $weight={FontWeight.SEMI_BOLD}
           color={TextColor.PRIMARY_TEXT}
         >
           Complete Your Purchase
         </Text>
         <Text
           size={TextSize.H3}
-          family={FontFamily.Poppins}
-          weight={FontWeight.NORMAL}
+          $family={FontFamily.Poppins}
+          $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}
         >
           Add payment details and complete your purchase
@@ -295,8 +295,8 @@ const SubscriptionPayment: React.FC = ({}) => {
         <ContentSummeryPayment>
           <Text
             size={TextSize.H3}
-            family={FontFamily.Poppins}
-            weight={FontWeight.BOLD}
+            $family={FontFamily.Poppins}
+            $weight={FontWeight.BOLD}
             color={TextColor.PRIMARY_TEXT}
           >
             Summery
@@ -304,8 +304,8 @@ const SubscriptionPayment: React.FC = ({}) => {
           <ContentSummeryPaymentTitle>
             <Text
               size={TextSize.TEXT1}
-              family={FontFamily.Poppins}
-              weight={FontWeight.BOLD}
+              $family={FontFamily.Poppins}
+              $weight={FontWeight.BOLD}
               color={TextColor.PRIMARY_TEXT}
             >
               {plan}
@@ -313,8 +313,8 @@ const SubscriptionPayment: React.FC = ({}) => {
             <TextSummeryLine>
               <Text
                 size={TextSize.TEXT1}
-                family={FontFamily.Poppins}
-                weight={FontWeight.NORMAL}
+                $family={FontFamily.Poppins}
+                $weight={FontWeight.NORMAL}
                 color={TextColor.PRIMARY_TEXT}
               >
                 {yearly
@@ -323,8 +323,8 @@ const SubscriptionPayment: React.FC = ({}) => {
               </Text>
               <Text
                 size={TextSize.TEXT1}
-                family={FontFamily.Poppins}
-                weight={FontWeight.NORMAL}
+                $family={FontFamily.Poppins}
+                $weight={FontWeight.NORMAL}
                 color={TextColor.PRIMARY_TEXT}
               >
                 {yearly ? `${salePrice * 12}$ ` : `${monPrice}$ `}
@@ -334,8 +334,8 @@ const SubscriptionPayment: React.FC = ({}) => {
           {yearly && (
             <Text
               size={TextSize.TEXT1}
-              family={FontFamily.Poppins}
-              weight={FontWeight.NORMAL}
+              $family={FontFamily.Poppins}
+              $weight={FontWeight.NORMAL}
               color={TextColor.PRIMARY}
             >
               You saved {sale * 12}$ choosing the yearly plan
@@ -385,16 +385,16 @@ const SubscriptionPayment: React.FC = ({}) => {
           <TextSummeryLine>
             <Text
               size={TextSize.TEXT1}
-              family={FontFamily.Poppins}
-              weight={FontWeight.BOLD}
+              $family={FontFamily.Poppins}
+              $weight={FontWeight.BOLD}
               color={TextColor.PRIMARY_TEXT}
             >
               Total
             </Text>
             <Text
               size={TextSize.TEXT1}
-              family={FontFamily.Poppins}
-              weight={FontWeight.BOLD}
+              $family={FontFamily.Poppins}
+              $weight={FontWeight.BOLD}
               color={TextColor.PRIMARY_TEXT}
             >
               {yearly ? `${salePrice * 12}$ ` : `${monPrice}$ `}
@@ -402,8 +402,8 @@ const SubscriptionPayment: React.FC = ({}) => {
           </TextSummeryLine>
           <Text
             size={TextSize.TEXT2}
-            family={FontFamily.Poppins}
-            weight={FontWeight.NORMAL}
+            $family={FontFamily.Poppins}
+            $weight={FontWeight.NORMAL}
             color={TextColor.PRIMARY_TEXT}
           >
             Next charge date: {formattedDate}
@@ -426,8 +426,8 @@ const SubscriptionPayment: React.FC = ({}) => {
               <Icon name={IconName.SHIELDCHECK} />
               <Text
                 size={TextSize.TEXT2}
-                family={FontFamily.Poppins}
-                weight={FontWeight.NORMAL}
+                $family={FontFamily.Poppins}
+                $weight={FontWeight.NORMAL}
                 color={TextColor.PRIMARY_TEXT}
               >
                 Safe & Secure Payment

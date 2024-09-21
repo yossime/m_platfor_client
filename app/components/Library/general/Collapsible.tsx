@@ -45,7 +45,7 @@ const Collapsible: React.FC<CollapsibleProps> = ({ title, children }) => {
         />
         <Text
           size={TextSize.TEXT2}
-          weight={FontWeight.NORMAL}
+          $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}
         >
           {title}

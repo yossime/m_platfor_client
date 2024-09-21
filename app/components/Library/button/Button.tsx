@@ -108,9 +108,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {text && !iconOnly && (
           <Text
             size={getTextSize(size)}
-            weight={FontWeight.NORMAL}
+            $weight={FontWeight.NORMAL}
             color={textColor as TextColor}
-            family={FontFamily.Figtree}
+            $family={FontFamily.Figtree}
             $cursorStyle="pointer"
           >
             {text}
