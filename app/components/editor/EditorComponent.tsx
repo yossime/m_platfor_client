@@ -20,14 +20,13 @@ const EditorComponent: React.FC = () => {
   const { editorState } = useEditor();
 
   return (
+          <CameraProvider>
     <>
       {editorState !== EditorState.PREVIEW ? (
         <EditorLayout>
           <JoyrideEditor />
-          <CameraProvider>
           <SideBar />
           <Viewport />
-          </CameraProvider>
         </EditorLayout>
       ) : (
         <EditorLayout>
@@ -35,6 +34,7 @@ const EditorComponent: React.FC = () => {
         </EditorLayout>
       )}
     </>
+      </CameraProvider>
   );
 };
 

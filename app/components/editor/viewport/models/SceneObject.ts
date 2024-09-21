@@ -40,6 +40,21 @@ export abstract class SceneObject implements ISceneObject {
       }
     });
   }
+  addChild?(sceneObject: ISceneObject): void {
+    throw new Error('Method not implemented.');
+  }
+  removeChild?(sceneObject: ISceneObject): void {
+    throw new Error('Method not implemented.');
+  }
+  getPosition(): Vector3 | null {
+    return this.position;
+  }
+  getRotation(): Euler | null {
+    return this.rotation;
+  }
+
+
+
 
   // public abstract addChild(sceneObject: ISceneObject, slotNumber?: number): void;
 
@@ -84,6 +99,10 @@ export abstract class SceneObject implements ISceneObject {
       this.model.position.copy(position);
     }
   }
+
+
+
+
 
   protected setRotation(rotation: Euler): void {
     this.rotation = rotation;

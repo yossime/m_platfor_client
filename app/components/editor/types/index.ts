@@ -18,6 +18,8 @@ export interface ISceneObject {
   getEmptySlots(): CustomObject3D[];
   displayEmptySlots(): void;
   exportToJson(): string;
+  getPosition(): Vector3 | null;
+  getRotation(): Euler | null;
 
   isSelected(selected: boolean): void;
   getContentMaterial(type: ContentDataType): ContentMaterial | null;

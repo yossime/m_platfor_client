@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Euler, Vector3 } from 'three';
 import { HeaderMenu } from "./HeaderMenu";
 import { ContentArea } from "./ContentArea";
 import {
@@ -23,8 +24,10 @@ import { BoardType, ISceneObject } from "../types";
 import { Board } from "../viewport/models/boards/Board";
 import { Divider, Divider2 } from "./components/CommonStyles";
 import { useProject } from "@/context/useProjectContext";
+import { useCamera } from "@/context/CameraContext";
 
 const Sidebar: React.FC = () => {
+  const {cameraRotation,cameraDirection, cameraPosition, setCameraPosition, setCameraDirection,setCameraRotation } = useCamera(); 
   const { projectName } = useProject();
   const { sceneModel } = useEditor();
   const [activeSidebarHeader, setActiveSidebarHeader] =
@@ -63,14 +66,39 @@ const Sidebar: React.FC = () => {
 
 
   const handleFocus = () => {
-    if (activeSidebarHeader === "World") {
-      setActiveSidebarHeader("Choose Board Widget");
-      sceneModel?.root?.displayEmptySlots();
-    } else if (activeSidebarHeader === "Choose Board Widget") {
-      setActiveSidebarHeader("World");
-    } else {
-      setActiveSidebarHeader("Choose Board Widget");
-      sceneModel?.setSelectedObject(null);
+  
+    const selectedObject = sceneModel?.getSelectedObject();
+  
+    if (selectedObject) {
+      const pos: Vector3 | null = selectedObject?.getPosition();
+      const rot: Euler | null = selectedObject?.getRotation();
+  
+      if (pos && rot) {
+        const offsetDistance = 10;
+  
+        // const cameraNewPosition = new Vector3(
+        //   pos.x + offsetDistance * Math.sin(rot.y),
+        //   pos.y + 10,
+        //   pos.z + offsetDistance * Math.cos(rot.y)
+        // );
+         
+        const cameraNewPosition = new Vector3(
+          pos.x + pos.x,
+          pos.y + pos.y ,
+          pos.z + pos.z
+        );
+  
+        setCameraPosition(cameraNewPosition);
+  
+        // const direction = new Vector3();
+        // direction.subVectors(pos, cameraNewPosition).normalize();
+        const cameraNewRotation = new Vector3(
+          pos.x + rot.x,
+          pos.y + rot.y ,
+          pos.z + rot.z
+        );
+        setCameraDirection(cameraNewRotation);
+      }
     }
   };
 
@@ -82,8 +110,9 @@ const Sidebar: React.FC = () => {
 
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
+    console.log("selected" ,"pos:" ,selectedObject?.getPosition() ,"rot:",selectedObject?.getRotation());
+    console.log("camera" ,"pos:" ,cameraPosition ,"rot:",cameraPosition, "dir:" ,cameraDirection);
 
-    console.log("selected" , selectedObject);
   }, [activeSidebarHeader,activeSidebarSubMenu]);
 
   return (
