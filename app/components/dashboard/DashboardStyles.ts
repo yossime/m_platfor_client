@@ -2,42 +2,34 @@ import { BackgroundColor } from "@constants/colors";
 import styled from "styled-components";
 
 export const SideBarContainer = styled.div`
-  position: absolute;
   border-radius: 8px;
   width: 335px;
   min-width: 216px;
   max-width: 50%;
-  height: calc(100% - 87px);
-  resize: horizontal;
   display: flex;
   flex-direction: column;
-  z-index: 1;
+  background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
+  flex-shrink: 0; 
   bottom: 16px;
   left: 16px;
+`;
+
+export const ContentContainer = styled.div`
+  border-radius: 8px;
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
+  flex-grow: 1;
+  bottom: 16px;
+  right: 16px;
 `;
 
 
-// export const SideBarContainer = styled.div`
-//   border-radius: 8px;
-//   width: 335px;
-//   min-width: 216px;
-//   max-width: 50%;
-//   height:70%;
-//   display: flex;
-//   flex-direction: column;
-//   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
-//   flex-shrink: 0; 
-//   bottom: 16px;
-//   left: 16px;
-// `;
 
 export const SideBarContainerMini = styled.div`
   position: absolute;
   border-radius: 8px;
-  /* width: 335px; */
-  /* min-width: 216px; */
-  /* max-width: 50%; */
   justify-content: end;
   resize: horizontal;
   display: flex;
@@ -47,6 +39,25 @@ export const SideBarContainerMini = styled.div`
   left: 16px; 
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
   align-items: flex-end; 
+`;
+
+
+export const MenuItemContainer = styled.div`
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #e6f7ff;
+  }
+`;
+
+export const ActiveMenuItem = styled(MenuItemContainer)`
+  background-color: #1890ff;
+  color: #fff;
+  font-weight: bold;
+  &:hover {
+    background-color: #40a9ff;
+  }
 `;
 
 

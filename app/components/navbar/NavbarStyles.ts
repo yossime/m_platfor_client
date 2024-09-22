@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SCREEN_SIZES, NAVBAR_HEIGHTS, MEDIA_QUERIES } from '@constants/screenSizes';
+import {  NAVBAR_HEIGHTS } from '@constants/screenSizes';
 
 export const NavbarWrapper = styled.nav`
   position: fixed;
@@ -9,6 +9,7 @@ export const NavbarWrapper = styled.nav`
   color: #0e0000;
   z-index: 1000;
   height: ${NAVBAR_HEIGHTS.LAPTOP};
+  background-color:white;
 `;
 
 export const NavbarContainer = styled.div`

@@ -8,22 +8,13 @@ const EditorLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
 
-        <StyledChild>
         <ProtectedRoute>
           {children}
           </ProtectedRoute>
-          </StyledChild>
     </>
   );
 };
 
-const StyledChild = styled.div`
-  position: relative;
-  height: 100vh;
-  padding-top: 55px;
-  display: flex;
-  overflow: hidden;
-`;
 
 
 

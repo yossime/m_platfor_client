@@ -16,6 +16,7 @@ const EditorLayout = styled.div`
   overflow: hidden;
 `;
 
+
 const EditorComponent: React.FC = () => {
   const { editorState } = useEditor();
 
