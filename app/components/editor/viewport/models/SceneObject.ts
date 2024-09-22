@@ -5,6 +5,8 @@ import { FBXLoader, Font, FontLoader, GLTFLoader, TextGeometry } from 'three/exa
 import { TextureManager } from '../utils/TextureManager';
 import { EventManager } from '../utils/EventManager';
 import { ModelLoader } from '../loaderes/ModelLoader';
+import { useEditor } from '@/context/useEditorContext';
+const { sceneModel } = useEditor();
 
 export abstract class SceneObject implements ISceneObject {
   protected eventManager: EventManager;
@@ -275,6 +277,10 @@ export abstract class SceneObject implements ISceneObject {
   protected handleSelected = (object: CustomObject3D) => {
     // this.highlightMesh(object);
     this.eventManager.setSelectedObject(this);
+
+
+    sceneModel?.setSelectedObject(this)
+    // console.log(this.eventManager.getSelectedObject.name)
     return this
   };
 

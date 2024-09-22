@@ -38,7 +38,7 @@ const Sidebar: React.FC = () => {
 
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
-
+    console.log(selectedObject);
     if (selectedObject && selectedObject instanceof Board) {
       setActiveSidebarHeader(
         `Edit ${selectedObject.type || "Board"}` as HeaderType
@@ -139,7 +139,7 @@ const Sidebar: React.FC = () => {
           <HeaderContainer>
             <HeaderIcon>
               {activeSidebarHeader !== "World" && (
-                <Icon name={IconName.CARETLEFT} onClick={handleBackOrAdd} />
+                <Icon name={IconName.CARETLEFT} onClick={handleBack} />
               )}
             </HeaderIcon>
             <HeaderTitle>

@@ -34,7 +34,6 @@ const ProjectList: React.FC = () => {
       try {
         const fetchedProjects = await fetchProjects(user.uid);
         setProjects(fetchedProjects);
-        console.log(fetchedProjects);
       } catch (error) {
         setError("Error fetching projects");
         console.error(error);
