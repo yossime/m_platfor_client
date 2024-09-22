@@ -68,7 +68,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
                 <Spacer />
                 <LinkContainer>
                     <Text size={TextSize.TEXT1} $weight={FontWeight.NORMAL} color={TextColor.PRIMARY_TEXT} $family={FontFamily.Figtree}>
-                        "Don't have an account? "
+                        Don't have an account? 
                     </Text>
                     <Link onClick={handleLoginClick}>sign up</Link>
                 </LinkContainer>

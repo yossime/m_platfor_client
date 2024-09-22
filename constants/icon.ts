@@ -100,7 +100,7 @@ export enum IconName {
     PLAYCIRCLE = 'PLAYCIRCLE',
     EXPORT = 'EXPORT',
     SHIELDCHECK = 'SHIELDCHECK',
-
+    ARROWSIN = 'ARROWSIN',
 
 }
 
@@ -108,6 +108,7 @@ export enum IconName {
 
 
 export const IconComponents: { [key in IconName]: IconType } = {
+    [IconName.ARROWSIN]: PiIcons.PiArrowsIn,
     [IconName.CLOUDARROWUP]: PiIcons.PiCloudArrowUp,
     [IconName.EXPORT]: PiIcons.PiExport,
     [IconName.SHIELDCHECK]: PiIcons.PiShieldCheck,

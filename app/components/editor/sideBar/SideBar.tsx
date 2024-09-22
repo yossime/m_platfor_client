@@ -105,13 +105,15 @@ const Sidebar: React.FC = () => {
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
   };
-
+  const handleBack = () => {
+    setActiveSidebarHeader("World");
+  };
 
 
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
-    console.log("selected" ,"pos:" ,selectedObject?.getPosition() ,"rot:",selectedObject?.getRotation());
-    console.log("camera" ,"pos:" ,cameraPosition ,"rot:",cameraPosition, "dir:" ,cameraDirection);
+    // console.log("selected" ,"pos:" ,selectedObject?.getPosition() ,"rot:",selectedObject?.getRotation());
+    // console.log("camera" ,"pos:" ,cameraPosition ,"rot:",cameraPosition, "dir:" ,cameraDirection);
 
   }, [activeSidebarHeader,activeSidebarSubMenu]);
 
@@ -146,8 +148,8 @@ const Sidebar: React.FC = () => {
               <Text size={TextSize.TEXT2}>{activeSidebarHeader}</Text>
             </HeaderTitle>
             <HeaderIcon>
-              {activeSidebarHeader !== "World" && (
-                <Icon name={IconName.FOLDER} onClick={handleFocus} />
+              {(activeSidebarHeader !== "World" && activeSidebarHeader !== "Choose Board Widget") && (
+                <Icon name={IconName.ARROWSIN} onClick={handleFocus} />
               )}
             </HeaderIcon>
           </HeaderContainer>
