@@ -14,6 +14,7 @@ import { SceneService } from './SceneService';
 import { fetchProject } from '@/services/projectService';
 import { useProject } from '@/context/useProjectContext';
 import { CameraControls } from '../camera/Camera';
+import { EventManager } from './utils/EventManager';
 
 export const ViewportContainer = styled.div`
   flex-grow: 1;
@@ -24,14 +25,29 @@ export const ViewportContainer = styled.div`
 const SceneComponent = () => {
   const { sceneModel, setSceneModel } = useEditor();
   const { currentProject } = useProject();
+  const eventManager = EventManager.getInstance();
 
   const [model, setModel] = useState<Object3D | undefined>(undefined);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        const confirmationMessage = 'You have unsaved changes. Are you sure you want to leave?';
+        event.returnValue = confirmationMessage; 
+        return confirmationMessage;
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   useEffect(() => {
     const buildScene = async () => {
       const scene = new SceneService();
       const res = await fetchProject(currentProject || '', '');
-      if(res.data) {
+      if (res.data) {
         const parsedData = JSON.parse(res.data.dataParameters);
         await scene.buildScene(ArchitectureType.TWO_CIRCLES, setModel, parsedData);
       }
@@ -61,11 +77,16 @@ const SceneComponent = () => {
 
   const CameraController = () => {
     const { camera } = useThree();
-    useEffect(() => {
-      // Adjusted camera position to start higher //yossi
-      camera.position.set(5, 35, 5);
-      camera.lookAt(new Vector3(0, 0, 0));
-    }, [camera]);
+        useEffect(() => {
+          // Adjusted camera position to start higher //yossi
+          camera.position.set(5, 35, 5);
+          camera.lookAt(new Vector3(0, 0, 0));
+          const selectedObject = eventManager.getSelectedObject();
+          if (selectedObject !== null && selectedObject.getPosition() != null) {
+            camera.lookAt(selectedObject.getPosition()!);
+          }
+
+        }, [camera, eventManager.getSelectedObject()]);
     return null;
   };
 
@@ -95,15 +116,15 @@ const Viewport: React.FC = () => {
 
   return (
     <ViewportContainer className="viewport">
-        <Canvas 
-        >
-          <CameraControls/>
-          <ambientLight intensity={0.3} />
-          <directionalLight position={[5, 5, 5]} intensity={0.5} />
-          <SceneComponent />
-          <Environment preset="sunset" />
-          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
-        </Canvas>
+      <Canvas
+      >
+        <CameraControls />
+        <ambientLight intensity={0.3} />
+        <directionalLight position={[5, 5, 5]} intensity={0.5} />
+        <SceneComponent />
+        <Environment preset="sunset" />
+        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
+      </Canvas>
     </ViewportContainer>
   );
 };

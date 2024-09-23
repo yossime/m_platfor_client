@@ -103,14 +103,6 @@ export enum MaterialSlotName {
 }
 
 
-
-export enum EContentImagesType {
-  IMAGE = 'image',
-  IMAGE_0 = 'image_0',
-  IMAGE_1 = 'image_1',
-}
-
-
 export interface ContentData {
   contentObjects?: ContentObjects;
   contentText?: ContentText;

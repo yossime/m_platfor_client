@@ -133,7 +133,7 @@ export const HeaderContentComponent: React.FC = () => {
             isOpen={openSections.logo}
             onToggle={handleSectionToggle("logo")}
           >
-            <ContentImageUpload type={ContentDataType.FRAME} />
+            <ContentImageUpload type={ContentDataType.LOGO} />
           </DataObfuscator>
         </Container>
       )}
