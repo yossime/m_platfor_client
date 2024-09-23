@@ -5,9 +5,9 @@ import { useQuestionnaireIndex } from '@/context/useQuestionnaire';
 import { Container, IndexContainer, InputWrapper, TextContainer } from './CommonStyles';
 import { InputSize, InputMode } from '@constants/input';
 import { useProject } from '@/context/useProjectContext';
-import QuestionnaireIndexContainer from '../../../questionnaireIndexContainer/QuestionnaireIndexContainer';
 import { FontFamily, FontWeight, TextSize } from '@constants/text';
 import { TextColor } from '@constants/colors';
+import QuestionnaireIndexContainer from '@/components/questionnaire/questionnaireIndexContainer/QuestionnaireIndexContainer';
 
 const BusinessName: React.FC = () => {
   const { contextData, setContextData } = useQuestionnaireIndex();

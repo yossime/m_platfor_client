@@ -3,9 +3,9 @@ import TypeBox from '@/components/Library/boxes/typeBox/TypeBox';
 import Text from '@components/Library/text/Text';
 import { useQuestionnaireIndex } from '@/context/useQuestionnaire';
 import { Container, IndexContainer, TextContainer, ItemsContainer } from './CommonStyles';
-import QuestionnaireIndexContainer from '../../../questionnaireIndexContainer/QuestionnaireIndexContainer';
 import { FontFamily, FontWeight,  TextSize } from '@constants/text';
 import { TextColor } from '@constants/colors';
+import QuestionnaireIndexContainer from '@/components/questionnaire/questionnaireIndexContainer/QuestionnaireIndexContainer';
 
 const data = [
   { "title": "Portfolio" },

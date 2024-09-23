@@ -7,9 +7,9 @@ import TemplateBox from '@/components/Library/boxes/templateBox/TemplateBox';
 import Text from '@components/Library/text/Text';
 import { useQuestionnaireIndex } from '@/context/useQuestionnaire';
 import { Container, ContentWrapper, TextContainer, ItemsContainer, IndexContainer } from './CommonStyles';
-import QuestionnaireIndexContainer from '../../../questionnaireIndexContainer/QuestionnaireIndexContainer';
 import { FontFamily, FontWeight, TextSize } from '@constants/text';
 import { TextColor } from '@constants/colors';
+import QuestionnaireIndexContainer from '@/components/questionnaire/questionnaireIndexContainer/QuestionnaireIndexContainer';
 
 const data = [
   { "title": "Playful", "backgroundImage": "/images/Nostalgic.jpg" },

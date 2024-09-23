@@ -4,9 +4,9 @@ import Text from '@components/Library/text/Text';
 import { useQuestionnaireIndex } from '@/context/useQuestionnaire';
 import { Container, TextContainer, ItemsContainer, IndexContainer, ContentWrapper } from './CommonStyles';
 import { IconName, IconSize } from '@constants/icon';
-import QuestionnaireIndexContainer from '../../../questionnaireIndexContainer/QuestionnaireIndexContainer';
 import { FontFamily, FontWeight,  TextSize } from '@constants/text';
 import { TextColor } from '@constants/colors';
+import QuestionnaireIndexContainer from '@/components/questionnaire/questionnaireIndexContainer/QuestionnaireIndexContainer';
 
 
 
