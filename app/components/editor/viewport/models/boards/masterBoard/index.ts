@@ -11,7 +11,7 @@ export abstract class MasterBoardABC extends Board {
         //   }
     }
     protected boardUrl = `${this.libraryUrl}/borads/${this.type}`;
-    protected getBoardUrl(): string { return `${this.boardUrl}/${this.format}9.fbx`; };
+    protected getBoardUrl(): string { return `${this.boardUrl}/${this.format}13.fbx`; };
 
     protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
         if (!this.format) return;
