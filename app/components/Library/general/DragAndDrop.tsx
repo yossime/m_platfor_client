@@ -57,7 +57,7 @@ const DragAndDrop: React.FC<FileUploadProps> = ({ onFileAdded, type, buttonOnly 
       icon={IconName.CLOUDARROWUP}
       onClick={handleButtonClick}
       mode={ButtonMode.NORMAL}
-      fullWidth={true}    />
+      fullWidth={buttonOnly ? true : false}    />
   );
 
   if (buttonOnly) {

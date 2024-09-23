@@ -10,51 +10,54 @@ import {
   ScrollableContent,
   SideBarContainer,
   MenuItemContainer,
-  ActiveMenuItem 
+  ActiveMenuItem,
 } from "./DashboardStyles";
 import { Divider2 } from "../editor/sideBar/components/CommonStyles";
 import { useMenuContext } from "@/context/MenuContext ";
 import { useProject } from "@/context/useProjectContext";
 import { useRouter } from "next/navigation";
+import Icon from "../Library/icon/Icon";
+import { IconName } from "@constants/icon";
 
 const DashboardSideBar: React.FC = () => {
   const { menuItems, currentSelection, setCurrentSelection } = useMenuContext();
   const { projectName } = useProject();
 
-
   const router = useRouter();
-  
+
   const handleItemClick = (name: string) => {
     setCurrentSelection(name);
-  
-  
+
     switch (name) {
-      case 'Products':
-        router.push('/dashboard/products');
+      case "Products":
+        router.push("/dashboard/products");
         break;
-      case 'Accept payments':
-        router.push('/dashboard/payments');
+      case "Accept payments":
+        router.push("/dashboard/payments");
         break;
-      case 'Connect a domain':
-        router.push('/dashboard/domain');
+      case "Connect a domain":
+        router.push("/dashboard/domain");
         break;
       default:
-        router.push('/');
+        router.push("/");
     }
   };
-  
 
   return (
     <>
       <SideBarContainer>
         <ProjectContainer>
-          <ProjectIcon>
-            {/* <Icon name={IconName.PLUS} onClick={handleAdd} /> */}
-          </ProjectIcon>
           <ProjectTitle>
             <Text size={TextSize.TEXT2}>{projectName}</Text>
           </ProjectTitle>
-          <ProjectIcon></ProjectIcon>
+          <ProjectIcon>
+            <Icon
+              name={IconName.SPEEDOMETER}
+              onClick={() => {
+                router.push("/editor");
+              }}
+            />
+          </ProjectIcon>
         </ProjectContainer>
 
         <Divider2 />
@@ -77,7 +80,11 @@ const DashboardSideBar: React.FC = () => {
             >
               <Text
                 size={TextSize.TEXT2}
-                $weight={currentSelection === item.name ? FontWeight.BOLD : FontWeight.NORMAL}
+                $weight={
+                  currentSelection === item.name
+                    ? FontWeight.BOLD
+                    : FontWeight.NORMAL
+                }
               >
                 {item.name}
               </Text>

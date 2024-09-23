@@ -1,9 +1,10 @@
 import React from "react";
 import Text from "@/components/Library/text/Text";
 import { TextSize } from "@constants/text";
-import Icon from "@/components/Library/icon/Icon";
-import { IconName } from "@constants/icon";
+
 import { ContentContainer, ProjectContainer, ProjectIcon, ProjectTitle, ScrollableContent, SideBarContainer } from "../DashboardStyles";
+import DashboardDomainContainer from "./DashboardDomainContainer/DashboardDomainContainer";
+import { ButtonsContainer } from "./buttonsContainer/ButtonsContainerStyles";
 
 
 const DashboardDomain: React.FC = () => {
@@ -30,12 +31,8 @@ const DashboardDomain: React.FC = () => {
 
 
           <ScrollableContent>
-            {/* <ContentArea
-              activeSidebarHeader={activeSidebarHeader}
-              activeSidebarSubMenu={activeSidebarSubMenu}
-              setActiveSidebarHeader={setActiveSidebarHeader}
-              handleBackOrAdd={handleBackOrAdd}
-            /> */}
+          <DashboardDomainContainer />
+          <ButtonsContainer />
           </ScrollableContent>
         </ContentContainer>
 

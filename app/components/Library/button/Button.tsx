@@ -14,9 +14,9 @@ import { IconName, IconSize } from "@constants/icon";
 import { IconColor, TextColor } from "@constants/colors";
 
 export interface ButtonProps {
-  type: ButtonType;
-  variant: ButtonVariant;
-  size: ButtonSize;
+  type?: ButtonType;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   mode?: ButtonMode;
   text?: string;
   icon?: IconName;
@@ -29,9 +29,9 @@ export interface ButtonProps {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      type,
-      variant,
-      size,
+      type = ButtonType.PRIMARY,
+      variant= ButtonVariant.PRIMARY,
+      size = ButtonSize.MEDIUM,
       mode = ButtonMode.NORMAL,
       text,
       icon,

@@ -29,7 +29,7 @@ export enum FontWeight {
 
 
 export interface TextStyleProps {
-    size: TextSize;
+    size?: TextSize;
     $family?: FontFamily;
     $weight?: FontWeight;
     color?: TextColor;

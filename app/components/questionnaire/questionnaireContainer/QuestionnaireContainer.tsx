@@ -2,13 +2,11 @@
 "use client"
 import React, { ReactNode } from 'react';
 import { ContainerWrapper } from './QuestionnaireContainerStyles';
-// import Apps from './containers/Apps';
 import WebsiteType from './containers/WebsiteType';
 import BusinessName from './containers/BusinessName';
 import Design from './containers/Templats';
 import Boards from './containers/Boards';
 import { QuestionnaireStatus, useQuestionnaireIndex } from '@context/useQuestionnaire';
-import QuestionnaireIndexContainer from '../questionnaireIndexContainer/QuestionnaireIndexContainer';
 
 const componentMap: { [key in QuestionnaireStatus]: ReactNode } = {
   [QuestionnaireStatus.QuestionnaireTemplates]: <Design />,

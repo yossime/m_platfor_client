@@ -4,6 +4,7 @@ export enum InputSize {
   SMALL = 'small',
   MEDIUM = 'medium',
   LARGE = 'large',
+  NUM = 'num',
 }
 
 export enum InputMode {
@@ -16,6 +17,7 @@ export enum InputMode {
 }
 
 export const InputSizeConfig = {
+  [InputSize.NUM]: { height: '32px', padding: '5px 8px', fontSize: 'TEXT1' as const },
   [InputSize.SMALL]: { height: '32px', padding: '6px 8px', fontSize: 'TEXT2' as const },
   [InputSize.MEDIUM]: { height: '40px', padding: '8px 12px', fontSize: 'TEXT1' as const },
   [InputSize.LARGE]: { height: '48px', padding: '12px 16px', fontSize: 'TEXT1' as const },

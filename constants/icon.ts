@@ -101,13 +101,18 @@ export enum IconName {
     EXPORT = 'EXPORT',
     SHIELDCHECK = 'SHIELDCHECK',
     ARROWSIN = 'ARROWSIN',
-
+    EYE = 'EYE',
+    EYECLOSED = 'EYECLOSED',
+    SPEEDOMETER = 'SPEEDOMETER',
 }
 
 
 
 
 export const IconComponents: { [key in IconName]: IconType } = {
+    [IconName.EYE]: PiIcons.PiEye,
+    [IconName.SPEEDOMETER]: PiIcons.PiSpeedometer,
+    [IconName.EYECLOSED]: PiIcons.PiEyeClosed,
     [IconName.ARROWSIN]: PiIcons.PiArrowsIn,
     [IconName.CLOUDARROWUP]: PiIcons.PiCloudArrowUp,
     [IconName.EXPORT]: PiIcons.PiExport,

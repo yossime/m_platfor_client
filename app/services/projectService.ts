@@ -1,44 +1,57 @@
-import axios from '@/utils/axios';
-import { User } from 'firebase/auth';
+import axios from "@/utils/axios";
+import { User } from "firebase/auth";
+import { registerStore } from "./storeService";
 
 export const fetchProjects = async (userId: string): Promise<any[]> => {
   try {
-    const response = await axios.get('/projects', { params: { userId } });
+    const response = await axios.get("/projects", { params: { userId } });
     return response.data.projects;
   } catch (error) {
-    console.error('Error fetching projects:', error);
+    console.error("Error fetching projects:", error);
     throw error;
   }
 };
 
-export const fetchProject = async (projectId: string, userId: string): Promise<any> => {
+export const fetchProject = async (
+  projectId: string,
+  userId: string
+): Promise<any> => {
   try {
     const response = await axios.get(`/project/${projectId}`);
     return response;
   } catch (error) {
-    console.error('Error fetching project:', error);
+    console.error("Error fetching project:", error);
     throw error;
   }
 };
 
-
 export const createProject = async (projectData: any, user: User | null) => {
-  if (!user) throw new Error('User not authenticated');
+  if (!user) throw new Error("User not authenticated");
+  try {
+    const token = await user.getIdToken(true);
+    const response = await axios.post("project", projectData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data);
+    try {
+     const resp =  await registerStore(response.data.projectId);
+     console.log(resp);
 
-  const token = await user.getIdToken(true);
-  const response = await axios.post('project', projectData, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.data;
+    } catch (error) {
+      console.error("Error creating store:", error);
+    }
+    return response.data;
+  } catch (error) {
+    console.error("Error creating project:", error);
+    throw error;
+  }
 };
 
-
 export const deleteProject = async (projectId: string, user: User | null) => {
-  if (!user) throw new Error('User not authenticated');
+  if (!user) throw new Error("User not authenticated");
 
   try {
     const token = await user.getIdToken(true);
@@ -47,12 +60,10 @@ export const deleteProject = async (projectId: string, user: User | null) => {
         Authorization: `Bearer ${token}`,
       },
     });
-console.log("response: " + response.status);
+    console.log("response: " + response.status);
     return response.data;
   } catch (error) {
-    console.error('Error deleting project:', error);
+    console.error("Error deleting project:", error);
     throw error;
   }
 };
-
-

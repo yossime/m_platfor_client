@@ -10,6 +10,31 @@ text-align: start;
 
 export const StyledInput = styled.input<{ $size: InputSize; $mode: InputMode; $fullWidth: boolean }>`
   ${props => {
+    if (props.$size === InputSize.NUM) {
+      return `
+        height: 32px;
+        width: 32px;
+        padding: 5px 8px;
+        background-color: ${getInputColors(props.$mode).background};
+        color: ${getInputColors(props.$mode).text};
+        border: 1px solid ${getInputColors(props.$mode).border};
+        border-radius: 4px;
+        font-size: ${TextSize.TEXT1};
+        font-family: ${FontFamily.Figtree};
+        margin: 8px 0;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: #323338;
+        }
+
+        &:focus {
+          border-color: #0073EA;
+          outline: none;
+        }
+      `;
+    }
+
     const { height, padding, fontSize } = InputSizeConfig[props.$size];
     const { background, text, border } = getInputColors(props.$mode);
     return `
@@ -36,6 +61,7 @@ export const StyledInput = styled.input<{ $size: InputSize; $mode: InputMode; $f
     `;
   }}
 `;
+
 
 export const LabelText = styled(Text)`
   margin-bottom: 8px;

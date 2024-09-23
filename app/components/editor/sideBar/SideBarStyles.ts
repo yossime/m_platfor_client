@@ -4,9 +4,7 @@ import styled from "styled-components";
 export const SideBarContainer = styled.div`
   position: absolute;
   border-radius: 8px;
-  width: 335px;
-  min-width: 216px;
-  max-width: 50%;
+  width: 362px;
   height: calc(100% - 87px);
   resize: horizontal;
   display: flex;
@@ -18,26 +16,11 @@ export const SideBarContainer = styled.div`
 `;
 
 
-// export const SideBarContainer = styled.div`
-//   border-radius: 8px;
-//   width: 335px;
-//   min-width: 216px;
-//   max-width: 50%;
-//   height:70%;
-//   display: flex;
-//   flex-direction: column;
-//   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
-//   flex-shrink: 0; 
-//   bottom: 16px;
-//   left: 16px;
-// `;
+
 
 export const SideBarContainerMini = styled.div`
   position: absolute;
   border-radius: 8px;
-  /* width: 335px; */
-  /* min-width: 216px; */
-  /* max-width: 50%; */
   justify-content: end;
   resize: horizontal;
   display: flex;

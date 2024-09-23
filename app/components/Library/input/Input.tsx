@@ -6,8 +6,8 @@ import { InputWrapper, StyledInput, LabelText, HelperText } from './InputStyles'
 import { TextColor } from '@constants/colors';
 
 type InputPropsCustom = {
-  inputSize: InputSize;
-  mode: InputMode;
+  inputSize?: InputSize;
+  mode?: InputMode;
   label?: string;
   helperText?: string;
   fullWidth?: boolean;
@@ -17,8 +17,8 @@ type InputPropsCustom = {
 export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & InputPropsCustom;
 
 const Input = forwardRef<HTMLInputElement, InputProps>(({
-  inputSize,
-  mode,
+  inputSize = InputSize.MEDIUM,
+  mode= InputMode.NORMAL,
   label,
   placeholder,
   helperText,
