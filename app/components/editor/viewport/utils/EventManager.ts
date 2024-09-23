@@ -20,6 +20,7 @@ export class EventManager {
     }
 
     public setSelectedObject(obj: ISceneObject): void {
+        console.log("eventManager", obj);
         if (EventManager.selectedObject) {
             EventManager.selectedObject.isSelected(false);
         }

@@ -1,4 +1,4 @@
-import { ISceneObjectOptions, ISceneObject } from '@/components/editor/types/index';
+import { ISceneObjectOptions, ISceneObject, ContentDataType } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
 import { MasterBoardABC } from '.';
 
@@ -7,4 +7,16 @@ export class HeaderBoard extends MasterBoardABC {
         super(type, options);
     }
 
+    initializeContentAreas(): void {
+        this.contentsData.set(ContentDataType.LOGO, {});
+        super.initializeContentAreas();
+    }
+
+    // initializeContentAreas(): void {
+    //     console.log('initializing content')
+    //     this.contentsData.set(ContentDataType.TITLE, {});
+    //     this.contentsData.set(ContentDataType.SUB_TITLE, {});
+    //     this.contentsData.set(ContentDataType.FRAME, {});
+    //     this.contentsData.set(ContentDataType.BUTTON, {});
+    // }
 }

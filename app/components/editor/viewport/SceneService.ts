@@ -2,6 +2,7 @@ import { Object3D } from 'three';
 import { ExportedSceneObject, ISceneObject } from '../types';
 import { ArchitectureType } from "../types";
 import { Architecture } from './models/architectures/Architecture';
+import { EventManager } from './utils/EventManager';
 
 
 export class SceneService {
@@ -9,6 +10,11 @@ export class SceneService {
   private selectedObject: ISceneObject | null = null;
   private history: string[] = [];
   private historyIndex: number = -1;
+  private eventManager: EventManager;
+
+  constructor() { 
+    this.eventManager = EventManager.getInstance();
+  }
 
   async buildScene(type: ArchitectureType, onLoad: (model?: Object3D) => void, exportedScenObj?: ExportedSceneObject): Promise<void> {
     try {
@@ -29,7 +35,8 @@ export class SceneService {
   }
 
   getSelectedObject(): ISceneObject | null {
-    return this.selectedObject;
+    return this.selectedObject || this.eventManager.getSelectedObject();
+    return this.eventManager.getSelectedObject();
   }
 
   async exportToJson(): Promise<string | null> {

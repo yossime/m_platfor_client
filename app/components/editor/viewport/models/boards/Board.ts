@@ -8,14 +8,11 @@ import {
   EConfigType,
   EConfiguration,
   ContentDataType,
-  EContentImagesType,
   ExportedSceneObject,
-  ProductType,
   FormatBoard,
 } from "@/components/editor/types/index";
 import { BoardType } from "@/components/editor/types";
 import { SceneObject } from "../SceneObject";
-import { DouProduct } from "../products/DouProduct";
 
 export abstract class Board extends SceneObject {
   public slotNumber = -1;
@@ -32,7 +29,7 @@ export abstract class Board extends SceneObject {
 
   // protected abstract boardUrl: string;
 
-  protected abstract getBoardUrl(): string ;
+  protected abstract getBoardUrl(): string;
 
   constructor(
     type: BoardType,
@@ -48,13 +45,6 @@ export abstract class Board extends SceneObject {
   public getFormat(): FormatBoard | null { return this.format };
 
   public getLogoConfiguration(): Map<EConfigType, EConfiguration> | null { return null };
-
-  public setLogoConfiguration(
-    type: EConfigType,
-    config: EConfiguration
-  ): void { }
-
-
 
   public setFormat(format: FormatBoard): void {
     this.format = format;
@@ -91,6 +81,29 @@ export abstract class Board extends SceneObject {
     this.updateContentPositions();
   }
 
+  public setLogoConfiguration(type: EConfigType, config: EConfiguration): void {
+    this.logoConfiguration.set(type, config);
+    const logoContentType = ContentDataType.LOGO;
+    const configV = this.logoConfiguration.get(EConfigType.VERTICAL);
+    const configH = this.logoConfiguration.get(EConfigType.HORIZONTAL);
+    
+    const placeholderName = `ph_${logoContentType}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
+    const geometry = this.getGeometryByName(logoContentType);
+    const placeholder = this.getGeometryByName(placeholderName);
+
+    if (geometry && placeholder) {
+      geometry.position.copy(placeholder.position);
+      geometry.rotation.copy(placeholder.rotation);
+    }
+
+    const oldContent = this.contentsData.get(logoContentType);
+    this.contentsData.set(logoContentType, {
+      ...oldContent,
+      // contentObjects: updatedObjects,
+    });
+  }
+
+
   public async setContentMaterial(
     type: ContentDataType,
     material: ContentMaterial
@@ -118,11 +131,11 @@ export abstract class Board extends SceneObject {
     geometry = geometry || this.getGeometryByName(type);
 
     if (geometry instanceof Mesh) {
-      if (material.customMaterial) {
+      if (material?.customMaterial) {
         await this.changeMaterial(geometry, material.customMaterial);
-      } else if (material.renderer) {
+      } else if (material?.renderer) {
         await this.applyRenderMaterial(geometry, material.renderer);
-      } else if (material.video) {
+      } else if (material?.video) {
         await this.applyVideoMaterial(geometry, material.video);
       }
 
@@ -134,7 +147,12 @@ export abstract class Board extends SceneObject {
   }
 
   public setContentText(type: ContentDataType, text: ContentText): void {
-    const geometry = this.getGeometryByName(type);
+    let geometryName = type;
+    if (type === ContentDataType.BUTTON) {
+      geometryName = `${type}_text` as ContentDataType;
+    }
+
+    const geometry = this.getGeometryByName(geometryName);
     const configV = this.configuration.get(EConfigType.VERTICAL);
     const configH = this.configuration.get(EConfigType.HORIZONTAL);
     const configImageName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
@@ -149,9 +167,7 @@ export abstract class Board extends SceneObject {
     }
   }
 
-  protected getPlaceholder(
-    type: ContentDataType | EContentImagesType | ContentDataType
-  ) {
+  protected getPlaceholder(type: ContentDataType) {
     const configV = this.configuration.get(EConfigType.VERTICAL);
     const configH = this.configuration.get(EConfigType.HORIZONTAL);
     const placeholderName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
@@ -159,26 +175,22 @@ export abstract class Board extends SceneObject {
     return placeholder;
   }
 
-  protected initializeContentAreas(): void {
-    this.model?.traverse((content) => {
-      if (content instanceof Mesh && !content.name.startsWith("ph_")) {
-        // const contentType = content.name.split('_')[0];
-        // this.contentMaterial.set(contentType, {
-        //     customMaterial: {
-        //         diffuse: { color: 'white' }
-        //     }
-        // });
-        // this.contentText.set(contentType, { text: '' });
-      }
-    });
-  }
 
-  protected updateContentPositions(): void {
-    this.contentsData.forEach(async (data, contentType) => {
+  protected async updateContentPositions(): Promise<void> {
+    const entries = Array.from(this.contentsData.entries());
+
+    for (const [contentType, data] of entries) {
+      if (contentType === ContentDataType.LOGO) {
+        continue;
+      }
+
       const geometry = this.getGeometryByName(contentType);
+
       const placeholder = this.getPlaceholder(contentType);
+
       if (geometry && placeholder) {
         const oldMaterial = this.contentsData.get(contentType);
+
         if (contentType === ContentDataType.FRAME) {
           await this.setContentMaterial(
             ContentDataType.FRAME,
@@ -189,20 +201,43 @@ export abstract class Board extends SceneObject {
           geometry.rotation.copy(placeholder.rotation);
         }
 
-        const updatedObjects = {
-          contentName: placeholder.name,
-          // position: placeholder.position,
-          // rotation: placeholder.rotation,
-        };
-
         const oldContent = this.contentsData.get(contentType);
         this.contentsData.set(contentType, {
           ...oldContent,
           // contentObjects: updatedObjects,
         });
       }
-    });
+    }
   }
+
+
+  // protected updateContentPositions(): void {
+  //   this.contentsData.forEach(async (data, contentType) => {
+  //     if(contentType === ContentDataType.LOGO) { continue; }
+
+  //     const geometry = this.getGeometryByName(contentType);
+  //     const placeholder = this.getPlaceholder(contentType);
+  //     if (geometry && placeholder) {
+  //       const oldMaterial = this.contentsData.get(contentType);
+
+  //       if (contentType === ContentDataType.FRAME) {
+  //         await this.setContentMaterial(
+  //           ContentDataType.FRAME,
+  //           oldMaterial?.contentMaterial!
+  //         );
+  //       } else {
+  //         geometry.position.copy(placeholder.position);
+  //         geometry.rotation.copy(placeholder.rotation);
+  //       }
+
+  //       const oldContent = this.contentsData.get(contentType);
+  //       this.contentsData.set(contentType, {
+  //         ...oldContent,
+  //         // contentObjects: updatedObjects,
+  //       });
+  //     }
+  //   });
+  // }
 
   protected calculatePosition(contentType: string): Vector3 {
     // Implement position calculation based on configuration
@@ -229,9 +264,9 @@ export abstract class Board extends SceneObject {
       this.setConfiguration(key as EConfigType, value);
     }
     super.buildFromJson(exportedObj);
-    
-    if(exportedObj.format)
-    this.setFormat(exportedObj.format)
+
+    if (exportedObj.format)
+      this.setFormat(exportedObj.format)
 
     // exportedObj.children.forEach((childData) => {
     //   let product;

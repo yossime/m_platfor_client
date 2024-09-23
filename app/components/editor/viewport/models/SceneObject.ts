@@ -1,6 +1,6 @@
 import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture, MeshPhongMaterial, MeshBasicMaterial } from 'three';
 
-import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, EContentImagesType, ContentMaterial, ContentText, ContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../../types';
+import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, ContentMaterial, ContentText, ContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../../types';
 import { FBXLoader, Font, FontLoader, GLTFLoader, TextGeometry } from 'three/examples/jsm/Addons.js';
 import { TextureManager } from '../utils/TextureManager';
 import { EventManager } from '../utils/EventManager';

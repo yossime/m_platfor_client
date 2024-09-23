@@ -9,15 +9,22 @@ export abstract class ProductBoardABC extends Board implements ProductBoard {
         this.loadModelAndDisplay(onBoardLoaded);
     }
 
+    protected boardUrl = `${this.libraryUrl}/borads/${this.type}`;
+    protected getBoardUrl(): string { return `${this.boardUrl}/${this.format}.fbx`; };
+
     public abstract addChild(sceneObject: ISceneObject): void;
     
+    // protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
+
+    //     await super.loadModelAndDisplay(onLoad);
+
+    //     this.slots = this.getSlotsPosition();
+    // }
+
     protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
-
-        await super.loadModelAndDisplay(onLoad);
-
-        this.slots = this.getSlotsPosition();
+        if (!this.format) return;
+        super.loadModelAndDisplay(onLoad);
     }
-
 
     
 
