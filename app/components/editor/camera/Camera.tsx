@@ -15,7 +15,6 @@ export const CameraControls: React.FC = () => {
 
     setCameraPosition(camera.position.clone());
 
-    // setCameraRotation(camera.rotation.clone());
 
     const target = new Vector3();
     camera.getWorldDirection(target);
@@ -39,14 +38,13 @@ export const CameraControls: React.FC = () => {
     if (cameraPosition) {
       camera.position.copy(cameraPosition); 
     }
-    // if (cameraRotation) {
-    //   camera.rotation.copy(cameraRotation); 
-    // }
     if (cameraDirection) {
       camera.lookAt(cameraDirection); 
     }
   }, [cameraPosition, cameraRotation, cameraDirection, camera]);
 
+
+  
   return (
     <OrbitControls
       enablePan={true}

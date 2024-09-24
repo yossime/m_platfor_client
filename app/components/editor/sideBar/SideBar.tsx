@@ -121,7 +121,6 @@ const Sidebar: React.FC = () => {
     // console.log("selected" ,"pos:" ,selectedObject?.getPosition() ,"rot:",selectedObject?.getRotation());
     // console.log("camera" ,"pos:" ,cameraPosition ,"rot:",cameraPosition, "dir:" ,cameraDirection);
   }, [activeSidebarHeader, activeSidebarSubMenu]);
-  
 
   return (
     <>
