@@ -2,6 +2,7 @@ import { IconType } from 'react-icons';
 import * as PiIcons from "react-icons/pi";
 
 export enum IconName {
+    EMPTY ='EMPTY',
     CLOUDARROWUP ='CLOUDARROWUP',
     HOME = 'HOME',
     SEARCH = 'SEARCH',
@@ -111,6 +112,7 @@ export enum IconName {
 
 export const IconComponents: { [key in IconName]: IconType } = {
     [IconName.EYE]: PiIcons.PiEye,
+    [IconName.EMPTY]: PiIcons.PiEmpty,
     [IconName.SPEEDOMETER]: PiIcons.PiSpeedometer,
     [IconName.EYECLOSED]: PiIcons.PiEyeClosed,
     [IconName.ARROWSIN]: PiIcons.PiArrowsIn,

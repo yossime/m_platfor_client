@@ -36,7 +36,7 @@ const Sidebar: React.FC = () => {
     setCameraDirection,
     setCameraRotation,
   } = useCamera();
-  const { projectName } = useProject();
+  const { projectName , projects } = useProject();
   const { sceneModel } = useEditor();
   const router = useRouter();
   const [activeSidebarHeader, setActiveSidebarHeader] =
@@ -47,15 +47,18 @@ const Sidebar: React.FC = () => {
   
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
-    console.log(selectedObject);
+    console.log("fffffff");
     if (selectedObject && selectedObject instanceof Board) {
+      console.log("sssssssssss");
+
       setActiveSidebarHeader(
         `Edit ${selectedObject.type || "Board"}` as HeaderType
       );
     } else {
       setActiveSidebarHeader("World");
     }
-  }, [sceneModel]);
+  }, [sceneModel, sceneModel?.setSelectedObject]);
+
 
   useEffect(() => {
     setActiveSidebarSubMenu("Edit");
@@ -134,10 +137,6 @@ const Sidebar: React.FC = () => {
               <Text size={TextSize.TEXT2}>{projectName}</Text>
             </ProjectTitle>
             <ProjectIcon>
-              {/* <Icon
-                name={IconName.ALIGNTOP}
-                onClick={() => setIsOpen(!isOpen)}
-              /> */}
               <Icon
                 name={IconName.SPEEDOMETER}
                 onClick={() => {router.push("/dashboard");}}
@@ -151,6 +150,9 @@ const Sidebar: React.FC = () => {
             <HeaderIcon>
               {activeSidebarHeader !== "World" && (
                 <Icon name={IconName.CARETLEFT} onClick={handleBack} />
+
+                // <Icon name={IconName.SQUARESFOUR} onClick={handleBack} />
+
               )}
             </HeaderIcon>
             <HeaderTitle>

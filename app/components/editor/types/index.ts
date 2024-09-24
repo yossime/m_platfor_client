@@ -1,3 +1,4 @@
+import { Product } from '@/components/dashboard/types/product.types';
 import { Object3D, Vector3, Euler, Material, Texture } from 'three';
 
 
@@ -37,15 +38,24 @@ export interface IBoard extends ISceneObject {
 }
 
 export interface ProductBoard extends ISceneObject {
-  addChild?(sceneObject: ISceneObject): void;
-  addProduct?(board: IBoard): void;
+  getStands():ProductStand[] | null ;
+  addStand(product: Product): void;
+  removeStand(productStand: ProductStand):void;
+  maxStands: number;
 }
+
 export interface FormBoard extends ISceneObject {
   getFormInput(type: ContentDataType, label: InputLabelType): InputField | null;
   setFormInput(type: ContentDataType, label: InputLabelType, contentFormInput: InputField): void;
   getContentForm?(type: ContentDataType): ContentForm | null;
   setContentForm?(type: ContentDataType,contentForn: ContentForm): void;
 }
+
+export interface ProductStand extends ISceneObject {
+  setProduct(product: Product): void;
+  getProduct(): Product | null;
+}
+
 
 export interface CustomObject3D extends Object3D {
   onPointerDown?: (event: any) => ISceneObject;

@@ -22,7 +22,7 @@ const DashboardProducts: React.FC = () => {
 
   const handleBack = () => {
     setAddProduct(false);
-    setSelectedProduct(null); 
+    setSelectedProduct(null);
   };
 
   const handleProductClick = (product: Product): void => {
@@ -66,8 +66,9 @@ const DashboardProducts: React.FC = () => {
         </ProductListContent>
       ) : (
         <AddProduct
+          setAddProduct={setAddProduct}
           onSetTitle={setTitle}
-          product={selectedProduct} 
+          product={selectedProduct}
         />
       )}
     </ContentContainer>

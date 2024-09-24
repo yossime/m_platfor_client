@@ -21,19 +21,19 @@ const SceneComponent = () => {
   
     const [model, setModel] = useState<Object3D | undefined>(undefined);
   
-    useEffect(() => {
-      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-          const confirmationMessage = 'You have unsaved changes. Are you sure you want to leave?';
-          event.returnValue = confirmationMessage; 
-          return confirmationMessage;
-      };
+    // useEffect(() => {
+    //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    //       const confirmationMessage = 'You have unsaved changes. Are you sure you want to leave?';
+    //       event.returnValue = confirmationMessage; 
+    //       return confirmationMessage;
+    //   };
   
-      window.addEventListener('beforeunload', handleBeforeUnload);
+    //   window.addEventListener('beforeunload', handleBeforeUnload);
   
-      return () => {
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-      };
-    }, []);
+    //   return () => {
+    //     window.removeEventListener('beforeunload', handleBeforeUnload);
+    //   };
+    // }, []);
   
     useEffect(() => {
       const buildScene = async () => {

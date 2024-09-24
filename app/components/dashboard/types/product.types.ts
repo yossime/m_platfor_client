@@ -14,9 +14,12 @@ export interface Product {
   description?: string; 
   barcode?: string; 
   quantity?: number; 
-  price?: number;
+  price: number;
   currencyType?: CurrencyType;
   sections?: Section[];
   createdAt?: any;
   isActive?: boolean;
+  image?:string;
+  model?:string;
+  images?: string[];
 }

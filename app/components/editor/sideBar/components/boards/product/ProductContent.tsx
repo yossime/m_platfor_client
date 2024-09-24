@@ -1,37 +1,38 @@
-
-import React, { useState } from 'react';
-import { Container } from '../../CommonStyles';
-import { ContentInput, ContentSelect } from '../../GenericBoardComponents';
-import { ContentDataType } from '@/components/editor/types/index';
-import ProductListSidebar from './ProductListSidebar';
-import { Product } from '@/components/dashboard/types/product.types';
-
-
+import React, { useState } from "react";
+import { Container } from "../../CommonStyles";
+import { ContentInput } from "../../GenericBoardComponents";
+import { ContentDataType, FormatBoard } from "@/components/editor/types/index";
+import ProductListSidebar from "./ProductListSidebar";
+import { ChooseBoardFormat } from "../../FormatBoard";
+import { useBoardContent } from "../../useBoardContent";
 
 export const ProductContentComponent: React.FC = () => {
-  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+  const { getFormat } = useBoardContent();
+  const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(
+    getFormat()
+  );
 
-  const handleProductSelect = (product: Product) => {
-    const isSelected = selectedProducts.includes(product);
-    if (isSelected) {
-      setSelectedProducts((prevSelected) =>
-        prevSelected.filter((p) => p !== product)
-      );
-    } else {
-      setSelectedProducts((prevSelected) => [...prevSelected, product]);
-    }
-  };
 
   return (
-    <Container>
-      <ContentInput
-        type={ContentDataType.TITLE}
-        placeholder="Site Name"
-        label="Title"
-      />
-                <ProductListSidebar selectedProducts={selectedProducts} handleProductClick={handleProductSelect} />
+    <>
+      {formatBoard === null ? (
+        <ChooseBoardFormat
+          formatBoard={formatBoard}
+          setFormatBoard={setFormatBoard}
+        />
+      ) : (
+        <Container>
+          <ContentInput
+            type={ContentDataType.TITLE}
+            placeholder="Site Name"
+            label="Title"
+          />
+          <ProductListSidebar
+          />
 
-      {/* <DisplayList /> */}
-    </Container>
+          {/* <DisplayList /> */}
+        </Container>
+      )}
+    </>
   );
 };

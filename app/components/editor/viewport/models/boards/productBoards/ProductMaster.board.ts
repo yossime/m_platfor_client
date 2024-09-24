@@ -11,6 +11,7 @@ export class ProductMaster extends ProductBoardABC {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
     }
+    public maxStands = 10;
 
     public addChild(sceneObject: Product, slotNumber?: number): void {
         if (slotNumber) {

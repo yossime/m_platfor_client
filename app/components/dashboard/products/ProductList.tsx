@@ -56,7 +56,7 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ handleProductClick }) => {
   const { currentProject } = useProject();
   const { products } = useProducts(currentProject!);
-
+console.log(products)
   return (
     <>
       {products.length ? (
@@ -74,7 +74,7 @@ const ProductList: React.FC<ProductListProps> = ({ handleProductClick }) => {
               onClick={() => handleProductClick(product)}
             >
               <TableCell>
-                {/* <ProductImage src={product.id} alt={product.title} /> */}
+                <ProductImage src={product.image} alt={product.title} />
               </TableCell>
               <TableCell>{product.title}</TableCell>
               <TableCell>{product.SKU}</TableCell>

@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  SetStateAction,
+} from "react";
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 import {
   CurrencyType,
   Product,
+  Section,
 } from "@/components/dashboard/types/product.types";
 import { useProducts } from "@/context/useProducts";
 import DragAndDrop from "@/components/Library/general/DragAndDrop";
@@ -23,13 +30,13 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   gap: 32px;
-  width: 1004px;
+  max-width: 1004px;
+  flex-wrap: wrap;
 `;
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 640px;
   gap: 8px;
 `;
 
@@ -82,95 +89,106 @@ const ModelPreview = styled.div`
   height: 300px;
   background-color: #f0f0f0;
 `;
-
 interface AddProductProps {
   onSetTitle: (title: string) => void;
   product: Product | null;
+  setAddProduct: (add: boolean) => void;
 }
-const AddProduct: React.FC<AddProductProps> = ({ onSetTitle, product }) => {
+
+const AddProduct: React.FC<AddProductProps> = ({
+  onSetTitle,
+  product,
+  setAddProduct,
+}) => {
   const { currentProject } = useProject();
-  const { addProduct,updateProduct } = useProducts(currentProject!);
+  const { addProduct, updateProduct } = useProducts(currentProject!);
 
-  const [title, setTitle] = useState(product?.title || "");
-  const [SKU, setSKU] = useState(product?.SKU || "");
-  const [price, setPrice] = useState(product?.price || 0);
-  const [currencyType, setCurrencyType] = useState<CurrencyType>(
-    product?.currencyType || "USD"
-  );
-  const [barcode, setBarcode] = useState(product?.barcode || "");
-  const [description, setDescription] = useState(product?.description || "");
-  const [quantity, setQuantity] = useState(product?.quantity || 0);
-  const [sections, setSections] = useState(
-    product?.sections || [
+  const [formData, setFormData] = useState<Partial<Product>>({
+    title: product?.title || "",
+    SKU: product?.SKU || "",
+    price: product?.price || 0,
+    currencyType: product?.currencyType || "USD",
+    description: product?.description || "",
+    barcode: product?.barcode || "",
+    quantity: product?.quantity || 0,
+    sections: product?.sections || [
       { id: uuidv4(), title: "PRODUCT INFO", body: "", isVisible: true },
-    ]
-  );
-  const [image, setImage] = useState<File | null>(null);
-  const [model, setModel] = useState<File | null>(null);
+    ],
+    image: product?.image || "",
+    model: product?.model || "",
+    images: product?.images || [],
+  });
 
-
+  const [imagesFile, setImagesFile] = useState<File | null>(null);
+  const [modelFile, setModelFile] = useState<File | null>(null);
 
   useEffect(() => {
-    onSetTitle(product ? title : "Create a New Product");
-  }, [product, onSetTitle]);
+    onSetTitle(product ? formData.title || "" : "Create a New Product");
+  }, [product, onSetTitle, formData.title]);
 
-  const generateRandomSKU = () => setSKU(uuidv4());
+  const generateRandomSKU = useCallback(() => {
+    setFormData((prev) => ({ ...prev, SKU: uuidv4() }));
+  }, []);
 
-
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
+const handleSubmit = useCallback(
+  (e: React.FormEvent) => {
+    e.preventDefault(); 
     if (product) {
       updateProduct({
         ...product,
-        title,
-        SKU,
-        price,
-        description,
-        barcode,
-        quantity,
-        sections,
+        ...formData,
       });
     } else {
-      addProduct({
-        title,
-        SKU: SKU || uuidv4(),
-        price,
-        currencyType,
-        description,
-        barcode,
-        quantity,
-        sections,
-      });
+      addProduct(formData as Product);
     }
+    setAddProduct(false);
+  },
+  [product, formData, updateProduct, addProduct, setAddProduct]
+);
 
-    setTitle("");
-    setPrice(0);
-  };
 
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    },
+    []
+  );
 
-  const handleImageUpload = (file: File) => {
-    setImage(file);
-  };
+  const handleImagesUpload = useCallback((file: File) => {
+    setImagesFile(file);
+    setFormData((prev) => ({
+      ...prev,
+      images: [...(prev.images || []), URL.createObjectURL(file)],
+    }));
+  }, []);
 
   const handleModelUpload = (file: File) => {
-    setModel(file);
+    setModelFile(file);
+    // setFormData((prev) => ({ ...prev, model: URL.createObjectURL(file) }));
   };
 
-  const addSection = () => {
-    setSections([
-      ...sections,
-      { id: uuidv4(), title: "", body: "", isVisible: true },
-    ]);
+  const addSection = useCallback(() => {
+    setFormData((prev) => ({
+      ...prev,
+      sections: [
+        ...(prev.sections || []),
+        { id: uuidv4(), title: "", body: "", isVisible: true },
+      ],
+    }));
+  }, []);
+
+  const handleSectionUpdate = (updater: SetStateAction<Section[]>) => {
+    setFormData((prev) => ({
+      ...prev,
+      sections:
+        typeof updater === "function" ? updater(prev.sections || []) : updater,
+    }));
   };
-  const handlePriceChange = (e: { target: { value: any; }; }) => {
-    const value = e.target.value;
-    if (!isNaN(value)) {
-      setPrice(value);
-    }
-  };
-  
+
+  const isFormValid = useMemo(() => {
+    return formData.title && formData.SKU && formData.price !== undefined;
+  }, [formData.title, formData.SKU, formData.price]);
 
   return (
     <Container>
@@ -178,33 +196,38 @@ const AddProduct: React.FC<AddProductProps> = ({ onSetTitle, product }) => {
         <Input
           label="Title"
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          name="title"
+          value={formData.title}
+          onChange={handleInputChange}
           placeholder="Product Name"
           required
         />
         <Input
           label="Description"
           type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          name="description"
+          value={formData.description}
+          onChange={handleInputChange}
           placeholder="Description"
-          required
         />
 
         <DragContainer>
-          {model ? (
-            <>
-              <ModelViewer
-                model={model}
-                type={model.name.endsWith(".fbx") ? "fbx" : "gltf"}
-              />
-            </>
+          {modelFile ? (
+            <ModelViewer
+              setModelResponse={(model) =>
+                setFormData((prev) => ({ ...prev, model }))
+              }
+              setScreenshotResponse={(image) =>
+                setFormData((prev) => ({ ...prev, image }))
+              }
+              model={modelFile}
+              type={modelFile.name.endsWith(".fbx") ? "fbx" : "gltf"}
+            />
           ) : (
             <>
               <DragAndDrop type="model" onFileAdded={handleModelUpload} />
               <DisableButtons>
-                <Text>Don’t have a 3D model yet?</Text>
+                <Text>Don't have a 3D model yet?</Text>
                 {[...Array(3)].map((_, index) => (
                   <Button
                     key={index}
@@ -219,14 +242,14 @@ const AddProduct: React.FC<AddProductProps> = ({ onSetTitle, product }) => {
         </DragContainer>
 
         <SectionsContainer>
-          {sections.map((section) => (
+          {formData.sections?.map((section) => (
             <SectionLine
               key={section.id}
               id={section.id || ""}
               title={section.title || ""}
               body={section.body || ""}
               isVisible={section.isVisible || false}
-              setSections={setSections}
+              setSections={handleSectionUpdate} 
             />
           ))}
           <Button
@@ -247,10 +270,10 @@ const AddProduct: React.FC<AddProductProps> = ({ onSetTitle, product }) => {
               fullWidth={false}
               label="SKU"
               type="text"
-              value={SKU}
-              onChange={(e) => setSKU(e.target.value)}
+              name="SKU"
+              value={formData.SKU}
+              onChange={handleInputChange}
               placeholder="00000000"
-              required
             />
             <Button
               type={ButtonType.PRIMARY}
@@ -263,12 +286,17 @@ const AddProduct: React.FC<AddProductProps> = ({ onSetTitle, product }) => {
               fullWidth={false}
               label="Barcode (ISBN, UPC, GTIN, etc.)"
               type="text"
-              value={barcode}
-              onChange={(e) => setBarcode(e.target.value)}
+              name="barcode"
+              value={formData.barcode}
+              onChange={handleInputChange}
               placeholder="Barcode"
-              required
             />
-            <QuantityInput quantity={quantity} setQuantity={setQuantity} />
+            <QuantityInput
+              quantity={formData.quantity || 0}
+              setQuantity={(quantity) =>
+                setFormData((prev) => ({ ...prev, quantity }))
+              }
+            />
           </div>
         </Box>
 
@@ -277,11 +305,11 @@ const AddProduct: React.FC<AddProductProps> = ({ onSetTitle, product }) => {
           <Input
             label="Price"
             type="number"
-            value={price}
-            onChange={handlePriceChange}
+            name="price"
+            value={formData.price}
+            onChange={handleInputChange}
             placeholder="$"
-            required
-            min="0" 
+            min="0"
           />
         </Box>
         <Button
@@ -289,15 +317,19 @@ const AddProduct: React.FC<AddProductProps> = ({ onSetTitle, product }) => {
           variant={ButtonVariant.SECONDARY}
           text="Submit"
           fullWidth={false}
-          onClick={() => addProduct}
+          onClick={handleSubmit}
+          mode={isFormValid ? ButtonMode.NORMAL : ButtonMode.DISABLED}
         />
       </Form>
 
       <DragImageContainer>
-        {image ? (
-          <ImagePreview src={URL.createObjectURL(image)} alt="Product Image" />
+        {imagesFile ? (
+          <ImagePreview
+            src={URL.createObjectURL(imagesFile)}
+            alt="Product Image"
+          />
         ) : (
-          <DragAndDrop type="image" onFileAdded={handleImageUpload} />
+          <DragAndDrop type="image" onFileAdded={handleImagesUpload} />
         )}
       </DragImageContainer>
     </Container>
