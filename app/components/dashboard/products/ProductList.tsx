@@ -3,50 +3,70 @@ import styled from "styled-components";
 import { useProducts } from "../../../context/useProducts";
 import { useProject } from "@/context/useProjectContext";
 import { Product } from "../types/product.types";
+import Icon from "@/components/Library/icon/Icon";
+import { IconName } from "@constants/icon";
+import Text from "@/components/Library/text/Text";
 
-const Table = styled.div`
-  width: 100%;
-  display: table;
-  border-collapse: collapse;
+const Container = styled.div`
+  width: 786px;
+  gap:2px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const HeaderRow = styled.div`
-  display: table-row;
-  background-color: #e0e0e0;
+  display: flex;
   font-weight: bold;
+  min-height: 40px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 0 16px;
 `;
 
-const TableRow = styled.div`
-  display: table-row;
+const Row = styled.div`
+  display: flex;
+  
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
   background-color: #ffffff;
-  min-height: 60px;
+  min-height: 64px;
+  padding: 0 16px;
   &:hover {
     background-color: #f0f0f0;
   }
 `;
 
-const TableCell = styled.div`
-  display: table-cell;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-`;
-
-const ProductImage = styled.img`
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  margin-right: 10px;
-`;
-
-const CenteredMessage = styled.div`
+const Cell = styled.div`
+  text-align: center;
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
+`;
+
+const ImageCell = styled(Cell)`
+  justify-content: flex-start;
+`;
+
+const ProductImage = styled.img`
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+`;
+
+const CenteredMessage = styled.div`
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   font-size: 18px;
   color: #555;
+  height: 100%;
 `;
 
 interface ProductListProps {
@@ -56,36 +76,37 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ handleProductClick }) => {
   const { currentProject } = useProject();
   const { products } = useProducts(currentProject!);
-console.log(products)
+
   return (
     <>
       {products.length ? (
-        <Table>
+        <Container>
           <HeaderRow>
-            <TableCell>Image</TableCell>
-            <TableCell>Product</TableCell>
-            <TableCell>SKU</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Inventory</TableCell>
+            <Cell></Cell>
+            <Cell>Product</Cell>
+            <Cell>SKU</Cell>
+            <Cell>Status</Cell>
+            <Cell>Inventory</Cell>
           </HeaderRow>
           {products.map((product, index) => (
-            <TableRow
+            <Row
               key={`${product.SKU}-${index}`}
               onClick={() => handleProductClick(product)}
             >
-              <TableCell>
+              <ImageCell>
                 <ProductImage src={product.image} alt={product.title} />
-              </TableCell>
-              <TableCell>{product.title}</TableCell>
-              <TableCell>{product.SKU}</TableCell>
-              <TableCell>{product.barcode}</TableCell>
-              <TableCell>{product.quantity}</TableCell>
-            </TableRow>
+              </ImageCell>
+              <Cell>{product.title}</Cell>
+              <Cell>{product.SKU}</Cell>
+              <Cell>{product.barcode}</Cell>
+              <Cell>{product.quantity}</Cell>
+            </Row>
           ))}
-        </Table>
+        </Container>
       ) : (
         <CenteredMessage>
-          "Seems like you haven’t added any products yet"
+          <Icon name={IconName.EMPTY} />
+          <Text>Seems like you haven't added any products yet</Text>
         </CenteredMessage>
       )}
     </>

@@ -43,11 +43,16 @@ export const SideBarContainerMini = styled.div`
 `;
 
 export const MenuItemContainer = styled.div`
+  width: 314px;
+  height: 32px;
   padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-color: white;
   &:hover {
-    background-color: #e6f7ff;
+    /* background-color: #e6f7ff; */
   }
 `;
 
@@ -107,7 +112,11 @@ export const ProjectIcon = styled.div`
 `;
 
 export const DashboardIcon = styled.div`
-  gap: 16px;
+display: flex;
+flex-direction: row;
+gap: 8px;
+justify-content: center;
+align-items: center;
 `;
 
 export const SubHeaderContainer = styled.div`
@@ -119,6 +128,10 @@ export const SubHeaderContainer = styled.div`
 `;
 
 export const ScrollableContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   flex-grow: 1;
   overflow-y: auto;
   scrollbar-width: none;

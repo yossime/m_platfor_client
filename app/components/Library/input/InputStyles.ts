@@ -13,7 +13,7 @@ export const StyledInput = styled.input<{ $size: InputSize; $mode: InputMode; $f
     if (props.$size === InputSize.NUM) {
       return `
         height: 32px;
-        width: 32px;
+        max-width: 32px;
         padding: 5px 8px;
         background-color: ${getInputColors(props.$mode).background};
         color: ${getInputColors(props.$mode).text};

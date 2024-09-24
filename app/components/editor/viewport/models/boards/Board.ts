@@ -72,7 +72,6 @@ export abstract class Board extends SceneObject {
       onLoad && onLoad();
     } catch (error) {
       console.error("Error loading board model:", error);
-      throw new Error("Failed to load board model");
     }
   }
 

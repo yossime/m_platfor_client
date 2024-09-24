@@ -21,7 +21,12 @@ import { FontWeight } from "@constants/text";
 import { useProject } from "@/context/useProjectContext";
 import SectionLine from "./SectionLine";
 import QuantityInput from "./QuantityInput";
-import { ButtonMode, ButtonType, ButtonVariant } from "@constants/button";
+import {
+  ButtonMode,
+  ButtonSize,
+  ButtonType,
+  ButtonVariant,
+} from "@constants/button";
 import { InputSize } from "@constants/input";
 import ModelViewer from "@/components/Library/general/ModelViewer";
 
@@ -33,7 +38,7 @@ const Container = styled.div`
   max-width: 1004px;
   flex-wrap: wrap;
 `;
-const Form = styled.form`
+const Form = styled.div`
   display: flex;
   flex-direction: column;
   width: 640px;
@@ -78,17 +83,36 @@ const Box = styled.div`
   align-items: start;
   text-align: start;
 `;
+const ImagePreviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
 
 const ImagePreview = styled.img`
-  max-width: 100%;
+  width: 100%;
+  max-width: 300px;
   height: auto;
+  object-fit: contain;
 `;
 
-const ModelPreview = styled.div`
-  width: 300px;
-  height: 300px;
-  background-color: #f0f0f0;
+const InventoryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 `;
+
+const InputRow = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  gap: 16px;
+  align-items: end;
+`;
+const TestContainer = styled.div`
+margin-bottom:8px;`;
+
 interface AddProductProps {
   onSetTitle: (title: string) => void;
   product: Product | null;
@@ -114,7 +138,9 @@ const AddProduct: React.FC<AddProductProps> = ({
     sections: product?.sections || [
       { id: uuidv4(), title: "PRODUCT INFO", body: "", isVisible: true },
     ],
-    image: product?.image || "",
+    image:
+      product?.image ||
+      "https://storage.googleapis.com/users-assets-a/DrXpldiflZMuPI8l1vC5RoZKa9v2/screenshot.png",
     model: product?.model || "",
     images: product?.images || [],
   });
@@ -130,22 +156,21 @@ const AddProduct: React.FC<AddProductProps> = ({
     setFormData((prev) => ({ ...prev, SKU: uuidv4() }));
   }, []);
 
-const handleSubmit = useCallback(
-  (e: React.FormEvent) => {
-    e.preventDefault(); 
-    if (product) {
-      updateProduct({
-        ...product,
-        ...formData,
-      });
-    } else {
-      addProduct(formData as Product);
-    }
-    setAddProduct(false);
-  },
-  [product, formData, updateProduct, addProduct, setAddProduct]
-);
-
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (product) {
+        updateProduct({
+          ...product,
+          ...formData,
+        });
+      } else {
+        addProduct(formData as Product);
+      }
+      setAddProduct(false);
+    },
+    [product, formData, updateProduct, addProduct, setAddProduct]
+  );
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,7 +190,6 @@ const handleSubmit = useCallback(
 
   const handleModelUpload = (file: File) => {
     setModelFile(file);
-    // setFormData((prev) => ({ ...prev, model: URL.createObjectURL(file) }));
   };
 
   const addSection = useCallback(() => {
@@ -192,7 +216,7 @@ const handleSubmit = useCallback(
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <Input
           label="Title"
           type="text"
@@ -249,7 +273,7 @@ const handleSubmit = useCallback(
               title={section.title || ""}
               body={section.body || ""}
               isVisible={section.isVisible || false}
-              setSections={handleSectionUpdate} 
+              setSections={handleSectionUpdate}
             />
           ))}
           <Button
@@ -260,11 +284,10 @@ const handleSubmit = useCallback(
             text="Add Section"
           />
         </SectionsContainer>
+        <InventoryContainer>
+          <Text>Inventory</Text>
 
-        <Box>
-          <Text $weight={FontWeight.BOLD}>Inventory</Text>
-
-          <div style={{ display: "flex", gap: "16px" }}>
+          <InputRow>
             <Input
               inputSize={InputSize.SMALL}
               fullWidth={false}
@@ -275,12 +298,15 @@ const handleSubmit = useCallback(
               onChange={handleInputChange}
               placeholder="00000000"
             />
+            <TestContainer>
             <Button
+              size={ButtonSize.SMALL}
               type={ButtonType.PRIMARY}
               variant={ButtonVariant.SECONDARY}
               text="Generate"
               onClick={generateRandomSKU}
             />
+            </TestContainer>
             <Input
               inputSize={InputSize.SMALL}
               fullWidth={false}
@@ -297,8 +323,8 @@ const handleSubmit = useCallback(
                 setFormData((prev) => ({ ...prev, quantity }))
               }
             />
-          </div>
-        </Box>
+          </InputRow>
+        </InventoryContainer>
 
         <Box>
           <Text $weight={FontWeight.BOLD}>Pricing</Text>
@@ -323,14 +349,20 @@ const handleSubmit = useCallback(
       </Form>
 
       <DragImageContainer>
-        {imagesFile ? (
-          <ImagePreview
-            src={URL.createObjectURL(imagesFile)}
-            alt="Product Image"
+        <ImagePreviewContainer>
+          {formData.images?.map((imageUrl, index) => (
+            <ImagePreview
+              key={index}
+              src={imageUrl}
+              alt={`Product Image ${index + 1}`}
+            />
+          ))}
+          <DragAndDrop
+            type="image"
+            buttonOnly={formData.images && formData.images.length > 0}
+            onFileAdded={handleImagesUpload}
           />
-        ) : (
-          <DragAndDrop type="image" onFileAdded={handleImagesUpload} />
-        )}
+        </ImagePreviewContainer>
       </DragImageContainer>
     </Container>
   );

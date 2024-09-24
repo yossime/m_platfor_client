@@ -2,22 +2,26 @@
 "use client"
 import React, { ReactNode } from 'react';
 import { ContainerWrapper } from './DashboardDomainContainerStyles';
-import { QuestionnaireStatus, useQuestionnaireIndex } from '@context/useQuestionnaire';
+import Domain from './Domain';
+import Domain4 from './Domain4';
+import Domain2 from './Domain2';
+import Domain3 from './Domain3';
+import { DomainStatus, useDomainIndex } from '@/context/useDomain';
 
-// const componentMap: { [key in QuestionnaireStatus]: ReactNode } = {
-//   [QuestionnaireStatus.QuestionnaireTemplates]: <Design />,
-//   [QuestionnaireStatus.QuestionnaireBoards]: <Boards />,
-//   [QuestionnaireStatus.QuestionnaireBusinessName]: <BusinessName />,
-//   [QuestionnaireStatus.WebsiteType]: <WebsiteType />,
-// };
+const componentMap: { [key in DomainStatus]: ReactNode } = {
+  [DomainStatus.Domain1]: <Domain />,
+  [DomainStatus.Domain2]: <Domain4 />,
+  [DomainStatus.Domain3]: <Domain2 />,
+  [DomainStatus.Domain4]: <Domain3 />,
+};
 
 const DashboardDomainContainer: React.FC = () => {
-  const { currentIndex } = useQuestionnaireIndex();
+  const { currentIndex } = useDomainIndex();
 
   return (
     <>
       <ContainerWrapper>
-        {/* {currentIndex && componentMap[currentIndex]} */}
+        {currentIndex && componentMap[currentIndex]}
       </ContainerWrapper></>
 
   );

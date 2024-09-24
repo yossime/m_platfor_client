@@ -1,6 +1,5 @@
 import React from 'react';
 import Text from '@components/Library/text/Text';
-import { useQuestionnaireIndex, QuestionnaireStatus } from '@context/useQuestionnaire';
 import {  TextSize } from '@constants/text';
 import {
   IndexContainerWrapper,
@@ -13,13 +12,14 @@ import {
 import Icon from '@/components/Library/icon/Icon';
 import {  IconName, IconSize } from '@constants/icon';
 import { IconColor, TextColor } from '@constants/colors';
+import { DomainStatus, useDomainIndex } from '@/context/useDomain';
 
-const enumValues = Object.values(QuestionnaireStatus);
+const enumValues = Object.values(DomainStatus);
 
 const DashboardDomainIndexContainer: React.FC = () => {
-  const { currentIndex } = useQuestionnaireIndex();
+  const { currentIndex } = useDomainIndex();
 
-  const getStageStatus = (index: number, currentStatus: QuestionnaireStatus | null) => {
+  const getStageStatus = (index: number, currentStatus: DomainStatus | null) => {
     if (!currentStatus) return 'upcoming';
     const currentStageIndex = enumValues.indexOf(currentStatus);
     if (index < currentStageIndex) return 'completed';
