@@ -1,5 +1,3 @@
-
-
 import axios from "@/utils/axios";
 import { loadConnectAndInitialize, StripeConnectInstance } from "@stripe/connect-js";
 import { useCallback, useState } from "react";
@@ -15,6 +13,7 @@ import { useCallback, useState } from "react";
 
         const createStripeAccount = useCallback(async () => {
             try {
+
                 const response = await axios.post(`store/${currStoreId}/payment-gateway/stripe`);
                 return response.data.account;
             } catch (error) {

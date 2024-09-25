@@ -2,17 +2,12 @@ import React from "react";
 import Text from "@/components/Library/text/Text";
 import { FontWeight, TextSize } from "@constants/text";
 import {
-  CardContent,
-  StripContent,
   ContentContainer,
   DashboardTitle,
   PaymentContent,
-  TextContent,
-  ButtonContent,
+
 } from "../DashboardStyles";
-import Icon from "@/components/Library/icon/Icon";
-import { IconName, IconSize } from "@constants/icon";
-import Button from "@/components/Library/button/Button";
+import StripComponent from "./StripComponent";
 
 const DashboardPayments: React.FC = () => {
   return (
@@ -28,24 +23,8 @@ const DashboardPayments: React.FC = () => {
             }
           </Text>
         </DashboardTitle>
-
         <PaymentContent>
-          <StripContent>
-            <CardContent>
-            <Icon size={IconSize.XXLARGE} name={IconName.CREDITCARD}/>
-            </CardContent>
-            <TextContent>
-            <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT1}>
-            {"Stripe"}
-          </Text>
-          <Text>
-            {"Available in your country"}
-          </Text>
-            </TextContent>
-            <ButtonContent>
-              <Button text="Connect"/>
-            </ButtonContent>
-          </StripContent>
+          <StripComponent />
         </PaymentContent>
       </ContentContainer>
     </>
