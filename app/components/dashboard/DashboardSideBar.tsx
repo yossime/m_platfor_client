@@ -6,7 +6,7 @@ import {
   HeaderContainer,
   ProjectContainer,
   ProjectIcon,
-  ProjectTitle,
+  DashboardTitle,
   ScrollableContent,
   SideBarContainer,
   MenuItemContainer,
@@ -47,9 +47,9 @@ const DashboardSideBar: React.FC = () => {
     <>
       <SideBarContainer>
         <ProjectContainer>
-          <ProjectTitle>
+          <DashboardTitle>
             <Text size={TextSize.TEXT2}>{projectName}</Text>
-          </ProjectTitle>
+          </DashboardTitle>
           <ProjectIcon>
             <Icon
               name={IconName.SPEEDOMETER}
@@ -62,11 +62,11 @@ const DashboardSideBar: React.FC = () => {
 
         <Divider2 />
         <HeaderContainer>
-          <ProjectTitle>
+          <DashboardTitle>
             <Text $weight={FontWeight.BOLD} size={TextSize.TEXT1}>
               {"Dashboard"}
             </Text>
-          </ProjectTitle>
+          </DashboardTitle>
         </HeaderContainer>
 
         <ScrollableContent>

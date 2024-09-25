@@ -17,7 +17,6 @@ export const ContentContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
   flex-grow: 1;
   bottom: 16px;
@@ -101,10 +100,11 @@ export const TopLineContainer = styled.div`
   margin: 16px;
   padding: 0 16px;
 `;
-
-export const ProjectTitle = styled.div`
-  flex-grow: 1;
-  text-align: center;
+export const DashboardTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: start;
 `;
 
 export const ProjectIcon = styled.div`
@@ -112,11 +112,11 @@ export const ProjectIcon = styled.div`
 `;
 
 export const DashboardIcon = styled.div`
-display: flex;
-flex-direction: row;
-gap: 8px;
-justify-content: center;
-align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SubHeaderContainer = styled.div`
@@ -136,11 +136,45 @@ export const ScrollableContent = styled.div`
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-
   &::-webkit-scrollbar {
     display: none;
   }
 `;
+
+export const PaymentContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 208px;
+  background-color: white;
+  justify-content: center;
+`;
+
+export const StripContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 8px;
+  `;
+export const CardContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  width: 144px;
+  height: 100px;
+`;
+export const TextContent = styled.div`
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+export const ButtonContent = styled.div`
+  margin: 8px;
+  display: flex;
+  right: auto;
+`;
+
 export const ProductListContent = styled.div`
   flex-grow: 1;
   overflow-y: auto;

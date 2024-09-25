@@ -4,6 +4,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { uploadFile } from "@/services/upload.service";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -30,7 +31,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ model, type, setScreenshotRes
       for (let i = 0; i < blobBin.length; i++) {
         array.push(blobBin.charCodeAt(i));
       }
-      const file = new File([new Uint8Array(array)], 'fdgdfgd.png', {type: 'image/png'});
+      const file = new File([new Uint8Array(array)], `${uuidv4()}.png`, { type: 'image/png' });
 
       try {
         const screenshotResponse = await uploadFile(file);

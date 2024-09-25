@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Text from "@/components/Library/text/Text";
-import { TextSize } from "@constants/text";
+import { FontWeight, TextSize } from "@constants/text";
 import {
   ContentContainer,
   DashboardIcon,
@@ -47,7 +47,7 @@ const DashboardProducts: React.FC = () => {
           {addProduct && (
             <Icon name={IconName.ARROWLEFT} onClick={handleBack} />
           )}
-          <Text size={TextSize.H1}>{title}</Text>
+          <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.D3}>{title}</Text>
         </DashboardIcon>
         {!addProduct && (
           <Button

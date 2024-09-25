@@ -2,6 +2,7 @@ import { IconType } from 'react-icons';
 import * as PiIcons from "react-icons/pi";
 
 export enum IconName {
+    CREDITCARD = 'CREDITCARD',
     EMPTY ='EMPTY',
     CLOUDARROWUP ='CLOUDARROWUP',
     HOME = 'HOME',
@@ -112,6 +113,7 @@ export enum IconName {
 
 export const IconComponents: { [key in IconName]: IconType } = {
     [IconName.EYE]: PiIcons.PiEye,
+    [IconName.CREDITCARD]: PiIcons.PiCreditCard,
     [IconName.EMPTY]: PiIcons.PiEmpty,
     [IconName.SPEEDOMETER]: PiIcons.PiSpeedometer,
     [IconName.EYECLOSED]: PiIcons.PiEyeClosed,
@@ -220,7 +222,8 @@ export enum IconSize {
     SMALL = '16px',
     MEDIUM = '24px',
     LARGE = '32px',
-    XLARGE = '48px'
+    XLARGE = '48px',
+    XXLARGE = '64px'
 }
 
 
