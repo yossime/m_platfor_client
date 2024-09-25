@@ -24,7 +24,7 @@ export const widgets = [
   { type: BoardType.Socials, name: 'Socials', icon: IconName.SMILEY , body: "Make it easy to contact with you"},
   { type: BoardType.Article, name: 'Article', icon: IconName.ARTICLE ,body: "Add textual content" }
 ];
-export type HeaderType = `Edit ${typeof widgets[number]['name']}` |  'World' | 'Choose Board Widget';
+export type HeaderType =  typeof widgets[number]['name'] |  'World' | 'Choose Board Widget';
 
 
 export interface SubMenuData {
@@ -45,7 +45,7 @@ export const headers: Record<HeaderType, SubMenuData[]> = {
   'Choose Board Widget': [],
   ...Object.fromEntries(
     widgets.map(widget => [
-      `Edit ${widget.name}`,
+      widget.name,
       subMenus.filter(menu => ['Edit', 'Design'].includes(menu.name))
     ])
   ),

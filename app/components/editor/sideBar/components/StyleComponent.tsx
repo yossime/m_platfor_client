@@ -19,29 +19,29 @@ interface StyleComponentProps {
 
 export const StyleComponent: React.FC<StyleComponentProps> = ({ activeSidebarHeader }) => {
   switch (activeSidebarHeader) {
-    case 'Edit Header':
+    case 'Header':
       return <HeaderStyleComponent />;
-    case 'Edit Product':
+    case 'Product':
       return <ProductStyleComponent />;
-    case 'Edit Slider':
+    case 'Slider':
       return <SliderStyleComponent />;
-    case 'Edit Image':
+    case 'Image':
       return <ImageStyleComponent />;
-    case 'Edit Video':
+    case 'Video':
       return <VideoStyleComponent />;
-    case 'Edit Testimonials':
+    case 'Testimonials':
       return <TestimonialsStyleComponent />;
-    case 'Edit Subscription':
+    case 'Subscription':
       return <SubscriptionStyleComponent />;
-    case 'Edit Services':
+    case 'Services':
       return <ServicesStyleComponent />;
-    case 'Edit Gamification':
+    case 'Gamification':
       return <GamificationStyleComponent />;
-    case 'Edit Form':
+    case 'Form':
       return <FormStyleComponent />;
-    case 'Edit Socials':
+    case 'Socials':
       return <SocialsStyleComponent />;
-    case 'Edit Article':
+    case 'Article':
       return <ArticleStyleComponent />;
     default:
       return <div>No style options available for {activeSidebarHeader}</div>;

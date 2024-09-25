@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { InputSize, InputMode } from "@constants/input";
-import SelectInput from "@/components/Library/input/SelectInput";
+import SelectInput, { SelectInputMaterial } from "@/components/Library/input/SelectInput";
 import { Container, ContainerStyle, Divider } from "../../CommonStyles";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import {
@@ -113,7 +113,7 @@ export const HeaderStyleComponent: React.FC = () => {
           isOpen={openSections.background}
           onToggle={handleSectionToggle("background")}
         >
-          <SelectInput
+          <SelectInputMaterial
             options={BackgroundOptions}
             value={""}
             onChange={(value) =>

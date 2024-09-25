@@ -24,6 +24,7 @@ const PopupContent = styled.div`
   border-radius: 4px;
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 `;
 
 const CloseButton = styled.div`

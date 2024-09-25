@@ -36,29 +36,26 @@ const Sidebar: React.FC = () => {
     setCameraDirection,
     setCameraRotation,
   } = useCamera();
-  const { projectName , projects } = useProject();
+  const { projectName, projects } = useProject();
   const { sceneModel } = useEditor();
   const router = useRouter();
   const [activeSidebarHeader, setActiveSidebarHeader] =
-  useState<HeaderType>("World");
+    useState<HeaderType>("World");
   const [activeSidebarSubMenu, setActiveSidebarSubMenu] =
-  useState<SubMenuType>("Edit");
+    useState<SubMenuType>("Edit");
   const [isOpen, setIsOpen] = useState(true);
-  
+
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
-    console.log("fffffff");
     if (selectedObject && selectedObject instanceof Board) {
-      console.log("sssssssssss");
 
       setActiveSidebarHeader(
-        `Edit ${selectedObject.type || "Board"}` as HeaderType
+        selectedObject.type || "World" as HeaderType
       );
     } else {
       setActiveSidebarHeader("World");
     }
   }, [sceneModel, sceneModel?.setSelectedObject]);
-
 
   useEffect(() => {
     setActiveSidebarSubMenu("Edit");
@@ -139,7 +136,9 @@ const Sidebar: React.FC = () => {
             <ProjectIcon>
               <Icon
                 name={IconName.SPEEDOMETER}
-                onClick={() => {router.push("/dashboard");}}
+                onClick={() => {
+                  router.push("/dashboard");
+                }}
               />
             </ProjectIcon>
           </ProjectContainer>
@@ -152,7 +151,6 @@ const Sidebar: React.FC = () => {
                 <Icon name={IconName.CARETLEFT} onClick={handleBack} />
 
                 // <Icon name={IconName.SQUARESFOUR} onClick={handleBack} />
-
               )}
             </HeaderIcon>
             <HeaderTitle>
@@ -172,6 +170,7 @@ const Sidebar: React.FC = () => {
             {activeSidebarHeader !== "Choose Board Widget" && (
               <SubHeaderContainer>
                 <HeaderMenu
+                  setActiveSidebarHeader={setActiveSidebarHeader}
                   activeSidebarHeader={activeSidebarHeader}
                   activeSidebarSubMenu={activeSidebarSubMenu}
                   setActiveSidebarSubMenu={setActiveSidebarSubMenu}

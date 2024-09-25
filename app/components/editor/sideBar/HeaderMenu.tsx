@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { headers, HeaderType, SubMenuType, SubMenuData } from './types';
+import { headers, HeaderType, SubMenuType, SubMenuData, widgets } from './types';
 import Icon from '@/components/Library/icon/Icon';
 import { BackgroundColor, BorderColor, IconColor, SemanticColors, TextColor } from '@constants/colors';
 import Text from '@/components/Library/text/Text';
@@ -72,13 +72,25 @@ interface HeaderMenuProps {
   activeSidebarHeader: HeaderType;
   activeSidebarSubMenu: SubMenuType;
   setActiveSidebarSubMenu: (subMenu: SubMenuType) => void;
+  setActiveSidebarHeader:(headr: HeaderType) => void;
 }
 
 export const HeaderMenu: React.FC<HeaderMenuProps> = ({ 
   activeSidebarHeader, 
   activeSidebarSubMenu, 
-  setActiveSidebarSubMenu 
+  setActiveSidebarSubMenu ,
+  setActiveSidebarHeader
 }) => {
+
+  useEffect(() => {
+    const validHeaders: HeaderType[] = widgets.map(widget => widget.name).concat(['World', 'Choose Board Widget']);
+  
+    if (!validHeaders.includes(activeSidebarHeader)) {
+      setActiveSidebarHeader("World");
+    }
+  }, []);
+  
+
   return (
     <MenuContainer>
       {headers[activeSidebarHeader].map((subMenuData: SubMenuData) => {

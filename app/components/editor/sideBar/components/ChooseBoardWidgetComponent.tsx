@@ -37,12 +37,8 @@ export const ChooseBoardWidgetComponent: React.FC<
 
     if (sceneModel?.root && newBoard) {
       sceneModel.root.addChild(newBoard);
-
       sceneModel.setSelectedObject(newBoard);
-
-      setActiveSidebarHeader(`Edit ${widget.name}` as HeaderType);
-
-      setAvailableSlots((prev) => prev - 1);
+      setActiveSidebarHeader(widget.name as HeaderType);
     }
   };
 

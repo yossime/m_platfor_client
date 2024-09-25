@@ -6,7 +6,7 @@ import Collapsible from '@/components/Library/general/Collapsible';
 import StrengthComponent from '@/components/Library/general/StrengthComponent ';
 import Popup from '@/components/Library/general/Popup';
 import { DeleteIcon, FileName, FileDisplay, Divider } from './CommonStyles'
-import { ContentMaterial, ICustomMaterial, ITextureSource } from '../../types';
+import {  ICustomMaterial, ITextureSource } from '../../types';
 
 const Container = styled.div`
   display: flex;
@@ -55,7 +55,6 @@ const ImageContainer = styled.div`
 
 
 const initialImageState: ICustomMaterial = {
-    diffuse: { color: '#ffffff', map: undefined, intensity: 50 },
     opacity: { color: '#ffffff', map: undefined, intensity: 50 },
     roughness: { color: '#808080', map: undefined, intensity: 50 },
     normal: { color: '#8080ff', map: undefined, intensity: 50 },

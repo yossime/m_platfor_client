@@ -19,29 +19,29 @@ interface ContentComponentProps {
 
 export const ContentComponent: React.FC<ContentComponentProps> = ({ activeSidebarHeader }) => {
   switch (activeSidebarHeader) {
-    case 'Edit Header':
+    case 'Header':
       return <HeaderContentComponent />;
-    case 'Edit Product':
+    case 'Product':
       return <ProductContentComponent />;
-    case 'Edit Slider':
+    case 'Slider':
       return <SliderContentComponent />;
-    case 'Edit Image':
+    case 'Image':
       return <ImageContentComponent />;
-    case 'Edit Video':
+    case 'Video':
       return <VideoContentComponent />;
-    case 'Edit Testimonials':
+    case 'Testimonials':
       return <TestimonialsContentComponent />;
-    case 'Edit Subscription':
+    case 'Subscription':
       return <SubscriptionContentComponent />;
-    case 'Edit Services':
+    case 'Services':
       return <ServicesContentComponent />;
-    case 'Edit Gamification':
+    case 'Gamification':
       return <GamificationContentComponent />;
-    case 'Edit Form':
+    case 'Form':
       return <FormContentComponent />;
-    case 'Edit Socials':
+    case 'Socials':
       return <SocialsContentComponent />;
-    case 'Edit Article':
+    case 'Article':
       return <ArticleContentComponent />;
     default:
       return <div>No content options available for {activeSidebarHeader}</div>;

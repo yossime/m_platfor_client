@@ -12,9 +12,9 @@ import { FontFamily, FontWeight, TextSize } from '@constants/text';
 import { TextColor } from '@constants/colors';
 
 const data = [
-  { "title": "Playful", "backgroundImage": "/images/Nostalgic.jpg" },
-  { "title": "Innovative", "backgroundImage": "/images/Sci-fi.jpg" },
-  { "title": "Luxurious", "backgroundImage": "/images/Luxurious.jpg" },
+  { "title": "Playful", "backgroundImage": "/images/playful.jpg" },
+  { "title": "Innovative", "backgroundImage": "/images/innovative.jpg" },
+  { "title": "Luxurious", "backgroundImage": "/images/luxurious.jpg" },
 ];
 
 const Design: React.FC = () => {
@@ -27,7 +27,7 @@ const Design: React.FC = () => {
       ...contextData,
       Templates: {
         ...contextData.Templates,
-        value: type,
+        value: type,  
         valid: true
       }
     });
