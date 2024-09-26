@@ -121,14 +121,18 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   protected getSlotsPosition(): Object3D[] {
-    if (!this.model) [];
+    console.log("getSlotsPosition", this.model);
 
+    if (!this.model) return [];
+    console.log("Model is not initialized yet");
     const slots: Object3D[] = [];
     this.model?.traverse((child) => {
+      console.log("child: " + child.name);
       if (child.name.startsWith('slot_')) {
         slots.push(child)
       }
     });
+    console.log("Model is slots", slots );
     return slots;
   }
 
@@ -151,6 +155,8 @@ export abstract class SceneObject implements ISceneObject {
       this.slots.push(placeholderClone);
 
     });
+
+
   } catch(error: any) {
     console.error('Error setting placeholders:', error);
     throw new Error('Failed to set placeholders');
@@ -269,9 +275,9 @@ export abstract class SceneObject implements ISceneObject {
       this.model.rotation.copy(slot.rotation);
     }
 
-    if (slot.parent) {
-      slot.parent.remove(slot);
-    }
+    // if (slot.parent) {
+    //   slot.parent.remove(slot);
+    // }
   }
 
   protected handleSelected = (object: CustomObject3D) => {
