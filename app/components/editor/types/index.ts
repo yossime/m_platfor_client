@@ -38,9 +38,9 @@ export interface IBoard extends ISceneObject {
 }
 
 export interface ProductBoard extends ISceneObject {
-  getStands():ProductStand[] | null ;
+  getStands(): ProductStand[] | null;
   addStand(product: Product): void;
-  removeStand(productStand: ProductStand):void;
+  removeStand(productStand: ProductStand): void;
   maxStands: number;
 }
 
@@ -48,7 +48,7 @@ export interface FormBoard extends ISceneObject {
   getFormInput(type: ContentDataType, label: InputLabelType): InputField | null;
   setFormInput(type: ContentDataType, label: InputLabelType, contentFormInput: InputField): void;
   getContentForm?(type: ContentDataType): ContentForm | null;
-  setContentForm?(type: ContentDataType,contentForn: ContentForm): void;
+  setContentForm?(type: ContentDataType, contentForn: ContentForm): void;
 }
 
 export interface ProductStand extends ISceneObject {
@@ -60,12 +60,6 @@ export interface ProductStand extends ISceneObject {
 export interface CustomObject3D extends Object3D {
   onPointerDown?: (event: any) => ISceneObject;
   interactive?: boolean;
-}
-
-export enum ProductType {
-  Poudiom = 'Poudiom',
-  ProductDuo = 'Product_Duo_Podium',
-  Image = 'ImageBoard',
 }
 
 export enum DisplayType {
@@ -99,7 +93,8 @@ export enum ContentDataType {
   FORM = 'form',
   NAME = 'name',
   DESCRIPTION = 'description',
-  PRIC = 'price',
+  PRICE = 'price',
+  PRICE_CURRENCY ='price_currency',
   PRODUCT = 'product',
   EMAIL = 'email',
 
@@ -130,7 +125,7 @@ export interface InputField {
   label?: ContentText;
   placeholder?: ContentText;
   required?: boolean;
-  default?:ContentText;
+  default?: ContentText;
 }
 
 export enum InputLabelType {
@@ -146,6 +141,7 @@ export interface ContentObjects {
   meshName?: string;
   position?: Vector3 | null;
   rotation?: Euler | null;
+  SKU?: string;
 }
 
 export interface ITextureSource {
@@ -209,7 +205,7 @@ export interface ISceneManager {
   root: ISceneObject | null;
   selectedObject: ISceneObject | null;
   buildScene(type: ArchitectureType): Promise<void>;
-  addObject(type: BoardType | ProductType, parent?: ISceneObject): void;
+  addObject(type: BoardType | StandType, parent?: ISceneObject): void;
   removeObject(object: ISceneObject): void;
   selectObject(object: ISceneObject | null): void;
   exportScene(): string;
@@ -321,6 +317,8 @@ export enum FormatBoard {
   Model = "model",
   Frame = "frame",
   Simple = "simple",
+  Podium = 'podium',
+  Duo = 'duo',
 }
 
 
@@ -343,6 +341,10 @@ export enum ArchitectureType {
   TWO_CIRCLES = 'two_circles'
 }
 
+export enum StandType {
+  Poudiom = 'poudiom',
+  Duo = 'duo',
+}
 
 
 
