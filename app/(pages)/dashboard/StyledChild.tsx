@@ -8,7 +8,7 @@ const StyledChild = styled.div`
   display: flex;
   flex-direction: row;
   overflow: hidden;
-  background-color: #4e3839;
+  background-color: #8b7b7c;
   gap: 16px;
   padding-top: 71px;
   padding-left: 16px;
