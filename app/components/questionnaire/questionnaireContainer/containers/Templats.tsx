@@ -14,7 +14,7 @@ import { TextColor } from '@constants/colors';
 const data = [
   { "title": "Playful", "backgroundImage": "/images/playful.jpg" },
   { "title": "Innovative", "backgroundImage": "/images/innovative.jpg" },
-  { "title": "Luxurious", "backgroundImage": "/images/luxurious.jpg" },
+  { "title": "Luxurious", "backgroundImage": "/images/luxu.jpg" },
 ];
 
 const Design: React.FC = () => {

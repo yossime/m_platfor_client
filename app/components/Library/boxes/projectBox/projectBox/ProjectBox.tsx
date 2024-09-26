@@ -26,7 +26,7 @@ interface ProjectBoxProps {
 
 const ProjectBox = React.forwardRef<HTMLDivElement, ProjectBoxProps>(
   ({ project, clicked = false, onSelect, onDelete, disabled = false }, ref) => {
-    project.imageUrl = "images/Forest.jpg";
+    project.imageUrl = "images/project.jpg";
     return (
       <ProjectBoxContainer
         ref={ref}

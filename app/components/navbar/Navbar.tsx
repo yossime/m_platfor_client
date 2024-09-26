@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isEditorPage = pathname.startsWith("/editor");
   const { userData } = useUserContext();
   const subsc =  userData?.plan === "Plus" || userData?.plan === "buiznes"
-  console.log(userData?.plan)
+  
   return (
     <NavbarWrapper className="navbar">
       <NavbarContainer>

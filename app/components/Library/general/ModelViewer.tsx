@@ -36,7 +36,6 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ model, type, setScreenshotRes
       try {
         const screenshotResponse = await uploadFile(file);
         setScreenshotResponse(screenshotResponse)
-
         const modelResponse = await uploadFile(model);
         setModelResponse(modelResponse);
       } catch (error) {
