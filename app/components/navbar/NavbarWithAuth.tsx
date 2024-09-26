@@ -3,7 +3,7 @@
 import React from "react";
 import { handleSignOut } from "@/services/login";
 import { useAuth } from "@/context/AuthContext";
-import Navbar from "./Navbar";
+import { Navbar } from "./Navbar";
 
 const NavbarWithAuth = () => {
   const { user } = useAuth();

@@ -10,6 +10,7 @@ export interface UserData {
     stripeAccountId?: string;
     chargesEnabled?: boolean;
     payoutsEnabled?: boolean;
+    plan?:string;
   }
 
 

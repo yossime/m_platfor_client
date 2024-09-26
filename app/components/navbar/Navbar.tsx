@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
   ButtonType,
   ButtonVariant,
@@ -20,6 +20,7 @@ import { IconName } from "@constants/icon";
 import Tooltip from "../Library/general/Tooltip";
 import { usePathname, useRouter } from "next/navigation";
 import { useUserContext } from "@/context/useUserContext";
+import Icon from "../Library/icon/Icon";
 
 interface NavbarProps {
   userName?: string | null;
@@ -28,7 +29,7 @@ interface NavbarProps {
   imageUrl?: string | null;
 }
 
-const Navbar: React.FC<NavbarProps> = ({
+export const Navbar: React.FC<NavbarProps> = ({
   logo = null,
   userName,
   onSignOut,
@@ -43,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const isSubscriptionPage = pathname.startsWith("/pricing_plans");
   const isEditorPage = pathname.startsWith("/editor");
   const { userData } = useUserContext();
-
+  const subsc =  userData?.plan === "plus" || userData?.plan === "buiznes"
   return (
     <NavbarWrapper className="navbar">
       <NavbarContainer>
@@ -53,20 +54,24 @@ const Navbar: React.FC<NavbarProps> = ({
           {userName && (
             <>
               {!isSubscriptionPage && (
-                <Tooltip
-                  content={
-                    "Click here to upgrade account or review pricing plans"
-                  }
-                >
-                  <Button
-                    type={ButtonType.PRIMARY}
-                    variant={ButtonVariant.TERTIARY}
-                    size={ButtonSize.SMALL}
-                    icon={IconName.SKECHLOGO}
-                    text="Get Plus"
-                    onClick={handlePlus}
-                  />
-                </Tooltip>
+                <>
+                  {subsc ? (
+                    <Tooltip
+                      content="Click here to upgrade account or review pricing plans"
+                    >
+                      <Button
+                        type={ButtonType.PRIMARY}
+                        variant={ButtonVariant.TERTIARY}
+                        size={ButtonSize.SMALL}
+                        icon={IconName.SKECHLOGO}
+                        text="Get Plus"
+                        onClick={handlePlus}
+                      />
+                    </Tooltip>
+                  ) : (
+                    <Icon name={IconName.SKECHLOGO} />
+                  )}
+                </>
               )}
               <UserAvatar
                 onSignOut={onSignOut}
@@ -80,6 +85,4 @@ const Navbar: React.FC<NavbarProps> = ({
       </NavbarContainer>
     </NavbarWrapper>
   );
-};
-
-export default Navbar;
+}
