@@ -8,7 +8,9 @@ import Button from "@/components/Library/button/Button";
 import {
   ButtonContent,
   CardContent,
+  StripContainer,
   StripContent,
+  StripMassegContainer,
   TextContent,
 } from "../DashboardStyles";
 import { FontWeight, TextSize } from "@constants/text";
@@ -78,18 +80,19 @@ const StripComponent = () => {
       return null;
     }
     return (
-      <>
+      <StripMassegContainer>
         <Text>
           {" Your account is set up, but not yet ready to accept payments. "}
         </Text>
         <Text color={TextColor.LINK} onClick={handleSignUp}>
           {"Complete the onboarding process"}
         </Text>
-      </>
+      </StripMassegContainer>
     );
   };
 
   return (
+    <StripContainer>
     <StripContent>
       <CardContent>
         <Icon size={IconSize.XXLARGE} name={IconName.CREDITCARD} />
@@ -105,17 +108,18 @@ const StripComponent = () => {
           <Button onClick={handleSignUp} text="Connect" />
         )}
       </ButtonContent>
-      {getAccountStatus()}
-      {stripeConnectInstance && onboardingExited && (
-        <PopupStrip onClose={() => {setOnboardingExited(true)}}>
+      {(stripeConnectInstance && onboardingExited) && (
+        <PopupStrip onClose={() => {setOnboardingExited(false)}}>
           <ConnectComponentsProvider connectInstance={stripeConnectInstance}>
             <ConnectAccountOnboarding
-              onExit={() => setOnboardingExited(true)}
-            />
+              onExit={() => setOnboardingExited(false)}
+              />
           </ConnectComponentsProvider>
         </PopupStrip>
       )}
     </StripContent>
+      {getAccountStatus()}
+    </StripContainer>
   );
 };
 

@@ -8,7 +8,7 @@ import {
   StageIndicator,
   InnerCircle,
   Connector
-} from './DashboardDomainContainerStyles';
+} from './DashboardDomainIndexContainerStyles';
 import Icon from '@/components/Library/icon/Icon';
 import {  IconName, IconSize } from '@constants/icon';
 import { IconColor, TextColor } from '@constants/colors';

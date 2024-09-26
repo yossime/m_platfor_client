@@ -149,7 +149,44 @@ export const PaymentContent = styled.div`
   background-color: white;
   justify-content: center;
 `;
+export const DomainContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 16px 32px;
+  width: 100%;
+  background-color: white;
+  overflow: hidden;
+`;
 
+export const DomainInputContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top:24px;
+  width: 100%;
+`;
+export const DividerDomain = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #e5e7eb;
+`;
+
+
+export const StripContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+padding: 24px;
+  width: 100%;
+  height: 100%;
+  `;
+
+export const StripMassegContainer = styled.div`
+display: flex;
+flex-direction: row;
+width: 100%;
+height: 100%;
+`;
 export const StripContent = styled.div`
   display: flex;
   flex-direction: row;
@@ -171,11 +208,16 @@ export const TextContent = styled.div`
 `;
 export const ButtonContent = styled.div`
   margin: 8px;
+  width: 100%;
   display: flex;
-  right: auto;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 export const ProductListContent = styled.div`
+width: 100%;
+display: flex;
+justify-content: center;
   flex-grow: 1;
   overflow-y: auto;
   scrollbar-width: none;

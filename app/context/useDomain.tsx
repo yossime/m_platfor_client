@@ -2,10 +2,10 @@
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 
 export enum DomainStatus {
-  Domain1 = 'Domain1',
-  Domain2 = 'Domain2',
-  Domain3 = 'Domain3',
-  Domain4 = 'Domain4',
+  Domain1 = 'Get ready',
+  Domain2 = 'Connect Domain to Provider',
+  Domain3 = 'Domain propagation',
+  Domain4 = 'Web space is live!',
 }
 
 

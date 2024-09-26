@@ -1,21 +1,7 @@
 import styled from 'styled-components';
-import { NAVBAR_HEIGHTS, MEDIA_QUERIES } from '@constants/screenSizes';
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 668px;
-  height: calc(100vh - ${NAVBAR_HEIGHTS.LAPTOP});
-  gap: 64px;
-  padding: 64px 0;
-  margin: ${NAVBAR_HEIGHTS.LAPTOP} auto 0;
-  overflow-y: auto;
-
-  scrollbar-width: thin;
-  scrollbar-color: #DEDCFF transparent;
-
+width: 100%;
 `;
 
 export const IndexContainer = styled.div`
@@ -40,10 +26,22 @@ export const ContentWrapper = styled.div`
 export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: start;
+  gap: 8px;
+`;
+
+
+export const WaitContainer = styled.div`
+background-color: aliceblue;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   width: 100%;
   text-align: center;
-  gap: 16px;
-  flex-shrink: 0;
+  gap: 8px;
 `;
 
 export const ItemsContainer = styled.div`

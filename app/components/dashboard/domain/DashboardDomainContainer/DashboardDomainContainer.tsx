@@ -10,9 +10,9 @@ import { DomainStatus, useDomainIndex } from '@/context/useDomain';
 
 const componentMap: { [key in DomainStatus]: ReactNode } = {
   [DomainStatus.Domain1]: <Domain />,
-  [DomainStatus.Domain2]: <Domain4 />,
-  [DomainStatus.Domain3]: <Domain2 />,
-  [DomainStatus.Domain4]: <Domain3 />,
+  [DomainStatus.Domain2]: <Domain2 />,
+  [DomainStatus.Domain3]: <Domain3 />,
+  [DomainStatus.Domain4]: <Domain4 />,
 };
 
 const DashboardDomainContainer: React.FC = () => {

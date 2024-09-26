@@ -11,7 +11,6 @@ import StripComponent from "./StripComponent";
 
 const DashboardPayments: React.FC = () => {
   return (
-    <>
       <ContentContainer>
         <DashboardTitle>
           <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.D3}>
@@ -27,7 +26,6 @@ const DashboardPayments: React.FC = () => {
           <StripComponent />
         </PaymentContent>
       </ContentContainer>
-    </>
   );
 };
 

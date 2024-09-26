@@ -4,7 +4,6 @@ export const IndexContainerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 0;
 `;
 
 export const IndexWrapper = styled.div`

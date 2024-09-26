@@ -30,6 +30,13 @@ import {
 import { InputSize } from "@constants/input";
 import ModelViewer from "@/components/Library/general/ModelViewer";
 
+
+const CenterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -215,6 +222,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   }, [formData.title, formData.SKU, formData.price]);
 
   return (
+    <CenterContainer>
     <Container>
       <Form>
         <Input
@@ -365,6 +373,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         </ImagePreviewContainer>
       </DragImageContainer>
     </Container>
+    </CenterContainer>
   );
 };
 

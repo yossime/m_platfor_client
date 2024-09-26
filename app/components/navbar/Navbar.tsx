@@ -13,12 +13,13 @@ import {
   LogoContainer,
   UserContainer,
 } from "./NavbarStyles";
-import UserAvatar from "./UserAvatar"; // Import the new UserAvatar component
+import UserAvatar from "./UserAvatar";
 import EditorButtons from "./EditorButton";
 import Button from "../Library/button/Button";
 import { IconName } from "@constants/icon";
 import Tooltip from "../Library/general/Tooltip";
 import { usePathname, useRouter } from "next/navigation";
+import { useUserContext } from "@/context/useUserContext";
 
 interface NavbarProps {
   userName?: string | null;
@@ -38,10 +39,10 @@ const Navbar: React.FC<NavbarProps> = ({
   const handlePlus = () => {
     router.push("/pricing_plans");
   };
-  const pathname = usePathname();
-
+  const pathname = usePathname() ?? "";
   const isSubscriptionPage = pathname.startsWith("/pricing_plans");
   const isEditorPage = pathname.startsWith("/editor");
+  const { userData } = useUserContext();
 
   return (
     <NavbarWrapper className="navbar">
