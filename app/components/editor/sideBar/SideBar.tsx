@@ -73,6 +73,7 @@ const Sidebar: React.FC = () => {
     }
   };
 
+
   const handleFocus = () => {
     const selectedObject = sceneModel?.getSelectedObject();
     if (selectedObject) {
@@ -93,6 +94,7 @@ const Sidebar: React.FC = () => {
       }
     }
   };
+  
 
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
