@@ -9,7 +9,6 @@ import * as THREE from 'three';
 import { SceneService } from './SceneService';
 import { fetchProject } from '@/services/projectService';
 import { useProject } from '@/context/useProjectContext';
-import { CameraControls } from '../camera/Camera';
 import { EventManager } from './utils/EventManager';
 
 
@@ -68,19 +67,7 @@ const SceneComponent = () => {
       // sceneModel?.setSelectedObject(selected)
     }
   
-    const CameraController = () => {
-      const { camera } = useThree();
-          useEffect(() => {
-            camera.position.set(5, 35, 5);
-            camera.lookAt(new Vector3(0, 0, 0));
-            const selectedObject = eventManager.getSelectedObject();
-            if (selectedObject !== null && selectedObject.getPosition() != null) {
-              camera.lookAt(selectedObject.getPosition()!);
-            }
-  
-          }, [camera, eventManager.getSelectedObject()]);
-      return null;
-    };
+
   
     const AnimatedLights = () => {
       useFrame(({ clock }) => {
@@ -95,7 +82,6 @@ const SceneComponent = () => {
   
     return (
       <group onPointerDown={handlePointerDown}>
-        <CameraController />
         <AnimatedLights />
         <directionalLight position={[5, 5, 5]} intensity={0.5} />
         <ambientLight intensity={0.3} />
