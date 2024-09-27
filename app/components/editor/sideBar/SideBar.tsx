@@ -22,21 +22,19 @@ import Icon from "@/components/Library/icon/Icon";
 import { IconName } from "@constants/icon";
 import { BoardType, ISceneObject } from "../types";
 import { Board } from "../viewport/models/boards/Board";
-import { Divider, Divider2 } from "./components/CommonStyles";
 import { useProject } from "@/context/useProjectContext";
 import { useCamera } from "@/context/CameraContext";
 import { useRouter } from "next/navigation";
+import { Divider, Divider2 } from "./components/CommonStyles";
 
 const Sidebar: React.FC = () => {
   const {
-    cameraRotation,
     cameraDirection,
     cameraPosition,
     setCameraPosition,
     setCameraDirection,
-    setCameraRotation,
   } = useCamera();
-  const { projectName, projects } = useProject();
+  const { projectName } = useProject();
   const { sceneModel } = useEditor();
   const router = useRouter();
   const [activeSidebarHeader, setActiveSidebarHeader] =
@@ -48,14 +46,13 @@ const Sidebar: React.FC = () => {
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
     if (selectedObject && selectedObject instanceof Board) {
-
       setActiveSidebarHeader(
-        selectedObject.type || "World" as HeaderType
+        (selectedObject.type as HeaderType) || "World"
       );
     } else {
       setActiveSidebarHeader("World");
     }
-  }, [sceneModel, sceneModel?.setSelectedObject]);
+  }, [sceneModel, sceneModel?.getSelectedObject]);
 
   useEffect(() => {
     setActiveSidebarSubMenu("Edit");
@@ -73,54 +70,50 @@ const Sidebar: React.FC = () => {
     }
   };
 
+
   const handleFocus = () => {
     const selectedObject = sceneModel?.getSelectedObject();
-
     if (selectedObject) {
-      const pos: Vector3 | null = selectedObject?.getPosition();
-      const rot: Euler | null = selectedObject?.getRotation();
-
+      const pos: Vector3 | null = selectedObject.getPosition();  // מיקום האובייקט
+      const rot: Euler | null = selectedObject.getRotation();   // כיוון האובייקט (סיבוב)
+  
       if (pos && rot) {
-        const offsetDistance = 10;
-
-        // const cameraNewPosition = new Vector3(
-        //   pos.x + offsetDistance * Math.sin(rot.y),
-        //   pos.y + 10,
-        //   pos.z + offsetDistance * Math.cos(rot.y)
-        // );
-
-        const cameraNewPosition = new Vector3(
-          pos.x + pos.x,
-          pos.y + pos.y,
-          pos.z + pos.z
+        // הזזת המצלמה מאחורי האובייקט בכיוון הפוך לכיוון האובייקט
+        const distanceFromObject = 10; // המרחק שבו תרצה שהמצלמה תהיה מאחורי האובייקט
+        const cameraPos = new Vector3(
+          pos.x - distanceFromObject * Math.sin(rot.y), // הזזה על ציר ה-X
+          pos.y + distanceFromObject * Math.sin(rot.x), // הגבהה לפי ציר Y
+          pos.z - distanceFromObject * Math.cos(rot.y)  // הזזה על ציר ה-Z
         );
-
-        setCameraPosition(cameraNewPosition);
-
-        // const direction = new Vector3();
-        // direction.subVectors(pos, cameraNewPosition).normalize();
-        const cameraNewRotation = new Vector3(
-          pos.x + rot.x,
-          pos.y + rot.y,
-          pos.z + rot.z
-        );
-        setCameraDirection(cameraNewRotation);
+  
+        // עדכון מיקום המצלמה
+        setCameraPosition(cameraPos);
+  
+        // הגדרת ה-target (מיקום האובייקט) של OrbitControls למיקוד באובייקט
+        setCameraDirection(pos);
       }
     }
   };
+  
 
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
   };
+
   const handleBack = () => {
     setActiveSidebarHeader("World");
   };
 
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
-    // console.log("selected" ,"pos:" ,selectedObject?.getPosition() ,"rot:",selectedObject?.getRotation());
-    // console.log("camera" ,"pos:" ,cameraPosition ,"rot:",cameraPosition, "dir:" ,cameraDirection);
-  }, [activeSidebarHeader, activeSidebarSubMenu]);
+    if (selectedObject) {
+      console.log("Selected Object:", {
+        position: selectedObject.getPosition(),
+        rotation: selectedObject.getRotation(),
+      });
+    }
+    console.log("Camera:", { position: cameraPosition, direction: cameraDirection });
+  }, [activeSidebarHeader, activeSidebarSubMenu, cameraPosition, cameraDirection]);
 
   return (
     <>
@@ -136,9 +129,7 @@ const Sidebar: React.FC = () => {
             <ProjectIcon>
               <Icon
                 name={IconName.SPEEDOMETER}
-                onClick={() => {
-                  router.push("/dashboard");
-                }}
+                onClick={() => router.push("/dashboard")}
               />
             </ProjectIcon>
           </ProjectContainer>
@@ -149,8 +140,6 @@ const Sidebar: React.FC = () => {
             <HeaderIcon>
               {activeSidebarHeader !== "World" && (
                 <Icon name={IconName.CARETLEFT} onClick={handleBack} />
-
-                // <Icon name={IconName.SQUARESFOUR} onClick={handleBack} />
               )}
             </HeaderIcon>
             <HeaderTitle>
@@ -187,7 +176,7 @@ const Sidebar: React.FC = () => {
         </SideBarContainer>
       ) : (
         <SideBarContainerMini>
-          <Icon name={IconName.DATABASE} onClick={() => setIsOpen(true)}></Icon>
+          <Icon name={IconName.DATABASE} onClick={() => setIsOpen(true)} />
         </SideBarContainerMini>
       )}
     </>

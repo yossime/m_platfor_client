@@ -1,55 +1,32 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
-import { Vector3, Euler } from 'three';
 import { OrbitControls } from '@react-three/drei';
 import { useCamera } from '@/context/CameraContext';
+import { Euler, Vector3 } from "three";
 
 export const CameraControls: React.FC = () => {
   const { camera } = useThree();
-  const controls = useRef<any>(null);
-  
-  const { cameraPosition, setCameraPosition, cameraRotation, setCameraRotation, cameraDirection, setCameraDirection } = useCamera();
-
-  const handleControlsChange = useCallback(() => {
-    if (!camera) return;
-
-    setCameraPosition(camera.position.clone());
-
-
-    const target = new Vector3();
-    camera.getWorldDirection(target);
-    setCameraDirection(target.clone());
-  }, [camera, setCameraPosition, setCameraRotation, setCameraDirection]);
+  const { cameraDirection, cameraPosition } = useCamera();
 
   useEffect(() => {
-    const currentControls = controls.current;
-    if (currentControls) {
-      currentControls.addEventListener('change', handleControlsChange);
+    if (camera) {
+      camera.updateMatrixWorld();
+
+      const direction = new Vector3();
+      camera.getWorldDirection(direction);
+      console.log('Camera World Direction:', direction);
+      console.log('Camera Position:', camera.position);
+      console.log('Camera Target (Direction):', cameraDirection);
     }
+  }, [camera, cameraPosition, cameraDirection]);
 
-    return () => {
-      if (currentControls) {
-        currentControls.removeEventListener('change', handleControlsChange);
-      }
-    };
-  }, [handleControlsChange]);
-
-  useEffect(() => {
-    if (cameraPosition) {
-      camera.position.copy(cameraPosition); 
-    }
-    if (cameraDirection) {
-      camera.lookAt(cameraDirection); 
-    }
-  }, [cameraPosition, cameraRotation, cameraDirection, camera]);
-
-
-  
   return (
-    <OrbitControls
-      enablePan={true}
-      enableRotate={true}
-      ref={controls}
+    <OrbitControls 
+      target={[cameraDirection.x, cameraDirection.y, cameraDirection.z]} 
+      enablePan={true} 
+      enableRotate={true} 
+      minDistance={5} 
+      maxDistance={50} 
     />
   );
 };
