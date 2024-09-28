@@ -98,7 +98,7 @@ const SubscriptionPayment: React.FC = ({}) => {
           discountCode,
         };
 
-        const response = await axios.post("ubscription/create-subscription", {
+        const response = await axios.post("subscription/create-subscription", {
           paymentInfo,
           userData: formData,
         });

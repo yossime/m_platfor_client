@@ -13,6 +13,7 @@ import {
   ProjectIcon,
   ProjectContainer,
   SideBarContainerMini,
+  ProjectsList,
 } from "./SideBarStyles";
 import { SubMenuType, HeaderType } from "./types";
 import { useEditor } from "@/context/useEditorContext";
@@ -26,6 +27,9 @@ import { useProject } from "@/context/useProjectContext";
 import { useCamera } from "@/context/CameraContext";
 import { useRouter } from "next/navigation";
 import { Divider, Divider2 } from "./components/CommonStyles";
+import Collapsible from "@/components/Library/general/Collapsible";
+import SelectInput from "@/components/Library/input/SelectInput";
+import { InputMode, InputSize } from "@constants/input";
 
 const Sidebar: React.FC = () => {
   const {
@@ -34,7 +38,7 @@ const Sidebar: React.FC = () => {
     setCameraPosition,
     setCameraDirection,
   } = useCamera();
-  const { projectName } = useProject();
+  const { projectName,projects } = useProject();
   const { sceneModel } = useEditor();
   const router = useRouter();
   const [activeSidebarHeader, setActiveSidebarHeader] =
@@ -74,22 +78,19 @@ const Sidebar: React.FC = () => {
   const handleFocus = () => {
     const selectedObject = sceneModel?.getSelectedObject();
     if (selectedObject) {
-      const pos: Vector3 | null = selectedObject.getPosition();  // מיקום האובייקט
-      const rot: Euler | null = selectedObject.getRotation();   // כיוון האובייקט (סיבוב)
+      const pos: Vector3 | null = selectedObject.getPosition();  
+      const rot: Euler | null = selectedObject.getRotation();  
   
       if (pos && rot) {
-        // הזזת המצלמה מאחורי האובייקט בכיוון הפוך לכיוון האובייקט
-        const distanceFromObject = 10; // המרחק שבו תרצה שהמצלמה תהיה מאחורי האובייקט
+        const distanceFromObject = 10; 
         const cameraPos = new Vector3(
-          pos.x - distanceFromObject * Math.sin(rot.y), // הזזה על ציר ה-X
-          pos.y + distanceFromObject * Math.sin(rot.x), // הגבהה לפי ציר Y
-          pos.z - distanceFromObject * Math.cos(rot.y)  // הזזה על ציר ה-Z
+          pos.x - distanceFromObject * Math.sin(rot.y), 
+          pos.y + distanceFromObject * Math.sin(rot.x), 
+          pos.z - distanceFromObject * Math.cos(rot.y)  
         );
   
-        // עדכון מיקום המצלמה
         setCameraPosition(cameraPos);
   
-        // הגדרת ה-target (מיקום האובייקט) של OrbitControls למיקוד באובייקט
         setCameraDirection(pos);
       }
     }
@@ -104,16 +105,8 @@ const Sidebar: React.FC = () => {
     setActiveSidebarHeader("World");
   };
 
-  useEffect(() => {
-    const selectedObject = sceneModel?.getSelectedObject();
-    if (selectedObject) {
-      console.log("Selected Object:", {
-        position: selectedObject.getPosition(),
-        rotation: selectedObject.getRotation(),
-      });
-    }
-    console.log("Camera:", { position: cameraPosition, direction: cameraDirection });
-  }, [activeSidebarHeader, activeSidebarSubMenu, cameraPosition, cameraDirection]);
+  function handleProjectClick(project: any): void {
+  }
 
   return (
     <>
@@ -124,7 +117,15 @@ const Sidebar: React.FC = () => {
               <Icon name={IconName.PLUS} onClick={handleAdd} />
             </ProjectIcon>
             <ProjectTitle>
-              <Text size={TextSize.TEXT2}>{projectName}</Text>
+              <Collapsible title={projectName|| ""}>
+              <ProjectsList>
+      {projects.map((project) => (
+        <ProjectTitle key={project.id} onClick={() => handleProjectClick(project)}>
+          {project.projectName}
+        </ProjectTitle>
+      ))}
+    </ProjectsList>
+           </Collapsible>
             </ProjectTitle>
             <ProjectIcon>
               <Icon

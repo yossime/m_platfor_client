@@ -30,7 +30,6 @@ export const GlobalComponent: React.FC = () => {
     setConfiguration,
   } = useBoardContent();
 
-  const format = getFormat();
 
   const [openSections, setOpenSections] = useState({
     background: true,

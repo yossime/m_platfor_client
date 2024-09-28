@@ -11,18 +11,27 @@ interface CreateMaterialSphereProps {
 const textureCache: { [url: string]: THREE.Texture } = {};
 const textureLoader = new THREE.TextureLoader();
 
-const loadTexture = (url: string | undefined): THREE.Texture | null => {
-  if (!url) return null;
-  if (textureCache[url]) return textureCache[url];
+const loadTextureAsync = (url: string | undefined): Promise<THREE.Texture | null> => {
+  if (!url) return Promise.resolve(null);
+  if (textureCache[url]) return Promise.resolve(textureCache[url]);
 
-  const texture = textureLoader.load(url, undefined, undefined, (error) => {
-    console.error(`Failed to load texture from ${url}`, error);
+  return new Promise((resolve, reject) => {
+    textureLoader.load(
+      url,
+      (texture) => {
+        textureCache[url] = texture;
+        resolve(texture);
+      },
+      undefined,
+      (error) => {
+        console.error(`Failed to load texture from ${url}`, error);
+        reject(error);
+      }
+    );
   });
-  textureCache[url] = texture;
-  return texture;
 };
 
-export const createMaterialSphere = ({
+export const createMaterialSphere = async ({
   material: {
     diffuseTexturePath,
     normalTexturePath,
@@ -40,21 +49,19 @@ export const createMaterialSphere = ({
 }: CreateMaterialSphereProps): Promise<THREE.Mesh> => {
   const geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
 
-  return new Promise((resolve) => {
-    const material = new THREE.MeshStandardMaterial({
-      map: loadTexture(diffuseTexturePath),
-      normalMap: loadTexture(normalTexturePath),
-      roughnessMap: loadTexture(roughnessTexturePath),
-      metalnessMap: loadTexture(metallicTexturePath),
-      emissiveMap: loadTexture(emissionTexturePath),
-      color: new THREE.Color(color),
-      emissive: new THREE.Color(emissiveColor),
-      emissiveIntensity: emissiveIntensity,
-      opacity: opacity,
-      transparent: opacity < 1,
-    });
-
-    const mesh = new THREE.Mesh(geometry, material);
-    resolve(mesh);
+  const material = new THREE.MeshStandardMaterial({
+    map: await loadTextureAsync(diffuseTexturePath),
+    normalMap: await loadTextureAsync(normalTexturePath),
+    roughnessMap: await loadTextureAsync(roughnessTexturePath),
+    metalnessMap: await loadTextureAsync(metallicTexturePath),
+    emissiveMap: await loadTextureAsync(emissionTexturePath),
+    color: new THREE.Color(color),
+    emissive: new THREE.Color(emissiveColor),
+    emissiveIntensity: emissiveIntensity,
+    opacity: opacity,
+    transparent: opacity < 1,
   });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  return mesh;
 };
