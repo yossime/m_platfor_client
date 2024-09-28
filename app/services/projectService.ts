@@ -35,10 +35,8 @@ export const createProject = async (projectData: any, user: User | null) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data);
     try {
      const resp =  await registerStore(response.data.projectId);
-     console.log(resp);
 
     } catch (error) {
       console.error("Error creating store:", error);

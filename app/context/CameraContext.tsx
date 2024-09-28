@@ -11,8 +11,8 @@ interface CameraContextProps {
 const CameraContext = createContext<CameraContextProps | undefined>(undefined);
 
 export const CameraProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [cameraPosition, setCameraPosition] = useState<Vector3>(new Vector3(30, 50, 0));
-  const [cameraDirection, setCameraDirection] = useState<Vector3>(new Vector3(0, 10, 1));
+  const [cameraPosition, setCameraPosition] = useState<Vector3>(new Vector3(50, 50, 50));
+  const [cameraDirection, setCameraDirection] = useState<Vector3>(new Vector3(0, 0, 0));
 
   return (
     <CameraContext.Provider value={{ cameraPosition, setCameraPosition, cameraDirection, setCameraDirection }}>

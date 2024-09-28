@@ -27,6 +27,10 @@ const ButtonsContainer: React.FC = () => {
       setIndex(newIndex);
     }
   }, [currentIndex, contextData, setIndex]);
+
+
+
+
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
@@ -34,7 +38,7 @@ const ButtonsContainer: React.FC = () => {
         projectName: contextData.Name.value,
         projectParams: contextData
       };
-      router.push('/editor');
+      await router.push('/editor');
       const result = await createProject(newProject, user);
       toast.success('Project created successfully!');
       setProjects([...projects, { id: result.projectId, projectName: contextData.Name.value }]);

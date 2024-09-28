@@ -21,14 +21,23 @@ const rotateAnimation = keyframes`
 `;
 
 const IconWrapper = styled.span<{ $shouldRotate?: boolean; onClick?: () => void }>`
-  ${({ onClick }) => onClick && css`
-    cursor: pointer;
-  `}
+  ${({ onClick }) =>
+    onClick &&
+    css`
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+        transform: scale(1.1);
+      }
+    `}
   
-  ${({ $shouldRotate }) => $shouldRotate && css`
-  animation: ${rotateAnimation} 2s linear infinite;
-  `}
+  ${({ $shouldRotate }) =>
+    $shouldRotate &&
+    css`
+      animation: ${rotateAnimation} 2s linear infinite;
+    `}
 `;
+
 
 const Icon = forwardRef<SVGSVGElement, IconProps>(({
   name, 
@@ -51,7 +60,7 @@ const Icon = forwardRef<SVGSVGElement, IconProps>(({
         size={size}
         color={color}
         className={className}
-        style={{ width: "Thin" }}          />
+        style={{ width: "Thin" }}/>
     </IconWrapper>
   );
 });
