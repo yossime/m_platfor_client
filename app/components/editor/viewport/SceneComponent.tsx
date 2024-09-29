@@ -38,8 +38,9 @@ const SceneComponent = () => {
       const buildScene = async () => {
         const scene = new SceneService();
         const res = await fetchProject(currentProject || '', '');
-        if (res.data) {
-          const parsedData = JSON.parse(res.data.dataParameters);
+        if (res.data.dataParameters) {
+          const parsedData = res.data.dataParameters;
+          // const parsedData = JSON.parse(res.data);
           await scene.buildScene(ArchitectureType.TWO_CIRCLES, setModel, parsedData);
         }
         else {

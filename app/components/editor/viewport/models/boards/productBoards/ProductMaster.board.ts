@@ -1,18 +1,22 @@
 
-import { FormatBoard, ISceneObjectOptions } from '@/components/editor/types/index';
+import { ExportedSceneObject, FormatBoard, ISceneObjectOptions, ProductStand } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
 import { ProductBoardABC } from '.';
 import { Product } from '@/components/dashboard/types/product.types';
 import { Podium } from '../../products/Podium';
 import { Object3D } from 'three';
+import { Duo } from '../../products/Duo';
 
 export class ProductMaster extends ProductBoardABC {
+    protected format: FormatBoard;
     public maxStands: number;
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
-        this.maxStands = 0;
-        // this.format = FormatBoard.Duo;
-        this.setFormat(FormatBoard.Podium);
+        this.maxStands = 6;
+        this.format = FormatBoard.Podium;
+        // this.setFormat(FormatBoard.Duo);
+        this.loadModelAndDisplay(onBoardLoaded);
+
     }
 
     public setFormat(format: FormatBoard): void {
@@ -34,72 +38,72 @@ export class ProductMaster extends ProductBoardABC {
                 this.createPodium(product)
                 break;
             case FormatBoard.Duo:
+                this.createDuo(product);
                 break;
         }
-        console.log('prodct', this.slots)
     }
 
-    onModelLoaded(model: any): void {
-        console.log('Model loaded', model)
-        console.log('this.type', this.type)
-        const middleSlot = Math.floor((this.slots.length) / 2);
-        // const middleSlot = 5;
-        const slotNumber = middleSlot + this.children.length + 1;
-
-        const slot = this.slotsMap.get(slotNumber);
-
-        const modelParent = slot?.parent;
-
-
-        modelParent?.attach(model);
+    removeStand(productStand: ProductStand): void {
+        
     }
+
+    // onModelLoaded(model: any): void {
+    //     const middleSlot = Math.floor((this.slots.length) / 2);
+    //     // const middleSlot = 5;
+    //     const slotNumber = middleSlot + this.children.length + 1;
+
+    //     const slot = this.slotsMap.get(slotNumber);
+
+    //     const modelParent = slot?.parent;
+
+
+    //     // modelParent?.attach(model);
+    //     // modelParent?.remove(slot!);
+    // }
 
 
     private async createPodium(product: Product): Promise<void> {
         const middleSlot = Math.floor((this.slots.length) / 2);
-        const slotNumber = middleSlot + this.children.length + 1;
-        const slotName = `slot_${slotNumber}`;
-        const podium = new Podium(slotNumber, product, {}, (model) => this.onModelLoaded(model));
+
+        const slotNumber = middleSlot + this.children.length;
+        const podium = new Podium(slotNumber, product, {});
 
 
 
-        // console.log('slotNumber', slotNumber)
-        console.log("creating product", this.children.length)
         this.addChild(podium, slotNumber)
-        this.children.push(podium);
         const podiums = this.children as Podium[];
         podiums.forEach((child, index) => {
             const newPlace = this.slotsMap.get((child.slotNumber) - 1);
+            // const newPlace = this.slotsMap.get((child.slotNumber) - 2);
             if (!newPlace) {
-                console.warn(`No slot found for podium ${index}`);
+                console.warn(`No slot found for podium ${index} child.slotNumber: ${child.slotNumber}`);
                 return;
             }
-            console.log("child", child.slotNumber, newPlace)
-            // child.setPosition(newPlace.position);
+            child.setPosition(newPlace.position);
             // child.setRotation(newPlace.rotation);
-            child.exchangeSlot(newPlace);
-
+            
         });
+        // this.children.push(podium);
     }
 
-    // public addChild(sceneObject: Product, slotNumber?: number): void {
-    //     if (slotNumber) {
-    //         const slot = this.slots.find(placeholder => parseInt(placeholder.name.replace(/\D/g, ''), 10) === slotNumber);
-    //         this.selectedSlot = slot || null;
-    //     }
-    //     const slot = this.slots.pop();
-    //     if (!slot) {
-    //         console.warn('No slot available for adding child');
-    //         return;
-    //     }
-    //         sceneObject.slotNumber = slotNumber || this.children.length;
-    //         sceneObject.exchangeSlot(slot);
-    //         this.children.push(sceneObject);
-    // }
 
+    private async createDuo(product: Product): Promise<void> {
+        const slotNumber = this.children.length;
+        const newPlace = this.slotsMap.get(this.children.length);
+        if (!newPlace) {
+            console.warn(`No slot found for podium ${this.children.length}`);
+            return;
+        }
 
+        
+        const exportedScenObj: ExportedSceneObject = {
+            position: newPlace?.position,
+            rotation: newPlace?.rotation,
+            type: 'Duo',
+        }
+        const dou = new Duo(product, {exportedScenObj});
 
-
-
+        this.addChild(dou, slotNumber)
+    }
 
 }
