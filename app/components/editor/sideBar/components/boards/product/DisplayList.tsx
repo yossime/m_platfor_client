@@ -11,7 +11,6 @@ import { IconColor } from "@constants/colors";
 import PopupEditDisplay from "./PopupEditDisplay";
 import { ISceneObject, StandType } from '@/components/editor/types/index';
 
-
 // import { Product } from "@/components/editor/interface/Product";
 
 export const DisplayList: React.FC = () => {
