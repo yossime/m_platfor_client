@@ -1,4 +1,5 @@
 "use client"
+import { auth } from '@/services/firebase';
 import axios from '@/utils/axios';
 import { useState, useEffect } from 'react';
 
@@ -11,6 +12,7 @@ export interface UserData {
     chargesEnabled?: boolean;
     payoutsEnabled?: boolean;
     plan?:string;
+    isNew?:boolean;
   }
 
 
@@ -20,6 +22,13 @@ export interface UserData {
   
     const fetchUserData = async () => {
       try {
+        const user = auth.currentUser;
+        if (!user) {
+          console.warn('User is not authenticated');
+          return; 
+        }
+    
+    
         const response = await axios.get(`user`);
         setUserData(response.data);
       } catch (error) {

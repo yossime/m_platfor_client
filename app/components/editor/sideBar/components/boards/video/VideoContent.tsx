@@ -6,7 +6,7 @@ import {
   ContentVideoUpload,
 } from "../../GenericBoardComponents";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
-import { ContentDataType } from "@/components/editor/types/index";
+import { BoardType, ContentDataType } from "@/components/editor/types/index";
 import { ChooseBoardFormat, FormatBoard } from "../../FormatBoard";
 import { useBoardContent } from "../../useBoardContent";
 
@@ -33,11 +33,7 @@ export const VideoContentComponent: React.FC = () => {
   return (
     <>
       {formatBoard === null ? (
-        <ChooseBoardFormat
-          formatModel={false}
-          formatBoard={formatBoard}
-          setFormatBoard={setFormatBoard}
-        />
+        <ChooseBoardFormat boardType={BoardType.Video} />
       ) : (
         <Container>
           {formatBoard === FormatBoard.Frame && (

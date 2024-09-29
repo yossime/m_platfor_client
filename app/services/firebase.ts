@@ -24,7 +24,6 @@ const storage = getStorage(app);
 export const getAuthDownloadUrl = async (filePath: string): Promise<string | null> => {
     try {
         console.log("`gs://${filePath}`", `${filePath}`);
-        // gs://fbx-bucket/architectures/barbiz.glb
         const storageRef = ref(storage, `gs://${filePath}`);
         const url = await getDownloadURL(storageRef);
         return url

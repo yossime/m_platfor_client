@@ -38,7 +38,8 @@ const Sidebar: React.FC = () => {
     setCameraPosition,
     setCameraDirection,
   } = useCamera();
-  const { projectName,projects } = useProject();
+  
+  const { projectName, projects } = useProject();
   const { sceneModel } = useEditor();
   const router = useRouter();
   const [activeSidebarHeader, setActiveSidebarHeader] =
@@ -50,9 +51,7 @@ const Sidebar: React.FC = () => {
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
     if (selectedObject && selectedObject instanceof Board) {
-      setActiveSidebarHeader(
-        (selectedObject.type as HeaderType) || "World"
-      );
+      setActiveSidebarHeader((selectedObject.type as HeaderType) || "World");
     } else {
       setActiveSidebarHeader("World");
     }
@@ -74,28 +73,26 @@ const Sidebar: React.FC = () => {
     }
   };
 
-
   const handleFocus = () => {
     const selectedObject = sceneModel?.getSelectedObject();
     if (selectedObject) {
-      const pos: Vector3 | null = selectedObject.getPosition();  
-      const rot: Euler | null = selectedObject.getRotation();  
-  
+      const pos: Vector3 | null = selectedObject.getPosition();
+      const rot: Euler | null = selectedObject.getRotation();
+
       if (pos && rot) {
-        const distanceFromObject = 10; 
+        const distanceFromObject = 10;
         const cameraPos = new Vector3(
-          pos.x - distanceFromObject * Math.sin(rot.y), 
-          pos.y + distanceFromObject * Math.sin(rot.x), 
-          pos.z - distanceFromObject * Math.cos(rot.y)  
+          pos.x - distanceFromObject * Math.sin(rot.y),
+          pos.y + distanceFromObject * Math.sin(rot.x),
+          pos.z - distanceFromObject * Math.cos(rot.y)
         );
-  
+
         setCameraPosition(cameraPos);
-  
+
         setCameraDirection(pos);
       }
     }
   };
-  
 
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
@@ -105,8 +102,7 @@ const Sidebar: React.FC = () => {
     setActiveSidebarHeader("World");
   };
 
-  function handleProjectClick(project: any): void {
-  }
+  function handleProjectClick(project: any): void {}
 
   return (
     <>
@@ -117,15 +113,18 @@ const Sidebar: React.FC = () => {
               <Icon name={IconName.PLUS} onClick={handleAdd} />
             </ProjectIcon>
             <ProjectTitle>
-              <Collapsible title={projectName|| ""}>
-              <ProjectsList>
-      {projects.map((project) => (
-        <ProjectTitle key={project.id} onClick={() => handleProjectClick(project)}>
-          {project.projectName}
-        </ProjectTitle>
-      ))}
-    </ProjectsList>
-           </Collapsible>
+              <Collapsible title={projectName || ""}>
+                <ProjectsList>
+                  {projects.map((project) => (
+                    <ProjectTitle
+                      key={project.id}
+                      onClick={() => handleProjectClick(project)}
+                    >
+                      {project.projectName}
+                    </ProjectTitle>
+                  ))}
+                </ProjectsList>
+              </Collapsible>
             </ProjectTitle>
             <ProjectIcon>
               <Icon

@@ -1,7 +1,29 @@
 
 import { IconName } from '@constants/icon';
-import { BaseSize, ButtonStyle, ImageStyle, TextStyle } from '../types';
+import { BaseSize, ButtonStyle, FormatBoard, ImageStyle, TextStyle } from '../types';
 import { BoardType } from "../types";
+// import ArticleSimpleDisplay from '/formatsBoardsSvg/ArticleSimpleDisplay.svg';
+// import  FormSideDisplay  from './formatsBoardsSvg/FormSideDisplay.svg';
+// import  HeaderFrameDisplay  from './formatsBoardsSvg/HeaderFrameDisplay.svg';
+// import  HeaderSimpleDisplay  from './formatsBoardsSvg/HeaderSimpleDisplay.svg';
+// import  ProductDuoDisplay  from './formatsBoardsSvg/ProductDuoDisplay.svg';
+// import  ProductPodiumsDisplay  from './formatsBoardsSvg/ProductPodiumsDisplay.svg';
+// import  SubscriptionSimpleDisplay  from './formatsBoardsSvg/SubscriptionSimpleDisplay.svg';
+// import  VideoSimpleDisplay  from './formatsBoardsSvg/VideoSimpleDisplay.svg';
+
+
+
+// export const formatIcons: Record<FormatBoard, React.FC> = {
+//   [FormatBoard.ArticleSimple]: ArticleSimpleDisplay,
+//   [FormatBoard.Duo]: ProductDuoDisplay,
+//   [FormatBoard.Podiums]: ProductPodiumsDisplay,
+//   [FormatBoard.FormSide]: FormSideDisplay,
+//   [FormatBoard.HeaderFrame]: HeaderFrameDisplay,
+//   [FormatBoard.HeaderModel]: HeaderSimpleDisplay,
+//   [FormatBoard.HeaderSimpal]: HeaderSimpleDisplay,
+//   [FormatBoard.SubscriptionSimpal]: SubscriptionSimpleDisplay,
+//   [FormatBoard.VideoSimple]: VideoSimpleDisplay,
+// };
 
 export interface WidgetData {
   name: string;
@@ -9,6 +31,9 @@ export interface WidgetData {
   type: BoardType;
   body?: string;
 }
+
+
+
 
 export const widgets = [
   { type: BoardType.Header, name: 'Header', icon: IconName.ALIGNTOP , body: "Clickable social media icons"},
@@ -50,6 +75,36 @@ export const headers: Record<HeaderType, SubMenuData[]> = {
     ])
   ),
 };
+
+// export const formats: Record<BoardType, FormatBoard[]> = {
+//   [BoardType.Video]: [FormatBoard.VideoSimple, FormatBoard.HeaderFrame],
+//   [BoardType.Header]: [FormatBoard.HeaderSimpal, FormatBoard.HeaderFrame,FormatBoard.HeaderModel],
+//   [BoardType.Image]:  [FormatBoard.HeaderSimpal, FormatBoard.HeaderFrame],
+//   [BoardType.Product]: [FormatBoard.Podiums, FormatBoard.Duo],
+//   [BoardType.Form]: [FormatBoard.FormSide],
+//   [BoardType.Subscription]: [FormatBoard.SubscriptionSimpal],
+//   [BoardType.Slider]: [FormatBoard.HeaderSimpal],
+//   [BoardType.Testimonials]:[FormatBoard.HeaderSimpal],
+//   [BoardType.Services]: [FormatBoard.HeaderSimpal],
+//   [BoardType.Gamification]:[FormatBoard.HeaderSimpal],
+//   [BoardType.Socials]: [FormatBoard.HeaderSimpal],
+//   [BoardType.Article]: [FormatBoard.HeaderSimpal],
+// };
+export const formats: Record<BoardType, FormatBoard[]> = {
+  [BoardType.Video]: [FormatBoard.Simple, FormatBoard.Frame],
+  [BoardType.Header]: [FormatBoard.Simple, FormatBoard.Frame,FormatBoard.Model],
+  [BoardType.Image]:  [FormatBoard.Simple, FormatBoard.Frame],
+  [BoardType.Product]: [FormatBoard.Podiums, FormatBoard.Duo],
+  [BoardType.Form]: [FormatBoard.Simple],
+  [BoardType.Subscription]: [FormatBoard.Simple],
+  [BoardType.Slider]: [FormatBoard.Simple, FormatBoard.Frame],
+  [BoardType.Testimonials]: [FormatBoard.Simple],
+  [BoardType.Services]: [FormatBoard.Simple, FormatBoard.Side],
+  [BoardType.Gamification]: [FormatBoard.Simple],
+  [BoardType.Socials]: [FormatBoard.Simple],
+  [BoardType.Article]: [FormatBoard.Simple],
+};
+
 
 
 

@@ -6,7 +6,7 @@ import {
   ContentImageUpload,
 } from "../../GenericBoardComponents";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
-import { ContentDataType } from "@/components/editor/types/index";
+import { BoardType, ContentDataType } from "@/components/editor/types/index";
 import { ChooseBoardFormat, FormatBoard } from "../../FormatBoard";
 import { useBoardContent } from "../../useBoardContent";
 
@@ -35,8 +35,7 @@ export const HeaderContentComponent: React.FC = () => {
     <>
       {formatBoard === null ? (
         <ChooseBoardFormat
-          formatBoard={formatBoard}
-          setFormatBoard={setFormatBoard}
+          boardType={BoardType.Header}
         />
       ) : (
         <Container>

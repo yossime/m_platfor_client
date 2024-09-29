@@ -11,9 +11,7 @@ export const handleGoogleLogin = async (setError: (error: string) => void) => {
 
     try {
         const userCredential = await signInWithPopup(auth, provider);
-        // Signed in 
         const user = userCredential.user;
-        // ... handle successful sign-in
     } catch (error) {
         if (error instanceof FirebaseError) {
             setError(error.message);
@@ -24,10 +22,12 @@ export const handleGoogleLogin = async (setError: (error: string) => void) => {
     }
 };
 
+
+
 export const handleSignUp = async (email: string, password: string, setError: (error: string) => void) => {
+    
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        // Signed in 
         try {
             await updateProfile(userCredential.user, {
                 displayName: "Jane Q. User",
@@ -36,7 +36,7 @@ export const handleSignUp = async (email: string, password: string, setError: (e
             // Profile updated!
         } catch (error) {
             console.error('Error updating profile:', error);
-            // Handle profile update error
+            setError('Failed to update profile');
         }
     } catch (error) {
         if (error instanceof FirebaseError) {
@@ -48,8 +48,8 @@ export const handleSignUp = async (email: string, password: string, setError: (e
     }
 };
 
+
 export const handleSignIn = async (email: string, password: string, setError: (error: string) => void) => {
-    console.log('email, password', email, password);
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
@@ -67,7 +67,6 @@ export const handleSignIn = async (email: string, password: string, setError: (e
 export const handleSignOut = async (setError: (error: string) => void) => {
     try {
         await auth.signOut();
-        console.log('jhhgyhgh')
     } catch (error) {
         console.error('Error signing out:', error);
         setError('Error signing out');

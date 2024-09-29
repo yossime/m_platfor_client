@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Container } from "../../CommonStyles";
 import { ContentInput } from "../../GenericBoardComponents";
-import { ContentDataType, FormatBoard } from "@/components/editor/types/index";
+import {
+  BoardType,
+  ContentDataType,
+  FormatBoard,
+} from "@/components/editor/types/index";
 import ProductListSidebar from "./ProductListSidebar";
 import { ChooseBoardFormat } from "../../FormatBoard";
 import { useBoardContent } from "../../useBoardContent";
@@ -12,14 +16,10 @@ export const ProductContentComponent: React.FC = () => {
     getFormat()
   );
 
-
   return (
     <>
       {formatBoard === null ? (
-        <ChooseBoardFormat
-          formatBoard={formatBoard}
-          setFormatBoard={setFormatBoard}
-        />
+        <ChooseBoardFormat boardType={BoardType.Product} />
       ) : (
         <Container>
           <ContentInput
@@ -27,10 +27,7 @@ export const ProductContentComponent: React.FC = () => {
             placeholder="Site Name"
             label="Title"
           />
-          <ProductListSidebar
-          />
-
-          {/* <DisplayList /> */}
+          <ProductListSidebar />
         </Container>
       )}
     </>

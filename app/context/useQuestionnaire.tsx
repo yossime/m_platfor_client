@@ -1,27 +1,19 @@
 "use client"
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 
-// Define the enum with the required values
 export enum QuestionnaireStatus {
   WebsiteType = 'WebsiteType',
   QuestionnaireBusinessName = 'QuestionnaireBusinessName',
-  // QuestionnaireApps = 'QuestionnaireApps',
   QuestionnaireBoards = 'QuestionnaireBoards',
   QuestionnaireTemplates = 'QuestionnaireTemplates',
-  // QuestionnaireProcessing = 'QuestionnaireProcessing',
 }
 
-// Define the structure of contextData
 export interface ContextDataType {
   Type: {
     value: any; 
     valid: any; 
   };
   Boards: {
-    value: any[]; 
-    valid: any; // Adjust type as needed
-  };
-  Apps: {
     value: any[]; 
     valid: any; 
   };
@@ -52,10 +44,6 @@ export const QuestionnaireProvider: React.FC<{ children: ReactNode }> = ({ child
       valid: null,
     },
     Boards: {
-      value: [],
-      valid: null,
-    },
-    Apps: {
       value: [],
       valid: null,
     },

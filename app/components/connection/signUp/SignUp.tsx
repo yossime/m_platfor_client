@@ -95,7 +95,7 @@ const SignUpComponent: React.FC<SignUpComponentProps> = ({ setLogin }) => {
           size={ButtonSize.MEDIUM}
           mode={ButtonMode.NORMAL}
           text="Sign Up"
-          onClick={() => handleSignUp(email, password, error)}
+          onClick={() => handleSignUp(email, password, setError)}
           fullWidth
         />
         <Spacer />

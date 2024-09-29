@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { HeaderType, WidgetData, widgets } from "../types";
+import { formats, HeaderType, WidgetData, widgets } from "../types";
 import styled from "styled-components";
 import {
   BackgroundColor,
@@ -8,7 +8,7 @@ import {
 } from "@constants/colors";
 import Text from "@/components/Library/text/Text";
 import { FontWeight, TextSize } from "@constants/text";
-import { FormatBoard } from "../../types";
+import { BoardType, FormatBoard } from "../../types";
 import { useBoardContent } from "./useBoardContent";
 
 export const WidgetContainer = styled.div`
@@ -64,17 +64,20 @@ export const FormatButton = styled.button<{ $clicked: boolean }>`
 `;
 
 interface ChooseBoardWidgetComponentProps {
-  setFormatBoard: (format: FormatBoard) => void;
-  formatBoard: FormatBoard | null;
-  formatModel?: boolean;
+  boardType: BoardType;
 }
 
+
 export const ChooseBoardFormat: React.FC<ChooseBoardWidgetComponentProps> = ({
-  formatBoard,
-  setFormatBoard,
-  formatModel = true,
+  boardType
 }) => {
-  const { setFormat } = useBoardContent();
+  const { getFormat,setFormat } = useBoardContent();
+  const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(
+    getFormat()
+  );
+
+  
+  const boardFormats = formats[boardType];
 
   const handleWidgetClick = (format: FormatBoard) => {
     setFormat(format);
@@ -83,37 +86,20 @@ export const ChooseBoardFormat: React.FC<ChooseBoardWidgetComponentProps> = ({
 
   return (
     <WidgetContainer>
-      <FormatContainer>
-        <FormatButton
-          onClick={() => handleWidgetClick(FormatBoard.Simple)}
-          $clicked={formatBoard === FormatBoard.Simple ? true : false}
-        />
-        <Text size={TextSize.TEXT2} $weight={FontWeight.NORMAL}>
-          {"Simple"}
-        </Text>
-      </FormatContainer>
-
-      <FormatContainer>
-        <FormatButton
-          onClick={() => handleWidgetClick(FormatBoard.Frame)}
-          $clicked={formatBoard === FormatBoard.Frame ? true : false}
-        />
-        <Text size={TextSize.TEXT2} $weight={FontWeight.NORMAL}>
-          {"Frame"}
-        </Text>
-      </FormatContainer>
-      {formatModel && (
-        <FormatContainer>
+      {boardFormats.map((format) => (
+        <FormatContainer key={format}>
           <FormatButton
-            onClick={() => handleWidgetClick(FormatBoard.Model)}
-            $clicked={formatBoard === FormatBoard.Model ? true : false}
+            onClick={() => handleWidgetClick(format)}
+            $clicked={formatBoard === format}
           />
           <Text size={TextSize.TEXT2} $weight={FontWeight.NORMAL}>
-            {"Model"}
+            {format}
           </Text>
         </FormatContainer>
-      )}
+      ))}
     </WidgetContainer>
   );
 };
+
+
 export { FormatBoard };

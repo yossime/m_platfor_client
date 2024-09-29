@@ -5,7 +5,7 @@ import {
   ContentImageUpload,
 } from "../../GenericBoardComponents";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
-import { ContentDataType } from "@/components/editor/types/index";
+import { BoardType, ContentDataType } from "@/components/editor/types/index";
 import { ChooseBoardFormat, FormatBoard } from "../../FormatBoard";
 import { useBoardContent } from "../../useBoardContent";
 
@@ -33,9 +33,7 @@ export const ImageContentComponent: React.FC = () => {
     <>
       {formatBoard === null ? (
         <ChooseBoardFormat
-          formatModel={false}
-          formatBoard={formatBoard}
-          setFormatBoard={setFormatBoard}
+        boardType={BoardType.Image}
         />
       ) : (
         <Container>

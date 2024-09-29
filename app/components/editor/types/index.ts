@@ -321,7 +321,25 @@ export enum FormatBoard {
   Model = "model",
   Frame = "frame",
   Simple = "simple",
+  Podiums = "podiums",
+  Duo ="duo",
+  Side ="side",
 }
+
+
+// export enum FormatBoard {
+//   HeaderModel = "headerModel",
+//   HeaderFrame = "headerFrame",
+//   HeaderSimpal = "headerSimple",
+//   ArticleSimple = "articleSimple",
+//   Podiums = "podiums",
+//   Duo ="duo",
+//   FormSide ="FormSide",
+//   VideoSimple = "videoSimple",
+//   SubscriptionSimpal = "subscriptionSimple",
+
+
+// }
 
 
 export enum BoardType {

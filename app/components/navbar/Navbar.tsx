@@ -19,8 +19,8 @@ import Button from "../Library/button/Button";
 import { IconName } from "@constants/icon";
 import Tooltip from "../Library/general/Tooltip";
 import { usePathname, useRouter } from "next/navigation";
-import { useUserContext } from "@/context/useUserContext";
 import Icon from "../Library/icon/Icon";
+import { useUserData } from "@/hooks/useUserData";
 
 interface NavbarProps {
   userName?: string | null;
@@ -43,7 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const pathname = usePathname() ?? "";
   const isSubscriptionPage = pathname.startsWith("/pricing_plans");
   const isEditorPage = pathname.startsWith("/editor");
-  const { userData } = useUserContext();
+  const { userData } = useUserData();
   const subsc =  userData?.plan === "Plus" || userData?.plan === "buiznes"
   
   return (
