@@ -16,7 +16,7 @@ import { SceneObject } from "../SceneObject";
 
 export abstract class Board extends SceneObject {
   public slotNumber = -1;
-  protected format: FormatBoard | null = null;
+  protected abstract format: FormatBoard;
   protected selectedSlot: CustomObject3D | null = null;
   protected configuration = new Map<EConfigType, EConfiguration>([
     [EConfigType.HORIZONTAL, EConfiguration.CENTER],
@@ -85,7 +85,7 @@ export abstract class Board extends SceneObject {
     const logoContentType = ContentDataType.LOGO;
     const configV = this.logoConfiguration.get(EConfigType.VERTICAL);
     const configH = this.logoConfiguration.get(EConfigType.HORIZONTAL);
-    
+
     const placeholderName = `ph_${logoContentType}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
     const geometry = this.getGeometryByName(logoContentType);
     const placeholder = this.getGeometryByName(placeholderName);
@@ -259,8 +259,10 @@ export abstract class Board extends SceneObject {
   }
 
   public buildFromJson(exportedObj: ExportedSceneObject) {
-    for (const [key, value] of Object.entries(exportedObj.configuration)) {
-      this.setConfiguration(key as EConfigType, value);
+    if (exportedObj.configuration) {
+      for (const [key, value] of Object.entries(exportedObj.configuration)) {
+        this.setConfiguration(key as EConfigType, value);
+      }
     }
     super.buildFromJson(exportedObj);
 

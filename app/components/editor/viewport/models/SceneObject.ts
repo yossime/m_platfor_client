@@ -32,8 +32,8 @@ export abstract class SceneObject implements ISceneObject {
 
     if (options) {
       this.name = options.exportedScenObj?.name || options.name || this.name;
-      this.position = options.position ?? this.position;
-      this.rotation = options.rotation ?? this.rotation;
+      // this.position = options.position ?? this.position;
+      // this.rotation = options.rotation ?? this.rotation;
     }
 
     this.loadModelAndDisplay(options?.onLoad).then(() => {
@@ -121,18 +121,13 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   protected getSlotsPosition(): Object3D[] {
-    console.log("getSlotsPosition", this.model);
-
     if (!this.model) return [];
-    console.log("Model is not initialized yet");
     const slots: Object3D[] = [];
     this.model?.traverse((child) => {
-      console.log("child: " + child.name);
       if (child.name.startsWith('slot_')) {
         slots.push(child)
       }
     });
-    console.log("Model is slots", slots );
     return slots;
   }
 
@@ -281,7 +276,7 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   protected handleSelected = (object: CustomObject3D) => {
-    // this.highlightMesh(object);
+    this.highlightMesh(object);
     this.eventManager.setSelectedObject(this);
 
 

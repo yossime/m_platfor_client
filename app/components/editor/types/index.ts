@@ -4,9 +4,9 @@ import { Object3D, Vector3, Euler, Material, Texture } from 'three';
 
 export interface ISceneObjectOptions {
   name?: string | null;
-  position?: Vector3 | null;
-  rotation?: Euler | null;
-  scale?: Vector3;
+  // position?: Vector3 | null;
+  // rotation?: Euler | null;
+  // scale?: Vector3;
   exportedScenObj?: ExportedSceneObject,
   onLoad?: (model?: Object3D) => void;
 }
@@ -189,16 +189,16 @@ export interface ContentText {
 }
 
 export interface ExportedSceneObject {
-  name: string | null;
+  name?: string | null;
   type: string;
   format?: FormatBoard;
-  configuration: { [key in EConfiguration]?: EConfiguration };
+  configuration?: { [key in EConfiguration]?: EConfiguration };
   slotNumber?: number;
   position: Vector3 | null;
   rotation: Euler | null;
   scale?: Vector3;
-  children: ExportedSceneObject[];
-  contentsData: { [key in ContentDataType]?: ContentData };
+  children?: ExportedSceneObject[];
+  contentsData?: { [key in ContentDataType]?: ContentData };
 }
 
 export interface ISceneManager {
@@ -342,7 +342,7 @@ export enum ArchitectureType {
 }
 
 export enum StandType {
-  Poudiom = 'poudiom',
+  Podium = 'podium',
   Duo = 'duo',
 }
 

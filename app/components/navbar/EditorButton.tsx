@@ -15,8 +15,7 @@ import Button from "../Library/button/Button";
 import Icon from "../Library/icon/Icon";
 import Tooltip from "../Library/general/Tooltip";
 
-const previewApi =
-  "https://server-cloud-run-service-kruirvrv6a-uc.a.run.app/preview";
+
 
 const EditorButtons: React.FC = () => {
   const { editorMode, currentProject } = useProject();
@@ -30,7 +29,7 @@ const EditorButtons: React.FC = () => {
       const dataParameters = await sceneModel?.exportToJson();
       console.log(dataParameters);
       if (currentProject && dataParameters) {
-        await axios.post(`${previewApi}/${currentProject}`, { dataParameters });
+        await axios.post(`preview/${currentProject}`, { dataParameters });
         checkPreviewStatus();
       } else {
         throw new Error("Missing data parameters or current project");
@@ -43,7 +42,7 @@ const EditorButtons: React.FC = () => {
 
   const checkPreviewStatus = async (): Promise<void> => {
     try {
-      const response = await axios.get(`${previewApi}/${currentProject}`);
+      const response = await axios.get(`preview/${currentProject}`);
       console.log("response.status", response.status, currentProject);
       if (response.status === 200) {
         setEditorState(EditorState.PREVIEW);

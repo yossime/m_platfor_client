@@ -5,22 +5,12 @@ import { Stand } from '.';
 import { Product } from '@/components/dashboard/types/product.types';
 
 
-export class Podium extends Stand {
-    public slotNumber: number;
-    // public slotName: string;
-    constructor(slotNumber: number, productData: Product, options?: ISceneObjectOptions, onModelLoaded?: (model?: Object3D) => void) {
-        super(StandType.Podium, productData, options);
-        this.slotNumber = slotNumber;
-        // this.slotName = slotName;
+export class Duo extends Stand {
+    constructor(productData: Product, options?: ISceneObjectOptions, onModelLoaded?: (model?: Object3D) => void) {
+        super(StandType.Duo, productData, options);
     }
 
-    // protected initializeContentAreas(): void {
-    //     const {price, title, currencyType, SKU} = this.productData;
-    //         this.setContentText(ContentDataType.PRICE, {text: price.toString()})
-    //         this.setContentText(ContentDataType.TITLE, {text: title})
-    //         // this.setContentText(ContentDataType.PRICE_CURRENCY, {text: currencyType || '$'})
-    //         this.contentsData.set(ContentDataType.PRODUCT, {contentObjects:{SKU: SKU, model: '2'}})
-    // }
+
 
     public setSlotNumber(slotname: number): void {
 

@@ -11,7 +11,7 @@ import { IconColor } from "@constants/colors";
 import PopupEditDisplay from "./PopupEditDisplay";
 import { ISceneObject, StandType } from '@/components/editor/types/index';
 import { Product } from "@/components/editor/viewport/models/products/Podium";
-import { DouProduct } from "@/components/editor/viewport/models/products/Dou";
+import { DouProduct } from "@/components/editor/viewport/models/products/Duo";
 
 // import { Product } from "@/components/editor/interface/Product";
 
