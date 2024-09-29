@@ -6,7 +6,7 @@ import AuthWrapper from "./AuthWrapper";
 import { poppins, figtree } from "./fonts";
 import StyledComponentsRegistry from "./registry";
 import { EditorProvider } from "./context/useEditorContext";
-// import { UserProvider } from "./context/useUserContext";
+import { UserProvider } from "./context/useUserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,13 +26,13 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.variable} ${figtree.variable}`}>
       <body className={inter.className}>
         <StyledComponentsRegistry>
-          {/* <UserProvider> */}
+          <UserProvider>
             <ProjectProvider>
               <EditorProvider>
                 <AuthWrapper>{children}</AuthWrapper>
               </EditorProvider>
             </ProjectProvider>
-          {/* </UserProvider> */}
+          </UserProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

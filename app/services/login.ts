@@ -30,8 +30,8 @@ export const handleSignUp = async (email: string, password: string, setError: (e
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         try {
             await updateProfile(userCredential.user, {
-                displayName: "Jane Q. User",
-                photoURL: "https://example.com/jane-q-user/profile.jpg"
+                displayName: "",
+                // photoURL: ""
             });
             // Profile updated!
         } catch (error) {
@@ -50,17 +50,18 @@ export const handleSignUp = async (email: string, password: string, setError: (e
 
 
 export const handleSignIn = async (email: string, password: string, setError: (error: string) => void) => {
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
-
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        console.log('User signed in:', user);
+    } catch (error) {
+        if (error instanceof FirebaseError) {
+            setError(error.message);
+        } else {
+            setError('An unknown error occurred.');
+        }
+        console.error('Sign in failed:', error);
+    }
 };
 
 

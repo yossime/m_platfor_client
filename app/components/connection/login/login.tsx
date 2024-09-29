@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState, ChangeEvent } from "react";
 import Input from "@/components/Library/input/Input";
 import Text from "@components/Library/text/Text";
@@ -23,6 +22,8 @@ import Button from "@/components/Library/button/Button";
 import { FontFamily, FontWeight, TextSize } from "@constants/text";
 import { TextColor } from "@constants/colors";
 import GoogleLoginButton from "@/components/Library/button/GoogleLoginButton";
+import { fetchSignInMethodsForEmail } from "firebase/auth"; 
+import { auth } from '@/services/firebase';
 
 interface LoginComponentProps {
   setLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -44,27 +45,41 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
 
   const handleLoginClick = () => setLogin(false);
 
+  const checkIfUserExists = async () => {
+    try {
+      const methods = await fetchSignInMethodsForEmail(auth, email);
+      if (methods.length > 0) {
+        setInputPassword(true);
+        setUserExists(true);
+        setGoogleButton(false);
+      } else {
+        setUserExists(false);
+        setInputPassword(false);
+        setGoogleButton(true);
+      }
+    } catch (error: any) {
+      setError("Failed to check if user exists.");
+      console.error("Error checking user:", error);
+    }
+  };
+
   const handleLogin = async () => {
     try {
-      await handleSignIn(email, password, setError);
-    } catch (error: any) {
-      switch (error.code) {
-        case "auth/wrong-password":
-          setGoogleButton(false);
-          setInputPassword(true);
-          break;
-        case "auth/user-not-found":
-          setUserExists(false);
-          break;
-        default:
-          setError(error.message);
-          break;
+      if (inputPassword) {
+        await handleSignIn(email, password, setError);
+      } else {
+        await checkIfUserExists();
       }
+    } catch (error: any) {
+      setError(error.message);
+      console.error("Sign in failed:", error);
     }
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    setInputPassword(false); 
+    setError(""); 
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -102,17 +117,17 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
             <GoogleLoginButton onClick={() => handleGoogleLogin(setError)} />
           </>
         )}
-        {userExists && (
+        {userExists && !inputPassword && (
           <>
             <Spacer />
-            <Button
-              type={ButtonType.NEGATIVE}
-              variant={ButtonVariant.PRIMARY}
-              size={ButtonSize.MEDIUM}
-              mode={ButtonMode.NORMAL}
-              text="We couldn't find this email. Would you like to sign up with this email address?"
-              fullWidth={true}
-            />
+            <Text
+              size={TextSize.TEXT1}
+              $weight={FontWeight.NORMAL}
+              color={TextColor.PRIMARY_TEXT}
+              $family={FontFamily.Figtree}
+            >
+              We couldn't find this email. Would you like to sign up with this email address?
+            </Text>
           </>
         )}
         <Spacer />
@@ -145,7 +160,7 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
           variant={ButtonVariant.PRIMARY}
           size={ButtonSize.MEDIUM}
           mode={ButtonMode.NORMAL}
-          text="Continue"
+          text={inputPassword ? "Login" : "Continue"}
           onClick={handleLogin}
           fullWidth={true}
         />
