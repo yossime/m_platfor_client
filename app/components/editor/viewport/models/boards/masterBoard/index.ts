@@ -4,6 +4,7 @@ import { Board } from '../Board';
 import { Object3D } from 'three';
 
 export abstract class MasterBoardABC extends Board {
+    
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
         // if(options?.exportedScenObj?.format) {

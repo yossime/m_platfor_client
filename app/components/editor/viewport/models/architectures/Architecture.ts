@@ -84,7 +84,7 @@ export class Architecture extends SceneObject implements IArchitecture {
     public buildFromJson(exportedObj: ExportedSceneObject) {
         super.buildFromJson(exportedObj);
 
-        exportedObj.children.forEach(childData => {
+        exportedObj.children?.forEach(childData => {
             const board = createBoardByType(childData.type as BoardType, { exportedScenObj: childData });
             this.addChild(board, childData.slotNumber);
         })

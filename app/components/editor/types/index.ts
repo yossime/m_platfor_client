@@ -317,7 +317,7 @@ export enum FormatBoard {
   Model = "model",
   Frame = "frame",
   Simple = "simple",
-  Podiums = "podiums",
+  Podium = "podium",
   Duo ="duo",
   Side ="side",
 }

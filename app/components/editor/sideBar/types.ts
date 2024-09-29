@@ -94,7 +94,7 @@ export const formats: Record<BoardType, FormatBoard[]> = {
   [BoardType.Video]: [FormatBoard.Simple, FormatBoard.Frame],
   [BoardType.Header]: [FormatBoard.Simple, FormatBoard.Frame,FormatBoard.Model],
   [BoardType.Image]:  [FormatBoard.Simple, FormatBoard.Frame],
-  [BoardType.Product]: [FormatBoard.Podiums, FormatBoard.Duo],
+  [BoardType.Product]: [FormatBoard.Podium, FormatBoard.Duo],
   [BoardType.Form]: [FormatBoard.Simple],
   [BoardType.Subscription]: [FormatBoard.Simple],
   [BoardType.Slider]: [FormatBoard.Simple, FormatBoard.Frame],

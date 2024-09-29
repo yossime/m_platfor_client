@@ -1,4 +1,4 @@
-import { ISceneObjectOptions, ISceneObject, ContentDataType } from '@/components/editor/types/index';
+import { ISceneObjectOptions, ISceneObject, ContentDataType, FormatBoard } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
 import { MasterBoardABC } from '.';
 

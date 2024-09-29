@@ -16,7 +16,7 @@ import { SceneObject } from "../SceneObject";
 
 export abstract class Board extends SceneObject {
   public slotNumber = -1;
-  protected abstract format: FormatBoard;
+  protected format?: FormatBoard;
   protected selectedSlot: CustomObject3D | null = null;
   protected configuration = new Map<EConfigType, EConfiguration>([
     [EConfigType.HORIZONTAL, EConfiguration.CENTER],
@@ -42,7 +42,7 @@ export abstract class Board extends SceneObject {
 
   public getConfiguration(): Map<EConfigType, EConfiguration> | null { return this.configuration };
 
-  public getFormat(): FormatBoard | null { return this.format };
+  public getFormat(): FormatBoard | null { return this.format! };
 
   public getLogoConfiguration(): Map<EConfigType, EConfiguration> | null { return null };
 

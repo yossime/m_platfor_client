@@ -1,4 +1,4 @@
-import { ISceneObjectOptions } from '@/components/editor/types/index';
+import { FormatBoard, ISceneObjectOptions } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
 import { FormBoardABC } from '.';
 

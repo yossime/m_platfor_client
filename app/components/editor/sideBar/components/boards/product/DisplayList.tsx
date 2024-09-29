@@ -10,8 +10,7 @@ import Icon from "@/components/Library/icon/Icon";
 import { IconColor } from "@constants/colors";
 import PopupEditDisplay from "./PopupEditDisplay";
 import { ISceneObject, StandType } from '@/components/editor/types/index';
-import { Product } from "@/components/editor/viewport/models/products/Podium";
-import { DouProduct } from "@/components/editor/viewport/models/products/Duo";
+
 
 // import { Product } from "@/components/editor/interface/Product";
 
@@ -62,12 +61,12 @@ export const DisplayList: React.FC = () => {
   };
 
   const handleAddDisplay = () => {
-    if (!selectedObject || availableSlots === 0) return;
-    const newDisplay = new DouProduct(StandType.ProductDuo);
-    if (newDisplay)
-      selectedObject.addChild!(newDisplay);
+    // if (!selectedObject || availableSlots === 0) return;
+    // const newDisplay = new DouProduct(StandType.ProductDuo);
+    // if (newDisplay)
+    //   selectedObject.addChild!(newDisplay);
 
-    setDisplays([...displays, newDisplay]);
+    // setDisplays([...displays, newDisplay]);
     setAvailableSlots(availableSlots - 1);
   };
 

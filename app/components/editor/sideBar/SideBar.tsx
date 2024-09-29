@@ -21,20 +21,16 @@ import Text from "@/components/Library/text/Text";
 import { TextSize } from "@constants/text";
 import Icon from "@/components/Library/icon/Icon";
 import { IconName } from "@constants/icon";
-import { BoardType, ISceneObject } from "../types";
 import { Board } from "../viewport/models/boards/Board";
 import { useProject } from "@/context/useProjectContext";
 import { useCamera } from "@/context/CameraContext";
 import { useRouter } from "next/navigation";
 import { Divider, Divider2 } from "./components/CommonStyles";
 import Collapsible from "@/components/Library/general/Collapsible";
-import SelectInput from "@/components/Library/input/SelectInput";
-import { InputMode, InputSize } from "@constants/input";
+
 
 const Sidebar: React.FC = () => {
   const {
-    cameraDirection,
-    cameraPosition,
     setCameraPosition,
     setCameraDirection,
   } = useCamera();
