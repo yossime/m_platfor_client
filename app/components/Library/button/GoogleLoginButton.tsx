@@ -22,8 +22,7 @@ const StyledButton = styled.button`
   transition: background-color 0.3s, box-shadow 0.3s;
 
   &:hover {
-    background-color: #6f42d7;
-    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+    background-color: #0060B9;
   }
 
   &:focus {

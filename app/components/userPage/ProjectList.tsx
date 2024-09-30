@@ -105,17 +105,16 @@ const ProjectList: React.FC = () => {
         <CreateProjectBox
           disabled={true}
           onClick={() => {
-            /* handle URL creation */
           }}
           text="Create with URL"
         />
         <CreateProjectBox
           disabled={true}
           onClick={() => {
-            /* handle AI creation */
           }}
           text="Create with AI"
           />
+          
         {projects.map((project) => (
             <ProjectBox
               key={project.id}

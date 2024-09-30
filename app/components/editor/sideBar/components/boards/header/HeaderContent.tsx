@@ -9,9 +9,12 @@ import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import { BoardType, ContentDataType } from "@/components/editor/types/index";
 import { ChooseBoardFormat, FormatBoard } from "../../FormatBoard";
 import { useBoardContent } from "../../useBoardContent";
+import { useSidebarContext } from "@/context/SidebarContext ";
 
 export const HeaderContentComponent: React.FC = () => {
   const { getFormat } = useBoardContent();
+  const {showformatBoard} = useSidebarContext()
+
   const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(
     getFormat()
   );
@@ -33,7 +36,7 @@ export const HeaderContentComponent: React.FC = () => {
 
   return (
     <>
-      {formatBoard === null ? (
+      {showformatBoard ? (
         <ChooseBoardFormat
           boardType={BoardType.Header}
         />

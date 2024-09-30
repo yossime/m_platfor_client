@@ -12,12 +12,12 @@ import { FormStyleComponent } from './boards/form/FormStyle';
 import { SocialsStyleComponent } from './boards/socials/SocialsStyle';
 import { ArticleStyleComponent } from './boards/article/ArticleStyle';
 import { SubscriptionStyleComponent } from './boards/subscription/SubscriptionStyle';
+import { useSidebarContext } from '@/context/SidebarContext ';
 
-interface StyleComponentProps {
-  activeSidebarHeader: HeaderType;
-}
 
-export const StyleComponent: React.FC<StyleComponentProps> = ({ activeSidebarHeader }) => {
+export const StyleComponent: React.FC = () => {
+  const {activeSidebarHeader} = useSidebarContext()
+
   switch (activeSidebarHeader) {
     case 'Header':
       return <HeaderStyleComponent />;

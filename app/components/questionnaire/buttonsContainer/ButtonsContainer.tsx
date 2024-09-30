@@ -18,7 +18,6 @@ const ButtonsContainer: React.FC = () => {
   const { user } = useAuth();
   const router = useRouter();
   const { setCurrentProject, projects, setProjects, setProjectName } = useProject();
-  const [error, setError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChangeIndex = useCallback((move: number) => {
@@ -33,17 +32,17 @@ const ButtonsContainer: React.FC = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    const newProject = {
+      projectName: contextData.Name.value,
+      projectParams: contextData
+    };
+    router.push('/editor');
     try {
-      const newProject = {
-        projectName: contextData.Name.value,
-        projectParams: contextData
-      };
-      await router.push('/editor');
       const result = await createProject(newProject, user);
       toast.success('Project created successfully!');
       setProjects([...projects, { id: result.projectId, projectName: contextData.Name.value }]);
       setCurrentProject(result.projectId);
-      setProjectName(contextData.Name.value)
+      setProjectName(contextData.Name.value);
     } catch (error) {
       console.error('Error creating project:', error);
       toast.error('Failed to create project. Please try again.');
@@ -51,7 +50,7 @@ const ButtonsContainer: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-
+  
 
   
 

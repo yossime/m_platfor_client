@@ -25,7 +25,6 @@ export const StyledButton = styled.button<StyledButtonProps>`
   justify-content: center;
   cursor:pointer ;
   border-radius: 4px;
-  /* width: 100%; */
   min-width: ${(props) => (props.$fullWidth ? "100%" : "auto")};
   transform: translateY(0);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -38,10 +37,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
           props.$variant,
           props.$mode
         )};
-        transform: translateY(-0.5px);
-        box-shadow:
-          0 2px 4px rgba(0, 0, 0, 0.2),
-          0 3px 3px rgba(0, 0, 0, 0.15);
+   
       }
     `}
 

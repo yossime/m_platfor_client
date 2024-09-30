@@ -9,17 +9,14 @@ import { FontWeight, TextSize } from "@constants/text";
 import { IconSize } from "@constants/icon";
 import Tooltip from "@/components/Library/general/Tooltip";
 import { createBoardByType } from "../../utils/CraeteBoard";
+import { useSidebarContext } from "@/context/SidebarContext ";
 
-interface ChooseBoardWidgetComponentProps {
-  setActiveSidebarHeader: (header: HeaderType) => void;
-}
 
-export const ChooseBoardWidgetComponent: React.FC<
-  ChooseBoardWidgetComponentProps
-> = ({ setActiveSidebarHeader }) => {
+export const ChooseBoardWidgetComponent: React.FC = () => {
   const { sceneModel } = useEditor();
   const [selectedWidget, setSelectedWidget] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<number>(0);
+  const {setShowFormatBoard: setFormatBoard , setActiveSidebarHeader} = useSidebarContext()
 
   useEffect(() => {
     if (sceneModel?.root) {
@@ -38,6 +35,7 @@ export const ChooseBoardWidgetComponent: React.FC<
     if (sceneModel?.root && newBoard) {
       sceneModel.root.addChild(newBoard);
       sceneModel.setSelectedObject(newBoard);
+      setFormatBoard(true)
       setActiveSidebarHeader(widget.name as HeaderType);
     }
   };

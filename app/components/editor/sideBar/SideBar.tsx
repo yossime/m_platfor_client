@@ -27,6 +27,7 @@ import { useCamera } from "@/context/CameraContext";
 import { useRouter } from "next/navigation";
 import { Divider, Divider2 } from "./components/CommonStyles";
 import Collapsible from "@/components/Library/general/Collapsible";
+import { useSidebarContext } from "@/context/SidebarContext ";
 
 
 const Sidebar: React.FC = () => {
@@ -38,12 +39,8 @@ const Sidebar: React.FC = () => {
   const { projectName, projects } = useProject();
   const { sceneModel } = useEditor();
   const router = useRouter();
-  const [activeSidebarHeader, setActiveSidebarHeader] =
-    useState<HeaderType>("World");
-  const [activeSidebarSubMenu, setActiveSidebarSubMenu] =
-    useState<SubMenuType>("Edit");
   const [isOpen, setIsOpen] = useState(true);
-
+  const {setActiveSidebarHeader,activeSidebarHeader,setActiveSidebarSubMenu,activeSidebarSubMenu} = useSidebarContext()
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
     if (selectedObject && selectedObject instanceof Board) {
@@ -156,18 +153,10 @@ const Sidebar: React.FC = () => {
           <ScrollableContent>
             {activeSidebarHeader !== "Choose Board Widget" && (
               <SubHeaderContainer>
-                <HeaderMenu
-                  setActiveSidebarHeader={setActiveSidebarHeader}
-                  activeSidebarHeader={activeSidebarHeader}
-                  activeSidebarSubMenu={activeSidebarSubMenu}
-                  setActiveSidebarSubMenu={setActiveSidebarSubMenu}
-                />
+                <HeaderMenu  />
               </SubHeaderContainer>
             )}
             <ContentArea
-              activeSidebarHeader={activeSidebarHeader}
-              activeSidebarSubMenu={activeSidebarSubMenu}
-              setActiveSidebarHeader={setActiveSidebarHeader}
               handleBackOrAdd={handleBackOrAdd}
             />
           </ScrollableContent>

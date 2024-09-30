@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import Input from "@/components/Library/input/Input";
 import Text from "@components/Library/text/Text";
 import {
@@ -17,73 +17,62 @@ import {
   Link,
   TextContainer,
   BottomContainer,
+  FormContainer,
 } from "./LoginStyles";
 import Button from "@/components/Library/button/Button";
 import { FontFamily, FontWeight, TextSize } from "@constants/text";
 import { TextColor } from "@constants/colors";
 import GoogleLoginButton from "@/components/Library/button/GoogleLoginButton";
-import { fetchSignInMethodsForEmail } from "firebase/auth"; 
-import { auth } from '@/services/firebase';
+import TextWithDivider from "@/components/Library/general/TextWithDivider ";
 
 interface LoginComponentProps {
   setLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
-  const [googleButton, setGoogleButton] = useState<boolean>(true);
-  const [inputPassword, setInputPassword] = useState<boolean>(false);
   const [userExists, setUserExists] = useState<boolean>(false);
+  const [errorEmail, setErrorEmail] = useState<boolean>(false);
+  const [errorGoogle, setErrorGoogle] = useState<string>("");
 
-  const { email, setEmail, password, setPassword, error, setError } =
-    useLogin();
+  const { email, setEmail, password, setPassword } = useLogin();
+  const [errors, setErrors] = useState<{ email: string; password: string }>({
+    email: "",
+    password: "",
+  });
 
   useEffect(() => {
-    setGoogleButton(true);
-    setInputPassword(false);
     setUserExists(false);
   }, []);
 
   const handleLoginClick = () => setLogin(false);
 
-  const checkIfUserExists = async () => {
-    try {
-      const methods = await fetchSignInMethodsForEmail(auth, email);
-      if (methods.length > 0) {
-        setInputPassword(true);
-        setUserExists(true);
-        setGoogleButton(false);
-      } else {
-        setUserExists(false);
-        setInputPassword(false);
-        setGoogleButton(true);
-      }
-    } catch (error: any) {
-      setError("Failed to check if user exists.");
-      console.error("Error checking user:", error);
-    }
-  };
+  const handleLogin = async (e: FormEvent) => {
+    e.preventDefault();
 
-  const handleLogin = async () => {
-    try {
-      if (inputPassword) {
-        await handleSignIn(email, password, setError);
-      } else {
-        await checkIfUserExists();
-      }
-    } catch (error: any) {
-      setError(error.message);
-      console.error("Sign in failed:", error);
+    const newErrors = { email: "", password: "" };
+    let valid = true;
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+      valid = false;
     }
+
+    if (!valid) {
+      setErrors(newErrors);
+      return;
+    }
+
+    handleSignIn(email, password, setErrors, setErrorEmail);
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    setInputPassword(false); 
-    setError(""); 
+    setErrors({ ...errors, email: "" });
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+    setErrors({ ...errors, password: "" });
   };
 
   return (
@@ -107,17 +96,30 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
           >
             Don't have an account?
           </Text>
-          <Link onClick={handleLoginClick}>sign up</Link>
+          <Text
+            size={TextSize.TEXT1}
+            $weight={FontWeight.NORMAL}
+            color={TextColor.LINK}
+            $family={FontFamily.Figtree}
+            onClick={handleLoginClick}
+            $cursorStyle="pointer"
+          >
+            sing up
+          </Text>
         </LinkContainer>
       </TextContainer>
       <BottomContainer>
-        {googleButton && (
+        {!userExists && (
           <>
             <Spacer />
-            <GoogleLoginButton onClick={() => handleGoogleLogin(setError)} />
+            <GoogleLoginButton
+              onClick={() => handleGoogleLogin(setErrorGoogle)}
+            />
+            <Spacer />
+            <TextWithDivider text="Or, log in with your email" />
           </>
         )}
-        {userExists && !inputPassword && (
+        {/* {!userExists && errorEmail && (
           <>
             <Spacer />
             <Text
@@ -126,44 +128,43 @@ const LoginComponent: React.FC<LoginComponentProps> = ({ setLogin }) => {
               color={TextColor.PRIMARY_TEXT}
               $family={FontFamily.Figtree}
             >
-              We couldn't find this email. Would you like to sign up with this email address?
+              "We couldn't find this email. Would you like to sign up with this
+              email address?"
             </Text>
           </>
-        )}
+        )} */}
         <Spacer />
-        <Input
-          inputSize={InputSize.MEDIUM}
-          mode={InputMode.NORMAL}
-          label="Email"
-          placeholder="Name@example.com"
-          value={email}
-          onChange={handleEmailChange}
-          helperText="Enter a valid email address"
-        />
-        {inputPassword && (
-          <>
-            <Spacer />
-            <Input
-              inputSize={InputSize.MEDIUM}
-              mode={InputMode.NORMAL}
-              label="Password"
-              placeholder="Enter at least 8 characters"
-              value={password}
-              onChange={handlePasswordChange}
-              helperText="Enter your password"
-            />
-          </>
-        )}
-        <Spacer />
-        <Button
-          type={ButtonType.PRIMARY}
-          variant={ButtonVariant.PRIMARY}
-          size={ButtonSize.MEDIUM}
-          mode={ButtonMode.NORMAL}
-          text={inputPassword ? "Login" : "Continue"}
-          onClick={handleLogin}
-          fullWidth={true}
-        />
+        <FormContainer onSubmit={handleLogin}>
+          <Input
+            inputSize={InputSize.MEDIUM}
+            mode={errors.email ? InputMode.ERROR : InputMode.NORMAL}
+            label="Email"
+            placeholder="Name@example.com"
+            value={email}
+            onChange={handleEmailChange}
+            helperText={errors.email || "Enter a valid email address"}
+          />
+          <Spacer />
+          <Input
+            type="password"
+            inputSize={InputSize.MEDIUM}
+            mode={errors.password ? InputMode.ERROR : InputMode.NORMAL}
+            label="Password"
+            placeholder="Enter at least 8 characters"
+            value={password}
+            onChange={handlePasswordChange}
+            helperText={errors.password || "Enter your password"}
+          />
+          <Spacer />
+          <Button
+            type={ButtonType.PRIMARY}
+            variant={ButtonVariant.PRIMARY}
+            size={ButtonSize.MEDIUM}
+            mode={ButtonMode.NORMAL}
+            text={userExists ? "Login" : "Continue"}
+            fullWidth={true}
+          />
+        </FormContainer>
       </BottomContainer>
     </Container>
   );

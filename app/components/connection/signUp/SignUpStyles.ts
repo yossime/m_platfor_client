@@ -1,7 +1,7 @@
   import styled from 'styled-components';
   export const Container = styled.div`
   height: 100vh;
-  width: 658px;
+  width: 404px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,6 +18,13 @@ width:100%;
   gap :8px ;
 `;
 
+
+export const FormContainer = styled.form`
+width:100%;
+  display: flex;
+  flex-direction: column;
+  gap :8px ;
+`;
 export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -25,14 +32,16 @@ export const TextContainer = styled.div`
 
 `;
 
-
-  
   export const Spacer = styled.div`
     height: auto;
   `;
   
   export const LinkContainer = styled.div`
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap:4px;
+    text-align: center;
     align-items: center;
   `;
   

@@ -1,9 +1,9 @@
 import { FontFamily } from "@constants/text";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import Popup from "../Library/general/Popup";
 import Button from "../Library/button/Button";
 import { ButtonSize, ButtonType, ButtonVariant } from "@constants/button";
+import SignUpPopup from "../Library/general/SingUpPopup";
 
 interface UserAvatarProps {
   name: string;
@@ -36,15 +36,15 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 `;
-const UserContainer = styled.div`
 
+const UserContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
   width: 100px;
   height: 200px;
-
 `;
+
 const AvatarText = styled.span<{ $size: number; $color: string }>`
   font-size: ${(props) => props.$size / 3}px;
   color: ${(props) => props.$color};
@@ -62,7 +62,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   size = 40,
   backgroundColor = "#1a73e8",
   color = "#ffffff",
-  onSignOut
+  onSignOut,
 }) => {
   const initials = name
     .split(" ")
@@ -71,15 +71,13 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
     .toUpperCase()
     .slice(0, 2);
 
+  const [showPopup, setShowPopup] = useState<boolean>(false);
 
-  const [showPopup, setShowPopuo] = useState<boolean>(false);
-  const ref = useRef<HTMLDivElement>(null);
   return (
     <AvatarContainer
-      ref={ref}
       $size={size}
       $backgroundColor={backgroundColor}
-      onClick={()=>setShowPopuo(true)}
+      onClick={() => setShowPopup(true)}
     >
       {imageUrl ? (
         <AvatarImage src={imageUrl} alt={name} />
@@ -89,16 +87,17 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
         </AvatarText>
       )}
       {showPopup && (
-        <Popup
-          parentRef={ref}
-          isCentered={false}
-          onClose={() => {setShowPopuo(false)}}
-        >
+        <SignUpPopup onClose={() => setShowPopup(false)}>
           <UserContainer>
-          <Button size={ButtonSize.SMALL} type={ButtonType.PRIMARY} variant={ButtonVariant.PRIMARY} text="Sing out" onClick={onSignOut}/>
+            <Button
+              size={ButtonSize.SMALL}
+              type={ButtonType.PRIMARY}
+              variant={ButtonVariant.PRIMARY}
+              text="Sign out"
+              onClick={onSignOut}
+            />
           </UserContainer>
-
-        </Popup>
+        </SignUpPopup>
       )}
     </AvatarContainer>
   );

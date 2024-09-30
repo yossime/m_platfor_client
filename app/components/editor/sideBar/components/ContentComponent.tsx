@@ -1,5 +1,4 @@
 import React from 'react';
-import { HeaderType } from '../types';
 import { SliderContentComponent } from './boards/slider/SliderContent';
 import { HeaderContentComponent } from './boards/header/HeaderContent';
 import { ImageContentComponent } from './boards/image/ImageContent';
@@ -12,12 +11,13 @@ import { SocialsContentComponent } from './boards/socials/SocialsContent';
 import { ArticleContentComponent } from './boards/article/ArticleContent';
 import { ProductContentComponent } from './boards/product/ProductContent';
 import { SubscriptionContentComponent } from './boards/subscription/SubscriptionContent';
+import { useSidebarContext } from '@/context/SidebarContext ';
 
-interface ContentComponentProps {
-  activeSidebarHeader: HeaderType;
-}
 
-export const ContentComponent: React.FC<ContentComponentProps> = ({ activeSidebarHeader }) => {
+
+export const ContentComponent: React.FC = () => {
+  const {activeSidebarHeader} = useSidebarContext()
+
   switch (activeSidebarHeader) {
     case 'Header':
       return <HeaderContentComponent />;

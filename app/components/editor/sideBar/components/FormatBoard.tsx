@@ -10,6 +10,7 @@ import Text from "@/components/Library/text/Text";
 import { FontWeight, TextSize } from "@constants/text";
 import { BoardType, FormatBoard } from "../../types";
 import { useBoardContent } from "./useBoardContent";
+import { useSidebarContext } from "@/context/SidebarContext ";
 
 export const WidgetContainer = styled.div`
   display: flex;
@@ -71,6 +72,8 @@ interface ChooseBoardWidgetComponentProps {
 export const ChooseBoardFormat: React.FC<ChooseBoardWidgetComponentProps> = ({
   boardType
 }) => {
+  const {setShowFormatBoard} = useSidebarContext()
+
   const { getFormat,setFormat } = useBoardContent();
   const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(
     getFormat()
@@ -82,6 +85,7 @@ export const ChooseBoardFormat: React.FC<ChooseBoardWidgetComponentProps> = ({
   const handleWidgetClick = (format: FormatBoard) => {
     setFormat(format);
     setFormatBoard(format);
+    setShowFormatBoard(false)
   };
 
   return (

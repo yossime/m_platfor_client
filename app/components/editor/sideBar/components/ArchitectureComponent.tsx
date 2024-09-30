@@ -5,13 +5,13 @@ import { InputMode, InputSize } from '@constants/input';
 import { ButtonMode, ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 import { FontWeight, TextSize } from '@constants/text';
 import { IconName, IconSize } from '@constants/icon';
-import SelectInput from '@/components/Library/input/SelectInput';
 import Icon from '@/components/Library/icon/Icon';
 import Button from '@/components/Library/button/Button';
 import Text from '@/components/Library/text/Text';
 import { IconColor } from '@constants/colors';
 import { SubButton, SubContainer, SubWrapper, Container, Divider } from './CommonStyles';
 import { ESkybox } from '../../types';
+import { useSidebarContext } from '@/context/SidebarContext ';
 
 const options = [
   { value: ESkybox.DEFAULT, label: "Default" },
@@ -19,11 +19,12 @@ const options = [
 ];
 
 interface ArchitectureComponentProps {
-  setActiveSidebarHeader: (header: any) => void;
   handleBackOrAdd: () => void;
 }
 
-export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ handleBackOrAdd, setActiveSidebarHeader }) => {
+export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ handleBackOrAdd }) => {
+  const {setActiveSidebarHeader} = useSidebarContext()
+
   const { sceneModel } = useEditor();
   const [panels, setPanels] = useState<any[]>([]);
 

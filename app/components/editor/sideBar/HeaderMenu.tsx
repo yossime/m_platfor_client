@@ -8,6 +8,7 @@ import Text from '@/components/Library/text/Text';
 import { TextSize } from '@constants/text';
 import { IconSize } from '@constants/icon';
 import Tooltip from '@/components/Library/general/Tooltip';
+import { useSidebarContext } from '@/context/SidebarContext ';
 
 const MenuContainer = styled.div`
   display: flex;
@@ -68,19 +69,10 @@ const IconWrapper = styled.div`
   /* margin-bottom: 2px; */
 `;
 
-interface HeaderMenuProps {
-  activeSidebarHeader: HeaderType;
-  activeSidebarSubMenu: SubMenuType;
-  setActiveSidebarSubMenu: (subMenu: SubMenuType) => void;
-  setActiveSidebarHeader:(headr: HeaderType) => void;
-}
 
-export const HeaderMenu: React.FC<HeaderMenuProps> = ({ 
-  activeSidebarHeader, 
-  activeSidebarSubMenu, 
-  setActiveSidebarSubMenu ,
-  setActiveSidebarHeader
-}) => {
+
+export const HeaderMenu: React.FC = () => {
+  const {setActiveSidebarHeader,activeSidebarHeader,setActiveSidebarSubMenu,activeSidebarSubMenu} = useSidebarContext()
 
   useEffect(() => {
     const validHeaders: HeaderType[] = widgets.map(widget => widget.name).concat(['World', 'Choose Board Widget']);

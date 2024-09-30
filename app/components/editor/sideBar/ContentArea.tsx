@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { HeaderType, SubMenuType } from './types';
-
 import { GlobalComponent } from './components/GlobalComponent';
 import { ArchitectureComponent } from './components/ArchitectureComponent';
 import { ContentComponent } from './components/ContentComponent';
 import { StyleComponent } from './components/StyleComponent';
 import { ChooseBoardWidgetComponent } from './components/ChooseBoardWidgetComponent';
+import { useSidebarContext } from '@/context/SidebarContext ';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -19,16 +18,15 @@ const ContentContainer = styled.div`
 `;
 
 interface ContentAreaProps {
-  activeSidebarHeader: HeaderType;
-  activeSidebarSubMenu: SubMenuType;
-  setActiveSidebarHeader: (header: any) => void;
   handleBackOrAdd: () => void;
 }
 
-export const ContentArea: React.FC<ContentAreaProps> = ({ activeSidebarHeader, activeSidebarSubMenu, setActiveSidebarHeader,handleBackOrAdd }) => {
+export const ContentArea: React.FC<ContentAreaProps> = ({ handleBackOrAdd }) => {
+  const {activeSidebarHeader,activeSidebarSubMenu} = useSidebarContext()
+
   const renderComponent = () => {
     if (activeSidebarHeader === 'Choose Board Widget') {
-      return <ChooseBoardWidgetComponent  setActiveSidebarHeader={setActiveSidebarHeader} />;
+      return <ChooseBoardWidgetComponent />;
     }
 
     switch (activeSidebarSubMenu) {
@@ -36,12 +34,12 @@ export const ContentArea: React.FC<ContentAreaProps> = ({ activeSidebarHeader, a
         if (activeSidebarHeader === 'World') {
           return <GlobalComponent />;
         }
-        else  return <StyleComponent activeSidebarHeader={activeSidebarHeader} />;
+        else  return <StyleComponent/>;
       case 'Edit':
         if (activeSidebarHeader === 'World') {
-          return <ArchitectureComponent handleBackOrAdd={handleBackOrAdd} setActiveSidebarHeader={setActiveSidebarHeader}/>;
+          return <ArchitectureComponent handleBackOrAdd={handleBackOrAdd} />;
         }
-        else  return <ContentComponent activeSidebarHeader={activeSidebarHeader} />;
+        else  return <ContentComponent  />;
       default:
         return <div>No component available for this selection.</div>;
     }

@@ -1,17 +1,19 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  position: absolute;
+  top: 215px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   width: 658px;
-  scrollbar-width: thin;
-  scrollbar-color: #dedcff transparent;
   gap: 40px;
-  margin: 0;
+  margin-bottom: 80px;
 `;
+
 
 export const TextContainer = styled.div`
   display: flex;

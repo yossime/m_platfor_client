@@ -1,6 +1,4 @@
-// textConstants.ts
 
-import { overlay } from "three/examples/jsm/nodes/Nodes.js";
 import { TextColor } from "./colors";
 
 export enum TextSize {
@@ -12,6 +10,17 @@ export enum TextSize {
     H3 = '18px',
     TEXT1 = '16px',
     TEXT2 = '14px',
+}
+
+export enum TextLine {
+    D1 = '64px',
+    D2 = '52px',
+    D3 = '44px',
+    H1 = '40px',
+    H2 = '30px',
+    H3 = '24px',
+    TEXT1 = '22px',
+    TEXT2 = '20px',
 }
 
 export enum FontFamily {

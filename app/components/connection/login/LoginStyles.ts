@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   height: 100vh;
-  width: 658px;
+  width: 404px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,8 +31,12 @@ export const Spacer = styled.div`
 `;
 
 export const LinkContainer = styled.div`
-  display: flex;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap:4px;
+    text-align: center;
+    align-items: center;
 `;
 
 export const Link = styled.span`
@@ -40,4 +44,11 @@ export const Link = styled.span`
   color: var(--text-color-link);
   text-decoration: underline;
   margin-left: 5px;
+`;
+
+export const FormContainer = styled.form`
+width:100%;
+  display: flex;
+  flex-direction: column;
+  gap :8px ;
 `;
