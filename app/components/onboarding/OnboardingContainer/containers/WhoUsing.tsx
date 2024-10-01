@@ -6,6 +6,7 @@ import QuestionnaireIndexContainer from '../../OnboardingIndexContainer/Onboardi
 import { FontFamily, FontWeight,  TextSize } from '@constants/text';
 import { TextColor } from '@constants/colors';
 import { useOnboardingIndex } from '@/context/useOnboarding';
+import { getNextIndex } from '@/utils/onboardinUtils';
 
 
 
@@ -46,6 +47,7 @@ interface BoxData {
 const WhoUsing: React.FC = () => {          
     const { contextData, setContextData } = useOnboardingIndex();
     const [selected, setSelected] = useState<string>(contextData.WhoUsing.value);
+    const { currentIndex, setIndex } = useOnboardingIndex();
 
 
     const handleClick = (type: string) => {
@@ -58,6 +60,8 @@ const WhoUsing: React.FC = () => {
             valid: true
           }
         });
+        const newIndex = getNextIndex(currentIndex, 1);
+        setIndex(newIndex);
       };
 
     return (

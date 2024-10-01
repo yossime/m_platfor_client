@@ -54,5 +54,20 @@ import { useCallback, useState } from "react";
             }
         }, []);
 
-        return { createStripeAccount, createAccountSession, stripeConnectInstance };
+        const disconnectStripeAccount = useCallback(async () => {
+            try {
+                const response = await axios.post(`store/${currStoreId}/payment-gateway/stripe/disconnect`);
+                if (response.status === 200) {
+                    setStripeConnectInstance(null);
+                    console.log("Stripe account disconnected successfully");
+                } else {
+                    console.error("Failed to disconnect Stripe account");
+                }
+            } catch (error) {
+                console.error('Error disconnecting Stripe account:', error);
+            }
+        }, []);
+    
+
+        return { createStripeAccount, createAccountSession, stripeConnectInstance, disconnectStripeAccount};
     };

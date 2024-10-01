@@ -102,14 +102,6 @@ export const ContentPayment = styled.div`
   gap: 120px;
   flex-wrap: wrap;
   justify-content: center;
-
-  /* @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 80px;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-  } */
 `;
 
 export const TextContainer = styled.div`
@@ -136,8 +128,8 @@ export const ItemsContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  flex-grow: 1;
   width: 100%;
-  flex-shrink: 0;
   padding: 8px;
   margin-left: 8px;
   margin-right: 8px;

@@ -7,7 +7,7 @@ import {
   MenuItem,
   ContentWrapper,
 } from "./SubscriptionStyles";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import SubscriptionBox from "../Library/boxes/subscriptionBox/SubscriptionBox";
 import { FontFamily, FontWeight, TextSize } from "@constants/text";
 import { TextColor } from "@constants/colors";
@@ -87,14 +87,14 @@ const SubscriptionPlan: React.FC = () => {
   } = useSubscription();
   const router = useRouter();
 
-  const handleClick = (plan: Plans, price: number | string) => {
-    setPlan(plan);
+  const handleClick = useCallback((plans: Plans, price: number | string) => {
+    setPlan(plans);
     if (typeof price === "number") {
       setMonPrice(price);
     }
     router.push("/pricing_plans/payment");
+  }, [setPlan, setMonPrice, router]);
 
-  };
 
   return (
     <SubscriptionContainer>

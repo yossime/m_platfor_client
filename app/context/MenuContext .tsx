@@ -9,9 +9,9 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { name: 'Products', icon: IconName.ARROWLINELEFT },
-  { name: 'Accept payments', icon: IconName.ARROWLINELEFT  },
-  { name: 'Connect a domain', icon: IconName.ARROWLINELEFT  },
+  { name: 'Products', icon: IconName.BROWSER },
+  { name: 'Accept payments', icon: IconName.PIGGYBUNK  },
+  { name: 'Connect a domain', icon: IconName.CUBE  },
 ];
 
 interface MenuContextType {

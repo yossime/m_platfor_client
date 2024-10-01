@@ -1,25 +1,24 @@
-import React from 'react';
-import { useOnboardingIndex, OnboardingStatus } from '@context/useOnboarding';
+import React from "react";
+import { useOnboardingIndex, OnboardingStatus } from "@context/useOnboarding";
 import {
   IndexContainerWrapper,
   IndexWrapper,
   StageWrapper,
   StageIndicator,
-} from './OnboardingIndexContainerStyles';
-
+  getMotionProps
+} from "./OnboardingIndexContainerStyles";
 
 const enumValues = Object.values(OnboardingStatus);
 
 const OnboardingIndexContainer: React.FC = () => {
   const { currentIndex } = useOnboardingIndex();
 
-  const getStageStatus = (index: number, currentStatus: OnboardingStatus | null) => {
-    if (!currentStatus) return 'upcoming';
+  const getStageStatus = (index: number, currentStatus: OnboardingStatus) => {
     const currentStageIndex = enumValues.indexOf(currentStatus);
-    if (index < currentStageIndex) return 'completed';
-    if (index === currentStageIndex) return 'current';
-    return 'upcoming';
+  
+    return index === currentStageIndex ? "current" : "notCurrent";
   };
+  
 
   return (
     <IndexContainerWrapper>
@@ -29,7 +28,10 @@ const OnboardingIndexContainer: React.FC = () => {
           return (
             <React.Fragment key={status}>
               <StageWrapper>
-                <StageIndicator $status={stageStatus}/>
+                <StageIndicator
+                  $status={stageStatus}
+                  {...getMotionProps(stageStatus)}
+                />
               </StageWrapper>
             </React.Fragment>
           );

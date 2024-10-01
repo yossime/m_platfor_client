@@ -5,6 +5,7 @@ import {
   Includes,
   PriceContainer,
   TopContainer,
+  SubscriptionPrice,
 } from "./SubscriptionBoxStyles";
 import Text from "@components/Library/text/Text";
 import { FontFamily, FontWeight, TextSize } from "@constants/text";
@@ -41,11 +42,23 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
       const salePrice = Math.floor(price - price * 0.18);
       return !yearly ? (
         <>
+        <SubscriptionPrice>
           <Text
             size={TextSize.H1}
             $weight={FontWeight.SEMI_BOLD}
             color={TextColor.PRIMARY}
-          >{`$${price}/mo`}</Text>
+          >{`$${price}`}</Text>
+                  <Text
+            size={TextSize.H1}
+            $weight={FontWeight.LIGHT}
+            color={TextColor.PRIMARY}
+          >/</Text>
+             <Text
+            size={TextSize.TEXT1}
+            $weight={FontWeight.SEMI_BOLD}
+            color={TextColor.PRIMARY}
+          >mo</Text>
+          </SubscriptionPrice>
           <Text
             size={TextSize.TEXT2}
             $weight={FontWeight.NORMAL}

@@ -41,7 +41,11 @@ export const SideBarContainerMini = styled.div`
   align-items: flex-end;
 `;
 
-export const MenuItemContainer = styled.div`
+interface MenuItemContainerProps {
+  selected: boolean;
+}
+
+export const MenuItemContainer = styled.div<MenuItemContainerProps>`
   width: 314px;
   height: 32px;
   padding: 12px 16px;
@@ -49,10 +53,16 @@ export const MenuItemContainer = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  background-color: white;
-  &:hover {
-    /* background-color: #e6f7ff; */
-  }
+  gap:8px;
+  background-color: ${({ selected }) =>
+    selected ? BackgroundColor.PRIMARY_SELECTED_COLOR : "white"};
+  ${({ selected }) =>
+    !selected &&
+    `
+      &:hover {
+        background-color: ${BackgroundColor.PRIMARY_BACKGROUND_HOVER};
+      }
+    `}
 `;
 
 export const ActiveMenuItem = styled(MenuItemContainer)`
@@ -60,14 +70,14 @@ export const ActiveMenuItem = styled(MenuItemContainer)`
   color: #fff;
   font-weight: bold;
   &:hover {
-    background-color: #40a9ff;
+    background-color: white;
   }
 `;
 
 export const HeaderContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
   min-height: 40px;
   width: 100%;
   padding: 0 16px;
@@ -86,6 +96,7 @@ export const ProjectContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-align: center;
   min-height: 64px;
   width: 100%;
   padding: 0 16px;
@@ -103,8 +114,8 @@ export const TopLineContainer = styled.div`
 export const DashboardTitle = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 8px;
-  text-align: start;
 `;
 
 export const ProjectIcon = styled.div`
@@ -128,26 +139,21 @@ export const SubHeaderContainer = styled.div`
 `;
 
 export const ScrollableContent = styled.div`
+  padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
   flex-grow: 1;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 export const PaymentContent = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 208px;
-  background-color: white;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+
 `;
 export const DomainContent = styled.div`
   display: flex;
@@ -163,7 +169,7 @@ export const DomainContent = styled.div`
 export const DomainInputContent = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top:24px;
+  margin-top: 24px;
   width: 100%;
 `;
 export const DividerDomain = styled.div`
@@ -172,39 +178,45 @@ export const DividerDomain = styled.div`
   background-color: #e5e7eb;
 `;
 
-
 export const StripContainer = styled.div`
   display: flex;
   flex-direction: column;
-padding: 24px;
-  width: 100%;
-  height: 100%;
-  `;
+  width: 800px;
+  /* height: 208px; */
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+
+`;
 
 export const StripMassegContainer = styled.div`
-display: flex;
-flex-direction: row;
-width: 100%;
-height: 100%;
+  display: flex;
+  flex-direction: row;
+  gap:24px;
+  width: 100%;
+  height: 100%;
 `;
 export const StripContent = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
   gap: 8px;
-  `;
+`;
 export const CardContent = styled.div`
   display: flex;
   justify-content: center;
-  align-items: start;
+  top:0;
   width: 144px;
   height: 100px;
+
 `;
 export const TextContent = styled.div`
   margin: 8px;
   display: flex;
   flex-direction: column;
+  width: 250px;
   gap: 8px;
+
 `;
 export const ButtonContent = styled.div`
   margin: 8px;
@@ -215,9 +227,9 @@ export const ButtonContent = styled.div`
 `;
 
 export const ProductListContent = styled.div`
-width: 100%;
-display: flex;
-justify-content: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   flex-grow: 1;
   overflow-y: auto;
   scrollbar-width: none;

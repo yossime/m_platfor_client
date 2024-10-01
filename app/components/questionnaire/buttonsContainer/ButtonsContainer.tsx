@@ -98,7 +98,7 @@ const ButtonsContainer: React.FC = () => {
             <Button
               type={ButtonType.PRIMARY}
               variant={ButtonVariant.PRIMARY}
-              size={ButtonSize.SMALL}
+              size={ButtonSize.MEDIUM}
               mode={isCurrentPageValid(currentIndex, contextData) ? ButtonMode.NORMAL : ButtonMode.DISABLED}
               text={isSubmitting ? "Submitting..." : "Submit"}
               onClick={handleSubmit}
@@ -108,7 +108,7 @@ const ButtonsContainer: React.FC = () => {
             <Button
               type={ButtonType.PRIMARY}
               variant={ButtonVariant.PRIMARY}
-              size={ButtonSize.SMALL}
+              size={ButtonSize.MEDIUM}
               mode={isCurrentPageValid(currentIndex, contextData) ? ButtonMode.NORMAL : ButtonMode.DISABLED}
               text="Continue"
               onClick={() => handleChangeIndex(1)}

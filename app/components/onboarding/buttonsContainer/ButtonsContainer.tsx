@@ -63,6 +63,9 @@ const ButtonsContainer: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+  const handleSKip = async () => {
+    router.push("/userPage");
+  };
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
@@ -108,14 +111,14 @@ const ButtonsContainer: React.FC = () => {
           <Button
             type={ButtonType.PRIMARY}
             variant={ButtonVariant.PRIMARY}
-            size={ButtonSize.SMALL}
+            size={ButtonSize.MEDIUM}
             mode={
-              isCurrentPageValid(currentIndex, contextData)
+             (isCurrentPageValid(currentIndex, contextData) || !isLastPage)
                 ? ButtonMode.NORMAL
                 : ButtonMode.DISABLED
             }
-            text="Continue"
-            onClick={isLastPage ? handleSubmit : () => handleChangeIndex(1)}
+            text={isLastPage ?  "Submit" : "Skip" }
+            onClick={isLastPage ?  handleSubmit : handleSKip }
           />
         </RightButtonContainer>
       </StyledButtonsContainer>

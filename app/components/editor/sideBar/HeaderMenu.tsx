@@ -30,7 +30,6 @@ const MenuItem = styled.button<{ $active: boolean }>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
   padding: 4px 0;
   position: relative;
 
@@ -66,7 +65,6 @@ const MenuItem = styled.button<{ $active: boolean }>`
 `;
 
 const IconWrapper = styled.div`
-  /* margin-bottom: 2px; */
 `;
 
 

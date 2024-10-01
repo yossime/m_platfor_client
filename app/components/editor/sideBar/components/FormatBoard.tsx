@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import { formats, HeaderType, WidgetData, widgets } from "../types";
 import styled from "styled-components";

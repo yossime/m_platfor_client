@@ -7,6 +7,7 @@ import QuestionnaireIndexContainer from '../../OnboardingIndexContainer/Onboardi
 import { FontFamily, FontWeight,  TextSize } from '@constants/text';
 import { TextColor } from '@constants/colors';
 import { useOnboardingIndex } from '@/context/useOnboarding';
+import { getNextIndex } from '@/utils/onboardinUtils';
 
 
 
@@ -41,6 +42,7 @@ const data: BoxData[] = [
 const WhoUsingjob: React.FC = () => {
     const { contextData, setContextData } = useOnboardingIndex();
     const [selected, setSelected] = useState<string>(contextData.WhoUsingjob.value);
+    const { currentIndex, setIndex } = useOnboardingIndex();
 
 
     const handleClick = (type: string) => {
@@ -53,6 +55,8 @@ const WhoUsingjob: React.FC = () => {
             valid: true
           }
         });
+        const newIndex = getNextIndex(currentIndex, 1);
+        setIndex(newIndex);
       };
 
     return (

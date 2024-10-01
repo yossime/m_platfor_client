@@ -12,10 +12,9 @@ export const SubscriptionBoxContainer = styled.div`
   padding: 16px;
   overflow: hidden;
   box-shadow: 0px 4px 8px 0px #00000033;
-
   box-sizing: border-box; 
-  flex: 1 1 auto; 
-
+  flex-grow: 1;
+  flex-basis: 0;
 `;
 
 
@@ -31,9 +30,12 @@ export const SubscriptionTitle = styled.div`
   text-align: center;
 `;
 
+export const SubscriptionPrice = styled.div`
+
+`;
 
 export const TopContainer = styled.div`
-  height: 240px;
+  min-height: 240px;
 `;
 
 export const PriceContainer = styled.div`

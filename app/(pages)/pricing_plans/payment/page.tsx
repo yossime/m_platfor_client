@@ -4,32 +4,33 @@ import { loadStripe, Stripe } from "@stripe/stripe-js";
 import axios from "@/utils/axios";
 import SubscriptionPayment from "@/components/Subscription/SubscriptionPayment";
 import { Elements } from "@stripe/react-stripe-js";
-import { AlignCenter } from "lucide-react";
 
 const PaymentPage: React.FC = () => {
-  const [stripePromise, setStripePromise] =
-    useState<Promise<Stripe | null> | null>(null);
+  const [stripe, setStripe] = useState<Stripe | null>(null);
 
   useEffect(() => {
     const fetchConfig = async () => {
       try {
         const response = await axios.get("subscription/config");
         const { publishableKey } = response.data;
-        setStripePromise(loadStripe(publishableKey));
+        const loadedStripe = await loadStripe(publishableKey);
+        setStripe(loadedStripe); 
       } catch (error) {
         console.error("Error fetching config:", error);
       }
     };
 
-    fetchConfig();
-  }, []);
+    if (!stripe) {
+      fetchConfig(); 
+    }
+  }, [stripe]); 
 
-  if (!stripePromise) {
-    return <div >Loading payment system...</div>;
+  if (!stripe) {
+    return <div>Loading payment system...</div>; 
   }
 
   return (
-    <Elements stripe={stripePromise}>
+    <Elements stripe={stripe}>
       <SubscriptionPayment />
     </Elements>
   );

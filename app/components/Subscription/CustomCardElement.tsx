@@ -2,7 +2,6 @@ import React from 'react';
 import { CardElement } from "@stripe/react-stripe-js";
 import styled from 'styled-components';
 import { TextColor } from '@constants/colors';
-import { Center } from '@react-three/drei';
 
 const CardElementContainer = styled.div`
   width: 100%;

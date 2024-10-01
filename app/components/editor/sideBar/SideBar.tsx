@@ -82,7 +82,6 @@ const Sidebar: React.FC = () => {
         );
 
         setCameraPosition(cameraPos);
-
         setCameraDirection(pos);
       }
     }

@@ -1,45 +1,62 @@
-import { BackgroundColor, BorderColor, IconColor, SemanticColors, TextColor } from './colors';
+import {
+  BackgroundColor,
+  BorderColor,
+  IconColor,
+  SemanticColors,
+  TextColor,
+} from "./colors";
 
 export enum ButtonType {
-  PRIMARY = 'primary',
-  NEGATIVE = 'negative',
-  POSITIVE = 'positive',
+  PRIMARY = "primary",
+  NEGATIVE = "negative",
+  POSITIVE = "positive",
 }
 
 export enum ButtonVariant {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  TERTIARY = 'tertiary',
+  PRIMARY = "primary",
+  SECONDARY = "secondary",
+  TERTIARY = "tertiary",
 }
 
 export enum ButtonSize {
-  XS = 'xs',
-  SMALL = 'small',
-  MEDIUM = 'medium',
-  LARGE = 'large',
+  XS = "xs",
+  SMALL = "small",
+  MEDIUM = "medium",
+  LARGE = "large",
 }
 
 export enum ButtonMode {
-  NORMAL = 'normal',
-  SELECTED = 'selected',
-  DISABLED = 'disabled',
+  NORMAL = "normal",
+  SELECTED = "selected",
+  DISABLED = "disabled",
 }
 
 export const ButtonSizeConfig = {
-  [ButtonSize.XS]: { height: '26px', padding: '6px 8px', fontSize: 'TEXT2' },
-  [ButtonSize.SMALL]: { height: '32px', padding: '6px 8px', fontSize: 'TEXT2' },
-  [ButtonSize.MEDIUM]: { height: '40px', padding: '6px 16px', fontSize: 'TEXT1' },
-  [ButtonSize.LARGE]: { height: '48px', padding: '6px 24px', fontSize: 'TEXT1' },
+  [ButtonSize.XS]: { height: "26px", padding: "6px 8px", fontSize: "TEXT2" },
+  [ButtonSize.SMALL]: { height: "32px", padding: "6px 8px", fontSize: "TEXT2" },
+  [ButtonSize.MEDIUM]: {
+    height: "40px",
+    padding: "6px 16px",
+    fontSize: "TEXT1",
+  },
+  [ButtonSize.LARGE]: {
+    height: "48px",
+    padding: "6px 24px",
+    fontSize: "TEXT1",
+  },
 };
 
+interface colors {
+  background: BackgroundColor | SemanticColors;
+  text: TextColor | SemanticColors;
+  border: BorderColor | SemanticColors;
+}
 
-interface colors  {
-  background: BackgroundColor | SemanticColors,
-  text: TextColor | SemanticColors,
-  border: BorderColor | SemanticColors,
-};
-
-export const getButtonColors = (type: ButtonType, variant: ButtonVariant, mode: ButtonMode): colors => {
+export const getButtonColors = (
+  type: ButtonType,
+  variant: ButtonVariant,
+  mode: ButtonMode
+): colors => {
   const colors: colors = {
     background: SemanticColors.PRIMARY,
     text: TextColor.TEXT_ON_PRIMARY,
@@ -95,13 +112,38 @@ export const getButtonColors = (type: ButtonType, variant: ButtonVariant, mode: 
       break;
 
     case ButtonType.NEGATIVE:
-      colors.background = SemanticColors.NEGATIVE;
-      colors.text = TextColor.TEXT_ON_PRIMARY;
-      if (mode === ButtonMode.SELECTED) {
-        colors.background = SemanticColors.NEGATIVE_HOVER;
-      } else if (mode === ButtonMode.DISABLED) {
-        colors.background = SemanticColors.NEGATIVE_DISABLED;
-        colors.text = TextColor.DISABLED_TEXT;
+      if (variant === ButtonVariant.PRIMARY) {
+        colors.text = TextColor.TEXT_ON_PRIMARY;
+        if (mode === ButtonMode.SELECTED) {
+          colors.background = SemanticColors.PRIMARY_HOVER;
+        } else if (mode === ButtonMode.DISABLED) {
+          colors.background = BackgroundColor.DISABLED_BACKGROUND;
+          colors.text = TextColor.DISABLED_TEXT;
+        }
+      } else if (variant === ButtonVariant.SECONDARY) {
+        colors.text = TextColor.NEGATIVE;
+        colors.border = BorderColor.NEGATIVE;
+        colors.background = SemanticColors.TRANSPARENT;
+        if (mode === ButtonMode.SELECTED) {
+          colors.border = SemanticColors.NEGATIVE_HOVER;
+          colors.background = SemanticColors.PRIMARY_SELECTED;
+        } else if (mode === ButtonMode.DISABLED) {
+          colors.background = BackgroundColor.DISABLED_BACKGROUND;
+          colors.text = TextColor.DISABLED_TEXT;
+          colors.border = BorderColor.UI_BORDER;
+        }
+      } else if (variant === ButtonVariant.TERTIARY) {
+        colors.text = TextColor.PRIMARY_TEXT;
+        colors.border = SemanticColors.TRANSPARENT;
+        colors.background = SemanticColors.TRANSPARENT;
+        if (mode === ButtonMode.SELECTED) {
+          colors.border = SemanticColors.PRIMARY;
+          colors.background = SemanticColors.PRIMARY_SELECTED;
+        } else if (mode === ButtonMode.DISABLED) {
+          colors.background = BackgroundColor.DISABLED_BACKGROUND;
+          colors.text = TextColor.DISABLED_TEXT;
+          colors.border = SemanticColors.DISABLED_BACKGROUND;
+        }
       }
       break;
   }
@@ -109,11 +151,15 @@ export const getButtonColors = (type: ButtonType, variant: ButtonVariant, mode: 
   return colors;
 };
 
-export const getButtonColorsHover = (type: ButtonType, variant: ButtonVariant, mode: ButtonMode): BackgroundColor | SemanticColors => {
+export const getButtonColorsHover = (
+  type: ButtonType,
+  variant: ButtonVariant,
+  mode: ButtonMode
+): BackgroundColor | SemanticColors => {
   switch (type) {
     case ButtonType.PRIMARY:
       if (variant === ButtonVariant.PRIMARY) {
-       return SemanticColors.PRIMARY_HOVER;
+        return SemanticColors.PRIMARY_HOVER;
       } else if (variant === ButtonVariant.SECONDARY) {
         return BackgroundColor.PRIMARY_BACKGROUND_HOVER;
       } else if (variant === ButtonVariant.TERTIARY) {
@@ -127,11 +173,9 @@ export const getButtonColorsHover = (type: ButtonType, variant: ButtonVariant, m
       break;
 
     case ButtonType.NEGATIVE:
-      return SemanticColors.NEGATIVE_HOVER;
+      return SemanticColors.NEGATIVE_SELECTED;
       break;
   }
-
-
 
   return BackgroundColor.PRIMARY_BACKGROUND;
 };

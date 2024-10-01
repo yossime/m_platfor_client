@@ -20,7 +20,7 @@ interface BoxData {
 const data: BoxData[] = [
     {
         title: "Header",
-        body: "Clickable social media icons",
+        body: "Welcome your visitors",
         iconName: IconName.ALIGNTOP,
         disabled: false,
     },
@@ -36,19 +36,17 @@ const data: BoxData[] = [
         body: "Display an \n image",
         iconName: IconName.IMAGE,
         disabled: false,
-
     }
 
 ];
 
 const data2: BoxData[] = [
-    {
-        title: "Testimonials",
-        body: "quote your customers",
-        iconName: IconName.QUOTES,
-        disabled: false,
-
-    },
+    // {
+    //     title: "Testimonials",
+    //     body: "quote your customers",
+    //     iconName: IconName.QUOTES,
+    //     disabled: false,
+    // },
     {
         title: "Video",
         body: "show a video including 360°",
@@ -71,65 +69,72 @@ const data2: BoxData[] = [
 
     },
     {
-        title: "Services",
-        body: "Showcase your best features",
+        title: "Subscription",
+        body: "Promote easy subscription",
         iconName: IconName.SQUARESFOUR,
         disabled: false,
 
     },
-    {
-        title: "Slider",
-        body: "Display content with a slider",
-        iconName: IconName.SLIDESHOW,
-        disabled: false,
+    // {
+    //     title: "Services",
+    //     body: "Showcase your best features",
+    //     iconName: IconName.SQUARESFOUR,
+    //     disabled: false,
 
-    },
-    {
-        title: "Socials",
-        body: "Make it easy to contact with you",
-        iconName: IconName.SMILEY,
-        disabled: false,
+    // },
+    // {
+    //     title: "Slider",
+    //     body: "Display content with a slider",
+    //     iconName: IconName.SLIDESHOW,
+    //     disabled: false,
 
-    },
-    {
-        title: "Gamification",
-        body: "Add a captivating  interaction",
-        iconName: IconName.GAMECONTROLLER,
-        disabled: true,
+    // },
+    // {
+    //     title: "Socials",
+    //     body: "Make it easy to contact with you",
+    //     iconName: IconName.SMILEY,
+    //     disabled: false,
 
-    },
-    {
-        title: "Team",
-        body: "show your team members",
-        iconName: IconName.USERSTHREE,
-        disabled: true,
+    // },
+    // {
+    //     title: "Gamification",
+    //     body: "Add a captivating  interaction",
+    //     iconName: IconName.GAMECONTROLLER,
+    //     disabled: true,
 
-    },
-    {
-        title: "Showroom",
-        body: "Create and display models",
-        iconName: IconName.BANK,
-        disabled: true,
+    // },
+    // {
+    //     title: "Team",
+    //     body: "show your team members",
+    //     iconName: IconName.USERSTHREE,
+    //     disabled: true,
 
-    },  {
-        title: "Blog",
-        body: "Display updating  content",
-        iconName: IconName.BOOKOPENTEXT,
-        disabled: true,
+    // },
+    // {
+    //     title: "Showroom",
+    //     body: "Create and display models",
+    //     iconName: IconName.BANK,
+    //     disabled: true,
 
-    },  {
-        title: "Menu/Catalogue",
-        body: "Create and display products",
-        iconName: IconName.COOKIE,
-        disabled: true,
+    // },  {
+    //     title: "Blog",
+    //     body: "Display updating  content",
+    //     iconName: IconName.BOOKOPENTEXT,
+    //     disabled: true,
 
-    },  {
-        title: "events Schedule ",
-        body: "Show a calendar, Promote booking ",
-        iconName: IconName.CHEERS,
-        disabled: true,
+    // },  {
+    //     title: "Menu/Catalogue",
+    //     body: "Create and display products",
+    //     iconName: IconName.COOKIE,
+    //     disabled: true,
 
-    }
+    // },  {
+    //     title: "events Schedule ",
+    //     body: "Show a calendar, Promote booking ",
+    //     iconName: IconName.CHEERS,
+    //     disabled: true,
+
+    // }
 ];
 const Boards: React.FC = () => {
     const { contextData, setContextData } = useQuestionnaireIndex();

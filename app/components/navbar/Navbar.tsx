@@ -44,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isSubscriptionPage = pathname.startsWith("/pricing_plans");
   const isEditorPage = pathname.startsWith("/editor");
   const { userData } = useUserContext();
-  const subsc =  userData?.plan === "Plus" || userData?.plan === "buiznes"
+  const subsc =  userData?.plan === "Plus" || userData?.plan === "business"
   
   return (
     <NavbarWrapper className="navbar">

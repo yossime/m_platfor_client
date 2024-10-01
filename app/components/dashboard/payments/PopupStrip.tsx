@@ -46,6 +46,8 @@ const ChildrenContent = styled.div`
   gap: 8px;
 `;
 
+
+
 const PopupStrip = forwardRef<HTMLDivElement, PopupProps>(({
   children,
   onClose,
@@ -71,7 +73,6 @@ const PopupStrip = forwardRef<HTMLDivElement, PopupProps>(({
     const updatePosition = () => setPosition(calculatePosition());
     updatePosition();
 
-    // Listen for window resizing
     window.addEventListener('resize', updatePosition);
     return () => window.removeEventListener('resize', updatePosition);
   }, [calculatePosition]);

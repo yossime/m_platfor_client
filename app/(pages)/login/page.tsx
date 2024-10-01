@@ -14,6 +14,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
+      console.log(userData)
       if (user) {
         if (userData?.isNew) router.push("/onboarding");
         else {

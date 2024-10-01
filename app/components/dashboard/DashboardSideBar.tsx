@@ -47,12 +47,10 @@ const DashboardSideBar: React.FC = () => {
     <>
       <SideBarContainer>
         <ProjectContainer>
-          <DashboardTitle>
-            <Text size={TextSize.TEXT2}>{projectName}</Text>
-          </DashboardTitle>
+          <Text size={TextSize.TEXT2}>{projectName}</Text>
           <ProjectIcon>
             <Icon
-              name={IconName.SPEEDOMETER}
+              name={IconName.EDIT}
               onClick={() => {
                 router.push("/editor");
               }}
@@ -61,6 +59,7 @@ const DashboardSideBar: React.FC = () => {
         </ProjectContainer>
 
         <Divider2 />
+
         <HeaderContainer>
           <DashboardTitle>
             <Text $weight={FontWeight.BOLD} size={TextSize.TEXT1}>
@@ -69,21 +68,20 @@ const DashboardSideBar: React.FC = () => {
           </DashboardTitle>
         </HeaderContainer>
 
+        <Divider2 />
+
         <ScrollableContent>
           {menuItems.map((item) => (
             <MenuItemContainer
+              selected={currentSelection ===item.name }
               key={item.name}
               onClick={() => handleItemClick(item.name)}
-              style={{
-                fontWeight: currentSelection === item.name ? "bold" : "normal",
-              }}
             >
+              <Icon name={item.icon} />
               <Text
                 size={TextSize.TEXT2}
                 $weight={
-                  currentSelection === item.name
-                    ? FontWeight.BOLD
-                    : FontWeight.NORMAL
+               FontWeight.NORMAL
                 }
               >
                 {item.name}

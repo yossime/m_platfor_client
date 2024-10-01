@@ -1,11 +1,8 @@
 "use client"
 import { Store } from '@/components/dashboard/types/store';
 import { getStoreData } from '@/services/storeService';
-import axios from '@/utils/axios';
 import { useState, useEffect } from 'react';
 
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3500';
 
 
 export const useStoreData = (storeId: string) => {
@@ -37,5 +34,5 @@ export const useStoreData = (storeId: string) => {
         return () => clearInterval(intervalId);
     }, []);
 
-    return { storeData, loading, refreshStoreData: fetchStoreData };
+    return {setStoreData, storeData, loading, refreshStoreData: fetchStoreData };
 };

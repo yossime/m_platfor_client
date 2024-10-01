@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const IndexContainerWrapper = styled.div`
   display: flex;
@@ -23,33 +24,31 @@ export const StageWrapper = styled.div`
   gap: 8px;
 `;
 
-export const StageIndicator = styled.div<{ $status: 'completed' | 'current' | 'upcoming' }>`
-  width: ${props => {
-    switch (props.$status) {
-      case 'completed': return '24px';
-      case 'current': return '88px';
-      default: return '24px';
-    }
-  }};
+
+export const Connector = styled.div`
+  width: 20px;
+  height: 1px;
+  background-color: gray;
+`;
+export const StageIndicator = styled(motion.div)<{
+  $status: "current" | "notCurrent";
+}>`
   height: 8px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => {
-    switch (props.$status) {
-      case 'completed': return '#D9D9D9';
-      case 'current': return '#594DED';
-      default: return '#D9D9D9';
-    }
-  }};
-
+  background-color: ${(props) => 
+    props.$status === "current" ? "#594DED" : "#D9D9D9"
+  };
 `;
 
-
-
-export const Connector = styled.div`
-  width: 20px;
-  height: 1px;
-  background-color:gray ;
-`;
+export const getMotionProps = ($status: "current" | "notCurrent") => {
+  return {
+    initial: { width: "24px" },
+    animate: {
+      width: $status === "current" ? "88px" : "24px",
+    },
+    transition: { duration: 0.6, ease: "easeInOut" },
+  };
+};

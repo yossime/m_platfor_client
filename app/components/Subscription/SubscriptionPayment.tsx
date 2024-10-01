@@ -37,7 +37,6 @@ const SubscriptionPayment: React.FC = ({}) => {
   const { plan, yearly, monPrice } = useSubscription();
   const [loading, setLoading] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
-  const [discountInfo, setDiscountInfo] = useState<any>(null);
   const [error, setError] = useState<any>(null);
   const [isFreeMonth, setIsFreeMonth] = useState(false);
   const [interval, setInterval] = useState<string>(
@@ -56,40 +55,16 @@ const SubscriptionPayment: React.FC = ({}) => {
 
   const salePrice = Math.floor(monPrice - monPrice * 0.18);
   const sale = monPrice - salePrice;
-
+console.log(monPrice)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleDiscountValidation = async () => {
-    // setLoading(true);
-    // setError(null);
-    // try {
-    //   const response = await axios.post("subscription/validate-discount", {
-    //     code: discountCode,
-    //   });
-    //   const data = response.data;
-    //   if (data.valid) {
-    //     setDiscountInfo(data);
-    //     setIsFreeMonth(data.isFreeMonth || false);
-    //   } else {
-    //     setDiscountInfo(null);
-    //     setIsFreeMonth(false);
-    //     setError(data.message);
-    //     console.log("Invalid discount code", data.message);
-    //   }
-    // } catch (error) {
-    //   console.error("Error validating discount:", error);
-    //   setError("Error validating discount code");
-    // }
-    // setLoading(false);
   };
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
-
+  
     try {
       if (isFreeMonth) {
         const paymentInfo = {
@@ -97,44 +72,42 @@ const SubscriptionPayment: React.FC = ({}) => {
           interval,
           discountCode,
         };
-
+  
         const response = await axios.post("subscription/create-subscription", {
           paymentInfo,
           userData: formData,
         });
         router.push("/userPage");
-
+  
         console.log("Free month subscription created:", response.data);
-        // Handle success (e.g., show a success message, redirect user)
       } else {
         if (!stripe || !elements) {
           throw new Error("Stripe not initialized");
         }
-
+  
         const cardElement = elements.getElement(CardElement);
-
+  
         if (!cardElement) {
           throw new Error("Couldn't find the card element. Please try again.");
         }
-
-        // Create payment method
+  
         const { error: paymentMethodError, paymentMethod } =
           await stripe.createPaymentMethod({
             type: "card",
             card: cardElement,
           });
-
+  
         if (paymentMethodError) {
           throw new Error(paymentMethodError.message);
         }
-
+  
         const paymentInfo = {
           paymentMethodId: paymentMethod.id,
           plan,
           interval,
           discountCode,
         };
-
+  
         const subscriptionResponse = await axios.post(
           "subscription/create-subscription",
           {
@@ -142,12 +115,11 @@ const SubscriptionPayment: React.FC = ({}) => {
             userData: formData,
           }
         );
-
+  
         const { subscriptionId } = subscriptionResponse.data;
         router.push("/userPage");
-
+  
         console.log("Subscription created:", subscriptionId);
-        // Handle success (e.g., show a success message, redirect user)
       }
     } catch (error) {
       console.error("Error creating subscription:", error);
@@ -157,10 +129,10 @@ const SubscriptionPayment: React.FC = ({}) => {
           : "Failed to create subscription. Please try again."
       );
     }
-
+  
     setLoading(false);
   };
-
+  
   const currentDate = new Date();
 
   const nextChargeDate = new Date(currentDate);
@@ -263,33 +235,7 @@ const SubscriptionPayment: React.FC = ({}) => {
                 onChange={handleChange}
               ></Input>
             </ContentInputCardLine>
-            {/* 
-            <div>
-              <input
-                type="text"
-                value={discountCode}
-                onChange={(e) => setDiscountCode(e.target.value)}
-                placeholder="Enter discount code"
-              />
-              <button
-                type="submit"
-                onClick={handleDiscountValidation}
-                disabled={loading}
-              >
-                Apply Discount
-              </button>
-            </div> */}
-            {/* {discountInfo && (
-              <div>
-                Discount applied:{" "}
-                {isFreeMonth
-                  ? "Free month"
-                  : `${discountInfo.discountAmount} off`}
-                {!isFreeMonth &&
-                  discountInfo.duration !== "forever" &&
-                  ` for ${discountInfo.durationInMonths || 1} month(s)`}
-              </div>
-            )} */}
+
           </ContentInputCard>
         </form>
         <ContentSummeryPayment>
@@ -341,44 +287,6 @@ const SubscriptionPayment: React.FC = ({}) => {
               You saved {sale * 12}$ choosing the yearly plan
             </Text>
           )}
-          {/* <Divider />
-
-          <TextSummeryLine>
-            <Text
-              size={TextSize.TEXT1}
-              family={FontFamily.Poppins}
-              weight={FontWeight.NORMAL}
-              color={TextColor.PRIMARY_TEXT}
-            >
-              Subtotal
-            </Text>
-            <Text
-              size={TextSize.TEXT1}
-              family={FontFamily.Poppins}
-              weight={FontWeight.NORMAL}
-              color={TextColor.PRIMARY_TEXT}
-            >
-              {yearly ? `${salePrice * 12}$ ` : `${monPrice}$ `}
-            </Text>
-          </TextSummeryLine>
-          <TextSummeryLine>
-            <Text
-              size={TextSize.TEXT1}
-              family={FontFamily.Poppins}
-              weight={FontWeight.NORMAL}
-              color={TextColor.PRIMARY_TEXT}
-            >
-              Tax (17.0%)
-            </Text>
-            <Text
-              size={TextSize.TEXT1}
-              family={FontFamily.Poppins}
-              weight={FontWeight.NORMAL}
-              color={TextColor.PRIMARY_TEXT}
-            >
-              {yearly ? `${salePrice * 12}$ ` : `${monPrice}$ `}
-            </Text>
-          </TextSummeryLine> */}
 
           <Divider />
 

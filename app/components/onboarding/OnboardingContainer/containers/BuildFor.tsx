@@ -15,6 +15,7 @@ import { IconName } from "@constants/icon";
 import BoardBox, {
   BoxSize,
 } from "@/components/Library/boxes/boardBox/BoardBox";
+import { getNextIndex } from "@/utils/onboardinUtils";
 
 interface BoxData {
   title: string;
@@ -39,6 +40,7 @@ const data: BoxData[] = [
 const BuildFor: React.FC = () => {
   const { contextData, setContextData } = useOnboardingIndex();
   const [selected, setSelected] = useState<string>(contextData.BuildFor.value);
+  const { currentIndex, setIndex } = useOnboardingIndex();
 
   const handleClick = (type: string) => {
     setSelected(type);
@@ -50,6 +52,8 @@ const BuildFor: React.FC = () => {
         valid: true,
       },
     });
+    const newIndex = getNextIndex(currentIndex, 1);
+    setIndex(newIndex);
   };
 
   return (

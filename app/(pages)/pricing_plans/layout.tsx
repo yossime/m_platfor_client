@@ -2,7 +2,6 @@
 import React from "react";
 import ProtectedRoute from "@/utils/ProtectedRoute";
 import styled from "styled-components";
-import { NAVBAR_HEIGHTS } from "@constants/screenSizes";
 import { SubscriptionProvider } from "@/context/useSubscriptionContext";
 
 const PaymentsLayout = ({ children }: { children: React.ReactNode }) => {

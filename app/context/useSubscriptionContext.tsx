@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode, useContext } from 'react';
+import React, { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 
 export enum Plans {
   Business = "Business",
@@ -26,7 +26,32 @@ export const SubscriptionProvider: React.FC<{ children: ReactNode }> = ({ childr
   const [yearly, setYearly] = useState<boolean>(false);
   const [plan, setPlan] = useState<Plans>(Plans.Starter);
   const [monPrice, setMonPrice] = useState<number>(0);
-
+  
+  useEffect(() => {
+    const storedPlan = localStorage.getItem('plan');
+    const storedPrice = localStorage.getItem('monPrice');
+    const storedYearly = localStorage.getItem('yearly');
+    
+    if (storedPlan && Object.values(Plans).includes(storedPlan as Plans)) {
+      setPlan(storedPlan as Plans);
+    }
+    
+    if (storedPrice && !isNaN(Number(storedPrice))) {
+      setMonPrice(Number(storedPrice));
+    }
+    
+    if (storedYearly) {
+      setYearly(storedYearly === 'true');
+    }
+  }, []);
+  
+  
+  useEffect(() => {
+    localStorage.setItem('plan', plan);
+    localStorage.setItem('monPrice', String(monPrice));
+    localStorage.setItem('yearly', String(yearly));
+  }, [plan, monPrice, yearly]);
+  
 
   const value: SubscriptionContextType = {
     paymentPage,
