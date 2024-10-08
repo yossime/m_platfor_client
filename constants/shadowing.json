@@ -1,0 +1,7 @@
+{
+    "shadowing": {
+        "Small": "4px",
+        "Medium": "8px",
+        "Large": "16px"
+    }
+}
