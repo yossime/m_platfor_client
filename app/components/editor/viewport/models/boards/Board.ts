@@ -57,7 +57,7 @@ export abstract class Board extends SceneObject {
       const model = await this.loader.loadModel(this.getBoardUrl());
 
       const customModel = model.children[0] as CustomObject3D;
-
+      
       customModel.onPointerDown = () => this.handleSelected(customModel);
       customModel.interactive = true;
       this.model = customModel;

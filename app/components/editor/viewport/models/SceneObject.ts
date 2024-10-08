@@ -252,6 +252,7 @@ export abstract class SceneObject implements ISceneObject {
     let found: Object3D | null = null;
     this.model.traverse((child) => {
       if (child.name === name) {
+        console.log(child.name)
 
         found = child;
       }
