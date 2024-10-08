@@ -7,7 +7,7 @@ import { ButtonMode, ButtonSize, ButtonType, ButtonVariant } from '@constants/bu
 import { IconName } from '@constants/icon';
 import Popup from '@/components/Library/general/Popup';
 import DragAndDrop from '@/components/Library/general/DragAndDrop';
-import TextureUploadComponent from '../../LoadTexturePopup';
+import TextureUploadComponent from '../../../../material/LoadTexturePopup';
 import { ISceneObject } from '@/components/editor/types/index';
 
 interface PopupEditDisplayProps {

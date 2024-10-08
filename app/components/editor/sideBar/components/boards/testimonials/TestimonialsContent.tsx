@@ -3,7 +3,7 @@ import Input from '@/components/Library/input/Input';
 import { InputMode, InputSize } from '@constants/input';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
-import { Container, Divider, SubContainer, SubWrapper } from '../../CommonStyles';
+import { Container, Divider, SubContainer, SubWrapper } from '../../general/CommonStyles';
 import Collapsible from '@/components/Library/general/Collapsible';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
 import { IconName } from '@constants/icon';

@@ -15,8 +15,6 @@ export const CameraControls: React.FC = () => {
       const direction = new Vector3();
       camera.getWorldDirection(direction);
       camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
-    camera.position.z = 15;
-      
     }
   }, [camera, cameraPosition, cameraDirection]);
 

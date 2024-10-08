@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { InputSize, InputMode } from "@constants/input";
-import SelectInput, { SelectInputMaterial } from "@/components/Library/input/SelectInput";
-import { Container, ContainerStyle, Divider } from "../../CommonStyles";
+import SelectInput from "@/components/Library/input/SelectInput";
+import { Container, ContainerStyle, Divider } from "../../general/CommonStyles";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import {
   textSizeOptions,
@@ -9,8 +9,8 @@ import {
   imageStyleOptions,
   BackgroundOptions,
 } from "../../../types";
-import AlignmentControl from "../../AlignmentControlComponent";
-import TextureUploadComponent from "../../LoadTexturePopup";
+import AlignmentControl from "../../general/AlignmentControlComponent";
+import TextureUploadComponent from "../../../../material/LoadTexturePopup";
 import {
   EConfigType,
   EConfiguration,
@@ -18,16 +18,21 @@ import {
   ContentDataType,
   ERendererType,
   FormatBoard,
+  ContentMaterial,
 } from "@/components/editor/types/index";
 import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
-import { useBoardContent } from "../../useBoardContent";
+import { useBoardContent } from "../../general/useBoardContent";
+import {
+  materialMap,
+  MaterialNames,
+} from "@/components/editor/material/materials";
+import { SelectInputMaterial } from "@/components/Library/input/SelectInputMaterial";
 
 export const HeaderStyleComponent: React.FC = () => {
   const {
     setLogoConfiguration,
     getFormat,
-    getContentMaterial,
     setContentMaterial,
     setConfiguration,
   } = useBoardContent();
@@ -48,17 +53,19 @@ export const HeaderStyleComponent: React.FC = () => {
       setOpenSections((prev) => ({ ...prev, [section]: isOpen }));
     };
 
-  const handleStyleChange = (type: ContentDataType, value: string) => {
+  const handleMaterialChange = (material: ContentMaterial) => {
+    setContentMaterial(ContentDataType.SELF, material);
+  };
+
+  const handleChange = (type: ContentDataType, value: string) => {
     if (value === "Create new") {
       setShowUploadTexture(true);
     } else {
-      setContentMaterial(type, { renderer: ERendererType.IRON });
+      setContentMaterial(ContentDataType.SELF, { customMaterial:materialMap[value as MaterialNames].customMaterial});
     }
   };
 
-  const handleTextureUpdate = (newTexture: ICustomMaterial) => {
-    setShowUploadTexture(false);
-  };
+
 
   const handleAlignmentChange = (
     type: "horizontal" | "vertical",
@@ -82,14 +89,6 @@ export const HeaderStyleComponent: React.FC = () => {
 
   return (
     <Container ref={ref}>
-      {showUploadTexture && (
-        <TextureUploadComponent
-          parentRef={ref}
-          onClose={() => setShowUploadTexture(false)}
-          onSave={handleTextureUpdate}
-        />
-      )}
-
       <AlignmentControl
         onHorizontalAlignmentChange={(alignment) =>
           handleAlignmentChange("horizontal", alignment)
@@ -114,11 +113,8 @@ export const HeaderStyleComponent: React.FC = () => {
           onToggle={handleSectionToggle("background")}
         >
           <SelectInputMaterial
-            options={BackgroundOptions}
             value={""}
-            onChange={(value) =>
-              handleStyleChange(ContentDataType.SELF, value)
-            }
+            onChange={handleMaterialChange}
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}
             placeholder="System Gradient"
@@ -136,7 +132,7 @@ export const HeaderStyleComponent: React.FC = () => {
             options={textSizeOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.TITLE, value)
+              handleChange(ContentDataType.TITLE, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}
@@ -155,7 +151,7 @@ export const HeaderStyleComponent: React.FC = () => {
             options={imageStyleOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.FRAME, value)
+              handleChange(ContentDataType.FRAME, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}
@@ -174,7 +170,7 @@ export const HeaderStyleComponent: React.FC = () => {
             options={buttonStyleOptions}
             value={""}
             onChange={(value) =>
-              handleStyleChange(ContentDataType.BUTTON, value)
+              handleChange(ContentDataType.BUTTON, value)
             }
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}

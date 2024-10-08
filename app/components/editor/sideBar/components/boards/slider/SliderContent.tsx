@@ -3,7 +3,7 @@ import { useDropzone, FileRejection, DropEvent } from 'react-dropzone';
 import Button from '@/components/Library/button/Button';
 import { ButtonSize, ButtonType, ButtonVariant } from '@constants/button';
 import styled from 'styled-components';
-import { Container } from '../../CommonStyles';
+import { Container } from '../../general/CommonStyles';
 import DraggableImageItem from './DraggableImageItem';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';

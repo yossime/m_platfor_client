@@ -25,16 +25,16 @@ import { Board } from "../viewport/models/boards/Board";
 import { useProject } from "@/context/useProjectContext";
 import { useCamera } from "@/context/CameraContext";
 import { useRouter } from "next/navigation";
-import { Divider, Divider2 } from "./components/CommonStyles";
+import { Divider, Divider2 } from "./components/general/CommonStyles";
 import Collapsible from "@/components/Library/general/Collapsible";
 import { useSidebarContext } from "@/context/SidebarContext ";
 
 
 const Sidebar: React.FC = () => {
-  // const {
-  //   setCameraPosition,
-  //   setCameraDirection,
-  // } = useCamera();
+  const {
+    setCameraPosition,
+    setCameraDirection,
+  } = useCamera();
   
   const { projectName, projects } = useProject();
   const { sceneModel } = useEditor();
@@ -81,8 +81,8 @@ const Sidebar: React.FC = () => {
           pos.z - distanceFromObject * Math.cos(rot.y)
         );
 
-        // setCameraPosition(cameraPos);
-        // setCameraDirection(pos);
+        setCameraPosition(cameraPos);
+        setCameraDirection(pos);
       }
     }
   };
@@ -90,7 +90,6 @@ const Sidebar: React.FC = () => {
 
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
-    sceneModel?.root?.displayEmptySlots();
   };
 
   const handleBack = () => {

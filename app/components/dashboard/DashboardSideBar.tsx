@@ -12,7 +12,7 @@ import {
   MenuItemContainer,
   ActiveMenuItem,
 } from "./DashboardStyles";
-import { Divider2 } from "../editor/sideBar/components/CommonStyles";
+import { Divider2 } from "../editor/sideBar/components/general/CommonStyles";
 import { useMenuContext } from "@/context/MenuContext ";
 import { useProject } from "@/context/useProjectContext";
 import { useRouter } from "next/navigation";

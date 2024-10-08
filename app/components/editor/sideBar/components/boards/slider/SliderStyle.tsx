@@ -2,7 +2,7 @@ import React from 'react';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
 
-import { Container, Divider } from '../../CommonStyles';
+import { Container, Divider } from '../../general/CommonStyles';
 import { imageStyleOptions, textStyleOptions } from '../../../types';
 
 export const SliderStyleComponent: React.FC = () => {

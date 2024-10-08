@@ -169,7 +169,9 @@ export interface ContentMaterial {
   slotname?: MaterialSlotName;
   video?: string | File;
   renderer?: ERendererType;
+  materialName?: string;
   customMaterial?: ICustomMaterial;
+  materialImage?: string;
 }
 
 export enum ERendererType {
@@ -182,14 +184,6 @@ export enum ESkybox {
   DARK = "Dark",
 }
 
-
-// export interface ContentText {
-//   text: string;
-//   font?: string;
-//   color?: string;
-//   size?: string;
-//   scale?: [number, number, number];
-// }
 
 export enum FontWeight {
   Normal = 'normal',
@@ -226,16 +220,6 @@ export interface TextParams {
 export interface ContentText{
   textObject?: TextObject;
   textPaerms?: TextParams;
-  // text: string;
-  // font?: string;
-  // fontSize: number;
-  // fontWeight?: FontWeight;
-  // textAlign?: TextAlign;
-  // lineHeight?: number;
-  // letterSpacing?: number;
-  // color?: string;
-  // outlineColor?: string;
-  // maxWidth?: number;
 }
 
 
@@ -375,16 +359,15 @@ export enum FormatBoard {
 
 
 // export enum FormatBoard {
-//   HeaderModel = "headerModel",
-//   HeaderFrame = "headerFrame",
-//   HeaderSimpal = "headerSimple",
-//   ArticleSimple = "articleSimple",
+//   HeaderModel = "Model",
+//   HeaderFrame = "Frame",
+//   HeaderSimpal = "Simple",
+//   ArticleSimple = "articl Simple",
 //   Podiums = "podiums",
 //   Duo ="duo",
 //   FormSide ="FormSide",
 //   VideoSimple = "videoSimple",
 //   SubscriptionSimpal = "subscriptionSimple",
-
 
 // }
 

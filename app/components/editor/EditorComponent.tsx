@@ -20,30 +20,21 @@ const EditorLayout = styled.div`
 
 const EditorComponent: React.FC = () => {
   const { editorState } = useEditor();
-  const [outlineProps, setOutlineProps] = useState({
-    edgeStrength: 3.0,
-    edgeGlow: 1,
-    edgeThickness: 1.0,
-    pulsePeriod: 0,
-    visibleEdgeColor: '#b12828',
-    hiddenEdgeColor: '#190a05',
-    usePatternTexture: false,
-    rotate: false,
-  });
+
   return (
     <>
       {editorState !== EditorState.PREVIEW ? (
         <EditorLayout>
           <JoyrideEditor />
           <CameraProvider>
-          <SidebarProvider>
-            <SideBar />
-            <Viewport />
-            {/* <Viewport>
+            <SidebarProvider>
+              <SideBar />
+              <Viewport />
+              {/* <Viewport>
               <Editor />
             </Viewport> */}
-            {/* <ThreeScene {...outlineProps}/> */}
-          </SidebarProvider>
+              {/* <ThreeScene {...outlineProps}/> */}
+            </SidebarProvider>
           </CameraProvider>
         </EditorLayout>
       ) : (

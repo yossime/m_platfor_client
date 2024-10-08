@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
-import { Container, Divider } from '../../CommonStyles';
+import { Container, Divider } from '../../general/CommonStyles';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
 import { textSizeOptions, textStyleOptions, buttonStyleOptions, imageStyleOptions, BackgroundOptions } from '../../../types';
 

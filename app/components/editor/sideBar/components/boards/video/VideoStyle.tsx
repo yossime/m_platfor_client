@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { InputSize, InputMode } from "@constants/input";
 import SelectInput from "@/components/Library/input/SelectInput";
-import { Container, ContainerStyle, Divider } from "../../CommonStyles";
+import { Container, ContainerStyle, Divider } from "../../general/CommonStyles";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import {
   textSizeOptions,
@@ -9,8 +9,8 @@ import {
   imageStyleOptions,
   BackgroundOptions,
 } from "../../../types";
-import AlignmentControl from "../../AlignmentControlComponent";
-import TextureUploadComponent from "../../LoadTexturePopup";
+import AlignmentControl from "../../general/AlignmentControlComponent";
+import TextureUploadComponent from "../../../../material/LoadTexturePopup";
 import {
   EConfigType,
   EConfiguration,
@@ -18,10 +18,12 @@ import {
   ContentDataType,
   ERendererType,
   FormatBoard,
+  ContentMaterial,
 } from "@/components/editor/types/index";
 import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
-import { useBoardContent } from "../../useBoardContent";
+import { useBoardContent } from "../../general/useBoardContent";
+import { SelectInputMaterial } from "@/components/Library/input/SelectInputMaterial";
 
 export const VideoStyleComponent: React.FC = () => {
   const {setLogoConfiguration ,getFormat, getContentMaterial, setContentMaterial, setConfiguration } =
@@ -47,7 +49,7 @@ export const VideoStyleComponent: React.FC = () => {
     if (value === "Create new") {
       setShowUploadTexture(true);
     } else {
-      setContentMaterial(type, { renderer: ERendererType.IRON });
+      setContentMaterial(type, { materialName: ERendererType.IRON });
     }
   };
 
@@ -74,17 +76,11 @@ export const VideoStyleComponent: React.FC = () => {
         break;
     }
   };
-
+  const handleMaterialChange = (material: ContentMaterial) => {
+    setContentMaterial(ContentDataType.SELF, material);
+  };
   return (
     <Container ref={ref}>
-      {showUploadTexture && (
-        <TextureUploadComponent
-          parentRef={ref}
-          onClose={() => setShowUploadTexture(false)}
-          onSave={handleTextureUpdate}
-        />
-      )}
-
       <AlignmentControl onHorizontalAlignmentChange={(alignment) =>
           handleAlignmentChange("horizontal", alignment)
         }
@@ -109,12 +105,9 @@ export const VideoStyleComponent: React.FC = () => {
           isOpen={openSections.background}
           onToggle={handleSectionToggle("background")}
         >
-          <SelectInput
-            options={BackgroundOptions}
+          <SelectInputMaterial
             value={""}
-            onChange={(value) =>
-              handleStyleChange(ContentDataType.FRAME, value)
-            }
+            onChange={handleMaterialChange}
             inputSize={InputSize.SMALL}
             mode={InputMode.DEFAULT}
             placeholder="System Gradient"

@@ -9,10 +9,6 @@ import {
 import { FontFamily, TextSize, FontWeight } from "@constants/text";
 import { IconColor, TextColor } from "@constants/colors";
 import Text from "../text/Text";
-import Icon from "../icon/Icon";
-import { IconName } from "@constants/icon";
-import ThreeDMaterial from "@/components/editor/material/ThreeDMaterial";
-import { testMaterial } from "@/components/editor/material/materials";
 type Option = {
   value: string;
   label: string;
@@ -130,107 +126,6 @@ const SelectInput: React.FC<SelectInputProps> = ({
 
 
 
-
-export const SelectInputMaterial: React.FC<SelectInputProps> = ({
-  options,
-  value,
-  onChange,
-  inputSize,
-  mode,
-  label,
-  placeholder,
-  helperText,
-  fullWidth = false,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const selectRef = useRef<HTMLDivElement>(null);
-
-  const handleSelect = (option: Option) => {
-    onChange(option.value);
-    setIsOpen(false);
-  };
-
-  const toggleOpen = () => setIsOpen(!isOpen);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        selectRef.current &&
-        !selectRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const selectedOption = options.find((option) => option.value === value);
-
-  return (
-    <SelectWrapper $fullWidth={fullWidth} ref={selectRef}>
-      {label && (
-        <LabelText
-          $family={FontFamily.Poppins}
-          size={TextSize.TEXT2}
-          $weight={FontWeight.SEMI_BOLD}
-          color={
-            mode === InputMode.DISABLED
-              ? TextColor.DISABLED_TEXT
-              : TextColor.PRIMARY_TEXT
-          }
-        >
-          {label}
-        </LabelText>
-      )}
-      <SelectButton
-        onClick={toggleOpen}
-        $size={inputSize}
-        $mode={mode}
-        $fullWidth={fullWidth}
-        disabled={mode === InputMode.DISABLED}
-      >
-        {selectedOption ? selectedOption.label : placeholder}
-        <ArrowIcon $isOpen={isOpen} />
-        {/* <Icon name={isOpen? IconName.isOpen}/>. */}
-      </SelectButton>
-      {isOpen && (
-        <OptionsList $size={inputSize}>
-          {options.map((option) => (
-            <OptionItem
-              key={option.value}
-              onClick={() => handleSelect(option)}
-              $isSelected={option.value === value}
-            >
-              <ThreeDMaterial
-              material={testMaterial}
-              windowSize={25}
-            />
-              {option.label}
-            </OptionItem>
-          ))}
-        </OptionsList>
-      )}
-      {helperText && mode === InputMode.ERROR && (
-        <HelperText
-          $family={FontFamily.Poppins}
-          size={TextSize.TEXT2}
-          $weight={FontWeight.NORMAL}
-          color={
-            mode === InputMode.ERROR
-              ? TextColor.NEGATIVE
-              : TextColor.SECONDARY_TEXT
-          }
-        >
-          {helperText}
-        </HelperText>
-      )}
-    </SelectWrapper>
-  );
-};
 
 const SelectWrapper = styled.div<{ $fullWidth: boolean }>`
   text-align: start;

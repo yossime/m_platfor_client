@@ -4,7 +4,7 @@ import SelectInput from '@/components/Library/input/SelectInput';
 // import { IHeaderBoard, IThreeDModelStyle }  from '@/components/editor/interface/paramsType';
 
 import { useEditor } from '@/context/useEditorContext';
-import { Container, Divider } from '../../CommonStyles';
+import { Container, Divider } from '../../general/CommonStyles';
 import { buttonStyleOptions, imageStyleOptions, textStyleOptions } from '../../../types';
 
 

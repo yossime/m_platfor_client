@@ -1,107 +1,214 @@
-export interface MaterialProps {
-  diffuseTexturePath?: string;
-  normalTexturePath?: string;
-  roughnessTexturePath?: string;
-  metallicTexturePath?: string;
-  emissionTexturePath?: string;
-  color?: string | number;
-  emissiveColor?: string | number;
-  emissiveIntensity?: number;
-  opacity?: number;
-}
+import { ContentMaterial, ICustomMaterial } from "../types";
 
-export const testMaterial: MaterialProps = {
-  diffuseTexturePath:
-    "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600",
-  emissionTexturePath:
-    "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=600",
-  color: "#ffffff",
-  emissiveColor: "#ff8800",
-  emissiveIntensity: 0.5,
-  opacity: 0.9,
+
+
+export const barkMaterial: ContentMaterial = {
+  materialName: "Bark",
+  customMaterial: {
+    diffuse: {
+      map: "./Bark014_8K-JPG_Color.jpg",
+      color: "#ffffff",
+    },
+    normal: {
+      map: "./Bark014_8K-JPG_NormalGL.jpg",
+      intensity: 1.0,
+    },
+    roughness: {
+      map: "./Bark014_8K-JPG_Roughness.jpg",
+      intensity: 1.0,
+    },
+    opacity: {
+      value: 1,
+    },
+    metalness: {
+      value: 0,
+    },
+    tint: {
+      value: 0.1,
+    },
+  },
+  materialImage: "./Bark014_8K-JPG_Color.jpg",
 };
 
-// Wood Material
-export const woodMaterial: MaterialProps = {
-  emissionTexturePath:
-    "https://images.unsplash.com/photo-1580995861007-e20b4c9b8915?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", // Wood texture
-  color: "#FFFFFF",
-  opacity: 1,
+export const woodMaterial: ContentMaterial = {
+  materialName: "Wood",
+  customMaterial: {
+    emission: {
+      map: "/textures/weathered-wooden-surface_1249-32.png",
+    },
+    diffuse: {
+      map: "/textures/weathered-wooden-surface_1249-32.png",
+    },
+    opacity: {
+      value: 1,
+    },
+  },
+  materialImage: "/textures/weathered-wooden-surface_1249-32.png",
 };
 
-// Metal Material
-export const metalMaterial: MaterialProps = {
-  emissionTexturePath:
-    "https://images.unsplash.com/photo-1585405247634-4bfc512223b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", // Metal texture
-  color: "#FFFFFF",
-  opacity: 1,
+export const marbleMaterial: ContentMaterial = {
+  materialName: "Marble",
+  customMaterial: {
+    diffuse: {
+      map: "https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    opacity: {
+      value: 1,
+    },
+  },
+  materialImage: "https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 };
 
-// Marble Material
-export const marbleMaterial: MaterialProps = {
-  diffuseTexturePath:
-    "https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", // Marble texture
-  color: "#FFFFFF",
-  opacity: 1,
+export const goldMaterial: ContentMaterial = {
+  materialName: "Gold",
+  customMaterial: {
+    emission: {
+      map: "https://images.cnbctv18.com/uploads/2024/07/shutterstock-2315967489-2024-07-896154553c54c07328481c63c5fc50e0-scaled.jpg?impolicy=website&width=640&height=360",
+    },
+    diffuse: {
+      map: "https://images.cnbctv18.com/uploads/2024/07/shutterstock-2315967489-2024-07-896154553c54c07328481c63c5fc50e0-scaled.jpg?impolicy=website&width=640&height=360",
+    },
+    opacity: {
+      value: 1,
+    },
+  },
+  materialImage: "https://images.cnbctv18.com/uploads/2024/07/shutterstock-2315967489-2024-07-896154553c54c07328481c63c5fc50e0-scaled.jpg?impolicy=website&width=640&height=360",
 };
 
-// Gold Material
-export const goldMaterial: MaterialProps = {
-  emissionTexturePath:
-    "https://images.pexels.com/photos/2248589/pexels-photo-2248589.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", // Gold texture
-  color: "#FFD700",
-  opacity: 1,
+export const leatherMaterial: ContentMaterial = {
+  materialName: "Leather",
+  customMaterial: {
+    diffuse: {
+      map: "https://images.unsplash.com/photo-1556821888-c4612c0066c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      color: "#8B4513",
+    },
+    opacity: {
+      value: 1,
+    },
+  },
+  materialImage: "https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 };
 
-// Rubber Material
-export const rubberMaterial: MaterialProps = {
-  diffuseTexturePath:
-    "https://images.unsplash.com/photo-1512163143273-bde3c66f34b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", // Rubber texture
-  color: "#000000",
-  opacity: 1,
+export const concreteMaterial: ContentMaterial = {
+  materialName: "Concrete",
+  customMaterial: {
+    diffuse: {
+      map: "https://images.unsplash.com/photo-1541631955677-dc258e5fad81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      color: "#808080",
+    },
+    opacity: {
+      value: 1,
+    },
+  },
+  materialImage: "https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 };
 
-// Fabric Material
-export const fabricMaterial: MaterialProps = {
-  diffuseTexturePath:
-    "https://images.unsplash.com/photo-1588795941016-c6c73e55f70b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", // Fabric texture
-  color: "#FFFFFF",
-  opacity: 1,
+export const neonMaterial: ContentMaterial = {
+  materialName: "Neon",
+  customMaterial: {
+    diffuse: {
+      color: "#000000",
+    },
+    emission: {
+      color: "#00FF00",
+      intensity: 1,
+    },
+    opacity: {
+      value: 1,
+    },
+  },
+  materialImage: "https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+
 };
 
-// Leather Material
-export const leatherMaterial: MaterialProps = {
-  diffuseTexturePath:
-    "https://images.unsplash.com/photo-1556821888-c4612c0066c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", // Leather texture
-  color: "#8B4513",
-  opacity: 1,
+export const glassMaterial: ContentMaterial = {
+  materialName: "Glass",
+  customMaterial: {
+    diffuse: {
+      color: "#ffffff",
+    },
+    emission: {
+      color: "#000000",
+      intensity: 0,
+    },
+    opacity: {
+      value: 1,
+    },
+    roughness: {
+      value: 0,
+    },
+    metalness: {
+      value: 0,
+    },
+    tint: {
+      value: 0.9,
+    },
+  },
+  materialImage: "https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+
 };
 
-// Concrete Material
-export const concreteMaterial: MaterialProps = {
-  diffuseTexturePath:
-    "https://images.unsplash.com/photo-1541631955677-dc258e5fad81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080", // Concrete texture
-  color: "#808080",
-  opacity: 1,
+export const metalMaterial: ContentMaterial = {
+  materialName: "Metal",
+  customMaterial: {
+    diffuse: {
+      color: "#aaaaaa",
+    },
+    emission: {
+      color: "#000000",
+      intensity: 0,
+    },
+    opacity: {
+      value: 1,
+    },
+    roughness: {
+      value: 0.3,
+    },
+    metalness: {
+      value: 1,
+    },
+    tint: {
+      value: 0.8,
+    },
+  },
+  materialImage: "https://images.pexels.com/photos/129733/pexels-photo-129733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+
 };
 
-// Emissive Material (Neon)
-export const neonMaterial: MaterialProps = {
-  color: "#000000",
-  emissiveColor: "#00FF00",
-  emissiveIntensity: 1,
-  opacity: 1,
-};
-
-// Export all materials
 export const materials = {
+  barkMaterial,
   woodMaterial,
   metalMaterial,
   marbleMaterial,
   goldMaterial,
-  rubberMaterial,
-  fabricMaterial,
   leatherMaterial,
   concreteMaterial,
   neonMaterial,
+  glassMaterial,
 };
+
+
+export enum MaterialNames {
+  Bark = "Bark",
+  Wood = "Wood",
+  Metal = "Metal",
+  Marble = "Marble",
+  Gold = "Gold",
+  Leather = "Leather",
+  Concrete = "Concrete",
+  Neon = "Neon",
+  Glass = "Glass",
+}
+
+export const materialMap: Record<MaterialNames, ContentMaterial> = {
+  [MaterialNames.Bark]: barkMaterial,
+  [MaterialNames.Wood]: woodMaterial,
+  [MaterialNames.Metal]: metalMaterial,
+  [MaterialNames.Marble]: marbleMaterial,
+  [MaterialNames.Gold]: goldMaterial,
+  [MaterialNames.Leather]: leatherMaterial,
+  [MaterialNames.Concrete]: concreteMaterial,
+  [MaterialNames.Neon]: neonMaterial,
+  [MaterialNames.Glass]: glassMaterial,
+};
+

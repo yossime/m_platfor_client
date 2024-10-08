@@ -2,7 +2,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import Input from '@/components/Library/input/Input';
 import { InputMode, InputSize } from '@constants/input';
-import { Container, Divider} from '../../CommonStyles';
+import { Container, Divider} from '../../general/CommonStyles';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
 
 

@@ -2,28 +2,24 @@
 import { IconName } from '@constants/icon';
 import { BaseSize, ButtonStyle, FormatBoard, ImageStyle, TextStyle } from '../types';
 import { BoardType } from "../types";
-// import ArticleSimpleDisplay from '/formatsBoardsSvg/ArticleSimpleDisplay.svg';
-// import  FormSideDisplay  from './formatsBoardsSvg/FormSideDisplay.svg';
-// import  HeaderFrameDisplay  from './formatsBoardsSvg/HeaderFrameDisplay.svg';
-// import  HeaderSimpleDisplay  from './formatsBoardsSvg/HeaderSimpleDisplay.svg';
-// import  ProductDuoDisplay  from './formatsBoardsSvg/ProductDuoDisplay.svg';
-// import  ProductPodiumsDisplay  from './formatsBoardsSvg/ProductPodiumsDisplay.svg';
-// import  SubscriptionSimpleDisplay  from './formatsBoardsSvg/SubscriptionSimpleDisplay.svg';
-// import  VideoSimpleDisplay  from './formatsBoardsSvg/VideoSimpleDisplay.svg';
+import  FormSideDisplay  from './formatsBoardsSvg/FormSideDisplay.svg';
+import  HeaderFrame  from './formatsBoardsSvg/HeaderFrameDisplay.svg';
+import  HeaderSimple  from './formatsBoardsSvg/HeaderSimpleDisplay.svg';
+import  ProductDuo  from './formatsBoardsSvg/ProductDuoDisplay.svg';
+import  ProductPodiums  from './formatsBoardsSvg/ProductPodiumsDisplay.svg';
 
 
 
-// export const formatIcons: Record<FormatBoard, React.FC> = {
-//   [FormatBoard.ArticleSimple]: ArticleSimpleDisplay,
-//   [FormatBoard.Duo]: ProductDuoDisplay,
-//   [FormatBoard.Podiums]: ProductPodiumsDisplay,
-//   [FormatBoard.FormSide]: FormSideDisplay,
-//   [FormatBoard.HeaderFrame]: HeaderFrameDisplay,
-//   [FormatBoard.HeaderModel]: HeaderSimpleDisplay,
-//   [FormatBoard.HeaderSimpal]: HeaderSimpleDisplay,
-//   [FormatBoard.SubscriptionSimpal]: SubscriptionSimpleDisplay,
-//   [FormatBoard.VideoSimple]: VideoSimpleDisplay,
-// };
+export const formatIcons: Record<FormatBoard, React.FC> = {
+  [FormatBoard.Frame]: HeaderFrame,
+  [FormatBoard.Duo]: ProductDuo,
+  [FormatBoard.Podium]: ProductPodiums,
+  [FormatBoard.Side]: FormSideDisplay,
+  [FormatBoard.Simple]: HeaderSimple,
+  [FormatBoard.Model]: HeaderFrame,
+
+
+};
 
 export interface WidgetData {
   name: string;
@@ -134,6 +130,6 @@ export const imageStyleOptions = [
 export const BackgroundOptions = [
   { value: "Wood", label: "Wood" },
   { value: "Gold", label: "Gold" },
-  { value: "Create new", label: "Create new" },
-  { value: "Add from library", label: "Add from library" },
+  // { value: "Create new", label: "Create new" },
+  // { value: "Add from library", label: "Add from library" },
 ];

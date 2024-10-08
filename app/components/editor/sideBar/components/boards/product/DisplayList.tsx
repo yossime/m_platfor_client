@@ -4,7 +4,7 @@ import Button from "@/components/Library/button/Button";
 import { ButtonSize, ButtonType, ButtonVariant } from "@constants/button";
 import { IconName, IconSize } from "@constants/icon";
 import Text from "@/components/Library/text/Text";
-import { SubButton, SubContainer, SubWrapper } from "../../CommonStyles";
+import { SubButton, SubContainer, SubWrapper } from "../../general/CommonStyles";
 import { FontWeight, TextSize } from "@constants/text";
 import Icon from "@/components/Library/icon/Icon";
 import { IconColor } from "@constants/colors";

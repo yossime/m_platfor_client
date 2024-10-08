@@ -6,14 +6,14 @@ import {
   Divider,
   SubContainer,
   SubWrapper,
-} from "../../CommonStyles";
+} from "../../general/CommonStyles";
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import Collapsible from "@/components/Library/general/Collapsible";
 import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
 import styled from "styled-components";
-import { ContentInput, ContentInputForm } from "../../GenericBoardComponents";
 import { ContentDataType, InputLabelType } from "@/components/editor/types";
+import { ContentInput, ContentInputForm } from "../../general/GenericBoardComponents";
 
 const FieldWrapper = styled.div`
   display: flex;

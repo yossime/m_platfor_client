@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Container, Divider } from "../../CommonStyles";
-import {
-  ContentInput,
-  ContentImageUpload,
-} from "../../GenericBoardComponents";
+import { Container, Divider } from "../../general/CommonStyles";
+
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
-import { BoardType, ContentDataType } from "@/components/editor/types/index";
-import { ChooseBoardFormat, FormatBoard } from "../../FormatBoard";
-import { useBoardContent } from "../../useBoardContent";
+import { BoardType, ContentDataType, FormatBoard } from "@/components/editor/types/index";
+import { useBoardContent } from "../../general/useBoardContent";
+import { useSidebarContext } from "@/context/SidebarContext ";
+import { ContentImageUpload, ContentInput } from "../../general/GenericBoardComponents";
+import { ChooseBoardFormat } from "../../general/FormatBoard";
 
 export const ImageContentComponent: React.FC = () => {
+  const {showformatBoard} = useSidebarContext()
+
   const { getFormat } = useBoardContent();
   const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(
     getFormat()
@@ -31,7 +32,7 @@ export const ImageContentComponent: React.FC = () => {
 
   return (
     <>
-      {formatBoard === null ? (
+      {showformatBoard  ? (
         <ChooseBoardFormat
         boardType={BoardType.Image}
         />

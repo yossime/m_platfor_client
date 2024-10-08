@@ -1,24 +1,21 @@
 import React, { useState } from "react";
-import { Container } from "../../CommonStyles";
-import { ContentInput } from "../../GenericBoardComponents";
+import { Container } from "../../general/CommonStyles";
 import {
   BoardType,
   ContentDataType,
   FormatBoard,
 } from "@/components/editor/types/index";
 import ProductListSidebar from "./ProductListSidebar";
-import { ChooseBoardFormat } from "../../FormatBoard";
-import { useBoardContent } from "../../useBoardContent";
+import { useSidebarContext } from "@/context/SidebarContext ";
+import { ChooseBoardFormat } from "../../general/FormatBoard";
+import { ContentInput } from "../../general/GenericBoardComponents";
 
 export const ProductContentComponent: React.FC = () => {
-  const { getFormat } = useBoardContent();
-  const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(
-    getFormat()
-  );
+  const {showformatBoard} = useSidebarContext()
 
   return (
     <>
-      {formatBoard === null ? (
+      {showformatBoard ? (
         <ChooseBoardFormat boardType={BoardType.Product} />
       ) : (
         <Container>

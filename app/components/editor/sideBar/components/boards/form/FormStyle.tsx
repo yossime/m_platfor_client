@@ -2,11 +2,11 @@
 import React, { useRef, useState } from 'react';
 import { InputSize, InputMode } from '@constants/input';
 import SelectInput from '@/components/Library/input/SelectInput';
-import { Container, Divider } from '../../CommonStyles';
+import { Container, Divider } from '../../general/CommonStyles';
 import DataObfuscator from '@/components/Library/general/DataObfuscator';
 import { textSizeOptions, textStyleOptions, buttonStyleOptions, imageStyleOptions, BackgroundOptions } from '../../../types';
-import AlignmentControl from '../../AlignmentControlComponent';
-import TextureUploadComponent from '../../LoadTexturePopup';
+import AlignmentControl from '../../general/AlignmentControlComponent';
+import TextureUploadComponent from '../../../../material/LoadTexturePopup';
 
 interface IHeaderStyle {
   titleSize: string;

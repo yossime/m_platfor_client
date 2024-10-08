@@ -1,67 +1,81 @@
-import * as THREE from 'three';
-import { MaterialProps } from './materials';
+import * as THREE from "three";
+import { ICustomMaterial, ITextureSource } from "../types";
+// import { faceDirection } from "three/examples/jsm/nodes/Nodes.js";
 
-interface CreateMaterialSphereProps {
-  material: MaterialProps;
-  radius?: number;
-  widthSegments?: number;
-  heightSegments?: number;
-}
-
-const textureCache: { [url: string]: THREE.Texture } = {};
+const textureCache: Map<string, THREE.Texture> = new Map();
 const textureLoader = new THREE.TextureLoader();
 
-const loadTextureAsync = (url: string | undefined): Promise<THREE.Texture | null> => {
-  if (!url) return Promise.resolve(null);
-  if (textureCache[url]) return Promise.resolve(textureCache[url]);
+const loadTextureAsync = async (source: ITextureSource | undefined): Promise<THREE.Texture | null> => {
+  if (!source || !source.map) return null;
 
-  return new Promise((resolve, reject) => {
-    textureLoader.load(
-      url,
-      (texture) => {
-        textureCache[url] = texture;
-        resolve(texture);
-      },
-      undefined,
-      (error) => {
-        console.error(`Failed to load texture from ${url}`, error);
-        reject(error);
-      }
-    );
-  });
+  const url = typeof source.map === 'string' ? source.map : URL.createObjectURL(source.map);
+
+  if (textureCache.has(url)) return textureCache.get(url)!;
+
+  try {
+    const texture = await new Promise<THREE.Texture>((resolve, reject) => {
+      textureLoader.load(url, (loadedTexture) => {
+        loadedTexture.flipY = false; 
+        loadedTexture.premultiplyAlpha = false;
+        resolve(loadedTexture);
+      }, undefined, reject);
+    });
+    textureCache.set(url, texture);
+
+    if (typeof source.map !== 'string') {
+      URL.revokeObjectURL(url);
+    }
+
+    return texture;
+  } catch {
+    return new THREE.Texture();
+  }
 };
-
-export const createMaterialSphere = async ({
-  material: {
-    diffuseTexturePath,
-    normalTexturePath,
-    roughnessTexturePath,
-    metallicTexturePath,
-    emissionTexturePath,
-    color = 0xffffff,
-    emissiveColor = 0x000000,
-    emissiveIntensity = 1,
-    opacity = 1,
-  },
-  radius = 1,
-  widthSegments = 32,
-  heightSegments = 32,
-}: CreateMaterialSphereProps): Promise<THREE.Mesh> => {
-  const geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
-
-  const material = new THREE.MeshStandardMaterial({
-    map: await loadTextureAsync(diffuseTexturePath),
-    normalMap: await loadTextureAsync(normalTexturePath),
-    roughnessMap: await loadTextureAsync(roughnessTexturePath),
-    metalnessMap: await loadTextureAsync(metallicTexturePath),
-    emissiveMap: await loadTextureAsync(emissionTexturePath),
-    color: new THREE.Color(color),
-    emissive: new THREE.Color(emissiveColor),
-    emissiveIntensity: emissiveIntensity,
-    opacity: opacity,
-    transparent: opacity < 1,
+export const createMaterial = async ({
+  diffuse,
+  normal,
+  roughness,
+  metalness,
+  emission,
+  opacity = { value: 1 },
+  tint,
+}: ICustomMaterial): Promise<THREE.MeshPhysicalMaterial> => {
+  const material = new THREE.MeshPhysicalMaterial({
+    map: null,
+    normalMap: null,
+    roughnessMap: null,
+    metalnessMap: null,
+    emissiveMap: null,
+    color: new THREE.Color(diffuse?.color || 0xffffff),
+    emissive: new THREE.Color(emission?.color || 0x000000),
+    emissiveIntensity: emission?.intensity || 1,
+    roughness: roughness?.value || 1,
+    metalness: metalness?.value || 0,
+    opacity: opacity.value || 1,
+    transparent: (opacity?.value ?? 1) < 1,
+    reflectivity: tint?.value || 0.5,
+    displacementScale: 0.1,
+    clearcoat: 1,
+    clearcoatRoughness: 0.5,
   });
 
-  const mesh = new THREE.Mesh(geometry, material);
-  return mesh;
+  const textures = await Promise.all([
+    loadTextureAsync(diffuse),
+    loadTextureAsync(normal),
+    loadTextureAsync(roughness),
+    loadTextureAsync(metalness),
+    loadTextureAsync(emission),
+  ]);
+
+  [
+    material.map,
+    material.normalMap,
+    material.roughnessMap,
+    material.metalnessMap,
+    material.emissiveMap,
+  ] = textures;
+
+  material.needsUpdate = true;
+
+  return material;
 };
