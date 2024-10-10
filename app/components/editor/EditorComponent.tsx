@@ -9,6 +9,7 @@ import JoyrideEditor from "../Library/Joyride/JoyrideEditor";
 import { CameraProvider } from "@/context/CameraContext";
 import { SidebarProvider } from "@/context/SidebarContext ";
 import Viewport from "./viewport/Viewport";
+import { EnvironmentProvider } from "@/context/EnvironmentContext";
 
 const EditorLayout = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const EditorComponent: React.FC = () => {
       {editorState !== EditorState.PREVIEW ? (
         <EditorLayout>
           <JoyrideEditor />
+          <EnvironmentProvider>
           <CameraProvider>
             <SidebarProvider>
               <SideBar />
@@ -36,6 +38,7 @@ const EditorComponent: React.FC = () => {
               {/* <ThreeScene {...outlineProps}/> */}
             </SidebarProvider>
           </CameraProvider>
+          </EnvironmentProvider>
         </EditorLayout>
       ) : (
         <EditorLayout>

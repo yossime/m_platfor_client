@@ -73,6 +73,7 @@ export const SubButton = styled.button`
 
 export const FileDisplay = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
 `;
