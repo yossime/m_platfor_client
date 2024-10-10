@@ -1,12 +1,16 @@
 import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture, MeshPhongMaterial, MeshBasicMaterial } from 'three';
 
-import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, ContentMaterial, ContentText, ContentObjects, ContentDataType, ContentData, ExportedSceneObject } from '../../types';
+import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, ContentMaterial, ContentText, ContentObjects, ContentDataType, ContentData, ExportedSceneObject, TextAlign, FontWeight, TextParams } from '../../types';
 import { FBXLoader, Font, FontLoader, GLTFLoader, TextGeometry } from 'three/examples/jsm/Addons.js';
 import { TextureManager } from '../utils/TextureManager';
 import { EventManager } from '../utils/EventManager';
 import { ModelLoader } from '../loaderes/ModelLoader';
-// import { useEditor } from '@/context/useEditorContext';
-// const { sceneModel } = useEditor();
+import { Text as TroikaText } from 'troika-three-text';
+import * as THREE from 'three';
+import { CommandManager } from '../commands/CommandManager';
+import { ChangeTextCommand } from '../commands/ChangeTextCommand';
+import { TextObject } from '../../function/curveText';
+
 
 export abstract class SceneObject implements ISceneObject {
   protected eventManager: EventManager;
@@ -14,16 +18,15 @@ export abstract class SceneObject implements ISceneObject {
   public type: string;
   protected model: Object3D | null = null;
   public children: ISceneObject[] = [];
-  // protected placeholders: CustomObject3D[] = [];
   protected slots: CustomObject3D[] = [];
   protected position: Vector3 | null = null;
   protected rotation: Euler | null = null;
   protected scale: Vector3 = new Vector3(1, 1, 1);
   protected modelParent: Object3D | null = null;
   protected contentsData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
-  // protected onLoad: (model?: Object3D) => void;
   protected loader = new ModelLoader();
   protected readonly libraryUrl: string;
+  protected commandManager = CommandManager.getInstance();
 
   constructor(type: string, options?: ISceneObjectOptions) {
     this.libraryUrl = 'https://storage.googleapis.com/library-all-test';
@@ -42,10 +45,11 @@ export abstract class SceneObject implements ISceneObject {
       }
     });
   }
-  addChild?(sceneObject: ISceneObject): void {
+  getModel() { return this.model }
+  addChild(sceneObject: ISceneObject): void {
     throw new Error('Method not implemented.');
   }
-  removeChild?(sceneObject: ISceneObject): void {
+  removeChild(sceneObject: ISceneObject): void {
     throw new Error('Method not implemented.');
   }
   getPosition(): Vector3 | null {
@@ -56,17 +60,43 @@ export abstract class SceneObject implements ISceneObject {
   }
 
 
+  protected initializeContentText(meshName: ContentDataType, initproperties: TextParams): void {
+    const mesh = this.getGeometryByName(meshName);
+
+    if (mesh instanceof THREE.Mesh) {
+      const textObject = new TextObject(mesh, initproperties);
+
+      this.contentsData.set(meshName,
+        {
+          contentText: {
+            textObject: textObject
+          }
+        });
+    }
+  }
 
 
-  // public abstract addChild(sceneObject: ISceneObject, slotNumber?: number): void;
+  public setContentText(type: ContentDataType, newParams: Partial<TextParams>): void {
+    const textObject = this.contentsData.get(type)?.contentText?.textObject!;
+    const oldProperties = { ...textObject.getParams() }
+
+    const command = new ChangeTextCommand(textObject, newParams, oldProperties);
+    this.commandManager.execute(command);
+  }
 
   public displayEmptySlots(visible: boolean = true): void {
-    this.setSlotsVisible(visible);
+    this.slots.forEach(slot => {
+      if (slot.isEmpty) {
+        slot.visible = visible;
+      }
+    });
   }
 
   protected setSlotsVisible(visible: boolean): void {
     this.slots.forEach(slot => {
-      slot.visible = visible;
+      if (slot.isEmpty) {
+        slot.visible = visible;
+      }
     });
   };
 
@@ -90,7 +120,7 @@ export abstract class SceneObject implements ISceneObject {
     return this.slots;
   }
 
-  public setContentText(type: ContentDataType, text: ContentText): void { }
+  // public setContentText(type: ContentDataType, text: ContentText): void { }
 
   public setContentMaterial(type: ContentDataType, material: ContentMaterial) { }
 
@@ -133,21 +163,31 @@ export abstract class SceneObject implements ISceneObject {
 
   protected async loadPlaceholders(placeholderPath: string, handleSelectSlot: (object: CustomObject3D) => any): Promise<void> {
     if (!this.model) return;
+    console.log('Loading placeholder', this.model);
+    // const placeholder = await this.loader.loadModel(placeholderPath);
+    // console.log(' placeholder', placeholder);
 
-    const placeholder = await this.loader.loadModel(placeholderPath);
     const slots = this.getSlotsPosition();
 
-    slots.forEach(slot => {
-      const placeholderClone = placeholder.clone().children[0] as CustomObject3D;
-      placeholderClone.onPointerDown = () => handleSelectSlot(placeholderClone);
-      placeholderClone.interactive = true;
-      slot.parent?.attach(placeholderClone);
-      placeholderClone.position.copy(slot.position);
-      placeholderClone.rotation.copy(slot.rotation);
-      placeholderClone.name = slot.name;
-      placeholderClone.visible = false;
-      slot.parent?.remove(slot);
-      this.slots.push(placeholderClone);
+    slots.forEach(slotMesh => {
+      // const placeholderClone = placeholder.clone().children[0] as CustomObject3D;
+      // // const placeholderClone = placeholder.children[0].clone().children[0] as CustomObject3D;
+      // placeholderClone.onPointerDown = () => handleSelectSlot(placeholderClone);
+      // placeholderClone.interactive = true;
+      // slot.parent?.attach(placeholderClone);
+      // placeholderClone.position.copy(slot.position);
+      // placeholderClone.rotation.copy(slot.rotation);
+      // placeholderClone.name = slot.name;
+      // placeholderClone.visible = false;
+      // slot.parent?.remove(slot);
+      // this.slots.push(placeholderClone);
+
+      const slot = slotMesh as CustomObject3D;
+      slot.onPointerDown = () => handleSelectSlot(slot);
+      slot.interactive = true;
+      slot.isEmpty = true;
+      slot.visible = false;
+      this.slots.push(slot);
 
     });
 
@@ -179,7 +219,7 @@ export abstract class SceneObject implements ISceneObject {
           this.setContentMaterial(key as ContentDataType, value.contentMaterial)
         }
         if (value.contentText) {
-          this.setContentText(key as ContentDataType, value.contentText)
+          // this.setContentText(key as ContentDataType, value.contentText)
         }
         if (value.contentForm) {
           // this.setContentText(key as ContentDataType, value.contentText)
@@ -252,7 +292,6 @@ export abstract class SceneObject implements ISceneObject {
     let found: Object3D | null = null;
     this.model.traverse((child) => {
       if (child.name === name) {
-
         found = child;
       }
     });
@@ -263,6 +302,7 @@ export abstract class SceneObject implements ISceneObject {
     this.setPosition(slot.position);
     this.setRotation(slot.rotation);
 
+    slot.visible = false;
     this.modelParent = slot.parent;
     if (this.model && this.modelParent) {
       this.modelParent.attach(this.model);
@@ -293,16 +333,16 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   protected highlightMesh = (object: Object3D): void => {
-    object.traverse((child) => {
-      if (child instanceof Mesh) {
-        const highlightMaterial = new MeshStandardMaterial({
-          color: 0xff0000,
-          emissive: 0xff0000,
-          emissiveIntensity: 0.5,
-        });
-        child.material = highlightMaterial;
-      }
-    });
+    // object.traverse((child) => {
+    //   if (child instanceof Mesh) {
+    //     const highlightMaterial = new MeshStandardMaterial({
+    //       color: 0xff0000,
+    //       emissive: 0xff0000,
+    //       emissiveIntensity: 0.5,
+    //     });
+    //     child.material = highlightMaterial;
+    //   }
+    // });
   };
 
   protected applyText(mesh: Mesh, text: ContentText): void {
@@ -325,25 +365,25 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   async straightText(mesh: Mesh, text: ContentText) {
-    try {
-      const font = await this.loadFont('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json');
-      const geometry = new TextGeometry(text.text, {
-        font: font,
-        size: 0.5,
-        depth: 0.1,
-      });
+    // try {
+    //   const font = await this.loadFont('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json');
+    //   const geometry = new TextGeometry(text.text, {
+    //     font: font,
+    //     size: 0.5,
+    //     depth: 0.1,
+    //   });
 
-      const material = new MeshPhongMaterial({ color: 0xffffff });
-      const newMesh = new Mesh(geometry, material);
-      newMesh.position.copy(mesh.position);
+    //   const material = new MeshPhongMaterial({ color: 0xffffff });
+    //   const newMesh = new Mesh(geometry, material);
+    //   newMesh.position.copy(mesh.position);
 
-      mesh.geometry.dispose();
-      mesh.geometry = geometry;
-      mesh = newMesh;
+    //   mesh.geometry.dispose();
+    //   mesh.geometry = geometry;
+    //   mesh = newMesh;
 
-    } catch (error) {
-      console.error('Error replacing text:', error);
-    }
+    // } catch (error) {
+    //   console.error('Error replacing text:', error);
+    // }
   }
 
   // Performance optimization for large scenes

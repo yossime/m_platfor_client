@@ -6,6 +6,9 @@ import { BoardType } from "@/components/editor/types";
 import { Board } from '../boards/Board';
 import { ProductMaster } from '../boards/productBoards/ProductMaster.board';
 import { createBoardByType } from '@/components/editor/utils/CraeteBoard';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from 'three';
+import { AddChildCommand } from '../../commands/AddChildCommand';
 
 export class Architecture extends SceneObject implements IArchitecture {
     private placeholderPath: string;
@@ -16,13 +19,10 @@ export class Architecture extends SceneObject implements IArchitecture {
         super(type, options);
         this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}.fbx`;
     }
-    addBoard(board: IBoard): void {
-        throw new Error('Method not implemented.');
+    public addBoard(board: Board): void {
+        const command = new AddChildCommand(this, board);
+        this.commandManager.execute(command);
     }
-    removeChild?(sceneObject: ISceneObject): void {
-        throw new Error('Method not implemented.');
-    }
-
 
     public addChild(sceneObject: Board, slotNumber?: number): void {
         if (slotNumber) {
@@ -33,31 +33,42 @@ export class Architecture extends SceneObject implements IArchitecture {
         if (this.selectedSlot) {
             const slotNumber = parseInt(this.selectedSlot.name.replace(/\D/g, ''), 10);
             sceneObject.slotNumber = slotNumber;
+            this.selectedSlot.isEmpty = false;
             sceneObject.exchangeSlot(this.selectedSlot);
             this.children.push(sceneObject);
 
             this.setSlotsVisible(false);
-            this.slots = this.slots.filter(placeholder => placeholder !== this.selectedSlot);
+            // this.slots = this.slots.filter(placeholder => placeholder !== this.selectedSlot);
             this.selectedSlot = null;
             this.childToAdd = null;
         } else {
 
-            this.setSlotsVisible(true);
+            this.displayEmptySlots();
             this.childToAdd = sceneObject;
         }
     }
 
 
+    removeChild(sceneObject: ISceneObject): void {
+        this.children.filter(child => child !== sceneObject);
+        this.model?.children.filter(child => child !== sceneObject.getModel());
+        // throw new Error('Method not implemented.');
+      }
+
 
 
     async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
+
+        const archUrl = `https://storage.googleapis.com/library-all-test/architectures/${this.type}.fbx`;
         try {
-            const archUrl = `https://storage.googleapis.com/library-all-test/architectures/${this.type}.fbx`;
+
             const model = await this.loader.loadModel(archUrl);
             const customModel = model as CustomObject3D;
+            // const customModel = model.children[0] as CustomObject3D;
             customModel.onPointerDown = () => this.handleSelected(customModel);
             customModel.interactive = true;
             this.model = customModel;
+            console.log('customModel', customModel);
 
             await this.loadPlaceholders(this.placeholderPath, this.handleSelectSlot)
 
@@ -69,14 +80,14 @@ export class Architecture extends SceneObject implements IArchitecture {
     }
 
 
-    protected handleSelectSlot = (object: CustomObject3D): ISceneObject => {
+    protected handleSelectSlot = (slet: CustomObject3D): ISceneObject => {
         // super.handleSelectSlot(object);
-        this.selectedSlot = object;
+        this.selectedSlot = slet;
 
         if (this.childToAdd) {
             this.addChild(this.childToAdd);
         }
-        this.highlightMesh(object);
+        this.highlightMesh(slet);
         return this;
     };
 

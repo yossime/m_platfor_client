@@ -48,3 +48,5 @@ cors.json
 *temp/
 
 .history
+
+*_test.tsx

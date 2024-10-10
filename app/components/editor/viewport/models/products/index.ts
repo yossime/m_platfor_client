@@ -26,7 +26,7 @@ export abstract class Stand extends SceneObject {
     
           const customModel = model.children[0] as CustomObject3D;
     
-          customModel.onPointerDown = () => this.handleSelected(customModel);
+          // customModel.onPointerDown = () => this.handleSelected(customModel);
           customModel.interactive = true;
           this.model = customModel;
 
@@ -49,28 +49,28 @@ export abstract class Stand extends SceneObject {
 
       protected initializeContentAreas(): void {
         const {price, title, currencyType, SKU} = this.productData;
-            this.setContentText(ContentDataType.PRICE, {text: price.toString()})
-            this.setContentText(ContentDataType.TITLE, {text: title})
+            // this.setContentText(ContentDataType.PRICE, {text: price.toString()})
+            // this.setContentText(ContentDataType.TITLE, {text: title})
             // this.setContentText(ContentDataType.PRICE_CURRENCY, {text: currencyType || '$'})
             this.contentsData.set(ContentDataType.PRODUCT, {contentObjects:{SKU: SKU, model: '2'}})
     }
 
-      public setContentText(type: ContentDataType, text: ContentText): void {
-        let geometryName = type;
-        if (type === ContentDataType.PRICE) {
-          geometryName = `${type}_text` as ContentDataType;
-        }
+      // public setContentText(type: ContentDataType, text: ContentText): void {
+      //   let geometryName = type;
+      //   if (type === ContentDataType.PRICE) {
+      //     geometryName = `${type}_text` as ContentDataType;
+      //   }
     
-        const geometry = this.getGeometryByName(geometryName);
+      //   const geometry = this.getGeometryByName(geometryName);
 
-        // this.contentsData.set(type, {
-        //   contentText: text,
-        // });
+      //   // this.contentsData.set(type, {
+      //   //   contentText: text,
+      //   // });
     
-        if (geometry instanceof Mesh) {
-          this.applyText(geometry, text);
-        }
-      }
+      //   if (geometry instanceof Mesh) {
+      //     this.applyText(geometry, text);
+      //   }
+      // }
 
 
       public exportToJson(): string {

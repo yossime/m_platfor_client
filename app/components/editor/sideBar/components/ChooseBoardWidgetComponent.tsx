@@ -33,7 +33,8 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
     const newBoard = createBoardByType(widget.type, { name: widget.name });
 
     if (sceneModel?.root && newBoard) {
-      sceneModel.root.addChild(newBoard);
+      // sceneModel.root.addChild(newBoard);
+      sceneModel.root.addBoard(newBoard);
       sceneModel.setSelectedObject(newBoard);
       setFormatBoard(true)
       setActiveSidebarHeader(widget.name as HeaderType);

@@ -1,5 +1,6 @@
 import { Product } from '@/components/dashboard/types/product.types';
 import { Object3D, Vector3, Euler, Material, Texture } from 'three';
+import { TextObject } from '../function/curveText';
 
 
 export interface ISceneObjectOptions {
@@ -15,6 +16,7 @@ export interface ISceneObject {
   children: ISceneObject[];
   addChild?(sceneObject: ISceneObject): void;
   removeChild?(sceneObject: ISceneObject): void;
+  getModel(): Object3D | null;
   getChildren(): ISceneObject[] | null;
   getEmptySlots(): CustomObject3D[];
   displayEmptySlots(): void;
@@ -26,7 +28,7 @@ export interface ISceneObject {
   getContentMaterial(type: ContentDataType): ContentMaterial | null;
   getContentText(type: ContentDataType): ContentText | null;
   setContentMaterial(type: ContentDataType, material: ContentMaterial): void;
-  setContentText?(type: ContentDataType, text: ContentText): void;
+  setContentText(type: ContentDataType, propertie: Partial<TextParams>): void;
 }
 
 export interface IArchitecture extends ISceneObject {
@@ -60,6 +62,7 @@ export interface ProductStand extends ISceneObject {
 export interface CustomObject3D extends Object3D {
   onPointerDown?: (event: any) => ISceneObject;
   interactive?: boolean;
+  isEmpty?: boolean;
 }
 
 export enum DisplayType {
@@ -122,10 +125,10 @@ export interface ContentForm {
 }
 
 export interface InputField {
-  label?: ContentText;
-  placeholder?: ContentText;
-  required?: boolean;
-  default?: ContentText;
+  label?: any;
+  placeholder?: any;
+  required?: any;
+  default?: any;
 }
 
 export enum InputLabelType {
@@ -180,13 +183,61 @@ export enum ESkybox {
 }
 
 
-export interface ContentText {
-  text: string;
-  font?: string;
-  color?: string;
-  size?: string;
-  scale?: [number, number, number];
+// export interface ContentText {
+//   text: string;
+//   font?: string;
+//   color?: string;
+//   size?: string;
+//   scale?: [number, number, number];
+// }
+
+export enum FontWeight {
+  Normal = 'normal',
+  Bold = 'bold',
+  Bolder = 'bolder',
+  Lighter = 'lighter',
 }
+
+export enum TextAlign {
+  Left = 'left',
+  Center = 'center',
+  Right = 'right',
+  Justify = 'justify',
+}
+
+//   export type Font = 'Arial' | 'Helvetica' | 'Times New Roman' | 'Courier New' | 'Custom';
+
+
+export interface TextParams {
+    text: string;
+    font?: string;
+    fontSize: number;
+    maxWidth: number;
+    anchorX: 'left' | 'center' | 'right';
+    anchorY: 'top' | 'middle' | 'bottom';
+    fontWeight: FontWeight;
+    textAlign: TextAlign;
+    lineHeight: number;
+    letterSpacing: number;
+    outlineColor?: string;
+    color: string;
+    position?: { x: number; y: number; z: number };
+}
+export interface ContentText{
+  textObject?: TextObject;
+  textPaerms?: TextParams;
+  // text: string;
+  // font?: string;
+  // fontSize: number;
+  // fontWeight?: FontWeight;
+  // textAlign?: TextAlign;
+  // lineHeight?: number;
+  // letterSpacing?: number;
+  // color?: string;
+  // outlineColor?: string;
+  // maxWidth?: number;
+}
+
 
 export interface ExportedSceneObject {
   name?: string | null;

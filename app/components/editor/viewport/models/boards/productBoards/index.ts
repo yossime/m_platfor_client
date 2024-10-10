@@ -55,7 +55,7 @@ export abstract class ProductBoardABC extends Board implements ProductBoard {
             if (!slot) return;
 
             stand.exchangeSlot(slot);
-            this.children.push(stand);
+            // this.children.push(stand);
 
             // this.slots = this.slots.filter(placeholder => placeholder !== this.selectedSlot);
             // this.childToAdd = null;

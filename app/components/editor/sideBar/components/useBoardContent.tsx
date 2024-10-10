@@ -10,6 +10,7 @@ import {
   ContentForm,
   InputField,
   InputLabelType,
+  TextParams,
 } from "../../types";
 import { Board } from "../../viewport/models/boards/Board";
 import { FormBoardABC } from "../../viewport/models/boards/formBoards";
@@ -24,13 +25,13 @@ export const useBoardContent = () => {
     }
     return sceneModel.getSelectedObject() ;
   };
-  const getContentText = (type: ContentDataType): ContentText | null => {
+  const getContentText = (type: ContentDataType): TextParams | null => {
     const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return null;
     }
-    return selectedObject.getContentText?.(type) ?? null;
+    return selectedObject.getContentText?.(type)?.textObject?.getParams() ?? null;
   };
 
   const setContentText = (type: ContentDataType, value: string): void => {
@@ -39,11 +40,11 @@ export const useBoardContent = () => {
       console.warn("No object selected");
       return;
     }
-    if (selectedObject.setContentText) {
+    // if (selectedObject.setContentText) {
       selectedObject.setContentText(type, { text: value });
-    } else {
-      console.warn("Selected object does not support setting content text");
-    }
+    // } else {
+    //   console.warn("Selected object does not support setting content text");
+    // }
   };
 
   const getFormInput = (type: ContentDataType, label:InputLabelType): InputField | null => {
@@ -61,11 +62,11 @@ export const useBoardContent = () => {
       console.warn("No object selected");
       return;
     }
-    if (selectedObject.setContentText) {
+    // if (selectedObject.setContentText) {
       (selectedObject as FormBoardABC).setFormInput(type,label,  input );
-    } else {
-      console.warn("Selected object does not support setting content text");
-    }
+    // } else {
+    //   console.warn("Selected object does not support setting content text");
+    // }
   };
 
   const getContentMaterial = (

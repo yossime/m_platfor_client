@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import Viewport from "@/components/editor/viewport/Viewport";
 import SideBar from "@/components/editor/sideBar/SideBar";
 import { EditorState, useEditor } from "@/context/useEditorContext";
 import UnityViewer from "./preView/UnityViewer";
 import JoyrideEditor from "../Library/Joyride/JoyrideEditor";
 import { CameraProvider } from "@/context/CameraContext";
 import { SidebarProvider } from "@/context/SidebarContext ";
+import Viewport from "./viewport/Viewport";
 
 const EditorLayout = styled.div`
   display: flex;
@@ -20,7 +20,16 @@ const EditorLayout = styled.div`
 
 const EditorComponent: React.FC = () => {
   const { editorState } = useEditor();
-
+  const [outlineProps, setOutlineProps] = useState({
+    edgeStrength: 3.0,
+    edgeGlow: 1,
+    edgeThickness: 1.0,
+    pulsePeriod: 0,
+    visibleEdgeColor: '#b12828',
+    hiddenEdgeColor: '#190a05',
+    usePatternTexture: false,
+    rotate: false,
+  });
   return (
     <>
       {editorState !== EditorState.PREVIEW ? (
@@ -30,7 +39,11 @@ const EditorComponent: React.FC = () => {
           <SidebarProvider>
             <SideBar />
             <Viewport />
-            </SidebarProvider>
+            {/* <Viewport>
+              <Editor />
+            </Viewport> */}
+            {/* <ThreeScene {...outlineProps}/> */}
+          </SidebarProvider>
           </CameraProvider>
         </EditorLayout>
       ) : (

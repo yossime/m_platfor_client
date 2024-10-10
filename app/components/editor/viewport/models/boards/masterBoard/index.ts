@@ -1,10 +1,12 @@
-import { ISceneObjectOptions, ISceneObject, ContentDataType } from '@/components/editor/types/index';
+import { ISceneObjectOptions, ISceneObject, ContentDataType, ContentText } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
 import { Board } from '../Board';
 import { Object3D } from 'three';
+import { Text as TroikaText } from 'troika-three-text';
+import { ChangeTextCommand } from '../../../commands/ChangeTextCommand';
+import { TITLE } from '@/constants/editor/boards/text.constants';
 
 export abstract class MasterBoardABC extends Board {
-    
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, options);
         // if(options?.exportedScenObj?.format) {
@@ -16,7 +18,7 @@ export abstract class MasterBoardABC extends Board {
 
     protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
         if (!this.format) return;
-        super.loadModelAndDisplay(onLoad);
+        await super.loadModelAndDisplay(onLoad);
         this.initializeContentAreas();
     }
 
@@ -25,5 +27,9 @@ export abstract class MasterBoardABC extends Board {
         this.contentsData.set(ContentDataType.SUB_TITLE, {});
         this.contentsData.set(ContentDataType.FRAME, {});
         this.contentsData.set(ContentDataType.BUTTON, {});
+
+        this.initializeContentText(ContentDataType.TITLE, TITLE)
+        this.initializeContentText(ContentDataType.SUB_TITLE, TITLE)
+        this.initializeContentText(`${ContentDataType.BUTTON}_text` as ContentDataType, TITLE)
     }
 }

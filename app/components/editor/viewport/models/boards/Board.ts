@@ -57,7 +57,7 @@ export abstract class Board extends SceneObject {
       const model = await this.loader.loadModel(this.getBoardUrl());
 
       const customModel = model.children[0] as CustomObject3D;
-
+      
       customModel.onPointerDown = () => this.handleSelected(customModel);
       customModel.interactive = true;
       this.model = customModel;
@@ -145,26 +145,6 @@ export abstract class Board extends SceneObject {
     }
   }
 
-  public setContentText(type: ContentDataType, text: ContentText): void {
-    let geometryName = type;
-    if (type === ContentDataType.BUTTON) {
-      geometryName = `${type}_text` as ContentDataType;
-    }
-
-    const geometry = this.getGeometryByName(geometryName);
-    const configV = this.configuration.get(EConfigType.VERTICAL);
-    const configH = this.configuration.get(EConfigType.HORIZONTAL);
-    const configImageName = `ph_${type}_${configV?.charAt(0)}_${configH?.charAt(0)}`;
-
-    this.contentsData.set(type, {
-      contentObjects: { meshName: configImageName },
-      contentText: text,
-    });
-
-    if (geometry instanceof Mesh) {
-      this.applyText(geometry, text);
-    }
-  }
 
   protected getPlaceholder(type: ContentDataType) {
     const configV = this.configuration.get(EConfigType.VERTICAL);
@@ -210,34 +190,7 @@ export abstract class Board extends SceneObject {
   }
 
 
-  // protected updateContentPositions(): void {
-  //   this.contentsData.forEach(async (data, contentType) => {
-  //     if(contentType === ContentDataType.LOGO) { continue; }
-
-  //     const geometry = this.getGeometryByName(contentType);
-  //     const placeholder = this.getPlaceholder(contentType);
-  //     if (geometry && placeholder) {
-  //       const oldMaterial = this.contentsData.get(contentType);
-
-  //       if (contentType === ContentDataType.FRAME) {
-  //         await this.setContentMaterial(
-  //           ContentDataType.FRAME,
-  //           oldMaterial?.contentMaterial!
-  //         );
-  //       } else {
-  //         geometry.position.copy(placeholder.position);
-  //         geometry.rotation.copy(placeholder.rotation);
-  //       }
-
-  //       const oldContent = this.contentsData.get(contentType);
-  //       this.contentsData.set(contentType, {
-  //         ...oldContent,
-  //         // contentObjects: updatedObjects,
-  //       });
-  //     }
-  //   });
-  // }
-
+ 
   protected calculatePosition(contentType: string): Vector3 {
     // Implement position calculation based on configuration
     return new Vector3();

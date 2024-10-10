@@ -1,5 +1,5 @@
 
-import { Object3D, Object3DEventMap } from 'three';
+import { Mesh, Object3D, Object3DEventMap } from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -19,7 +19,7 @@ export class ModelLoader {
         this.fbxLoader = new FBXLoader();
     }
 
-    public async loadModel(url: string, eventsOptions?: EventsOptions): Promise<Object3D> {
+    public loadModel(url: string, eventsOptions?: EventsOptions): Promise<Object3D> {
         const extension = url.split('.').pop()?.toLowerCase();
 
         switch (extension) {
@@ -34,10 +34,32 @@ export class ModelLoader {
     }
 
     private loadGLTF(url: string): Promise<Object3D> {
+
         return new Promise((resolve, reject) => {
-            this.gltfLoader.load(url, (gltf: { scene: Object3D<Object3DEventMap> | PromiseLike<Object3D<Object3DEventMap>>; }) => resolve(gltf.scene), undefined, reject);
+            this.gltfLoader.load(
+                url,
+                (gltf) => {
+                    gltf.scene.traverse((child) => {
+                        if (child instanceof Mesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+                    resolve(gltf.scene);
+                },
+                undefined,
+                (error) => {
+                    console.error('An error occurred while loading the model:', error);
+                    reject(error); 
+                }
+            );
         });
     }
+    // private loadGLTF(url: string): PromiseLike<Object3D<Object3DEventMap>> {
+    //     return new Promise((resolve, reject) => {
+    //         this.gltfLoader.load(url, (gltf: { scene: Object3D<Object3DEventMap> | PromiseLike<Object3D<Object3DEventMap>>; }) => resolve(gltf.scene), undefined, reject);
+    //     });
+    // }
 
     private loadFBX(url: string): Promise<Object3D> {
         return new Promise((resolve, reject) => {
