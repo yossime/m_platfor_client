@@ -5,8 +5,8 @@ import DataObfuscator from "@/components/Library/general/DataObfuscator";
 import { BoardType, ContentDataType, FormatBoard } from "@/components/editor/types/index";
 import { useBoardContent } from "../../general/useBoardContent";
 import { useSidebarContext } from "@/context/SidebarContext ";
-import { ContentImageUpload, ContentInput } from "../../general/GenericBoardComponents";
 import { ChooseBoardFormat } from "../../general/FormatBoard";
+import { ContentImageLine, ContentInput } from "../../general/GenericBoardComponents";
 
 export const ImageContentComponent: React.FC = () => {
   const {showformatBoard} = useSidebarContext()
@@ -45,7 +45,7 @@ export const ImageContentComponent: React.FC = () => {
                 isOpen={openSections.image}
                 onToggle={handleSectionToggle("image")}
               >
-                <ContentImageUpload type={ContentDataType.FRAME} />
+                <ContentImageLine type={ContentDataType.FRAME} />
               </DataObfuscator>
               <Divider />
             </>
