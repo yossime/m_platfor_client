@@ -41,7 +41,7 @@ const EnvironmentLoader: React.FC = () => {
   }, [currentEnvironment, gl]);
 
   return processedEnvMap ? (
-    <Environment map={processedEnvMap} background backgroundBlurriness={0.5} />
+    <Environment map={processedEnvMap} background backgroundBlurriness={0.3} />
 
   ) : null;
 };
@@ -54,11 +54,11 @@ const Viewport: React.FC = () => {
       >
         <CameraControls />
         <SceneComponent />
-        <EnvironmentLoader /> 
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
-      </Canvas> */}
+        </Canvas> */}
 
       <Canvas shadows camera={{ position: [0, 0, 0], fov: 45 }}>
+        <EnvironmentLoader /> 
         <ambientLight intensity={0.6} />
         <directionalLight
           intensity={2}
