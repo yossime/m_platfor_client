@@ -12,7 +12,7 @@ interface UploadOptions {
   onProgress?: (progress: number) => void;
 }
 
-export const uploadFile = async (
+export const uploadFileUtil = async (
   file: File, 
   type: ContentDataType, 
   options: UploadOptions = {}

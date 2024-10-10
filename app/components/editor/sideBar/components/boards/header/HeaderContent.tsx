@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Divider } from "../../general/CommonStyles";
 
 import DataObfuscator from "@/components/Library/general/DataObfuscator";
-import { BoardType, ContentDataType, FormatBoard } from "@/components/editor/types/index";
+import {
+  BoardType,
+  ContentDataType,
+  FormatBoard,
+} from "@/components/editor/types/index";
 import { useBoardContent } from "../../general/useBoardContent";
 import { useSidebarContext } from "@/context/SidebarContext ";
-import { ContentImageUpload, ContentInput, ContentModelUpload } from "../../general/GenericBoardComponents";
+import {
+  ContentImageLine,
+  ContentInput,
+  ContentModelUpload,
+} from "../../general/GenericBoardComponents";
 import { ChooseBoardFormat } from "../../general/FormatBoard";
 
 export const HeaderContentComponent: React.FC = () => {
   const { getFormat } = useBoardContent();
-  const {showformatBoard} = useSidebarContext()
-
-  const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(
-    getFormat()
-  );
+  const { showformatBoard } = useSidebarContext();
+  const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(null);
 
   const [openSections, setOpenSections] = useState({
     title: true,
@@ -31,12 +36,20 @@ export const HeaderContentComponent: React.FC = () => {
       setOpenSections((prev) => ({ ...prev, [section]: isOpen }));
     };
 
+    useEffect(() => {
+      const fetchFormat = async () => {
+        const format = await getFormat();
+        setFormatBoard(format);
+      };
+      fetchFormat();
+    }, [showformatBoard]);
+    
+
+
   return (
     <>
       {showformatBoard ? (
-        <ChooseBoardFormat
-          boardType={BoardType.Header}
-        />
+        <ChooseBoardFormat boardType={BoardType.Header} />
       ) : (
         <Container>
           {formatBoard === FormatBoard.Frame && (
@@ -46,7 +59,7 @@ export const HeaderContentComponent: React.FC = () => {
                 isOpen={openSections.image}
                 onToggle={handleSectionToggle("image")}
               >
-                <ContentImageUpload type={ContentDataType.FRAME} />
+                <ContentImageLine type={ContentDataType.FRAME} />
               </DataObfuscator>
               <Divider />
             </>
@@ -106,7 +119,7 @@ export const HeaderContentComponent: React.FC = () => {
             isOpen={openSections.logo}
             onToggle={handleSectionToggle("logo")}
           >
-            <ContentImageUpload type={ContentDataType.LOGO} />
+            <ContentImageLine type={ContentDataType.LOGO} />
           </DataObfuscator>
         </Container>
       )}

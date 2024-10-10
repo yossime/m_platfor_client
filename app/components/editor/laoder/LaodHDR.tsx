@@ -35,3 +35,13 @@ function loadHDRITexture(url: string): Promise<THREE.Texture> {
     return null;
   }
   
+
+
+// const pmremGenerator = new THREE.PMREMGenerator( renderer );
+
+// const hdriLoader = new RGBELoader()
+// hdriLoader.load( 'path/to/your/texture.hdr', function ( texture ) {
+//   const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
+//   texture.dispose(); 
+//   scene.environment = envMap
+// } );

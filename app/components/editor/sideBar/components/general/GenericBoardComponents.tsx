@@ -6,7 +6,11 @@ import DragAndDrop from '@/components/Library/general/DragAndDrop';
 import { ContentDataType, InputLabelType } from '@/components/editor/types';
 import { useBoardContent } from './useBoardContent';
 import { DeleteIcon, FileDisplay, FileName } from './CommonStyles';
-import { uploadFile } from '@/components/editor/utils/fileUploadService';
+import { uploadFileUtil } from '@/components/editor/utils/fileUploadService';
+import Icon from '@/components/Library/icon/Icon';
+import { IconName } from '@constants/icon';
+import { uploadFile } from "@/services/upload.service";
+import ImageCropper from '../imageCroper/ImageCropper';
 
 
 
@@ -78,61 +82,80 @@ export const ContentSelect: React.FC<ContentSelectProps> = ({ type, options, pla
 
 
 
-export const ContentImageUpload: React.FC<{
+
+
+export const ContentImageLine: React.FC<{
   type: ContentDataType;
 }> = ({ type }) => {
   const { getContentMaterial, setContentMaterial } = useBoardContent();
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-
-  const file = getContentMaterial(type)?.customMaterial?.diffuse?.map as File;
+  const [file, SetFile] = useState<File | string | undefined>(
+    getContentMaterial(type)?.customMaterial?.diffuse?.map
+  );
+  const [editImage, setEditImage] = useState<boolean>(false);
 
   const handleFileAdded = async (newFile: File) => {
-
-    setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } } });
+    setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } ,emission:{map:newFile}} });
     try {
-      await uploadFile(newFile, type, {
-        onSuccess: (url, contentType) => {
-          if (typeof url === 'string') {
-            setContentMaterial(type, { customMaterial: { diffuse: { map: url } } });
-          }
-
-          setUploadProgress(0);
-        },
-        onError: (error, contentType) => {
-          console.error(`Error uploading file for ${contentType}:`, error);
-          setUploadProgress(0);
-        },
-        onProgress: (progress) => {
-          setUploadProgress(progress);
-        },
-      });
+      const res = await uploadFile(newFile);
+      SetFile(res);
+      setContentMaterial(type, { customMaterial: { diffuse: { map: res },emission:{map:res}}  });
     } catch (error) {
-      console.error('Unexpected error during file upload:', error);
+      console.error("Unexpected error during file upload:", error);
     }
   };
 
+  const getFileName = () => {
+    if (typeof file === "string") {
+      return file.split('/').pop(); 
+    }
+    return file?.name;
+  };
+
   const handleFileDelete = () => {
-    setContentMaterial(type, {});
+    setContentMaterial(type, { customMaterial: {} });
+    SetFile(undefined);
+  };
+
+  const handleCrop = async (croppedFile: File) => {
+
+    try {
+      const res = await uploadFile(croppedFile);
+      SetFile(res);
+      setContentMaterial(type, { customMaterial: { diffuse: { map: res } ,emission:{map:res}} });
+      setEditImage(false);
+    } catch (error) {
+      console.error("Unexpected error during file upload:", error);
+    }
   };
 
   return (
     <>
+      {editImage && (
+        <ImageCropper
+          imageUrl={file}
+          onCropComplete={handleCrop}
+          onClose={() => setEditImage(false)}
+        />
+      )}
+
       {file ? (
         <FileDisplay>
-          <FileName>{file.name}</FileName>
-          <DeleteIcon size={20} onClick={handleFileDelete} />
+          <FileName>{getFileName()}</FileName>
+          <Icon name={IconName.EDIT} onClick={() => setEditImage(true)} />
+          <Icon name={IconName.TRASH} onClick={handleFileDelete} />
         </FileDisplay>
       ) : (
         <DragAndDrop
-          type='image'
+          type="image"
           onFileAdded={handleFileAdded}
           buttonOnly={true}
         />
       )}
-      {uploadProgress > 0 && <progress value={uploadProgress} max="100" />}
     </>
   );
 };
+
+
 
 
 export const ContentVideoUpload: React.FC<{
@@ -147,7 +170,7 @@ export const ContentVideoUpload: React.FC<{
 
     setContentMaterial(type, {video : newFile} );
     try {
-      await uploadFile(newFile, type, {
+      await uploadFileUtil(newFile, type, {
         onSuccess: (url, contentType) => {
           if (typeof url === 'string') {
             setContentMaterial(type, {video : url} );
@@ -169,7 +192,7 @@ export const ContentVideoUpload: React.FC<{
   };
 
   const handleFileDelete = () => {
-    setContentMaterial(type, {});
+    setContentMaterial(type, {customMaterial:{}});
   };
 
   return (
@@ -204,7 +227,7 @@ export const ContentModelUpload: React.FC<{
 
     // setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } } });
     try {
-      await uploadFile(newFile, type, {
+      await uploadFileUtil(newFile, type, {
         onSuccess: (url, contentType) => {
           if (typeof url === 'string') {
             setContentMaterial(type, { customMaterial: { diffuse: { map: url } } });
@@ -226,7 +249,7 @@ export const ContentModelUpload: React.FC<{
   };
 
   const handleFileDelete = () => {
-    setContentMaterial(type, {});
+    setContentMaterial(type, {customMaterial:{}});
   };
 
   return (
@@ -234,7 +257,7 @@ export const ContentModelUpload: React.FC<{
       {file ? (
         <FileDisplay>
           <FileName>{file.name}</FileName>
-          <DeleteIcon size={20} onClick={handleFileDelete} />
+          <Icon name={IconName.TRASH} onClick={handleFileDelete} />
         </FileDisplay>
       ) : (
         <DragAndDrop

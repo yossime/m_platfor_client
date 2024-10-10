@@ -90,6 +90,7 @@ const Sidebar: React.FC = () => {
 
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
+    sceneModel?.root?.displayEmptySlots();
   };
 
   const handleBack = () => {
