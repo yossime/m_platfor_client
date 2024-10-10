@@ -2,8 +2,6 @@ import { ISceneObjectOptions, ISceneObject, ContentDataType, ContentText } from 
 import { BoardType } from "@/components/editor/types";
 import { Board } from '../Board';
 import { Object3D } from 'three';
-import { Text as TroikaText } from 'troika-three-text';
-import { ChangeTextCommand } from '../../../commands/ChangeTextCommand';
 import { TITLE } from '@/constants/editor/boards/text.constants';
 
 export abstract class MasterBoardABC extends Board {
@@ -32,4 +30,5 @@ export abstract class MasterBoardABC extends Board {
         this.initializeContentText(ContentDataType.SUB_TITLE, TITLE)
         this.initializeContentText(`${ContentDataType.BUTTON}_text` as ContentDataType, TITLE)
     }
+
 }
