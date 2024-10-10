@@ -5,8 +5,8 @@ import { InputMode, InputSize } from '@constants/input';
 import { DeleteIcon, FileDisplay, FileName } from './CommonStyles';
 import DragAndDrop from '@/components/Library/general/DragAndDrop';
 import {   ContentDataType, InputLabelType } from '../../types';
-import { uploadFile } from '../../utils/fileUploadService';
 import { useBoardContent } from './useBoardContent';
+import { uploadFileUtil } from '../../utils/fileUploadService';
 
 
 
@@ -89,7 +89,7 @@ export const ContentImageUpload: React.FC<{
 
     setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } } });
     try {
-      await uploadFile(newFile, type, {
+      await uploadFileUtil(newFile, type, {
         onSuccess: (url, contentType) => {
           if (typeof url === 'string') {
             setContentMaterial(type, { customMaterial: { diffuse: { map: url } } });
@@ -146,7 +146,7 @@ export const ContentVideoUpload: React.FC<{
 
     setContentMaterial(type, {video : newFile} );
     try {
-      await uploadFile(newFile, type, {
+      await uploadFileUtil(newFile, type, {
         onSuccess: (url, contentType) => {
           if (typeof url === 'string') {
             setContentMaterial(type, {video : url} );
@@ -203,7 +203,7 @@ export const ContentModelUpload: React.FC<{
 
     // setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } } });
     try {
-      await uploadFile(newFile, type, {
+      await uploadFileUtil(newFile, type, {
         onSuccess: (url, contentType) => {
           if (typeof url === 'string') {
             setContentMaterial(type, { customMaterial: { diffuse: { map: url } } });
