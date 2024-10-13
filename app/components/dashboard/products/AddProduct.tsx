@@ -132,7 +132,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   setAddProduct,
 }) => {
   const { currentProject } = useProject();
-  const { addProduct, updateProduct } = useProducts(currentProject!);
+  const { addProduct, updateProduct } = useProducts(currentProject?.id!);
 
   const [formData, setFormData] = useState<Partial<Product>>({
     title: product?.title || "",

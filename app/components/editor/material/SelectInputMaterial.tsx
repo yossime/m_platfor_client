@@ -19,42 +19,46 @@ import {
   materialMap,
   MaterialNames,
 } from "@/components/editor/material/materials";
-import Icon from "../icon/Icon";
+import Icon from "../../Library/icon/Icon";
 import { IconName, IconSize } from "@constants/icon";
 import TextureUploadComponent from "@/components/editor/material/LoadTexturePopup";
-import { ContentDataType, ContentMaterial, ICustomMaterial } from "@/components/editor/types";
+import {
+  ContentDataType,
+  ContentMaterial,
+  ICustomMaterial,
+} from "@/components/editor/types";
 import { useBoardContent } from "@/components/editor/sideBar/components/general/useBoardContent";
 import { Divider } from "@/components/dashboard/payments/StripComponent";
 import Text from "@components/Library/text/Text";
-import ContextMenu from "../contextMenu/ContextMenu";
+import ContextMenu from "../../Library/contextMenu/ContextMenu";
 
 type MaterialOptionProps = {
   material: ContentMaterial;
   onSelect: (material: ContentMaterial) => void;
   onEdit?: (material: ContentMaterial) => void;
-  onContextMenu?: (e: React.MouseEvent) => void; 
-  selected?:boolean
+  onContextMenu?: (e: React.MouseEvent) => void;
+  selected?: boolean;
 };
 
-const MaterialOption: React.FC<MaterialOptionProps> = React.memo(({
-  material,
-  onSelect,
-  onEdit,
-  onContextMenu,
-  selected=false
-}) => (
-  <MaterialOptionRow selected={selected} onClick={() => onSelect(material)} onContextMenu={onContextMenu}>
-    <MaterialImage src={material.materialImage} alt={material.materialName} />
-    <OptionLabel>{material.materialName}</OptionLabel>
-    {onEdit && (
-      <EditIcon
-        name={IconName.EDIT}
-        size={IconSize.SMALL}
-        onClick={()=> onEdit(material)   }
-      />
-    )}
-  </MaterialOptionRow>
-));
+const MaterialOption: React.FC<MaterialOptionProps> = React.memo(
+  ({ material, onSelect, onEdit, onContextMenu, selected = false }) => (
+    <MaterialOptionRow
+      selected={selected}
+      onClick={() => onSelect(material)}
+      onContextMenu={onContextMenu}
+    >
+      <MaterialImage src={material.materialImage} alt={material.materialName} />
+      <OptionLabel>{material.materialName}</OptionLabel>
+      {onEdit && (
+        <EditIcon
+          name={IconName.EDIT}
+          size={IconSize.SMALL}
+          onClick={() => onEdit(material)}
+        />
+      )}
+    </MaterialOptionRow>
+  )
+);
 
 export const SelectInputMaterial: React.FC<SelectInputProps> = ({
   value = "",
@@ -68,10 +72,11 @@ export const SelectInputMaterial: React.FC<SelectInputProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
-  
+
   const materialsArray = useMemo(() => Object.values(materialMap), []);
   const [showUploadTexture, setShowUploadTexture] = useState(false);
-  const [currentMaterial, setCurrentMaterial] = useState<ContentMaterial | null>(null);
+  const [currentMaterial, setCurrentMaterial] =
+    useState<ContentMaterial | null>(null);
   const { setContentMaterial } = useBoardContent();
   const [firstList, setFirstList] = useState<ContentMaterial[]>([]);
   const [contextMenu, setContextMenu] = useState<{
@@ -80,25 +85,28 @@ export const SelectInputMaterial: React.FC<SelectInputProps> = ({
     material: ContentMaterial | null;
   } | null>(null);
 
-  const handleRightClick = useCallback((event: React.MouseEvent, material: ContentMaterial) => {
-    event.preventDefault();
-    const x = event.clientX;
-    const y = event.clientY;
-    setContextMenu({ x, y, material });
-  }, []);
-  
+  const handleRightClick = useCallback(
+    (event: React.MouseEvent, material: ContentMaterial) => {
+      event.preventDefault();
+      const x = event.clientX;
+      const y = event.clientY;
+      setContextMenu({ x, y, material });
+    },
+    []
+  );
+
   const handleDuplicate = useCallback(() => {
     if (contextMenu?.material) {
-      const randomNumber = Math.floor(Math.random() * 90) + 10; 
+      const randomNumber = Math.floor(Math.random() * 90) + 10;
       const duplicatedMaterial = {
         ...contextMenu.material,
         materialName: `${contextMenu.material.materialName}_${randomNumber}`,
       };
-  
+
       setFirstList((prevList) => [...prevList, duplicatedMaterial]);
     }
   }, [contextMenu]);
-  
+
   const handleDelete = useCallback(() => {
     if (contextMenu?.material) {
       setFirstList((prevList) =>
@@ -136,27 +144,29 @@ export const SelectInputMaterial: React.FC<SelectInputProps> = ({
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
-
-
   const handleTextureUpdate = (newTexture: ContentMaterial) => {
-      setContentMaterial(ContentDataType.SELF, { customMaterial: newTexture.customMaterial });
-      const name = newTexture.materialName;
-      const randomNumber = Math.floor(Math.random() * 90) + 10; 
-      newTexture.materialName = `${name}_${randomNumber}`;
-  
-      setFirstList((prevList) => {
-        const exists = prevList.some((material) => material.materialName === name);
-        if (exists) {
-          return prevList.map((material) =>
-            material.materialName === name ? newTexture : material
-          );
-        } else {
-          return [...prevList, newTexture];
-        }
-      });
+    setContentMaterial(ContentDataType.SELF, {
+      customMaterial: newTexture.customMaterial,
+    });
+    const name = newTexture.materialName;
+    const randomNumber = Math.floor(Math.random() * 90) + 10;
+    newTexture.materialName = `${name}_${randomNumber}`;
+
+    setFirstList((prevList) => {
+      const exists = prevList.some(
+        (material) => material.materialName === name
+      );
+      if (exists) {
+        return prevList.map((material) =>
+          material.materialName === name ? newTexture : material
+        );
+      } else {
+        return [...prevList, newTexture];
+      }
+    });
     setShowUploadTexture(false);
   };
-  
+
   return (
     <SelectWrapper $fullWidth={fullWidth} ref={selectRef}>
       {showUploadTexture && (
@@ -193,10 +203,17 @@ export const SelectInputMaterial: React.FC<SelectInputProps> = ({
       </SelectButton>
       {isOpen && (
         <MaterialsContainer>
+          <MaterialTitle>
           <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.TEXT1}>
             My Materials
           </Text>
-          <Icon name={IconName.PLUSCIRCLE} onClick={()=>{ setCurrentMaterial(null) , setShowUploadTexture(true)}}/>
+          <Icon
+            name={IconName.PLUSCIRCLE}
+            onClick={() => {
+              setCurrentMaterial(null), setShowUploadTexture(true);
+            }}
+          />
+          </MaterialTitle>
           <Divider />
           <OptionsList $size={inputSize}>
             {firstList.map((material, index) => (
@@ -253,7 +270,6 @@ export const SelectInputMaterial: React.FC<SelectInputProps> = ({
     </SelectWrapper>
   );
 };
-
 
 const SelectWrapper = styled.div<{ $fullWidth: boolean }>`
   text-align: start;
@@ -321,6 +337,13 @@ const ArrowIcon = styled.span<{ $isOpen: boolean }>`
   transition: transform 0.3s ease;
 `;
 
+const MaterialTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`;
 const MaterialOptionRow = styled.li<{ selected: boolean }>`
   display: flex;
   align-items: center;
@@ -336,7 +359,6 @@ const MaterialOptionRow = styled.li<{ selected: boolean }>`
     background-color: ${(props) => (props.selected ? "#d0eaff" : "#f0f0f0")};
   }
 `;
-
 
 const MaterialImage = styled.img.attrs({
   onError: (e) => (e.currentTarget.src = "/default-image.png"),

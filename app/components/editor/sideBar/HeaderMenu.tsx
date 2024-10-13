@@ -72,13 +72,13 @@ const IconWrapper = styled.div`
 export const HeaderMenu: React.FC = () => {
   const {setActiveSidebarHeader,activeSidebarHeader,setActiveSidebarSubMenu,activeSidebarSubMenu} = useSidebarContext()
 
-  useEffect(() => {
-    const validHeaders: HeaderType[] = widgets.map(widget => widget.name).concat(['World', 'Choose Board Widget']);
+  // useEffect(() => {
+  //   const validHeaders: HeaderType[] = widgets.map(widget => widget.name).concat(['World', 'Choose Board Widget']);
   
-    if (!validHeaders.includes(activeSidebarHeader)) {
-      setActiveSidebarHeader("World");
-    }
-  }, []);
+  //   if (!validHeaders.includes(activeSidebarHeader)) {
+  //     setActiveSidebarHeader("World");
+  //   }
+  // }, []);
   
 
   return (

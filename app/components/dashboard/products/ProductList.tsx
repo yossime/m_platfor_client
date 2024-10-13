@@ -75,7 +75,7 @@ interface ProductListProps {
 
 const ProductList: React.FC<ProductListProps> = ({ handleProductClick }) => {
   const { currentProject } = useProject();
-  const { products } = useProducts(currentProject!);
+  const { products } = useProducts(currentProject?.id!);
 
   return (
     <>

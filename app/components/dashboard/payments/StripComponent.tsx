@@ -58,9 +58,9 @@ const StripComponent = () => {
   const [accountCreatePending, setAccountCreatePending] =
     useState<boolean>(false);
   const { stripeConnectInstance, createStripeAccount, createAccountSession ,disconnectStripeAccount } =
-    useStripeConnect(currentProject!);
+    useStripeConnect(currentProject?.id!);
   const { storeData, setStoreData } = useStoreData(
-    currentProject!
+    currentProject?.id!
   );
 
   const handleSignUp = async () => {

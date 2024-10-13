@@ -18,8 +18,8 @@ type SelectInputProps = {
   options: Option[];
   value: string;
   onChange: (value: string | any | ChangeEvent<HTMLInputElement>) => void;
-  inputSize: InputSize;
-  mode: InputMode;
+  inputSize?: InputSize;
+  mode?: InputMode;
   label?: string;
   placeholder?: string;
   helperText?: string;
@@ -30,8 +30,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
   options,
   value,
   onChange,
-  inputSize,
-  mode,
+  inputSize = InputSize.MEDIUM,
+  mode = InputMode.NORMAL,
   label,
   placeholder,
   helperText,
@@ -181,6 +181,7 @@ const ArrowIcon = styled.span<{ $isOpen: boolean }>`
 `;
 
 const OptionsList = styled.ul<{ $size: InputSize }>`
+
   list-style: none;
   padding: 0;
   margin: 0;

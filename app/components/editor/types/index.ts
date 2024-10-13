@@ -199,6 +199,19 @@ export enum TextAlign {
   Justify = 'justify',
 }
 
+
+export enum Font {
+  Fetiosh = 'fetiosh',
+  Felipe = 'felipe',
+  Federo = 'federo',
+}
+
+
+export enum LineHeight {
+  Fetiosh = 'fetiosh',
+  Felipe = 'felipe',
+  Federo = 'federo',
+}
 //   export type Font = 'Arial' | 'Helvetica' | 'Times New Roman' | 'Courier New' | 'Custom';
 
 
@@ -217,6 +230,7 @@ export interface TextParams {
     color: string;
     position?: { x: number; y: number; z: number };
 }
+
 export interface ContentText{
   textObject?: TextObject;
   textPaerms?: TextParams;

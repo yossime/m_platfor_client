@@ -1,71 +1,173 @@
-"use client"
-import React, { createContext, useState, ReactNode, useContext, useEffect } from 'react';
+// "use client";
+// import React, {
+//   createContext,
+//   useState,
+//   ReactNode,
+//   useContext,
+//   useEffect,
+// } from "react";
+
+// export interface Project {
+//   projectName: string;
+//   id: string;
+//   imageUrl?: string;
+//   isActive?: boolean;
+// }
+
+// interface ProjectContextType {
+//   currentProject: string | null;
+//   setCurrentProject: (project: string | null) => void;
+//   projectName: string | null;
+//   setProjectName: (project: string | null) => void;
+//   projects: Project[];
+//   setProjects: (projects: Project[]) => void;
+//   editorMode: boolean;
+//   setEditorMode: (mode: boolean) => void;
+// }
+
+// const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
+
+// const CURRENT_PROJECT_STORAGE_KEY = "currentProject";
+// const PROJECT_NAME_STORAGE_KEY = "projectName";
+
+// const getFromLocalStorage = (key: string) => {
+//   if (typeof window === "undefined") return null;
+//   const savedItem = localStorage.getItem(key);
+//   try {
+//     return savedItem ? JSON.parse(savedItem) : null;
+//   } catch (error) {
+//     console.error(`Error parsing ${key} from localStorage:`, error);
+//     return null;
+//   }
+// };
+
+// export const ProjectProvider: React.FC<{ children: ReactNode }> = ({
+//   children,
+// }) => {
+//   const [currentProject, setCurrentProject] = useState<string | null>(() =>
+//     getFromLocalStorage(CURRENT_PROJECT_STORAGE_KEY)
+//   );
+
+//   const [projectName, setProjectName] = useState<string | null>(() =>
+//     getFromLocalStorage(PROJECT_NAME_STORAGE_KEY)
+//   );
+
+//   const [projects, setProjects] = useState<Project[]>([]);
+//   const [editorMode, setEditorMode] = useState<boolean>(false);
+
+//   useEffect(() => {
+//     if (currentProject !== null) {
+//       localStorage.setItem(
+//         CURRENT_PROJECT_STORAGE_KEY,
+//         JSON.stringify(currentProject)
+//       );
+//     }
+//   }, [currentProject]);
+
+//   useEffect(() => {
+//     if (projectName !== null) {
+//       localStorage.setItem(PROJECT_NAME_STORAGE_KEY, JSON.stringify(projectName));
+//     }
+//   }, [projectName]);
+
+//   const value = {
+//     currentProject,
+//     setCurrentProject,
+//     projectName,
+//     setProjectName,
+//     projects,
+//     setProjects,
+//     editorMode,
+//     setEditorMode,
+//   };
+
+//   return (
+//     <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
+//   );
+// };
+
+// export const useProject = () => {
+//   const context = useContext(ProjectContext);
+//   if (context === undefined) {
+//     throw new Error("useProject must be used within a ProjectProvider");
+//   }
+//   return context;
+// };
+
+
+
+"use client";
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
+
+export interface Project {
+  projectName: string;
+  id: string;
+  imageUrl?: string;
+  isActive?: boolean;
+}
 
 interface ProjectContextType {
-  currentProject: string | null;
-  setCurrentProject: (project: string | null) => void;
-  projectName: string | null;
-  setProjectName: (project: string | null) => void;
-  projects: any[];
-  setProjects: (projects: any[]) => void;
+  currentProject: Project | null;
+  setCurrentProject: (project: Project | null) => void;
+  projects: Project[];
+  setProjects: (projects: Project[]) => void;
   editorMode: boolean;
   setEditorMode: (mode: boolean) => void;
 }
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 
-const CURRENT_PROJECT_STORAGE_KEY = 'currentProject';
-const PROJECT_NAME_STORAGE_KEY = 'projectName';
+const CURRENT_PROJECT_STORAGE_KEY = "currentProject";
+const PROJECTS_STORAGE_KEY = "projects";
 
-export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentProject, setCurrentProject] = useState<string | null>(() => {
-    if (typeof window !== 'undefined') {
-      const savedCurrentProject = localStorage.getItem(CURRENT_PROJECT_STORAGE_KEY);
-      try {
-        return savedCurrentProject ? JSON.parse(savedCurrentProject) : null;
-      } catch (error) {
-        console.error("Error parsing currentProject from localStorage:", error);
-        return null;
-      }
-    }
+const getFromLocalStorage = (key: string) => {
+  if (typeof window === "undefined") return null;
+  const savedItem = localStorage.getItem(key);
+  try {
+    return savedItem ? JSON.parse(savedItem) : null;
+  } catch (error) {
+    console.error(`Error parsing ${key} from localStorage:`, error);
     return null;
-  });
+  }
+};
 
-  const [projectName, setProjectName] = useState<string | null>(() => {
-    if (typeof window !== 'undefined') {
-      const savedProjectName = localStorage.getItem(PROJECT_NAME_STORAGE_KEY);
-      try {
-        return savedProjectName ? JSON.parse(savedProjectName) : null;
-      } catch (error) {
-        console.error("Error parsing projectName from localStorage:", error);
-        return null;
-      }
-    }
-    return null;
-  });
+export const ProjectProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [currentProject, setCurrentProject] = useState<Project | null>(() =>
+    getFromLocalStorage(CURRENT_PROJECT_STORAGE_KEY)
+  );
 
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>(() =>
+    getFromLocalStorage(PROJECTS_STORAGE_KEY) || []
+  );
+
   const [editorMode, setEditorMode] = useState<boolean>(false);
 
-  // Save currentProject to localStorage when it changes
   useEffect(() => {
-    if (typeof window !== 'undefined' && currentProject !== null) {
-      localStorage.setItem(CURRENT_PROJECT_STORAGE_KEY, JSON.stringify(currentProject));
+    if (currentProject !== null) {
+      localStorage.setItem(
+        CURRENT_PROJECT_STORAGE_KEY,
+        JSON.stringify(currentProject)
+      );
     }
   }, [currentProject]);
 
-  // Save projectName to localStorage when it changes
   useEffect(() => {
-    if (typeof window !== 'undefined' && projectName !== null) {
-      localStorage.setItem(PROJECT_NAME_STORAGE_KEY, JSON.stringify(projectName));
+    if (projects.length > 0) {
+      localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
     }
-  }, [projectName]);
+  }, [projects]);
 
-  const value: ProjectContextType = {
+  const value = {
     currentProject,
     setCurrentProject,
-    projectName,
-    setProjectName,
     projects,
     setProjects,
     editorMode,
@@ -73,16 +175,14 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
   };
 
   return (
-    <ProjectContext.Provider value={value}>
-      {children}
-    </ProjectContext.Provider>
+    <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
   );
 };
 
 export const useProject = () => {
   const context = useContext(ProjectContext);
   if (context === undefined) {
-    throw new Error('useProject must be used within a ProjectProvider');
+    throw new Error("useProject must be used within a ProjectProvider");
   }
   return context;
 };

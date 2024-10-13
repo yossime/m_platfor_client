@@ -15,11 +15,13 @@ import {
   ContentModelUpload,
 } from "../../general/GenericBoardComponents";
 import { ChooseBoardFormat } from "../../general/FormatBoard";
+import TextSettings from "@/components/editor/editText/EditText";
 
 export const HeaderContentComponent: React.FC = () => {
   const { getFormat } = useBoardContent();
   const { showformatBoard } = useSidebarContext();
   const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(null);
+  const [showEditText, setShowEditText] = useState<boolean>(false);
 
   const [openSections, setOpenSections] = useState({
     title: true,
@@ -36,15 +38,15 @@ export const HeaderContentComponent: React.FC = () => {
       setOpenSections((prev) => ({ ...prev, [section]: isOpen }));
     };
 
-    useEffect(() => {
-      const fetchFormat = async () => {
+  useEffect(() => {
+    const fetchFormat = async () => {
+      if (!formatBoard) {
         const format = await getFormat();
         setFormatBoard(format);
-      };
-      fetchFormat();
-    }, [showformatBoard]);
-    
-
+      }
+    };
+    fetchFormat();
+  }, [showformatBoard, formatBoard]);
 
   return (
     <>
@@ -52,6 +54,7 @@ export const HeaderContentComponent: React.FC = () => {
         <ChooseBoardFormat boardType={BoardType.Header} />
       ) : (
         <Container>
+          {showEditText && <TextSettings dataType={ContentDataType.TITLE} />}
           {formatBoard === FormatBoard.Frame && (
             <>
               <DataObfuscator
@@ -86,7 +89,6 @@ export const HeaderContentComponent: React.FC = () => {
               placeholder="Enter title"
             />
           </DataObfuscator>
-
           <DataObfuscator
             title="Subtitle"
             isOpen={openSections.subtitle}
@@ -97,7 +99,6 @@ export const HeaderContentComponent: React.FC = () => {
               placeholder="Enter subtitle"
             />
           </DataObfuscator>
-
           <DataObfuscator
             title="Button"
             isOpen={openSections.button}
@@ -113,7 +114,6 @@ export const HeaderContentComponent: React.FC = () => {
             />
           </DataObfuscator>
           <Divider />
-
           <DataObfuscator
             title="Logo"
             isOpen={openSections.logo}

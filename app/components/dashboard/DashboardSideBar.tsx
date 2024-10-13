@@ -21,7 +21,7 @@ import { IconName } from "@constants/icon";
 
 const DashboardSideBar: React.FC = () => {
   const { menuItems, currentSelection, setCurrentSelection } = useMenuContext();
-  const { projectName } = useProject();
+  const { currentProject } = useProject();
 
   const router = useRouter();
 
@@ -47,7 +47,7 @@ const DashboardSideBar: React.FC = () => {
     <>
       <SideBarContainer>
         <ProjectContainer>
-          <Text size={TextSize.TEXT2}>{projectName}</Text>
+          <Text size={TextSize.TEXT2}>{currentProject?.projectName}</Text>
           <ProjectIcon>
             <Icon
               name={IconName.EDIT}

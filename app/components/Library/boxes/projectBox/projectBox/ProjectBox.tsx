@@ -11,13 +11,10 @@ import {
 } from "./ProjectBoxStyles";
 import { IconName } from "@constants/icon";
 import { TextSize } from "@constants/text";
+import { Project } from "@/context/useProjectContext";
 
 interface ProjectBoxProps {
-  project: {
-    id: string;
-    projectName: string;
-    imageUrl: string;
-  };
+  project: Project;
   clicked?: boolean;
   disabled?: boolean;
   onSelect: (id: string,name:string) => void;

@@ -78,6 +78,7 @@ export abstract class SceneObject implements ISceneObject {
 
   public setContentText(type: ContentDataType, newParams: Partial<TextParams>): void {
     const textObject = this.contentsData.get(type)?.contentText?.textObject!;
+    if (!textObject) return 
     const oldProperties = { ...textObject.getParams() }
 
     const command = new ChangeTextCommand(textObject, newParams, oldProperties);

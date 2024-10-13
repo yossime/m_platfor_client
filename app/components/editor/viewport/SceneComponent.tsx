@@ -60,7 +60,7 @@ const SceneComponent = () => {
   useEffect(() => {
     const buildScene = async () => {
       const scene = new SceneService();
-      const res = await fetchProject(currentProject || '', '');
+      const res = await fetchProject(currentProject?.id || '', '');
       if (res.data.dataParameters) {
         const parsedData = res.data.dataParameters;
         // const parsedData = JSON.parse(res.data);

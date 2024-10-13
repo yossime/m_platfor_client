@@ -32,10 +32,6 @@ const EditorComponent: React.FC = () => {
             <SidebarProvider>
               <SideBar />
               <Viewport />
-              {/* <Viewport>
-              <Editor />
-            </Viewport> */}
-              {/* <ThreeScene {...outlineProps}/> */}
             </SidebarProvider>
           </CameraProvider>
           </EnvironmentProvider>

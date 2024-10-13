@@ -24,7 +24,7 @@ export const CameraControls: React.FC = () => {
       enablePan={true} 
       enableRotate={true} 
       minDistance={5} 
-      maxDistance={50} 
+      maxDistance={90} 
     />
   );
 };

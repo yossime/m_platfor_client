@@ -14,6 +14,7 @@ import {
   ProjectContainer,
   SideBarContainerMini,
   ProjectsList,
+  ProjectTitles,
 } from "./SideBarStyles";
 import { SubMenuType, HeaderType } from "./types";
 import { useEditor } from "@/context/useEditorContext";
@@ -29,25 +30,29 @@ import { Divider, Divider2 } from "./components/general/CommonStyles";
 import Collapsible from "@/components/Library/general/Collapsible";
 import { useSidebarContext } from "@/context/SidebarContext ";
 
-
 const Sidebar: React.FC = () => {
-  const {
-    setCameraPosition,
-    setCameraDirection,
-  } = useCamera();
-  
-  const { projectName, projects } = useProject();
+  const { setCameraPosition, setCameraDirection } = useCamera();
+
+  const { currentProject, projects } = useProject();
   const { sceneModel } = useEditor();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
-  const {setActiveSidebarHeader,activeSidebarHeader,setActiveSidebarSubMenu,activeSidebarSubMenu} = useSidebarContext()
+  const {
+    setActiveSidebarHeader,
+    activeSidebarHeader,
+    setActiveSidebarSubMenu,
+    showformatBoard,
+    setShowFormatBoard,
+  } = useSidebarContext();
+
   useEffect(() => {
     const selectedObject = sceneModel?.getSelectedObject();
     if (selectedObject && selectedObject instanceof Board) {
       setActiveSidebarHeader((selectedObject.type as HeaderType) || "World");
-    } else {
-      setActiveSidebarHeader("World");
     }
+    // else {
+    //   setActiveSidebarHeader("World");
+    // }
   }, [sceneModel, sceneModel?.getSelectedObject]);
 
   useEffect(() => {
@@ -65,7 +70,6 @@ const Sidebar: React.FC = () => {
       sceneModel?.setSelectedObject(null);
     }
   };
-
 
   const handleFocus = () => {
     const selectedObject = sceneModel?.getSelectedObject();
@@ -86,7 +90,6 @@ const Sidebar: React.FC = () => {
       }
     }
   };
-  
 
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
@@ -98,25 +101,28 @@ const Sidebar: React.FC = () => {
   };
 
   function handleProjectClick(project: any): void {}
-
+  
   return (
     <>
       {isOpen ? (
         <SideBarContainer className="sidebar">
           <ProjectContainer>
             <ProjectIcon>
+              {activeSidebarHeader !== "World" && (
+                <Icon name={IconName.GLOBESIMPAL} onClick={handleBack} />
+              )}
               <Icon name={IconName.PLUS} onClick={handleAdd} />
             </ProjectIcon>
             <ProjectTitle>
-              <Collapsible title={projectName || ""}>
+              <Collapsible title={currentProject?.projectName || ""}>
                 <ProjectsList>
                   {projects.map((project) => (
-                    <ProjectTitle
+                    <ProjectTitles
                       key={project.id}
                       onClick={() => handleProjectClick(project)}
                     >
                       {project.projectName}
-                    </ProjectTitle>
+                    </ProjectTitles>
                   ))}
                 </ProjectsList>
               </Collapsible>
@@ -134,7 +140,10 @@ const Sidebar: React.FC = () => {
           <HeaderContainer>
             <HeaderIcon>
               {activeSidebarHeader !== "World" && (
-                <Icon name={IconName.CARETLEFT} onClick={handleBack} />
+                <Icon
+                  name={IconName.SQUARESFOUR}
+                  onClick={() => setShowFormatBoard(!showformatBoard)}
+                />
               )}
             </HeaderIcon>
             <HeaderTitle>
@@ -153,12 +162,10 @@ const Sidebar: React.FC = () => {
           <ScrollableContent>
             {activeSidebarHeader !== "Choose Board Widget" && (
               <SubHeaderContainer>
-                <HeaderMenu  />
+                <HeaderMenu />
               </SubHeaderContainer>
             )}
-            <ContentArea
-              handleBackOrAdd={handleBackOrAdd}
-            />
+            <ContentArea handleBackOrAdd={handleBackOrAdd} />
           </ScrollableContent>
         </SideBarContainer>
       ) : (

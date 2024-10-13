@@ -24,7 +24,7 @@ import {
 import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
 import { useBoardContent } from "../../general/useBoardContent";
-import { SelectInputMaterial } from "@/components/Library/input/SelectInputMaterial";
+import { SelectInputMaterial } from "@/components/editor/material/SelectInputMaterial";
 
 export const ImageStyleComponent: React.FC = () => {
   const {setLogoConfiguration ,getFormat, getContentMaterial, setContentMaterial, setConfiguration } =

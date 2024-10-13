@@ -1,20 +1,16 @@
-import React, { ChangeEvent, useState } from 'react';
-import Input from '@/components/Library/input/Input';
-import SelectInput from '@/components/Library/input/SelectInput';
-import { InputMode, InputSize } from '@constants/input';
-import DragAndDrop from '@/components/Library/general/DragAndDrop';
-import { ContentDataType, InputLabelType } from '@/components/editor/types';
-import { useBoardContent } from './useBoardContent';
-import { DeleteIcon, FileDisplay, FileName } from './CommonStyles';
-import { uploadFileUtil } from '@/components/editor/utils/fileUploadService';
-import Icon from '@/components/Library/icon/Icon';
-import { IconName } from '@constants/icon';
+import React, { ChangeEvent, useState } from "react";
+import Input from "@/components/Library/input/Input";
+import SelectInput from "@/components/Library/input/SelectInput";
+import { InputMode, InputSize } from "@constants/input";
+import DragAndDrop from "@/components/Library/general/DragAndDrop";
+import { ContentDataType, InputLabelType } from "@/components/editor/types";
+import { useBoardContent } from "./useBoardContent";
+import { DeleteIcon, FileDisplay, FileName } from "./CommonStyles";
+import { uploadFileUtil } from "@/components/editor/utils/fileUploadService";
+import Icon from "@/components/Library/icon/Icon";
+import { IconName } from "@constants/icon";
 import { uploadFile } from "@/services/upload.service";
-import ImageCropper from '../imageCroper/ImageCropper';
-
-
-
-
+import ImageCropper from "../imageCroper/ImageCropper";
 
 interface ContentInputProps {
   type: ContentDataType;
@@ -22,7 +18,11 @@ interface ContentInputProps {
   label?: string;
 }
 
-export const ContentInput: React.FC<ContentInputProps> = ({ type, placeholder, label }) => {
+export const ContentInput: React.FC<ContentInputProps> = ({
+  type,
+  placeholder,
+  label,
+}) => {
   const { getContentText, setContentText } = useBoardContent();
 
   return (
@@ -32,7 +32,9 @@ export const ContentInput: React.FC<ContentInputProps> = ({ type, placeholder, l
       mode={InputMode.NORMAL}
       label={label}
       value={getContentText(type)?.text}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => setContentText(type, e.target.value)}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+      setContentText(type, { text: e.target.value })
+      }
     />
   );
 };
@@ -43,15 +45,23 @@ interface ContentInputProps {
   label?: string;
 }
 
-export const ContentInputForm: React.FC<ContentInputProps> = ({ type, placeholder, label }) => {
+export const ContentInputForm: React.FC<ContentInputProps> = ({
+  type,
+  placeholder,
+  label,
+}) => {
   const { getFormInput, setFormInput } = useBoardContent();
   return (
     <Input
       placeholder={placeholder}
       inputSize={InputSize.SMALL}
       mode={InputMode.NORMAL}
-      value={getFormInput(type,label as InputLabelType)?.placeholder?.text}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => setFormInput(type,label as InputLabelType ,{placeholder:{text: e.target.value}})}
+      value={getFormInput(type, label as InputLabelType)?.placeholder?.text}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        setFormInput(type, label as InputLabelType, {
+          placeholder: { text: e.target.value },
+        })
+      }
     />
   );
 };
@@ -63,13 +73,18 @@ interface ContentSelectProps {
   label?: string;
 }
 
-export const ContentSelect: React.FC<ContentSelectProps> = ({ type, options, placeholder, label }) => {
+export const ContentSelect: React.FC<ContentSelectProps> = ({
+  type,
+  options,
+  placeholder,
+  label,
+}) => {
   const { getContentText, setContentText } = useBoardContent();
 
   return (
     <SelectInput
       options={options}
-      value={getContentText(type)?.text || ''}
+      value={getContentText(type)?.text || ""}
       onChange={(value) => setContentText(type, value)}
       inputSize={InputSize.SMALL}
       mode={InputMode.DEFAULT}
@@ -79,10 +94,6 @@ export const ContentSelect: React.FC<ContentSelectProps> = ({ type, options, pla
     />
   );
 };
-
-
-
-
 
 export const ContentImageLine: React.FC<{
   type: ContentDataType;
@@ -94,11 +105,15 @@ export const ContentImageLine: React.FC<{
   const [editImage, setEditImage] = useState<boolean>(false);
 
   const handleFileAdded = async (newFile: File) => {
-    setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } ,emission:{map:newFile}} });
+    setContentMaterial(type, {
+      customMaterial: { diffuse: { map: newFile }, emission: { map: newFile } },
+    });
     try {
       const res = await uploadFile(newFile);
       SetFile(res);
-      setContentMaterial(type, { customMaterial: { diffuse: { map: res },emission:{map:res}}  });
+      setContentMaterial(type, {
+        customMaterial: { diffuse: { map: res }, emission: { map: res } },
+      });
     } catch (error) {
       console.error("Unexpected error during file upload:", error);
     }
@@ -106,7 +121,7 @@ export const ContentImageLine: React.FC<{
 
   const getFileName = () => {
     if (typeof file === "string") {
-      return file.split('/').pop(); 
+      return file.split("/").pop();
     }
     return file?.name;
   };
@@ -117,11 +132,12 @@ export const ContentImageLine: React.FC<{
   };
 
   const handleCrop = async (croppedFile: File) => {
-
     try {
       const res = await uploadFile(croppedFile);
       SetFile(res);
-      setContentMaterial(type, { customMaterial: { diffuse: { map: res } ,emission:{map:res}} });
+      setContentMaterial(type, {
+        customMaterial: { diffuse: { map: res }, emission: { map: res } },
+      });
       setEditImage(false);
     } catch (error) {
       console.error("Unexpected error during file upload:", error);
@@ -155,9 +171,6 @@ export const ContentImageLine: React.FC<{
   );
 };
 
-
-
-
 export const ContentVideoUpload: React.FC<{
   type: ContentDataType;
 }> = ({ type }) => {
@@ -167,13 +180,12 @@ export const ContentVideoUpload: React.FC<{
   const file = getContentMaterial(type)?.customMaterial?.diffuse?.map as File;
 
   const handleFileAdded = async (newFile: File) => {
-
-    setContentMaterial(type, {video : newFile} );
+    setContentMaterial(type, { video: newFile });
     try {
       await uploadFileUtil(newFile, type, {
         onSuccess: (url, contentType) => {
-          if (typeof url === 'string') {
-            setContentMaterial(type, {video : url} );
+          if (typeof url === "string") {
+            setContentMaterial(type, { video: url });
           }
 
           setUploadProgress(0);
@@ -187,12 +199,12 @@ export const ContentVideoUpload: React.FC<{
         },
       });
     } catch (error) {
-      console.error('Unexpected error during file upload:', error);
+      console.error("Unexpected error during file upload:", error);
     }
   };
 
   const handleFileDelete = () => {
-    setContentMaterial(type, {customMaterial:{}});
+    setContentMaterial(type, { customMaterial: {} });
   };
 
   return (
@@ -204,7 +216,7 @@ export const ContentVideoUpload: React.FC<{
         </FileDisplay>
       ) : (
         <DragAndDrop
-          type='video'
+          type="video"
           onFileAdded={handleFileAdded}
           buttonOnly={true}
         />
@@ -213,7 +225,6 @@ export const ContentVideoUpload: React.FC<{
     </>
   );
 };
-
 
 export const ContentModelUpload: React.FC<{
   type: ContentDataType;
@@ -224,13 +235,14 @@ export const ContentModelUpload: React.FC<{
   const file = getContentMaterial(type)?.customMaterial?.diffuse?.map as File;
 
   const handleFileAdded = async (newFile: File) => {
-
     // setContentMaterial(type, { customMaterial: { diffuse: { map: newFile } } });
     try {
       await uploadFileUtil(newFile, type, {
         onSuccess: (url, contentType) => {
-          if (typeof url === 'string') {
-            setContentMaterial(type, { customMaterial: { diffuse: { map: url } } });
+          if (typeof url === "string") {
+            setContentMaterial(type, {
+              customMaterial: { diffuse: { map: url } },
+            });
           }
 
           setUploadProgress(0);
@@ -244,12 +256,12 @@ export const ContentModelUpload: React.FC<{
         },
       });
     } catch (error) {
-      console.error('Unexpected error during file upload:', error);
+      console.error("Unexpected error during file upload:", error);
     }
   };
 
   const handleFileDelete = () => {
-    setContentMaterial(type, {customMaterial:{}});
+    setContentMaterial(type, { customMaterial: {} });
   };
 
   return (
@@ -261,7 +273,7 @@ export const ContentModelUpload: React.FC<{
         </FileDisplay>
       ) : (
         <DragAndDrop
-          type='model'
+          type="model"
           onFileAdded={handleFileAdded}
           buttonOnly={true}
         />

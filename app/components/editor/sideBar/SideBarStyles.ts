@@ -15,9 +15,6 @@ export const SideBarContainer = styled.div`
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
 `;
 
-
-
-
 export const SideBarContainerMini = styled.div`
   position: absolute;
   border-radius: 8px;
@@ -27,11 +24,10 @@ export const SideBarContainerMini = styled.div`
   flex-direction: column;
   z-index: 1;
   top: 87px;
-  left: 16px; 
+  left: 16px;
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
-  align-items: flex-end; 
+  align-items: flex-end;
 `;
-
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -50,7 +46,6 @@ export const HeaderTitle = styled.div`
 export const HeaderIcon = styled.div`
   cursor: pointer;
 `;
-
 
 export const ProjectContainer = styled.div`
   display: flex;
@@ -71,31 +66,35 @@ export const ProjectTitle = styled.div`
   align-items: center;
   width: max-content;
   height: max-content;
- `;
+`;
 
+export const ProjectTitles = styled.div`
+
+  background-color: red;
+
+`;
 
 export const ProjectsList = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-position: relative;
-z-index: 1;
-gap:4px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  z-index: 1;
+  gap: 4px;
+  background-color: rebeccapurple;
 `;
 export const ProjectItem = styled.div`
   background-color: white;
-  padding: 8px; 
-  border-radius: 4px; 
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
-  cursor: pointer; 
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
   &:hover {
-    background-color: #f0f0f0; 
+    background-color: #f0f0f0;
   }
 `;
 export const ProjectIcon = styled.div`
   cursor: pointer;
 `;
-
 
 export const SubHeaderContainer = styled.div`
   &:empty {

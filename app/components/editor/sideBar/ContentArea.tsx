@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { GlobalComponent } from './components/rootSideBar/GlobalComponent';
+import { GlobalComponent } from './components/WorldSideBar/GlobalComponent';
 import { ContentComponent } from './components/subSidbar/ContentComponent';
 import { useSidebarContext } from '@/context/SidebarContext ';
 import { ChooseBoardWidgetComponent } from './components/chooseBoard/ChooseBoardWidgetComponent';
 import { StyleComponent } from './components/subSidbar/StyleComponent';
-import ArchitectureComponent from './components/rootSideBar/ArchitectureComponent';
+import ArchitectureComponent from './components/WorldSideBar/ArchitectureComponent';
 
 const ContentContainer = styled.div`
   display: flex;

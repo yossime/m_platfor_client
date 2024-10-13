@@ -20,7 +20,7 @@ export const useBoardContent = () => {
 
   const getSelectedObject = (): ISceneObject | null => {
     if (!sceneModel) {
-      console.warn("Scene model is not initialized");
+      console.log("Scene model is not initialized");
       return null;
     }
     return sceneModel.getSelectedObject() ;
@@ -28,20 +28,20 @@ export const useBoardContent = () => {
   const getContentText = (type: ContentDataType): TextParams| null => {
     const selectedObject = getSelectedObject();
     if (!selectedObject) {
-      console.warn("No object selected");
+      console.log("No object selected");
       return null;
     }
     return selectedObject.getContentText?.(type)?.textObject?.getParams() ?? null;
   };
 
-  const setContentText = (type: ContentDataType, value: string): void => {
+  const setContentText = (type: ContentDataType, propertie: Partial<TextParams>): void => {
     const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return;
     }
     if (selectedObject.setContentText) {
-      selectedObject.setContentText(type, { text: value });
+      selectedObject.setContentText(type,  propertie );
     } else {
       console.warn("Selected object does not support setting content text");
     }

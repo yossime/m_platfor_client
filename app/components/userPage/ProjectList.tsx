@@ -22,7 +22,7 @@ import { TextColor } from "@constants/colors";
 
 
 const ProjectList: React.FC = () => {
-  const {setProjectName, setCurrentProject, projects, setProjects } = useProject();
+  const {currentProject, setCurrentProject, projects, setProjects } = useProject();
   const [error, setError] = useState<string>("");
 
   const { user } = useAuth();
@@ -43,10 +43,10 @@ const ProjectList: React.FC = () => {
     loadProjects();
   }, [user, setProjects]);
 
+
   const selectProject = async (projectId: string, projectName:string) => {
     router.push("/editor");
-    setProjectName(projectName)
-    setCurrentProject(projectId);
+    setCurrentProject({id:projectId,projectName:projectName});
     try {
       const project = await fetchProject(projectId, user?.uid as string);
     } catch (error) {
@@ -72,7 +72,6 @@ const ProjectList: React.FC = () => {
   };
 
   const hasProjects = projects.length > 0;
-
   return (
     <Container>
 
@@ -115,10 +114,10 @@ const ProjectList: React.FC = () => {
           text="Create with AI"
           />
           
-        {projects.map((project) => (
+        {projects.map((project,index) => (
             <ProjectBox
-              key={project.id}
-              project={project}
+            key={project.id ?? `project-${index}`}
+            project={project}
               onSelect={selectProject}
               onDelete={handleDeleteProject}
               />

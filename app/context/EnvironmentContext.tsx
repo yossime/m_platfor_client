@@ -8,13 +8,25 @@ import React, {
 import { Texture } from "three";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 
+interface Environment {
+  name: string;
+  image: string;
+  texture: Texture;
+}
+
+interface EnvironmentPath {
+  name: string;
+  image: string;
+  path: string;
+}
+
 interface EnvironmentContextProps {
-  currentEnvironment: Texture | null;
-  setCurrentEnvironment: (texture: Texture | null) => void;
-  filePaths: string[];
-  setFilePaths: (paths: string[]) => void;
-  textures: Texture[];
-  loadTexturesByIndices: (indices: number[]) => Promise<void>;
+  currentEnvironment: Environment | null;
+  setCurrentEnvironment: (texture: Environment | null) => void;
+  environmentsPaths: EnvironmentPath[];
+  setEnvironmentsPaths: (envs: EnvironmentPath[]) => void;
+  environment: Environment[];
+  setEnvironment: (indices: number[]) => Promise<void>;
 }
 
 const EnvironmentContext = createContext<EnvironmentContextProps | undefined>(
@@ -24,60 +36,60 @@ const EnvironmentContext = createContext<EnvironmentContextProps | undefined>(
 export const EnvironmentProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [currentEnvironment, setCurrentEnvironment] = useState<Texture | null>(
-    null
-  );
-  const [filePaths, setFilePaths] = useState<string[]>([
-    "https://storage.googleapis.com/library-all-test/hdri/industrial_sunset_puresky_4k.hdr",
-    "https://storage.googleapis.com/library-all-test/hdri/rosendal_park_sunset_puresky_8k.hdr",
-    "https://storage.googleapis.com/library-all-test/hdri/rosendal_park_sunset_4k.hdr"
+  const [currentEnvironment, setCurrentEnvironment] = useState<Environment | null>(null);
+  const [environmentsPaths, setEnvironmentsPaths] = useState<EnvironmentPath[]>([
+    { name: "Industrial Sunset", image: "industrial_sunset.jpg", path: "https://storage.googleapis.com/library-all-test/hdri/industrial_sunset_puresky_4k.hdr" },
+    { name: "Rosendal Park Sunset", image: "rosendal_park_sunset.jpg", path: "https://storage.googleapis.com/library-all-test/hdri/rosendal_park_sunset_puresky_8k.hdr" },
+    { name: "Rosendal Park 4K", image: "rosendal_park_4k.jpg", path: "https://storage.googleapis.com/library-all-test/hdri/rosendal_park_sunset_4k.hdr" },
   ]);
-  const [textures, setTextures] = useState<Texture[]>([]);
+  const [environment, setEnvironment] = useState<Environment[]>([]);
 
   useEffect(() => {
     const loadFirstTwoTextures = async () => {
       const loader = new RGBELoader();
-      const loadedTextures: Texture[] = [];
+      const loadedTextures: Environment[] = [];
 
-      for (let i = 0; i < Math.min(filePaths.length, 2); i++) {
+      for (let i = 0; i < Math.min(environmentsPaths.length, 2); i++) {
         try {
-          const texture = await loader.loadAsync(filePaths[i]);
-          loadedTextures.push(texture);
+          const texture = await loader.loadAsync(environmentsPaths[i].path);
+          loadedTextures.push({
+            name: environmentsPaths[i].name,
+            image: environmentsPaths[i].image,
+            texture: texture,
+          });
         } catch (error) {
-          console.error(
-            `Error loading texture from path: ${filePaths[i]}`,
-            error
-          );
+          console.error(`Error loading texture from path: ${environmentsPaths[i].path}`, error);
         }
       }
 
-      setTextures(loadedTextures);
+      setEnvironment(loadedTextures);
     };
 
-    if (filePaths.length > 0) {
+    if (environmentsPaths.length > 0) {
       loadFirstTwoTextures();
     }
-  }, [filePaths]);
+  }, [environmentsPaths]);
 
   const loadTexturesByIndices = async (indices: number[]) => {
     const loader = new RGBELoader();
-    const loadedTextures: Texture[] = [...textures];
+    const updatedTextures = [...environment];
 
     for (const index of indices) {
-      if (index < filePaths.length) {
+      if (index < environmentsPaths.length) {
         try {
-          const texture = await loader.loadAsync(filePaths[index]);
-          loadedTextures.push(texture);
+          const texture = await loader.loadAsync(environmentsPaths[index].path);
+          updatedTextures.push({
+            name: environmentsPaths[index].name,
+            image: environmentsPaths[index].image,
+            texture: texture,
+          });
         } catch (error) {
-          console.error(
-            `Error loading texture from path: ${filePaths[index]}`,
-            error
-          );
+          console.error(`Error loading texture from path: ${environmentsPaths[index].path}`, error);
         }
       }
     }
 
-    setTextures(loadedTextures);
+    setEnvironment(updatedTextures);
   };
 
   return (
@@ -85,10 +97,10 @@ export const EnvironmentProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         currentEnvironment,
         setCurrentEnvironment,
-        filePaths,
-        setFilePaths,
-        textures,
-        loadTexturesByIndices,
+        environmentsPaths: environmentsPaths,
+        setEnvironmentsPaths: setEnvironmentsPaths,
+        environment: environment,
+        setEnvironment: loadTexturesByIndices,
       }}
     >
       {children}
@@ -99,9 +111,7 @@ export const EnvironmentProvider: React.FC<{ children: ReactNode }> = ({
 export const useEnvironmentContext = (): EnvironmentContextProps => {
   const context = useContext(EnvironmentContext);
   if (context === undefined) {
-    throw new Error(
-      "useEnvironmentContext must be used within an EnvironmentProvider"
-    );
+    throw new Error("useEnvironmentContext must be used within an EnvironmentProvider");
   }
   return context;
 };

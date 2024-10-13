@@ -27,7 +27,7 @@ import {
   materialMap,
   MaterialNames,
 } from "@/components/editor/material/materials";
-import { SelectInputMaterial } from "@/components/Library/input/SelectInputMaterial";
+import { SelectInputMaterial } from "@/components/editor/material/SelectInputMaterial";
 
 export const HeaderStyleComponent: React.FC = () => {
   const {

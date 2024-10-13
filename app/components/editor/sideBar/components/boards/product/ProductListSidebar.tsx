@@ -95,7 +95,7 @@ const ProductListSidebar: React.FC = () => {
   const [isSelectionMode, setIsSelectionMode] = useState(true);
   const { currentProject } = useProject();
   const router = useRouter();
-  const { products } = useProducts(currentProject!);
+  const { products } = useProducts(currentProject?.id!);
   const { sceneModel } = useEditor();
 
   useEffect(() => {
