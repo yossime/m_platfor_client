@@ -16,7 +16,7 @@ export const ViewportContainer = styled.div`
 `;
 
 const EnvironmentLoader: React.FC = () => {
-  const { currentEnvironment,setCurrentEnvironment ,textures} = useEnvironmentContext();
+  const { currentEnvironment, setCurrentEnvironment, textures } = useEnvironmentContext();
   const { gl } = useThree();
   const [processedEnvMap, setProcessedEnvMap] = useState<THREE.Texture | null>(null);
   useEffect(() => {
@@ -26,7 +26,7 @@ const EnvironmentLoader: React.FC = () => {
   }, [textures, currentEnvironment, setCurrentEnvironment]);
 
   useEffect(() => {
-  console.log(currentEnvironment)
+    console.log(currentEnvironment)
     if (currentEnvironment) {
       const pmremGenerator = new THREE.PMREMGenerator(gl);
       pmremGenerator.compileEquirectangularShader();
@@ -46,35 +46,30 @@ const EnvironmentLoader: React.FC = () => {
   ) : null;
 };
 
+
+
 const Viewport: React.FC = () => {
+
 
   return (
     <ViewportContainer className="viewport">
-      {/* <Canvas
-      >
-        <CameraControls />
-        <SceneComponent />
-        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
-        </Canvas> */}
-
-      <Canvas shadows camera={{ position: [0, 0, 0], fov: 45 }}>
-        <EnvironmentLoader /> 
-        <ambientLight intensity={0.6} />
+      <Canvas shadows>
+        {/* <EnvironmentLoader />  */}
+        {/* <CameraControls/> */}
         <directionalLight
           intensity={2}
           position={[1, 1, 1]}
           castShadow
-          // shadow-mapSize-width={1024}
-          // shadow-mapSize-height={1024}
-          // shadow-camera-far={1000}
-          // shadow-camera-left={-10}
-          // shadow-camera-right={10}
-          // shadow-camera-top={10}
-          // shadow-camera-bottom={-10}
+        // shadow-mapSize-width={1024}
+        // shadow-mapSize-height={1024}
+        // shadow-camera-far={1000}
+        // shadow-camera-left={-10}
+        // shadow-camera-right={10}
+        // shadow-camera-top={10}
+        // shadow-camera-bottom={-10}
         />
         <SceneComponent />
-        {/* <OutlineEffect {...props} selectedObjects={selectedObjects} /> */}
-        <OrbitControls minDistance={5} maxDistance={90} />
+        {/* <OrbitControls minDistance={5} maxDistance={90} /> */}
       </Canvas>
     </ViewportContainer>
   );

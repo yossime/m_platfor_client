@@ -1,37 +1,36 @@
 import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture, MeshPhongMaterial, MeshBasicMaterial } from 'three';
-
+import { v4 as uuidv4 } from 'uuid';
 import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, ContentMaterial, ContentText, ContentObjects, ContentDataType, ContentData, ExportedSceneObject, TextAlign, FontWeight, TextParams } from '../../types';
 import { FBXLoader, Font, FontLoader, GLTFLoader, TextGeometry } from 'three/examples/jsm/Addons.js';
 import { TextureManager } from '../utils/TextureManager';
-import { EventManager } from '../utils/EventManager';
 import { ModelLoader } from '../loaderes/ModelLoader';
 import { Text as TroikaText } from 'troika-three-text';
 import * as THREE from 'three';
 import { CommandManager } from '../commands/CommandManager';
 import { ChangeTextCommand } from '../commands/ChangeTextCommand';
 import { TextObject } from '../../function/curveText';
+import { LibMLoader } from '../loaderes/LibMLoader';
 
 
 export abstract class SceneObject implements ISceneObject {
-  protected eventManager: EventManager;
-  protected name: string | null = null;
+  public id: string = uuidv4();
+  public name: string | null = null;
   public type: string;
   protected model: Object3D | null = null;
-  public children: ISceneObject[] = [];
+  public children: SceneObject[] = [];
   protected slots: CustomObject3D[] = [];
   protected position: Vector3 | null = null;
   protected rotation: Euler | null = null;
   protected scale: Vector3 = new Vector3(1, 1, 1);
   protected modelParent: Object3D | null = null;
   protected contentsData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
-  protected loader = new ModelLoader();
+  protected loader = new LibMLoader();
   protected readonly libraryUrl: string;
   protected commandManager = CommandManager.getInstance();
 
   constructor(type: string, options?: ISceneObjectOptions) {
     this.libraryUrl = 'https://storage.googleapis.com/library-all-test';
     this.type = type;
-    this.eventManager = EventManager.getInstance();
 
     if (options) {
       this.name = options.exportedScenObj?.name || options.name || this.name;
@@ -60,28 +59,59 @@ export abstract class SceneObject implements ISceneObject {
   }
 
 
-  protected initializeContentText(meshName: ContentDataType, initproperties: TextParams): void {
-    const mesh = this.getGeometryByName(meshName);
-
+  protected initializeContentText(type: ContentDataType, initproperties: TextParams, meshName?: string): void {
+    const mesh = this.getGeometryByName(meshName || type);
+    console.log('Initial', type)
     if (mesh instanceof THREE.Mesh) {
+      // const textObject = new TextObject(mesh, initproperties);
       const textObject = new TextObject(mesh, initproperties);
 
-      this.contentsData.set(meshName,
+      this.contentsData.set(type,
         {
           contentText: {
-            textObject: textObject
+            ...textObject.getParams(),
           }
         });
     }
   }
 
+  protected initializeContentFram(type?: ContentDataType): void {
+    this.model?.traverse(
+      (child) => {
+        if (child.name.startsWith('ph_')) {
+          child.visible = false;
+        }
+      }
+    )
+    // const mesh = this.getGeometryByName(type);
+
+    // if (mesh instanceof THREE.Mesh) {
+    //   mesh.visible = false;
+    // }
+  }
+
+  protected getTextObject(type: ContentDataType): TextObject | null{
+    let meshName = type;
+    if(type === ContentDataType.BUTTON){
+      meshName = `${type}_text` as ContentDataType;
+    }
+    const object = this.getGeometryByName(type);
+    if(object instanceof TextObject) return  object;
+    return null;
+  }
 
   public setContentText(type: ContentDataType, newParams: Partial<TextParams>): void {
-    const textObject = this.contentsData.get(type)?.contentText?.textObject!;
-    const oldProperties = { ...textObject.getParams() }
+    if(!this.model) return;
+    const textObject = this.getTextObject(type);
+    if (!textObject) return;
 
-    const command = new ChangeTextCommand(textObject, newParams, oldProperties);
+    const oldProperties = { ...textObject.getParams() }
+    const command = new ChangeTextCommand(this, type, textObject, newParams, oldProperties);
     this.commandManager.execute(command);
+  }
+
+  public updateContentData(type: ContentDataType, updatedData: ContentData): void {
+    this.contentsData.set(type, updatedData);
   }
 
   public displayEmptySlots(visible: boolean = true): void {
@@ -305,6 +335,7 @@ export abstract class SceneObject implements ISceneObject {
     slot.visible = false;
     this.modelParent = slot.parent;
     if (this.model && this.modelParent) {
+      this.model.name = slot.name;
       this.modelParent.attach(this.model);
       this.model.position.copy(slot.position);
       this.model.rotation.copy(slot.rotation);
@@ -317,8 +348,6 @@ export abstract class SceneObject implements ISceneObject {
 
   protected handleSelected = (object: CustomObject3D) => {
     this.highlightMesh(object);
-    this.eventManager.setSelectedObject(this);
-
 
     // sceneModel?.setSelectedObject(this)
     // console.log(this.eventManager.getSelectedObject.name)

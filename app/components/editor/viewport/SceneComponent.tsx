@@ -9,21 +9,24 @@ import * as THREE from 'three';
 import { SceneService } from './SceneService';
 import { fetchProject } from '@/services/projectService';
 import { useProject } from '@/context/useProjectContext';
-import { EventManager } from './utils/EventManager';
 import { CommandManager } from './commands/CommandManager';
 import OutlineEffect from './OutlineEffect';
+import { CameraControls } from '../camera/Camera';
+import { useSelectedObject } from '../context/Selected.context';
 
 
 
 const SceneComponent = () => {
   const { sceneModel, setSceneModel } = useEditor();
   const { currentProject } = useProject();
-  const eventManager = EventManager.getInstance();
   const { raycaster, camera, mouse } = useThree();
 
   const commandManager = CommandManager.getInstance();
   const [model, setModel] = useState<Object3D | undefined>(undefined);
-  const [selectedObjects, setSelectedObjects] = useState<THREE.Object3D[]>([]);
+  const [selectedModels, setSelectedModels] = useState<THREE.Object3D[]>([]);
+  const [selectedModel, setSelectedModel] = useState<THREE.Object3D>();
+
+  const { selectedObject, setSelectedObject } = useSelectedObject();
 
   // useEffect(() => {
   //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -82,17 +85,20 @@ const SceneComponent = () => {
     const intersects = raycaster.intersectObject(model!, true);
 
     if (intersects.length > 0) {
-      const clickedObject = intersects[0].object as CustomObject3D;
-      console.log('Clicked on:', clickedObject.name); // Adjust as needed
-      setSelectedObjects([clickedObject]);
+      const clickedModel = intersects[0].object as CustomObject3D;
+      // console.log('Clicked on:', clickedModel.name);
+      setSelectedModels([clickedModel]);
+      if (clickedModel.interactive) {
+        setSelectedModel(clickedModel)
+        if (clickedModel.onPointerDown) {
+          // clickedObject.onPointerDown(event);
+          const selectedObject = clickedModel.onPointerDown(event);
+          setSelectedObject(selectedObject);
 
-      if (clickedObject.interactive) {
-        if (clickedObject.onPointerDown) {
-          clickedObject.onPointerDown(event);
         }
       }
     } else {
-      setSelectedObjects([]);
+      setSelectedModels([]);
     }
   };
 
@@ -120,22 +126,20 @@ const SceneComponent = () => {
       light.current.position.set(x, 3, z);
     });
     const light = React.useRef<THREE.PointLight>(null!);
-    return <pointLight ref={light} color="#ffaa00" intensity={1.5} distance={10} />;
+    return <pointLight ref={light} color="#4400ff" intensity={1.5} distance={10} />;
   };
+
+
+
 
   return (
     <group>
-      {/* <group onPointerDown={handlePointerDown}> */}
-      {/* <directionalLight position={[5, 5, 5]} intensity={0.5} />
-      <ambientLight intensity={0.3} /> */}
       <AnimatedLights />
       <Suspense fallback={<span>Loading...</span>}>
         {model && <primitive object={model} onClick={handleClick} />}
-        {/* {model && <group onClick={handleClick}>
-          <primitive object={model} />
-        </group>} */}
       </Suspense>
-      <OutlineEffect selectedObjects={selectedObjects} />
+      <OutlineEffect selectedModels={selectedModels} />
+      <CameraControls selectedModel={selectedModel as THREE.Object3D} />
     </group>
   );
 };

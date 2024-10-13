@@ -12,6 +12,7 @@ import { IconColor } from '@constants/colors';
 import { SubButton, SubContainer, SubWrapper, Container, Divider } from '../general/CommonStyles';
 import { useSidebarContext } from '@/context/SidebarContext ';
 import { ESkybox } from '@/components/editor/types';
+import { useSelectedObject } from '@/components/editor/context/Selected.context';
 
 const options = [
   { value: ESkybox.DEFAULT, label: "Default" },
@@ -24,6 +25,7 @@ interface ArchitectureComponentProps {
 
 export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ handleBackOrAdd }) => {
   const {setActiveSidebarHeader} = useSidebarContext()
+  const { selectedObject, setSelectedObject } = useSelectedObject();
 
   const { sceneModel } = useEditor();
   const [panels, setPanels] = useState<any[]>([]);
@@ -37,7 +39,8 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({ ha
 
   const handleSelect = (panel: any) => {
     setActiveSidebarHeader(panel.name);
-    sceneModel?.setSelectedObject(panel);
+    setSelectedObject(panel)
+    // sceneModel?.setSelectedObject(panel);
 
   };
 

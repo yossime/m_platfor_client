@@ -4,7 +4,6 @@ import {
   ISceneObject,
   CustomObject3D,
   ContentMaterial,
-  ContentText,
   EConfigType,
   EConfiguration,
   ContentDataType,
@@ -58,6 +57,7 @@ export abstract class Board extends SceneObject {
 
       const customModel = model.children[0] as CustomObject3D;
       
+      console.log('customModel', customModel.name)
       customModel.onPointerDown = () => this.handleSelected(customModel);
       customModel.interactive = true;
       this.model = customModel;
@@ -66,6 +66,7 @@ export abstract class Board extends SceneObject {
         this.modelParent.attach(this.model);
         this.model.position.copy(this.position);
         this.model.rotation.copy(this.rotation);
+        this.model.name = `slot_${this.slotNumber}`;
       }
 
       // this.initializeContentAreas();
@@ -202,10 +203,6 @@ export abstract class Board extends SceneObject {
       slotNumber: this.slotNumber,
       format: this.format,
       configuration: Object.fromEntries(this.configuration),
-      // contentMaterial: Object.fromEntries(this.contentMaterial),
-      // contentText: Object.fromEntries(this.contentText),
-      // contentObjects: Object.fromEntries(this.contentObjects),
-      // contentImages: Object.fromEntries(this.contentImages),
       contentsData: Object.fromEntries(this.contentsData),
     };
     return JSON.stringify(exportObject, null, 2);

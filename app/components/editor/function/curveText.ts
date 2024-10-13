@@ -20,45 +20,47 @@ const getRadiusFromMesh = (mesh: THREE.Mesh) => {
     return radius;
 };
 
-export class TextObject {
-    private textMesh: TroikaText;
+
+export class TextObject extends TroikaText{
     private params: TextParams;
 
     constructor(mesh: THREE.Mesh, initialParams: TextParams) {
+        super();
         this.params = initialParams;
-        this.textMesh = this.createTextMesh(mesh);
+        this.init(mesh);
     }
 
-    private createTextMesh(mesh: THREE.Mesh): TroikaText {
+    private init(mesh: THREE.Mesh) {
         const params = this.params;
-        const textMesh = new TroikaText();
+        // const this = new TroikaText();
         const parent = mesh?.parent;
         const meshName = mesh.name;
         const textMeshRadius = getRadiusFromMesh(mesh);
-
+        console.log(textMeshRadius);
         parent?.remove(mesh);
 
-        textMesh.position.copy(mesh.position);
-        textMesh.rotation.copy(mesh.rotation);
-        textMesh.scale.copy(mesh.scale);
+        this.position.copy(mesh.position);
+        this.rotation.copy(mesh.rotation);
+        this.scale.copy(mesh.scale);
 
-        textMesh.name = meshName;
-        textMesh.parent = parent!;
-        textMesh.userData = { type: meshName };
-        textMesh.text = params.text;
-        textMesh.fontSize = params.fontSize;
-        textMesh.color = params.color;
+        this.name = meshName;
+        this.parent = parent!;
+        this.userData = { type: meshName };
+        this.text = params.text;
+        this.fontSize = params.fontSize;
+        this.color = params.color;
         // textMesh.position.set(params.position.x, params.position.y, params.position.z);
-        textMesh.anchorX = params.anchorX;
-        textMesh.anchorY = params.anchorY;
-        textMesh.maxWidth = params.maxWidth;
-        textMesh.textAlign = params.textAlign;
-        // textMesh.curveRadius = textMeshRadius;
-        textMesh.curveRadius = 8.282448370772528;
+        this.anchorX = params.anchorX;
+        this.anchorY = params.anchorY;
+        this.maxWidth = params.maxWidth;
+        this.textAlign = params.textAlign;
+        // textMesh.curveRadius = 30;
+        // this.curveRadius = textMeshRadius || 0;
+        this.curveRadius = 8.282448370772528;
 
-        parent?.add(textMesh);
-        textMesh.sync();
-        return textMesh;
+        parent?.add(this);
+        this.sync();
+        // return this;
     }
 
     setParams(newParams: Partial<TextParams>): void {
@@ -71,15 +73,15 @@ export class TextObject {
     public update(newParams: Partial<TextParams>): void {
         this.setParams(newParams);
         const params = this.params;
-        this.textMesh.text = params.text;
-        this.textMesh.color = params.color;
-        this.textMesh.anchorX = params.anchorX;
-        this.textMesh.anchorY = params.anchorY;
-        this.textMesh.textAlign = params.textAlign;
-        this.textMesh.sync();
+        this.text = params.text;
+        this.color = params.color;
+        this.anchorX = params.anchorX;
+        this.anchorY = params.anchorY;
+        this.textAlign = params.textAlign;
+        this.sync();
     }
 
     public getMesh(): TroikaText {
-        return this.textMesh;
+        return this;
     }
 }

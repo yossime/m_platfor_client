@@ -10,6 +10,7 @@ import { useSidebarContext } from "@/context/SidebarContext ";
 import { createBoardByType } from "@/components/editor/utils/CraeteBoard";
 import { HeaderType, WidgetData, widgets } from "../../types";
 import { WidgetButton, WidgetContainer } from "./ChooseBoardWidgetStyles";
+import { useSelectedObject } from "@/components/editor/context/Selected.context";
 
 
 export const ChooseBoardWidgetComponent: React.FC = () => {
@@ -17,6 +18,7 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
   const [selectedWidget, setSelectedWidget] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<number>(0);
   const {setShowFormatBoard: setFormatBoard , setActiveSidebarHeader} = useSidebarContext()
+  const { selectedObject, setSelectedObject } = useSelectedObject();
 
   useEffect(() => {
     if (sceneModel?.root) {
@@ -33,8 +35,9 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
     const newBoard = createBoardByType(widget.type, { name: widget.name });
 
     if (sceneModel?.root && newBoard) {
-      sceneModel.root.addChild(newBoard);
-      sceneModel.setSelectedObject(newBoard);
+      sceneModel.root.addBoard(newBoard);
+      setSelectedObject(newBoard);
+      // sceneModel.setSelectedObject(newBoard);
       setFormatBoard(true)
       setActiveSidebarHeader(widget.name as HeaderType);
     }

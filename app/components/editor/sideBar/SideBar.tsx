@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation";
 import { Divider, Divider2 } from "./components/general/CommonStyles";
 import Collapsible from "@/components/Library/general/Collapsible";
 import { useSidebarContext } from "@/context/SidebarContext ";
+import { useSelectedObject } from "../context/Selected.context";
 
 
 const Sidebar: React.FC = () => {
@@ -41,14 +42,16 @@ const Sidebar: React.FC = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
   const {setActiveSidebarHeader,activeSidebarHeader,setActiveSidebarSubMenu,activeSidebarSubMenu} = useSidebarContext()
+  const { selectedObject, setSelectedObject} = useSelectedObject();
+  
+  
   useEffect(() => {
-    const selectedObject = sceneModel?.getSelectedObject();
     if (selectedObject && selectedObject instanceof Board) {
       setActiveSidebarHeader((selectedObject.type as HeaderType) || "World");
     } else {
       setActiveSidebarHeader("World");
     }
-  }, [sceneModel, sceneModel?.getSelectedObject]);
+  }, [sceneModel]);
 
   useEffect(() => {
     setActiveSidebarSubMenu("Edit");
@@ -62,29 +65,29 @@ const Sidebar: React.FC = () => {
       setActiveSidebarHeader("World");
     } else {
       setActiveSidebarHeader("Choose Board Widget");
-      sceneModel?.setSelectedObject(null);
+      setSelectedObject(null);
     }
   };
 
 
   const handleFocus = () => {
-    const selectedObject = sceneModel?.getSelectedObject();
-    if (selectedObject) {
-      const pos: Vector3 | null = selectedObject.getPosition();
-      const rot: Euler | null = selectedObject.getRotation();
+    // const selectedObject = sceneModel?.getSelectedObject();
+    // if (selectedObject) {
+    //   const pos: Vector3 | null = selectedObject.getPosition();
+    //   const rot: Euler | null = selectedObject.getRotation();
 
-      if (pos && rot) {
-        const distanceFromObject = 10;
-        const cameraPos = new Vector3(
-          pos.x - distanceFromObject * Math.sin(rot.y),
-          pos.y + distanceFromObject * Math.sin(rot.x),
-          pos.z - distanceFromObject * Math.cos(rot.y)
-        );
+    //   if (pos && rot) {
+    //     const distanceFromObject = 10;
+    //     const cameraPos = new Vector3(
+    //       pos.x - distanceFromObject * Math.sin(rot.y),
+    //       pos.y + distanceFromObject * Math.sin(rot.x),
+    //       pos.z - distanceFromObject * Math.cos(rot.y)
+    //     );
 
-        setCameraPosition(cameraPos);
-        setCameraDirection(pos);
-      }
-    }
+    //     setCameraPosition(cameraPos);
+    //     setCameraDirection(pos);
+    //   }
+    // }
   };
   
 
