@@ -14,16 +14,18 @@ import {
 } from "../../types";
 import { Board } from "../../viewport/models/boards/Board";
 import { FormBoardABC } from "../../viewport/models/boards/formBoards";
+import { useSelectedObject } from "../../context/Selected.context";
 
 export const useBoardContent = () => {
   const { sceneModel } = useEditor();
+  const { selectedObject} = useSelectedObject();
 
   const getSelectedObject = (): ISceneObject | null => {
     if (!sceneModel) {
       console.warn("Scene model is not initialized");
       return null;
     }
-    return sceneModel.getSelectedObject() ;
+    return selectedObject ;
   };
   const getContentText = (type: ContentDataType): TextParams | null => {
     const selectedObject = getSelectedObject();
@@ -31,7 +33,7 @@ export const useBoardContent = () => {
       console.warn("No object selected");
       return null;
     }
-    return selectedObject.getContentText?.(type)?.textObject?.getParams() ?? null;
+    return selectedObject.getContentText?.(type) ?? null;
   };
 
   const setContentText = (type: ContentDataType, value: string): void => {

@@ -18,6 +18,7 @@ import {
 import { useEditor } from "@/context/useEditorContext";
 import { ProductBoardABC } from "@/components/editor/viewport/models/boards/productBoards";
 import { ProductBoard, ProductStand } from "@/components/editor/types";
+import { useSelectedObject } from "@/components/editor/context/Selected.context";
 
 const ProductsWrapper = styled.div`
   height: 100%;
@@ -97,9 +98,10 @@ const ProductListSidebar: React.FC = () => {
   const router = useRouter();
   const { products } = useProducts(currentProject!);
   const { sceneModel } = useEditor();
+  const { selectedObject} = useSelectedObject();
 
   useEffect(() => {
-    const board = sceneModel?.getSelectedObject() as ProductBoard;
+    const board = selectedObject as ProductBoard;
     if (board) {
       const stands = board.getStands();
       if (stands) {
@@ -121,7 +123,7 @@ const ProductListSidebar: React.FC = () => {
   };
 
   const handleSelectComplete = () => {
-    const board = sceneModel?.getSelectedObject() as ProductBoard;
+    const board = selectedObject as ProductBoard;
     if (board) {
       const newProducts = selectedProducts.filter(
         (product) => !boardProducts.some((p) => p.id === product.id)
@@ -134,7 +136,7 @@ const ProductListSidebar: React.FC = () => {
   };
 
   const handleRemoveProduct = (product: Product) => {
-    const board = sceneModel?.getSelectedObject() as ProductBoard;
+    const board = selectedObject as ProductBoard;
     if (board) {
       const stands = board.getStands();
       if (stands) {
@@ -149,7 +151,7 @@ const ProductListSidebar: React.FC = () => {
     }
   };
 
-  const board = sceneModel?.getSelectedObject() as ProductBoard;
+  const board = selectedObject as ProductBoard;
   const maxProducts = board ? board.maxStands : 6;
   return (
     <ProductsWrapper>

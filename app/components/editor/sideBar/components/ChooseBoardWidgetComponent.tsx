@@ -10,6 +10,7 @@ import { IconSize } from "@constants/icon";
 import Tooltip from "@/components/Library/general/Tooltip";
 import { createBoardByType } from "../../utils/CraeteBoard";
 import { useSidebarContext } from "@/context/SidebarContext ";
+import { useSelectedObject } from "../../context/Selected.context";
 
 
 export const ChooseBoardWidgetComponent: React.FC = () => {
@@ -17,6 +18,7 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
   const [selectedWidget, setSelectedWidget] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<number>(0);
   const {setShowFormatBoard: setFormatBoard , setActiveSidebarHeader} = useSidebarContext()
+  const { setSelectedObject} = useSelectedObject();
 
   useEffect(() => {
     if (sceneModel?.root) {
@@ -35,7 +37,7 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
     if (sceneModel?.root && newBoard) {
       // sceneModel.root.addChild(newBoard);
       sceneModel.root.addBoard(newBoard);
-      sceneModel.setSelectedObject(newBoard);
+      setSelectedObject(newBoard);
       setFormatBoard(true)
       setActiveSidebarHeader(widget.name as HeaderType);
     }
