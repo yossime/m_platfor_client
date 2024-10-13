@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import Input from "@/components/Library/input/Input";
 import SelectInput from "@/components/Library/input/SelectInput";
 import { InputMode, InputSize } from "@constants/input";
@@ -8,42 +8,63 @@ import { useBoardContent } from "./useBoardContent";
 import { DeleteIcon, FileDisplay, FileName } from "./CommonStyles";
 import { uploadFileUtil } from "@/components/editor/utils/fileUploadService";
 import Icon from "@/components/Library/icon/Icon";
-import { IconName } from "@constants/icon";
+import { IconName, IconSize } from "@constants/icon";
 import { uploadFile } from "@/services/upload.service";
 import ImageCropper from "../imageCroper/ImageCropper";
+import styled from "styled-components";
+import TextSettings from "@/components/editor/editText/EditText";
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap:4px;
+  padding: 4px;
+`;
 
 interface ContentInputProps {
   type: ContentDataType;
   placeholder: string;
   label?: string;
+  edit?: boolean;
+  onEditClick?: () => void;
 }
 
 export const ContentInput: React.FC<ContentInputProps> = ({
   type,
   placeholder,
   label,
+  edit,
 }) => {
   const { getContentText, setContentText } = useBoardContent();
+  const [showEditText, setShowEditText] = useState<boolean>(false);
+  const selectRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Input
-      placeholder={placeholder}
-      inputSize={InputSize.SMALL}
-      mode={InputMode.NORMAL}
-      label={label}
-      value={getContentText(type)?.text}
-      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-      setContentText(type, { text: e.target.value })
-      }
-    />
+    <InputContainer  ref={selectRef}>        
+
+      {showEditText && <TextSettings parentRef={selectRef} dataType={type} />}
+
+      <Input
+        placeholder={placeholder}
+        inputSize={InputSize.SMALL}
+        mode={InputMode.NORMAL}
+        label={label}
+        value={getContentText(type)?.text}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        setContentText(type, { text: e.target.value })
+        }
+      />
+      {edit && (
+        <Icon
+          onClick={()=> setShowEditText(!showEditText)}
+          size={IconSize.SMALL}
+          name={IconName.EDIT}
+        />
+      )}
+    </InputContainer>
   );
 };
 
-interface ContentInputProps {
-  type: ContentDataType;
-  placeholder: string;
-  label?: string;
-}
 
 export const ContentInputForm: React.FC<ContentInputProps> = ({
   type,

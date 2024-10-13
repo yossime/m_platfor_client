@@ -77,7 +77,7 @@ const TextureUploadComponent: React.FC<ImageUploadProps> = ({
   const [texture, setTexture] = useState<ContentMaterial>(
     initialTexture ?? initialImageState
   );
-
+  
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
