@@ -10,6 +10,7 @@ import Icon from "@/components/Library/icon/Icon";
 import { IconColor } from "@constants/colors";
 import PopupEditDisplay from "./PopupEditDisplay";
 import { ISceneObject, StandType } from '@/components/editor/types/index';
+import { useSelectedObject } from "@/components/editor/context/Selected.context";
 
 // import { Product } from "@/components/editor/interface/Product";
 
@@ -22,8 +23,8 @@ export const DisplayList: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [displays, setDisplays] = useState<ISceneObject[]>([]);
   const [availableSlots, setAvailableSlots] = useState<number>(5);
+  const { selectedObject} = useSelectedObject();
 
-  const selectedObject = sceneModel?.getSelectedObject();
 
   useEffect(() => {
     if (selectedObject) {
