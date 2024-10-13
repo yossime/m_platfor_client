@@ -22,6 +22,7 @@ import {
 } from "../general/CommonStyles";
 import { useSidebarContext } from "@/context/SidebarContext ";
 import { ESkybox } from "@/components/editor/types";
+import { useSelectedObject } from "@/components/editor/context/Selected.context";
 
 const options = [
   { value: ESkybox.DEFAULT, label: "Default" },
@@ -36,6 +37,7 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({
   handleBackOrAdd,
 }) => {
   const { setActiveSidebarHeader } = useSidebarContext();
+  const { selectedObject, setSelectedObject} = useSelectedObject();
 
   const { sceneModel } = useEditor();
   const [panels, setPanels] = useState<any[]>([]);
@@ -49,7 +51,7 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({
 
   const handleSelect = (panel: any) => {
     setActiveSidebarHeader(panel.name);
-    sceneModel?.setSelectedObject(panel);
+    // sceneModel?.setSelectedObject(panel);
   };
 
   return (

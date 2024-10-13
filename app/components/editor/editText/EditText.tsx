@@ -12,15 +12,18 @@ import PopupTextEditor from "./PopupTextEditor";
 import Input from "@/components/Library/input/Input";
 import SelectInput from "@/components/Library/input/SelectInput";
 import { InputSize } from "@constants/input";
+import { useSelectedObject } from "../context/Selected.context";
 
 interface TextSettingsProps {
   dataType: ContentDataType;
 }
 
 const TextSettings: React.FC<TextSettingsProps> = ({ dataType }) => {
-  const { sceneModel } = useEditor();
-  const selectedObject: ISceneObject | null =
-    sceneModel?.getSelectedObject() || null;
+  // const { sceneModel } = useEditor();
+  const { selectedObject, setSelectedObject} = useSelectedObject();
+
+  // const selectedObject: ISceneObject | null =
+  //   sceneModel?.getSelectedObject() || null;
 
   const handleChange = <K extends keyof TextParams>(
     field: K,

@@ -17,18 +17,18 @@ import { FormBoardABC } from "../../../viewport/models/boards/formBoards";
 import { useSelectedObject } from "@/components/editor/context/Selected.context";
 
 export const useBoardContent = () => {
-  const { sceneModel } = useEditor();
+  // const { sceneModel } = useEditor();
   const { selectedObject } = useSelectedObject();
 
-  const getSelectedObject = (): ISceneObject | null => {
-    if (!sceneModel) {
-      console.log("Scene model is not initialized");
-      return null;
-    }
-    return selectedObject ;
-  };
+  // const getSelectedObject = (): ISceneObject | null => {
+  //   if (!sceneModel) {
+  //     console.log("Scene model is not initialized");
+  //     return null;
+  //   }
+  //   return selectedObject ;
+  // };
   const getContentText = (type: ContentDataType): TextParams| null => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.log("No object selected");
       return null;
@@ -37,7 +37,7 @@ export const useBoardContent = () => {
   };
 
   const setContentText = (type: ContentDataType, propertie: Partial<TextParams>): void => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return;
@@ -50,7 +50,7 @@ export const useBoardContent = () => {
   };
 
   const getFormInput = (type: ContentDataType, label:InputLabelType): InputField | null => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return null;
@@ -59,7 +59,7 @@ export const useBoardContent = () => {
   };
 
   const setFormInput = (type: ContentDataType,label:InputLabelType, input: InputField): void => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return;
@@ -70,7 +70,7 @@ export const useBoardContent = () => {
   const getContentMaterial = (
     type: ContentDataType
   ): ContentMaterial | null => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return null;
@@ -82,7 +82,7 @@ export const useBoardContent = () => {
     type: ContentDataType,
     material: ContentMaterial
   ): void => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return;
@@ -99,7 +99,7 @@ export const useBoardContent = () => {
   };
 
   const setConfiguration = (type: EConfigType, config: EConfiguration) => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return null;
@@ -108,7 +108,7 @@ export const useBoardContent = () => {
   };
 
   const getConfiguration = (): Map<EConfigType, EConfiguration> | null => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return null;
@@ -117,7 +117,7 @@ export const useBoardContent = () => {
   };
 
   const setLogoConfiguration = (type: EConfigType, config: EConfiguration) => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return null;
@@ -128,7 +128,7 @@ export const useBoardContent = () => {
 
   const getLogoConfiguration = (
   ): Map<EConfigType, EConfiguration> | null => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return null;
@@ -137,7 +137,7 @@ export const useBoardContent = () => {
   };
 
   const setFormat = (format: FormatBoard) => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return null;
@@ -146,7 +146,7 @@ export const useBoardContent = () => {
   };
 
   const getFormat = (): FormatBoard | null => {
-    const selectedObject = getSelectedObject();
+    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return null;
