@@ -59,6 +59,8 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [isPositionReady, setIsPositionReady] = useState(false);
+
   const internalRef = useRef<HTMLDivElement>(null);
 
   useImperativeHandle(ref, () => internalRef.current!);
@@ -78,6 +80,8 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(({
     };
 
     setPosition(calculatePosition());
+    setIsPositionReady(true);
+
   }, [isCentered, parentRef]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -118,7 +122,7 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(({
   }, [isDragging, handleMouseMove, handleMouseUp]);
 
   return (
-    <PopupContent
+(isPositionReady &&    <PopupContent
       ref={internalRef}
       style={{ left: `${position.x}px`, top: `${position.y}px` }}
       onMouseDown={handleMouseDown}
@@ -147,7 +151,7 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(({
           />
         </ButtonContainer>
       }
-    </PopupContent>
+    </PopupContent>)
   );
 });
 

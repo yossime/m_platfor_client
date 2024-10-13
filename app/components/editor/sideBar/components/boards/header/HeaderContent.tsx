@@ -15,13 +15,12 @@ import {
   ContentModelUpload,
 } from "../../general/GenericBoardComponents";
 import { ChooseBoardFormat } from "../../general/FormatBoard";
-import TextSettings from "@/components/editor/editText/EditText";
+
 
 export const HeaderContentComponent: React.FC = () => {
   const { getFormat } = useBoardContent();
   const { showformatBoard } = useSidebarContext();
   const [formatBoard, setFormatBoard] = useState<FormatBoard | null>(null);
-  const [showEditText, setShowEditText] = useState<boolean>(false);
 
   const [openSections, setOpenSections] = useState({
     title: true,
@@ -54,7 +53,6 @@ export const HeaderContentComponent: React.FC = () => {
         <ChooseBoardFormat boardType={BoardType.Header} />
       ) : (
         <Container>
-          {showEditText && <TextSettings dataType={ContentDataType.TITLE} />}
           {formatBoard === FormatBoard.Frame && (
             <>
               <DataObfuscator
@@ -87,6 +85,7 @@ export const HeaderContentComponent: React.FC = () => {
             <ContentInput
               type={ContentDataType.TITLE}
               placeholder="Enter title"
+              edit={true}
             />
           </DataObfuscator>
           <DataObfuscator
@@ -97,6 +96,7 @@ export const HeaderContentComponent: React.FC = () => {
             <ContentInput
               type={ContentDataType.SUB_TITLE}
               placeholder="Enter subtitle"
+              edit={true}
             />
           </DataObfuscator>
           <DataObfuscator

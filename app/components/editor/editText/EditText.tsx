@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ContentDataType,
   Font,
   FontWeight,
-  ISceneObject,
   TextAlign,
   TextParams,
 } from "../types";
-import { useEditor } from "@/context/useEditorContext";
 import PopupTextEditor from "./PopupTextEditor";
 import Input from "@/components/Library/input/Input";
 import SelectInput from "@/components/Library/input/SelectInput";
@@ -16,14 +14,19 @@ import { useSelectedObject } from "../context/Selected.context";
 
 interface TextSettingsProps {
   dataType: ContentDataType;
+  parentRef: React.RefObject<HTMLDivElement>;
 }
 
-const TextSettings: React.FC<TextSettingsProps> = ({ dataType }) => {
-  // const { sceneModel } = useEditor();
-  const { selectedObject, setSelectedObject} = useSelectedObject();
+const TextSettings: React.FC<TextSettingsProps> = ({ parentRef, dataType }) => {
+  const { selectedObject } = useSelectedObject();
 
-  // const selectedObject: ISceneObject | null =
-  //   sceneModel?.getSelectedObject() || null;
+  const [font, setFont] = useState<Font | null>(null);
+  const [fontWeight, setFontWeight] = useState<FontWeight | null>(null);
+  const [fontSize, setFontSize] = useState<number | null>(null);
+  const [lineHeight, setLineHeight] = useState<number | null>(null);
+  const [textAlign, setTextAlign] = useState<TextAlign | null>(null);
+  const [maxWidth, setMaxWidth] = useState<number | "">("");
+  const [color, setColor] = useState<string>("");
 
   const handleChange = <K extends keyof TextParams>(
     field: K,
@@ -37,14 +40,17 @@ const TextSettings: React.FC<TextSettingsProps> = ({ dataType }) => {
   };
 
   return (
-    <PopupTextEditor onClose={() => {}}>
+    <PopupTextEditor  parentRef={parentRef}>
       <SelectInput
         options={Object.values(Font).map((font) => ({
           value: font,
           label: font,
         }))}
-        value={""}
-        onChange={(value) => handleChange("font", value as Font)}
+        value={font ?? ""}
+        onChange={(value) => {
+          setFont(value as Font);
+          handleChange("font", value as Font);
+        }}
       />
 
       <SelectInput
@@ -52,8 +58,11 @@ const TextSettings: React.FC<TextSettingsProps> = ({ dataType }) => {
           value: weight,
           label: weight,
         }))}
-        value={""}
-        onChange={(value) => handleChange("fontWeight", value as FontWeight)}
+        value={fontWeight ?? ""}
+        onChange={(value) => {
+          setFontWeight(value as FontWeight);
+          handleChange("fontWeight", value as FontWeight);
+        }}
       />
 
       <SelectInput
@@ -61,8 +70,12 @@ const TextSettings: React.FC<TextSettingsProps> = ({ dataType }) => {
           value: (i + 1).toString(),
           label: (i + 1).toString(),
         }))}
-        value={""}
-        onChange={(value) => handleChange("fontSize", Number(value))}
+        value={fontSize !== null ? fontSize.toString() : ""}
+        onChange={(value) => {
+          const size = Number(value);
+          setFontSize(size);
+          handleChange("fontSize", size);
+        }}
       />
 
       <SelectInput
@@ -71,8 +84,12 @@ const TextSettings: React.FC<TextSettingsProps> = ({ dataType }) => {
           { value: "1.5", label: "1.5" },
           { value: "2", label: "2" },
         ]}
-        value={""}
-        onChange={(value) => handleChange("lineHeight", Number(value))}
+        value={lineHeight !== null ? lineHeight.toString() : ""}
+        onChange={(value) => {
+          const lineHeightValue = Number(value);
+          setLineHeight(lineHeightValue);
+          handleChange("lineHeight", lineHeightValue);
+        }}
       />
 
       <SelectInput
@@ -80,21 +97,34 @@ const TextSettings: React.FC<TextSettingsProps> = ({ dataType }) => {
           value: align,
           label: align,
         }))}
-        value={""}
-        onChange={(value) => handleChange("textAlign", value as TextAlign)}
+        value={textAlign ?? ""}
+        onChange={(value) => {
+          setTextAlign(value as TextAlign);
+          handleChange("textAlign", value as TextAlign);
+        }}
         inputSize={InputSize.SMALL}
       />
 
       <Input
         inputSize={InputSize.SMALL}
         type="number"
-        onChange={(e) => handleChange("maxWidth", Number(e.target.value))}
+        value={maxWidth !== "" ? maxWidth.toString() : ""}
+        onChange={(e) => {
+          const width = Number(e.target.value);
+          setMaxWidth(width);
+          handleChange("maxWidth", width);
+        }}
       />
 
       <Input
         inputSize={InputSize.SMALL}
         type="color"
-        onChange={(e) => handleChange("color", e.target.value)}
+        value={color}
+        onChange={(e) => {
+          const newColor = e.target.value;
+          setColor(newColor);
+          handleChange("color", newColor);
+        }}
       />
     </PopupTextEditor>
   );

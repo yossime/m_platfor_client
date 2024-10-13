@@ -49,6 +49,7 @@ const ProjectList: React.FC = () => {
     setCurrentProject({id:projectId,projectName:projectName});
     try {
       const project = await fetchProject(projectId, user?.uid as string);
+      console.log(project)
     } catch (error) {
       console.error("Error selecting project:", error);
       setError("Failed to select project");

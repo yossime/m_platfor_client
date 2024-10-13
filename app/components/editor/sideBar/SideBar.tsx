@@ -14,7 +14,7 @@ import {
   ProjectContainer,
   SideBarContainerMini,
   ProjectsList,
-  ProjectTitles,
+  ProjectObj,
 } from "./SideBarStyles";
 import { SubMenuType, HeaderType } from "./types";
 import { useEditor } from "@/context/useEditorContext";
@@ -23,8 +23,7 @@ import { TextSize } from "@constants/text";
 import Icon from "@/components/Library/icon/Icon";
 import { IconName } from "@constants/icon";
 import { Board } from "../viewport/models/boards/Board";
-import { useProject } from "@/context/useProjectContext";
-import { useCamera } from "@/context/CameraContext";
+import { Project, useProject } from "@/context/useProjectContext";
 import { useRouter } from "next/navigation";
 import { Divider, Divider2 } from "./components/general/CommonStyles";
 import Collapsible from "@/components/Library/general/Collapsible";
@@ -32,9 +31,7 @@ import { useSidebarContext } from "@/context/SidebarContext ";
 import { useSelectedObject } from "../context/Selected.context";
 
 const Sidebar: React.FC = () => {
-  const { setCameraPosition, setCameraDirection } = useCamera();
-
-  const { currentProject, projects } = useProject();
+  const { currentProject, projects, setCurrentProject } = useProject();
   const { sceneModel } = useEditor();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
@@ -46,9 +43,8 @@ const Sidebar: React.FC = () => {
     setShowFormatBoard,
   } = useSidebarContext();
 
-  const { selectedObject, setSelectedObject} = useSelectedObject();
-  
-  
+  const { selectedObject, setSelectedObject } = useSelectedObject();
+
   useEffect(() => {
     if (selectedObject && selectedObject instanceof Board) {
       setActiveSidebarHeader((selectedObject.type as HeaderType) || "World");
@@ -71,25 +67,7 @@ const Sidebar: React.FC = () => {
     }
   };
 
-  const handleFocus = () => {
-    // const selectedObject = sceneModel?.getSelectedObject();
-    // if (selectedObject) {
-    //   const pos: Vector3 | null = selectedObject.getPosition();
-    //   const rot: Euler | null = selectedObject.getRotation();
-
-    //   if (pos && rot) {
-    //     const distanceFromObject = 10;
-    //     const cameraPos = new Vector3(
-    //       pos.x - distanceFromObject * Math.sin(rot.y),
-    //       pos.y + distanceFromObject * Math.sin(rot.x),
-    //       pos.z - distanceFromObject * Math.cos(rot.y)
-    //     );
-
-    //     setCameraPosition(cameraPos);
-    //     setCameraDirection(pos);
-    //   }
-    // }
-  };
+  const handleFocus = () => {};
 
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
@@ -100,8 +78,10 @@ const Sidebar: React.FC = () => {
     setActiveSidebarHeader("World");
   };
 
-  function handleProjectClick(project: any): void {}
-  
+  function handleProjectClick(project: Project): void {
+    setCurrentProject(project);
+  }
+
   return (
     <>
       {isOpen ? (
@@ -117,12 +97,12 @@ const Sidebar: React.FC = () => {
               <Collapsible title={currentProject?.projectName || ""}>
                 <ProjectsList>
                   {projects.map((project) => (
-                    <ProjectTitles
+                    <ProjectObj
                       key={project.id}
                       onClick={() => handleProjectClick(project)}
                     >
                       {project.projectName}
-                    </ProjectTitles>
+                    </ProjectObj>
                   ))}
                 </ProjectsList>
               </Collapsible>

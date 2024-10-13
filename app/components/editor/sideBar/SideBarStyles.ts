@@ -68,10 +68,8 @@ export const ProjectTitle = styled.div`
   height: max-content;
 `;
 
-export const ProjectTitles = styled.div`
-
+export const ProjectObj = styled.div`
   background-color: red;
-
 `;
 
 export const ProjectsList = styled.div`
