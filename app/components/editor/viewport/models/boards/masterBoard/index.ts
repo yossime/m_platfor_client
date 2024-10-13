@@ -2,7 +2,7 @@ import { ISceneObjectOptions, ISceneObject, ContentDataType, ContentText } from 
 import { BoardType } from "@/components/editor/types";
 import { Board } from '../Board';
 import { Object3D } from 'three';
-import { TITLE } from '@/constants/editor/boards/text.constants';
+import { SUB_TITLE, TITLE } from '@/constants/editor/boards/text.constants';
 
 export abstract class MasterBoardABC extends Board {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
@@ -27,8 +27,9 @@ export abstract class MasterBoardABC extends Board {
         this.contentsData.set(ContentDataType.BUTTON, {});
 
         this.initializeContentText(ContentDataType.TITLE, TITLE)
-        this.initializeContentText(ContentDataType.SUB_TITLE, TITLE)
-        this.initializeContentText(`${ContentDataType.BUTTON}_text` as ContentDataType, TITLE)
+        this.initializeContentText(ContentDataType.SUB_TITLE, SUB_TITLE)
+        this.initializeContentText(ContentDataType.BUTTON, TITLE, `${ContentDataType.BUTTON}_text` as ContentDataType)
+        this.initializeContentFram()
     }
 
 }

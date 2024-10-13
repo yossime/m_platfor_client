@@ -7,6 +7,7 @@ export class CommandManager {
     private static instance: CommandManager;
     private commands: Command[] = [];
     private undoStack: Command[] = [];
+    private redoStack: Command[] = [];
 
     public static getInstance(): CommandManager {
         if (!CommandManager.instance) {
@@ -22,18 +23,18 @@ export class CommandManager {
     }
 
     undo() {
-        console.log("Command undo")
-
         if (this.undoStack.length === 0) return;
         const command = this.undoStack.pop();
         command?.undo();
+        this.redoStack.push(command!);
     }
 
 
     redo() {
-        // const command = this.undoStack.pop();
-        // command?.undo();
-        console.log("Command redo")
-        // Implement redo logic if needed
+        if (this.redoStack.length > 0) {
+            const command = this.redoStack.pop()!;
+            command.execute();
+            this.undoStack.push(command);
+        }
     }
 }

@@ -13,11 +13,13 @@ export const ViewportContainer = styled.div`
 `;
 
 
+
+
 const Viewport: React.FC = () => {
   return (
     <ViewportContainer className="viewport">
       <Canvas>
-        <CameraControls />
+        {/* <CameraControls /> */}
         <EnvironmentLoader />
         <ambientLight intensity={0.6} />
         <directionalLight intensity={2} position={[1, 1, 1]} castShadow />

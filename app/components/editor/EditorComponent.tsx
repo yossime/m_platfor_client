@@ -10,6 +10,7 @@ import { CameraProvider } from "@/context/CameraContext";
 import { SidebarProvider } from "@/context/SidebarContext ";
 import Viewport from "./viewport/Viewport";
 import { EnvironmentProvider } from "@/context/EnvironmentContext";
+import { SelectedObjectProvider } from "./context/Selected.context";
 
 const EditorLayout = styled.div`
   display: flex;
@@ -27,14 +28,16 @@ const EditorComponent: React.FC = () => {
       {editorState !== EditorState.PREVIEW ? (
         <EditorLayout>
           <JoyrideEditor />
-          <EnvironmentProvider>
-          <CameraProvider>
-            <SidebarProvider>
-              <SideBar />
-              <Viewport />
-            </SidebarProvider>
-          </CameraProvider>
-          </EnvironmentProvider>
+          <SelectedObjectProvider>
+            <EnvironmentProvider>
+              <CameraProvider>
+                <SidebarProvider>
+                  <SideBar />
+                  <Viewport />
+                </SidebarProvider>
+              </CameraProvider>
+            </EnvironmentProvider>
+          </SelectedObjectProvider>
         </EditorLayout>
       ) : (
         <EditorLayout>

@@ -20,12 +20,16 @@ export class Architecture extends SceneObject implements IArchitecture {
         this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}.fbx`;
     }
     public addBoard(board: Board): void {
+        if (this.selectedSlot) {
         const command = new AddChildCommand(this, board);
         this.commandManager.execute(command);
+        } else {
+            this.childToAdd = board;
+        }
     }
 
     public addChild(sceneObject: Board, slotNumber?: number): void {
-        if (slotNumber) {
+        if (slotNumber !== -1) {
             const slot = this.slots.find(placeholder => parseInt(placeholder.name.replace(/\D/g, ''), 10) === slotNumber);
             this.selectedSlot = slot || null;
         }
@@ -49,11 +53,12 @@ export class Architecture extends SceneObject implements IArchitecture {
     }
 
 
-    removeChild(sceneObject: ISceneObject): void {
-        this.children.filter(child => child !== sceneObject);
-        this.model?.children.filter(child => child !== sceneObject.getModel());
-        // throw new Error('Method not implemented.');
-      }
+    removeChild(sceneObject: SceneObject): void {
+        this.children = this.children.filter(child => child.id !== sceneObject.id);
+        const slotName = sceneObject.getModel()!.name;
+        const slot = this.getGeometryByName(slotName) as CustomObject3D;
+        slot.isEmpty = true;
+    }
 
 
 
@@ -68,7 +73,6 @@ export class Architecture extends SceneObject implements IArchitecture {
             customModel.onPointerDown = () => this.handleSelected(customModel);
             customModel.interactive = true;
             this.model = customModel;
-            console.log('customModel', customModel);
 
             await this.loadPlaceholders(this.placeholderPath, this.handleSelectSlot)
 
@@ -85,7 +89,10 @@ export class Architecture extends SceneObject implements IArchitecture {
         this.selectedSlot = slet;
 
         if (this.childToAdd) {
-            this.addChild(this.childToAdd);
+            const command = new AddChildCommand(this, this.childToAdd);
+            this.commandManager.execute(command);
+            // this.addChild(this.childToAdd);
+            return this.childToAdd;
         }
         this.highlightMesh(slet);
         return this;

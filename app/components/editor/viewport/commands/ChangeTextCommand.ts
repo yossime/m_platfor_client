@@ -1,9 +1,12 @@
 import { Command } from './Command';
 import { TextObject } from '../../function/curveText';
-import { TextParams } from '../../types';
+import { ContentDataType, TextParams } from '../../types';
+import { SceneObject } from '../models/SceneObject';
 
 export class ChangeTextCommand extends Command {
     constructor(
+        private sceneObject : SceneObject,
+        private contentDtype: ContentDataType,
         private textObject: TextObject,
         private newProperties: Partial<TextParams>,
         private oldProperties: TextParams,
@@ -11,9 +14,11 @@ export class ChangeTextCommand extends Command {
         super(
             () => {
                 this.textObject.update(this.newProperties); 
+                this.sceneObject.updateContentData(this.contentDtype, {contentText: {...this.oldProperties , ...this.newProperties}});
             },
             () => {
                 this.textObject.update(this.oldProperties); 
+                this.sceneObject.updateContentData(this.contentDtype, {contentText: {...this.oldProperties}});
             }
         );
     }

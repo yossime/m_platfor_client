@@ -230,10 +230,9 @@ export interface TextParams {
     color: string;
     position?: { x: number; y: number; z: number };
 }
-
-export interface ContentText{
-  textObject?: TextObject;
-  textPaerms?: TextParams;
+export interface ContentText extends TextParams {
+  // textObject?: TextObject;
+  // textPaerms?: TextParams;
 }
 
 

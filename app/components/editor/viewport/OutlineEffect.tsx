@@ -12,11 +12,11 @@ import * as THREE from 'three';
 extend({ EffectComposer, RenderPass, ShaderPass, OutlinePass });
 
 interface OutlineEffectProps {
-    selectedObjects: THREE.Object3D[];
+    selectedModels: THREE.Object3D[];
 }
 
 
-const OutlineEffect: React.FC<OutlineEffectProps> = ({ selectedObjects }) => {
+const OutlineEffect: React.FC<OutlineEffectProps> = ({ selectedModels }) => {
     const { gl, scene, camera, size } = useThree();
     const composer = useRef<EffectComposer | null>(null);
     const outlinePass = useRef<OutlinePass | null>(null);
@@ -70,11 +70,11 @@ const OutlineEffect: React.FC<OutlineEffectProps> = ({ selectedObjects }) => {
 
     useEffect(() => {
         if (outlinePass.current) {
-            console.log("outline", selectedObjects)
-            outlinePass.current.selectedObjects = selectedObjects;
+            console.log("outline", selectedModels)
+            outlinePass.current.selectedObjects = selectedModels;
         }
 
-    }, [selectedObjects]);
+    }, [selectedModels]);
 
     useFrame(() => {
         composer.current?.render();
