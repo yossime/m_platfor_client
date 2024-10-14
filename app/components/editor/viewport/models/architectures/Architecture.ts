@@ -21,12 +21,12 @@ export class Architecture extends SceneObject implements IArchitecture {
 
         super(type, architecturePath, options);
         this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}.glb`;
+        this.name = 'architectures'
     }
-
     async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
         await super.loadModelAndDisplay(onLoad);
         try {
-           await this.loadPlaceholders(this.placeholderPath, this.handleSelectSlot)
+            await this.loadPlaceholders(this.placeholderPath, this.handleSelectSlot)
         } catch (error) {
             console.error('Error loading model:', error);
             throw new Error('Failed to load architecture model');

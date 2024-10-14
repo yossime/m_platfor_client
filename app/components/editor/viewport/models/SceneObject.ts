@@ -374,7 +374,7 @@ export abstract class SceneObject implements ISceneObject {
     this.highlightMesh(object);
 
     // sceneModel?.setSelectedObject(this)
-    // console.log(this.eventManager.getSelectedObject.name)
+    // console.log('this.eventManager.getSelectedObject.name', this.name)
     return this
   };
 

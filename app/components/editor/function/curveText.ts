@@ -36,7 +36,7 @@ export class TextObject extends TroikaText{
         const parent = mesh?.parent;
         const meshName = mesh.name;
         const textMeshRadius = getRadiusFromMesh(mesh);
-        console.log(textMeshRadius);
+        // console.log(textMeshRadius);
         parent?.remove(mesh);
 
         this.position.copy(mesh.position);

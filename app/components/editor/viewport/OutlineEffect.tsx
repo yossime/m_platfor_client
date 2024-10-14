@@ -70,7 +70,7 @@ const OutlineEffect: React.FC<OutlineEffectProps> = ({ selectedModels }) => {
 
     useEffect(() => {
         if (outlinePass.current) {
-            console.log("outline", selectedModels)
+            // console.log("outline", selectedModels)
             outlinePass.current.selectedObjects = selectedModels;
         }
 

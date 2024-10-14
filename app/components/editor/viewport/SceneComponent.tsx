@@ -14,6 +14,7 @@ import OutlineEffect from './OutlineEffect';
 import { Controls } from '../camera/Camera';
 import { useSelectedObject } from '../context/Selected.context';
 import { OrbitControls } from '@react-three/drei';
+import { SceneObject } from './models/SceneObject';
 
 
 
@@ -87,14 +88,16 @@ const SceneComponent = () => {
     if (intersects.length > 0) {
       const clickedModel = intersects[0].object as CustomObject3D;
       // console.log('Clicked on:', clickedModel.name);
+      // console.log('Clicked interactive:', clickedModel.interactive);
       setSelectedModels([clickedModel]);
-
-      if (clickedModel.interactive) {
-        setSelectedModel(clickedModel)
-        if (clickedModel.onPointerDown) {
+      
+      if (clickedModel.interactive && clickedModel.onPointerDown) {
+        // setSelectedModel(clickedModel)
+        const selectedObject = clickedModel.onPointerDown(event);
+        if (selectedObject instanceof SceneObject) {
           // clickedObject.onPointerDown(event);
-          const selectedObject = clickedModel.onPointerDown(event);
           setSelectedObject(selectedObject);
+          // console.log('Clicked onPointerDown:', selectedObject);
 
         }
       }

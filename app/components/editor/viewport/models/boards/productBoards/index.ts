@@ -17,6 +17,23 @@ export abstract class ProductBoardABC extends Board implements ProductBoard {
         // this.format = difFormat;
     }
 
+    protected async loadModelAndDisplay(): Promise<void> {
+        await super.loadModelAndDisplay();
+        this.slots = this.getSlotsPosition();
+        this.slots.forEach(slot => this.slotsMap.set(parseInt(slot.name.replace(/\D/g, ''), 10), slot));
+    }
+
+    initializeContentAreas(): void {
+        this.contentsData.set(ContentDataType.TITLE, {});
+        this.contentsData.set(ContentDataType.SUB_TITLE, {});
+        this.contentsData.set(ContentDataType.FRAME, {});
+        this.contentsData.set(ContentDataType.BUTTON, {});
+
+        // this.initializeContentText(ContentDataType.TITLE, TITLE)
+        // this.initializeContentText(ContentDataType.SUB_TITLE, SUB_TITLE)
+        // this.initializeContentText(ContentDataType.BUTTON, TITLE, `${ContentDataType.BUTTON}_text` as ContentDataType)
+        // this.initializeContentFram()
+    }
 
     public abstract removeStand(productStand: ProductStand): void;
 
@@ -41,30 +58,12 @@ export abstract class ProductBoardABC extends Board implements ProductBoard {
     //     this.slots = this.getSlotsPosition();
     // }
 
-    protected async loadModelAndDisplay(): Promise<void> {
-        await super.loadModelAndDisplay();
-        this.slots = this.getSlotsPosition();
-        this.slots.forEach(slot => this.slotsMap.set(parseInt(slot.name.replace(/\D/g, ''), 10), slot));
 
-        
-    }
-
-    initializeContentAreas(): void {
-        this.contentsData.set(ContentDataType.TITLE, {});
-        this.contentsData.set(ContentDataType.SUB_TITLE, {});
-        this.contentsData.set(ContentDataType.FRAME, {});
-        this.contentsData.set(ContentDataType.BUTTON, {});
-
-        // this.initializeContentText(ContentDataType.TITLE, TITLE)
-        // this.initializeContentText(ContentDataType.SUB_TITLE, SUB_TITLE)
-        // this.initializeContentText(ContentDataType.BUTTON, TITLE, `${ContentDataType.BUTTON}_text` as ContentDataType)
-        // this.initializeContentFram()
-    }
 
 
     public addChild(stand: Stand, slotNumber?: number): void {
         if (slotNumber !== undefined) {
-            console.log("adding child", this.slots)
+            // console.log("adding child", this.slots)
             const slot = this.slots.find(slot => parseInt(slot.name.replace(/\D/g, ''), 10) === slotNumber);
             if (!slot) return;
 
