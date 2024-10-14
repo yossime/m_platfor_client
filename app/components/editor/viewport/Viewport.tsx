@@ -7,14 +7,11 @@ import SceneComponent from "./SceneComponent";
 import { EnvironmentLoader } from "./EnvironmentLoader";
 
 export const ViewportContainer = styled.div`
+margin-top: 55px;
   flex-grow: 1;
   overflow: hidden;
   background-color: #717074;
 `;
-
-
-
-
 
 const Viewport: React.FC = () => {
   return (
