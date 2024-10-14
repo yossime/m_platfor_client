@@ -6,11 +6,7 @@ import { Object3D } from 'three';
 
 export abstract class FormBoardABC extends Board implements FormBoard {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
-        super(type, options);
-    }
-
-    protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
-        super.loadModelAndDisplay(onLoad);
+        super(type,'temp',options);
     }
 
     public getContentForm(type: ContentDataType): ContentForm | null {

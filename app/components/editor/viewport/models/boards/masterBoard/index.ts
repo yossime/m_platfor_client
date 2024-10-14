@@ -1,12 +1,13 @@
-import { ISceneObjectOptions, ISceneObject, ContentDataType, ContentText } from '@/components/editor/types/index';
+import { ISceneObjectOptions, ISceneObject, ContentDataType, ContentText, FormatBoard } from '@/components/editor/types/index';
 import { BoardType } from "@/components/editor/types";
 import { Board } from '../Board';
 import { Object3D } from 'three';
 import { SUB_TITLE, TITLE } from '@/constants/editor/boards/text.constants';
 
 export abstract class MasterBoardABC extends Board {
-    constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
-        super(type, options);
+    constructor(type: BoardType, difFormat: FormatBoard, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
+        const boardPath = `${type}/${difFormat}`;
+        super(type, boardPath, options);
         // if(options?.exportedScenObj?.format) {
         //     this.setFormat(options?.exportedScenObj?.format);
         //   }
@@ -14,9 +15,10 @@ export abstract class MasterBoardABC extends Board {
     protected boardUrl = `${this.libraryUrl}/borads/${this.type}`;
     protected getBoardUrl(): string { return `${this.boardUrl}/${this.format}.fbx`; };
 
-    protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
+    // protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
+    protected async loadModelAndDisplay(): Promise<void> {
         if (!this.format) return;
-        await super.loadModelAndDisplay(onLoad);
+        await super.loadModelAndDisplay();
         this.initializeContentAreas();
     }
 

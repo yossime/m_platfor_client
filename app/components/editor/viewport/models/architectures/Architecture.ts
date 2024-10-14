@@ -9,20 +9,35 @@ import { createBoardByType } from '@/components/editor/utils/CraeteBoard';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from 'three';
 import { AddChildCommand } from '../../commands/AddChildCommand';
+import { AssetLoader } from '../../loaderes/AssetLoader';
 
 export class Architecture extends SceneObject implements IArchitecture {
     private placeholderPath: string;
     private selectedSlot: CustomObject3D | null = null;
     private childToAdd: Board | null = null;
-
+    // categoryType = 'architecture';
     constructor(type: ArchitectureType, options?: ISceneObjectOptions) {
-        super(type, options);
-        this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}.fbx`;
+        const architecturePath = `architectures/${type}`;
+
+        super(type, architecturePath, options);
+        this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}.glb`;
     }
+
+    async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
+        await super.loadModelAndDisplay(onLoad);
+        try {
+           await this.loadPlaceholders(this.placeholderPath, this.handleSelectSlot)
+        } catch (error) {
+            console.error('Error loading model:', error);
+            throw new Error('Failed to load architecture model');
+        }
+    }
+
+
     public addBoard(board: Board): void {
         if (this.selectedSlot) {
-        const command = new AddChildCommand(this, board);
-        this.commandManager.execute(command);
+            const command = new AddChildCommand(this, board);
+            this.commandManager.execute(command);
         } else {
             this.childToAdd = board;
         }
@@ -33,13 +48,12 @@ export class Architecture extends SceneObject implements IArchitecture {
             const slot = this.slots.find(placeholder => parseInt(placeholder.name.replace(/\D/g, ''), 10) === slotNumber);
             this.selectedSlot = slot || null;
         }
-
         if (this.selectedSlot) {
             const slotNumber = parseInt(this.selectedSlot.name.replace(/\D/g, ''), 10);
             sceneObject.slotNumber = slotNumber;
             this.selectedSlot.isEmpty = false;
             sceneObject.exchangeSlot(this.selectedSlot);
-            this.children.push(sceneObject);
+            this.children.push(sceneObject as SceneObject);
 
             this.setSlotsVisible(false);
             // this.slots = this.slots.filter(placeholder => placeholder !== this.selectedSlot);
@@ -62,26 +76,6 @@ export class Architecture extends SceneObject implements IArchitecture {
 
 
 
-    async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
-
-        const archUrl = `https://storage.googleapis.com/library-all-test/architectures/${this.type}.fbx`;
-        try {
-
-            const model = await this.loader.loadModel(archUrl);
-            const customModel = model as CustomObject3D;
-            // const customModel = model.children[0] as CustomObject3D;
-            customModel.onPointerDown = () => this.handleSelected(customModel);
-            customModel.interactive = true;
-            this.model = customModel;
-
-            await this.loadPlaceholders(this.placeholderPath, this.handleSelectSlot)
-
-            onLoad && onLoad(this.model);
-        } catch (error) {
-            console.error('Error loading model:', error);
-            throw new Error('Failed to load architecture model');
-        }
-    }
 
 
     protected handleSelectSlot = (slet: CustomObject3D): ISceneObject => {

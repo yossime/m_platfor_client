@@ -19,7 +19,7 @@ export class Duo extends Stand {
     public setPosition(position: Vector3): void {
         this.position = position;
         // this.model?.position.copy(position);
-        this.model?.position.set(0.038, -0.041, -0.022);
+        // this.model?.position.set(0.038, -0.041, -0.022);
         // this.model?.position.set(position.x, position.y, position.z);
     }
 

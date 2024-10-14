@@ -11,8 +11,9 @@ import { fetchProject } from '@/services/projectService';
 import { useProject } from '@/context/useProjectContext';
 import { CommandManager } from './commands/CommandManager';
 import OutlineEffect from './OutlineEffect';
-import { CameraControls } from '../camera/Camera';
+import { Controls } from '../camera/Camera';
 import { useSelectedObject } from '../context/Selected.context';
+import { OrbitControls } from '@react-three/drei';
 
 
 
@@ -83,11 +84,12 @@ const SceneComponent = () => {
     event.stopPropagation();
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObject(model!, true);
-
+    
     if (intersects.length > 0) {
       const clickedModel = intersects[0].object as CustomObject3D;
       // console.log('Clicked on:', clickedModel.name);
       setSelectedModels([clickedModel]);
+
       if (clickedModel.interactive) {
         setSelectedModel(clickedModel)
         if (clickedModel.onPointerDown) {
@@ -102,19 +104,6 @@ const SceneComponent = () => {
     }
   };
 
-
-  const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
-    const object = event.object as CustomObject3D;
-    event.stopPropagation();
-    // console.log("event.target", event.object)
-    let selected = null;
-    if (object.interactive) {
-      if (object.onPointerDown) {
-        selected = object.onPointerDown(event);
-      }
-    }
-    // sceneModel?.setSelectedObject(selected)
-  }
 
 
 
@@ -134,12 +123,21 @@ const SceneComponent = () => {
 
   return (
     <group>
-      <AnimatedLights />
+      {/* <AnimatedLights /> */}
       <Suspense fallback={<span>Loading...</span>}>
         {model && <primitive object={model} onClick={handleClick} />}
       </Suspense>
+      {/* <OrbitControls
+      // ref={controlsRef}
+      enablePan={true}
+      enableRotate={true}
+      enableZoom={true}
+      // minDistance={5}
+      // maxDistance={100}
+      // onChange={() => setIsTransitioning(false)}
+    /> */}
+      <Controls selectedModel={selectedModel as THREE.Object3D} />
       <OutlineEffect selectedModels={selectedModels} />
-      <CameraControls selectedModel={selectedModel as THREE.Object3D} />
     </group>
   );
 };

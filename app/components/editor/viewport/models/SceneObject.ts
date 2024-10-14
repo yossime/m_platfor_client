@@ -9,7 +9,8 @@ import * as THREE from 'three';
 import { CommandManager } from '../commands/CommandManager';
 import { ChangeTextCommand } from '../commands/ChangeTextCommand';
 import { TextObject } from '../../function/curveText';
-import { LibMLoader } from '../loaderes/LibMLoader';
+import { createMaterial } from '../../material/createMaterialSphere';
+import { AssetLoader } from '../loaderes/AssetLoader';
 
 
 export abstract class SceneObject implements ISceneObject {
@@ -24,13 +25,15 @@ export abstract class SceneObject implements ISceneObject {
   protected scale: Vector3 = new Vector3(1, 1, 1);
   protected modelParent: Object3D | null = null;
   protected contentsData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
-  protected loader = new LibMLoader();
   protected readonly libraryUrl: string;
   protected commandManager = CommandManager.getInstance();
+  private modelPath: string;
 
-  constructor(type: string, options?: ISceneObjectOptions) {
+
+  constructor(type: string, modelPath: string, options?: ISceneObjectOptions) {
     this.libraryUrl = 'https://storage.googleapis.com/library-all-test';
     this.type = type;
+    this.modelPath = modelPath;
 
     if (options) {
       this.name = options.exportedScenObj?.name || options.name || this.name;
@@ -38,12 +41,39 @@ export abstract class SceneObject implements ISceneObject {
       // this.rotation = options.rotation ?? this.rotation;
     }
 
-    this.loadModelAndDisplay(options?.onLoad).then(() => {
-      if (options?.exportedScenObj !== undefined) {
-        this.buildFromJson(options.exportedScenObj);
-      }
-    });
+
+    this.loadModelAndDisplay(options?.onLoad);
+    // this.loadModelAndDisplay(options?.onLoad).then(() => {
+    //   if (options?.exportedScenObj !== undefined) {
+    //     this.buildFromJson(options.exportedScenObj);
+    //   }
+    // });
   }
+  // protected abstract loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void>;
+
+  protected async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
+    const modelUrl = `https://storage.googleapis.com/library-all-test/${this.modelPath}.glb`;
+    try {
+      const model = await AssetLoader.loadModel(modelUrl);
+      model?.traverse((child: CustomObject3D) => {
+        // child.onPointerDown = () => { console.log('this.handleSelected(model)'); return this };
+        child.onPointerDown = () => this.handleSelected(model);
+        child.interactive = true;
+      });
+      this.model = model;
+      if (this.model && this.modelParent && this.position && this.rotation) {
+        this.modelParent.attach(this.model);
+        this.model.position.copy(this.position);
+        this.model.rotation.copy(this.rotation);
+      }
+
+      onLoad && onLoad(this.model!);
+    } catch (error) {
+      console.error('Error loading model:', error);
+      throw new Error('Failed to load architecture model');
+    }
+  }
+
   getModel() { return this.model }
   addChild(sceneObject: ISceneObject): void {
     throw new Error('Method not implemented.');
@@ -61,7 +91,6 @@ export abstract class SceneObject implements ISceneObject {
 
   protected initializeContentText(type: ContentDataType, initproperties: TextParams, meshName?: string): void {
     const mesh = this.getGeometryByName(meshName || type);
-    console.log('Initial', type)
     if (mesh instanceof THREE.Mesh) {
       // const textObject = new TextObject(mesh, initproperties);
       const textObject = new TextObject(mesh, initproperties);
@@ -90,18 +119,18 @@ export abstract class SceneObject implements ISceneObject {
     // }
   }
 
-  protected getTextObject(type: ContentDataType): TextObject | null{
+  protected getTextObject(type: ContentDataType): TextObject | null {
     let meshName = type;
-    if(type === ContentDataType.BUTTON){
+    if (type === ContentDataType.BUTTON) {
       meshName = `${type}_text` as ContentDataType;
     }
     const object = this.getGeometryByName(type);
-    if(object instanceof TextObject) return  object;
+    if (object instanceof TextObject) return object;
     return null;
   }
 
   public setContentText(type: ContentDataType, newParams: Partial<TextParams>): void {
-    if(!this.model) return;
+    if (!this.model) return;
     const textObject = this.getTextObject(type);
     if (!textObject) return;
 
@@ -130,7 +159,6 @@ export abstract class SceneObject implements ISceneObject {
     });
   };
 
-  protected abstract loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void>;
 
   public setName(name: string): void { this.name = name };
 
@@ -183,6 +211,19 @@ export abstract class SceneObject implements ISceneObject {
   protected getSlotsPosition(): Object3D[] {
     if (!this.model) return [];
     const slots: Object3D[] = [];
+    // const slotsGroups: THREE.Object3D[] = [];
+
+
+    // this.model?.traverse((child) => {
+    //   if (child.name.startsWith('Group')) {
+    //     slotsGroups.push(child)
+    //   }
+    // });
+    // slotsGroups.forEach((group) => {
+    //   const clonedGroup = group.clone();
+    //   clonedGroup.name = `boards_${group.name}`;
+    //   group.parent?.attach(clonedGroup);
+    // });
     this.model?.traverse((child) => {
       if (child.name.startsWith('slot_')) {
         slots.push(child)
@@ -193,35 +234,25 @@ export abstract class SceneObject implements ISceneObject {
 
   protected async loadPlaceholders(placeholderPath: string, handleSelectSlot: (object: CustomObject3D) => any): Promise<void> {
     if (!this.model) return;
-    console.log('Loading placeholder', this.model);
-    // const placeholder = await this.loader.loadModel(placeholderPath);
-    // console.log(' placeholder', placeholder);
-
+    const placeholder = await AssetLoader.loadModel(placeholderPath);
     const slots = this.getSlotsPosition();
 
     slots.forEach(slotMesh => {
-      // const placeholderClone = placeholder.clone().children[0] as CustomObject3D;
-      // // const placeholderClone = placeholder.children[0].clone().children[0] as CustomObject3D;
-      // placeholderClone.onPointerDown = () => handleSelectSlot(placeholderClone);
-      // placeholderClone.interactive = true;
-      // slot.parent?.attach(placeholderClone);
-      // placeholderClone.position.copy(slot.position);
-      // placeholderClone.rotation.copy(slot.rotation);
-      // placeholderClone.name = slot.name;
-      // placeholderClone.visible = false;
-      // slot.parent?.remove(slot);
-      // this.slots.push(placeholderClone);
+      const placeholderClone = placeholder?.clone() as CustomObject3D;
+      placeholderClone.traverse((child: CustomObject3D) => {
+        child.onPointerDown = () => handleSelectSlot(placeholderClone);
+        child.interactive = true;
+      });
 
-      const slot = slotMesh as CustomObject3D;
-      slot.onPointerDown = () => handleSelectSlot(slot);
-      slot.interactive = true;
-      slot.isEmpty = true;
-      slot.visible = false;
-      this.slots.push(slot);
-
+      slotMesh.parent?.attach(placeholderClone);
+      placeholderClone.isEmpty = true;
+      placeholderClone.visible = false;
+      placeholderClone.position.copy(slotMesh.position);
+      placeholderClone.rotation.copy(slotMesh.rotation);
+      placeholderClone.name = slotMesh.name;
+      slotMesh.parent?.remove(slotMesh);
+      this.slots.push(placeholderClone);
     });
-
-
   } catch(error: any) {
     console.error('Error setting placeholders:', error);
     throw new Error('Failed to set placeholders');
@@ -274,46 +305,39 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   protected async changeMaterial(mesh: Object3D, material: ICustomMaterial): Promise<void> {
-    if (!(mesh instanceof Mesh)) {
+    if (!(mesh instanceof Object3D)) {
       console.warn('Attempted to change material of non-Mesh object');
       return;
     }
 
-    const newMaterial = new MeshStandardMaterial();
-    const textureManager = TextureManager.getInstance();
+    let bgMesh: THREE.Mesh | null = null;
 
-    if (material.diffuse) {
-      if (material.diffuse.color) {
-        newMaterial.color.setStyle(material.diffuse.color);
+    // Traverse through the children of the mesh to find a Mesh with the name 'bg'
+    mesh.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
       }
-      if (material.diffuse.map) {
-        const texture = await textureManager.loadTexture(material.diffuse.map);
-        newMaterial.map = texture;
+      
+
+      if (child instanceof THREE.Mesh && child.material?.name === 'bg') {
+        bgMesh = child; // Store the reference to the background mesh
       }
+    });
+  
+    // Create a highlight material
+    const highlightMaterial = new MeshStandardMaterial({
+      color: 0xff0000,
+      emissive: 0xff0000,
+      emissiveIntensity: 0.5,
+    });
+  
+    // If a background mesh was found, apply the highlight material
+    if (bgMesh) {
+      (bgMesh as THREE.Mesh).material = highlightMaterial;
+    } else {
+      console.warn('No background mesh found with name "bg".');
     }
-
-    if (material.metalness) {
-      newMaterial.metalness = material.metalness.value ?? 0;
-      if (material.metalness.map) {
-        const texture = await textureManager.loadTexture(material.metalness.map);
-        newMaterial.metalnessMap = texture;
-      }
-    }
-
-    if (material.roughness) {
-      newMaterial.roughness = material.roughness.value ?? 0.5;
-      if (material.roughness.map) {
-        const texture = await textureManager.loadTexture(material.roughness.map);
-        newMaterial.roughnessMap = texture;
-      }
-    }
-
-    if (material.normal && material.normal.map) {
-      const texture = await textureManager.loadTexture(material.normal.map);
-      newMaterial.normalMap = texture;
-    }
-
-    mesh.material = newMaterial;
+  
+    // const newMaterial = await createMaterial(material)
   }
 
   protected getGeometryByName(name: string): Object3D | null {

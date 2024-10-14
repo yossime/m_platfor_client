@@ -99,6 +99,7 @@ export enum ContentDataType {
   PRICE = 'price',
   PRICE_CURRENCY ='price_currency',
   PRODUCT = 'product',
+  PRODUCT_MODEL = 'product_model',
   EMAIL = 'email',
 
 }

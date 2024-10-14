@@ -12,6 +12,7 @@ import {
 } from "@/components/editor/types/index";
 import { BoardType } from "@/components/editor/types";
 import { SceneObject } from "../SceneObject";
+import { AssetLoader } from "../../loaderes/AssetLoader";
 
 export abstract class Board extends SceneObject {
   public slotNumber = -1;
@@ -32,10 +33,11 @@ export abstract class Board extends SceneObject {
 
   constructor(
     type: BoardType,
-    options?: ISceneObjectOptions,
-    onBoardLoaded?: () => void
+    boardType: string,
+    options?: ISceneObjectOptions
   ) {
-    super(type, options);
+    const categoryPath = `boards/${boardType}`
+    super(type, categoryPath, options);
   }
 
 
@@ -48,32 +50,6 @@ export abstract class Board extends SceneObject {
   public setFormat(format: FormatBoard): void {
     this.format = format;
     this.loadModelAndDisplay();
-  }
-
-
-  protected async loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void> {
-    try {
-      const model = await this.loader.loadModel(this.getBoardUrl());
-
-      const customModel = model.children[0] as CustomObject3D;
-      
-      console.log('customModel', customModel.name)
-      customModel.onPointerDown = () => this.handleSelected(customModel);
-      customModel.interactive = true;
-      this.model = customModel;
-
-      if (this.model && this.modelParent && this.position && this.rotation) {
-        this.modelParent.attach(this.model);
-        this.model.position.copy(this.position);
-        this.model.rotation.copy(this.rotation);
-        this.model.name = `slot_${this.slotNumber}`;
-      }
-
-      // this.initializeContentAreas();
-      onLoad && onLoad();
-    } catch (error) {
-      console.error("Error loading board model:", error);
-    }
   }
 
   public setConfiguration(type: EConfigType, config: EConfiguration): void {
@@ -109,8 +85,6 @@ export abstract class Board extends SceneObject {
     material: ContentMaterial
   ): Promise<void> {
     let geometry;
-
-
     if (type === ContentDataType.FRAME) {
       const configV = this.configuration.get(EConfigType.VERTICAL);
       const configH = this.configuration.get(EConfigType.HORIZONTAL);
@@ -129,12 +103,11 @@ export abstract class Board extends SceneObject {
       }
     }
     geometry = geometry || this.getGeometryByName(type);
-
-    if (geometry instanceof Mesh) {
+    if (geometry instanceof Object3D) {
       if (material?.customMaterial) {
         await this.changeMaterial(geometry, material.customMaterial);
       } else if (material?.renderer) {
-        await this.applyRenderMaterial(geometry, material.renderer);
+        // await this.applyRenderMaterial(geometry, material.renderer);
       } else if (material?.video) {
         await this.applyVideoMaterial(geometry, material.video);
       }
@@ -191,7 +164,7 @@ export abstract class Board extends SceneObject {
   }
 
 
- 
+
   protected calculatePosition(contentType: string): Vector3 {
     // Implement position calculation based on configuration
     return new Vector3();

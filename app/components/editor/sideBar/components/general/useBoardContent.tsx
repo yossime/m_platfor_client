@@ -82,7 +82,6 @@ export const useBoardContent = () => {
     type: ContentDataType,
     material: ContentMaterial
   ): void => {
-    // const selectedObject = getSelectedObject();
     if (!selectedObject) {
       console.warn("No object selected");
       return;

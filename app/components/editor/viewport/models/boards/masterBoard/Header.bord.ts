@@ -4,7 +4,7 @@ import { MasterBoardABC } from '.';
 
 export class HeaderBoard extends MasterBoardABC {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
-        super(type, options);
+        super(type, '' as FormatBoard, options);
     }
 
     initializeContentAreas(): void {

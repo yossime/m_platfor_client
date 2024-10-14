@@ -11,17 +11,16 @@ export class ProductMaster extends ProductBoardABC {
     protected format: FormatBoard;
     public maxStands: number;
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
-        super(type, options);
+        super(type, FormatBoard.Duo, options);
         this.maxStands = 6;
-        this.format = FormatBoard.Podium;
+        this.format = FormatBoard.Duo;
         // this.setFormat(FormatBoard.Duo);
-        this.loadModelAndDisplay(onBoardLoaded);
+        // this.loadModelAndDisplay(onBoardLoaded);
 
     }
 
     public setFormat(format: FormatBoard): void {
         this.format = format;
-
         switch (format) {
             case FormatBoard.Podium:
                 this.maxStands = 6;
@@ -102,7 +101,6 @@ export class ProductMaster extends ProductBoardABC {
             type: 'Duo',
         }
         const dou = new Duo(product, {exportedScenObj});
-
         this.addChild(dou, slotNumber)
     }
 

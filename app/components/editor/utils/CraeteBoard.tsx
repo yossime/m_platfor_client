@@ -22,10 +22,10 @@ export const createBoardByType = (type: BoardType, options?: ISceneObjectOptions
       return new ProductMaster(BoardType.Product, options);
 
     case BoardType.Form:
-      return new FormBoard(BoardType.Form, options);
+      // return new FormBoard(BoardType.Form, options);
 
     case BoardType.Subscription:
-      return new SubscriptionBoard(BoardType.Subscription, options);
+      // return new SubscriptionBoard(BoardType.Subscription, options);
 
     default:
       return new HeaderBoard(BoardType.Header, options);
