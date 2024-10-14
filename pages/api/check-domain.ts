@@ -11,6 +11,7 @@ export default async function handler(
   const { domain } = req.query;
 
   if (!domain || typeof domain !== "string") {
+    console.log(domain,"oijhpiuhopiu")
     return res
       .status(400)
       .json({ error: "Bad Request: Domain parameter is required" });

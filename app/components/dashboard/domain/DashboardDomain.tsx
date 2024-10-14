@@ -65,7 +65,7 @@ const ConnectDomain: React.FC<ConnectDomainProps> = ({
         </Text>
       </TextContainer>
       <DomainInputContent>
-      <Input placeholder="e.g., mywebspace.com" fullWidth={false} onChange={() => setDomain} />
+      <Input placeholder="e.g., mywebspace.com" fullWidth={false} onChange={(e) => setDomain(e.target.value)} />
       <DividerDomain />
 
       </DomainInputContent>
@@ -81,6 +81,7 @@ const DashboardDomain: React.FC = () => {
 
   const checkDomainExists = async (domain: string) => {
     setLoading(true);
+    console.log(domain)
     try {
       const response = await fetch(`/api/check-domain?domain=${domain}`);
       const data = await response.json();
@@ -94,11 +95,11 @@ const DashboardDomain: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (domain) {
-      checkDomainExists(domain);
-    }
-  }, [domain]);
+  // useEffect(() => {
+  //   if (domain) {
+  //     checkDomainExists(domain);
+  //   }
+  // }, [domain]);
 
   const BeforeNextConnect = () => {
      checkDomainExists(domain)
