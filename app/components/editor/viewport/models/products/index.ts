@@ -110,6 +110,7 @@ export abstract class Stand extends SceneObject {
 function setScaleToMatch(source: THREE.Object3D, target: THREE.Object3D) {
   const sourceBox = new THREE.Box3().setFromObject(source);
   const sourceSize = new THREE.Vector3();
+  // const sourceCenter = sourceBox.getCenter(new THREE.Vector3());
   sourceBox.getSize(sourceSize);
 
   const targetBox = new THREE.Box3().setFromObject(target);
@@ -123,4 +124,13 @@ function setScaleToMatch(source: THREE.Object3D, target: THREE.Object3D) {
   );
 
   source.scale.set(scaleFactor, scaleFactor, scaleFactor);
+
+  
+  source?.traverse((child) => {
+    if (child instanceof THREE.Mesh) {
+        if (child.geometry) {
+            child.geometry.center();
+        }
+    }
+  });
 }

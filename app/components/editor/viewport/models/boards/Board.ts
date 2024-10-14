@@ -48,7 +48,10 @@ export abstract class Board extends SceneObject {
   public getLogoConfiguration(): Map<EConfigType, EConfiguration> | null { return null };
 
   public setFormat(format: FormatBoard): void {
+    if(!this.model || this.format === format) return;
     this.format = format;
+    this.modelPath = `${this.modelPath.substring(0, this.modelPath.lastIndexOf('/'))}/${this.format}`;
+    this.model.removeFromParent();
     this.loadModelAndDisplay();
   }
 

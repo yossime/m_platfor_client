@@ -7,14 +7,12 @@ import { Stand } from '../../products';
 
 export abstract class ProductBoardABC extends Board implements ProductBoard {
     protected slotsMap: Map<number, Object3D> = new Map();
-    // protected slotsMap: Map<string, Object3D> =new Map();
     protected abstract format: FormatBoard;
     abstract maxStands: number;
 
-    constructor(type: BoardType, difFormat: FormatBoard, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
+    constructor(type: BoardType, difFormat: string, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         const boardPath = `${type}/${difFormat}`;
         super(type, boardPath, options);
-        // this.format = difFormat;
     }
 
     protected async loadModelAndDisplay(): Promise<void> {

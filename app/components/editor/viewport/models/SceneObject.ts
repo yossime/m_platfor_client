@@ -27,7 +27,8 @@ export abstract class SceneObject implements ISceneObject {
   protected contentsData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
   protected readonly libraryUrl: string;
   protected commandManager = CommandManager.getInstance();
-  private modelPath: string;
+  protected modelPath: string;
+  // protected static getModelPath: () => string;
 
 
   constructor(type: string, modelPath: string, options?: ISceneObjectOptions) {
@@ -51,8 +52,9 @@ export abstract class SceneObject implements ISceneObject {
   }
   // protected abstract loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void>;
 
+
   protected async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
-    const modelUrl = `https://storage.googleapis.com/library-all-test/${this.modelPath}.glb`;
+    const modelUrl = `${this.libraryUrl}/${this.modelPath}.glb`;
     try {
       const model = await AssetLoader.loadModel(modelUrl);
       model?.traverse((child: CustomObject3D) => {
@@ -316,27 +318,27 @@ export abstract class SceneObject implements ISceneObject {
     mesh.traverse((child) => {
       if (child instanceof THREE.Mesh) {
       }
-      
+
 
       if (child instanceof THREE.Mesh && child.material?.name === 'bg') {
         bgMesh = child; // Store the reference to the background mesh
       }
     });
-  
+
     // Create a highlight material
     const highlightMaterial = new MeshStandardMaterial({
       color: 0xff0000,
       emissive: 0xff0000,
       emissiveIntensity: 0.5,
     });
-  
+
     // If a background mesh was found, apply the highlight material
     if (bgMesh) {
       (bgMesh as THREE.Mesh).material = highlightMaterial;
     } else {
       console.warn('No background mesh found with name "bg".');
     }
-  
+
     // const newMaterial = await createMaterial(material)
   }
 
