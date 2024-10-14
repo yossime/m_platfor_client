@@ -63,15 +63,15 @@ const SceneComponent = () => {
   useEffect(() => {
     const buildScene = async () => {
       const scene = new SceneService();
-      const res = await fetchProject(currentProject?.id || '', '');
-      if (res.data.dataParameters) {
-        const parsedData = res.data.dataParameters;
+      // const res = await fetchProject(currentProject?.id || '', '');
+      // if (res.data.dataParameters) {
+        // const parsedData = res.data.dataParameters;
         // const parsedData = JSON.parse(res.data);
-        await scene.buildScene(ArchitectureType.TWO_CIRCLES, setModel, parsedData);
-      }
-      else {
+      //   await scene.buildScene(ArchitectureType.TWO_CIRCLES, setModel, parsedData);
+      // }
+      // else {
         await scene.buildScene(ArchitectureType.TWO_CIRCLES, setModel);
-      }
+      // }
 
       // setSceneModel(scene);
     }
