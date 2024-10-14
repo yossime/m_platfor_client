@@ -18,7 +18,7 @@ import { OrbitControls } from '@react-three/drei';
 
 
 const SceneComponent = () => {
-  const { sceneModel, setSceneModel } = useEditor();
+  // const { sceneModel, setSceneModel } = useEditor();
   const { currentProject } = useProject();
   const { raycaster, camera, mouse } = useThree();
 
@@ -74,7 +74,7 @@ const SceneComponent = () => {
         await scene.buildScene(ArchitectureType.TWO_CIRCLES, setModel);
       }
 
-      setSceneModel(scene);
+      // setSceneModel(scene);
     }
     buildScene();
 
