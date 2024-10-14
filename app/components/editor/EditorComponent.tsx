@@ -32,7 +32,7 @@ const EditorComponent: React.FC = () => {
             <EnvironmentProvider>
               <CameraProvider>
                 <SidebarProvider>
-                  {/* <SideBar /> */}
+                  <SideBar />
                   <Viewport />
                 </SidebarProvider>
               </CameraProvider>
