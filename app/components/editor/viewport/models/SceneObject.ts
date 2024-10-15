@@ -94,8 +94,6 @@ export abstract class SceneObject implements ISceneObject {
   protected initializeContentText(type: ContentDataType, initproperties: TextParams, meshName?: string): void {
     const mesh = this.getGeometryByName(meshName || type);
     if (mesh instanceof THREE.Mesh) {
-      console.log('Mesh instance', mesh);
-      // const textObject = new TextObject(mesh, initproperties);
       const textObject = new TextObject(mesh, initproperties);
 
       this.contentsData.set(type,

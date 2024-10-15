@@ -111,7 +111,6 @@ export abstract class Board extends SceneObject {
 
       geometry = this.getGeometryByName(type);
     }
-    console.log('material change', material, geometry);
 
     if (geometry instanceof THREE.Mesh) {
       if (material?.customMaterial) {
