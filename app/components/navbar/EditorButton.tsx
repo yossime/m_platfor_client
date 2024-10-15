@@ -29,7 +29,7 @@ const EditorButtons: React.FC = () => {
       const dataParameters = await sceneModel?.exportToJson();
       console.log(dataParameters);
       if (currentProject && dataParameters) {
-        // await axios.post(`preview/${currentProject}`, { dataParameters });
+        await axios.post(`preview/${currentProject}`, { dataParameters });
         checkPreviewStatus();
       } else {
         throw new Error("Missing data parameters or current project");
