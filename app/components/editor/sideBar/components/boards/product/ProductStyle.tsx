@@ -22,6 +22,7 @@ import {
   ERendererType,
   FormatBoard,
   ContentMaterial,
+  MaterialSlotName,
 } from "@/components/editor/types/index";
 import { FontWeight, TextSize } from "@constants/text";
 import Text from "@/components/Library/text/Text";
@@ -54,7 +55,7 @@ export const ProductStyleComponent: React.FC = () => {
 
 
   const handleMaterialChange = (material: ContentMaterial) => {
-    setContentMaterial(ContentDataType.SELF, material);
+    setContentMaterial(ContentDataType.SELF, {...material, slotname: MaterialSlotName.BACKGROUND});
   };
   return (
     <Container ref={ref}>

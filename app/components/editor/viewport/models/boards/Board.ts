@@ -1,4 +1,4 @@
-import { Vector3, Mesh, Object3D } from "three";
+import * as THREE from "three";
 import {
   ISceneObjectOptions,
   ISceneObject,
@@ -88,6 +88,7 @@ export abstract class Board extends SceneObject {
     material: ContentMaterial
   ): Promise<void> {
     let geometry;
+    const slotname = material.slotname;
     if (type === ContentDataType.FRAME) {
       const configV = this.configuration.get(EConfigType.VERTICAL);
       const configH = this.configuration.get(EConfigType.HORIZONTAL);
@@ -95,7 +96,7 @@ export abstract class Board extends SceneObject {
 
       geometry = this.getGeometryByName(geometryName);
       const imageGeometry = geometry;
-      if (imageGeometry instanceof Mesh) {
+      if (imageGeometry instanceof THREE.Mesh) {
         imageGeometry.visible = true;
         imageGeometry.parent?.children.forEach((child) => {
           if (child.name !== imageGeometry.name) {
@@ -104,9 +105,15 @@ export abstract class Board extends SceneObject {
           }
         });
       }
+    } else if(slotname) {
+      geometry = this.getGeometryByName(slotname)
+    } else {
+
+      geometry = this.getGeometryByName(type);
     }
-    geometry = geometry || this.getGeometryByName(type);
-    if (geometry instanceof Object3D) {
+    console.log('material change', material, geometry);
+
+    if (geometry instanceof THREE.Mesh) {
       if (material?.customMaterial) {
         await this.changeMaterial(geometry, material.customMaterial);
       } else if (material?.renderer) {
@@ -168,9 +175,9 @@ export abstract class Board extends SceneObject {
 
 
 
-  protected calculatePosition(contentType: string): Vector3 {
+  protected calculatePosition(contentType: string): THREE.Vector3 {
     // Implement position calculation based on configuration
-    return new Vector3();
+    return new THREE.Vector3();
   }
 
   public exportToJson(): string {
@@ -194,26 +201,5 @@ export abstract class Board extends SceneObject {
 
     if (exportedObj.format)
       this.setFormat(exportedObj.format)
-
-    // exportedObj.children.forEach((childData) => {
-    //   let product;
-
-    //   switch (childData.type as ProductType) {
-    //     case ProductType.ProductDuo:
-    //       product = new DouProduct(childData.type as ProductType, {
-    //         exportedScenObj: childData,
-    //       });
-    //       break;
-    //     case ProductType.Poudiom:
-    //       // board = new MasterBoard(childData.type as BoardType, { exportedScenObj: childData });
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    //   if (product) {
-    //     this.addChild(product);
-    //     // this.addChild(board, childData.slotNumber);
-    //   }
-    // });
   }
 }

@@ -94,6 +94,7 @@ export abstract class SceneObject implements ISceneObject {
   protected initializeContentText(type: ContentDataType, initproperties: TextParams, meshName?: string): void {
     const mesh = this.getGeometryByName(meshName || type);
     if (mesh instanceof THREE.Mesh) {
+      console.log('Mesh instance', mesh);
       // const textObject = new TextObject(mesh, initproperties);
       const textObject = new TextObject(mesh, initproperties);
 
@@ -306,40 +307,9 @@ export abstract class SceneObject implements ISceneObject {
     }
   }
 
-  protected async changeMaterial(mesh: Object3D, material: ICustomMaterial): Promise<void> {
-    if (!(mesh instanceof Object3D)) {
-      console.warn('Attempted to change material of non-Mesh object');
-      return;
-    }
-
-    let bgMesh: THREE.Mesh | null = null;
-
-    // Traverse through the children of the mesh to find a Mesh with the name 'bg'
-    mesh.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-      }
-
-
-      if (child instanceof THREE.Mesh && child.material?.name === 'bg') {
-        bgMesh = child; // Store the reference to the background mesh
-      }
-    });
-
-    // Create a highlight material
-    const highlightMaterial = new MeshStandardMaterial({
-      color: 0xff0000,
-      emissive: 0xff0000,
-      emissiveIntensity: 0.5,
-    });
-
-    // If a background mesh was found, apply the highlight material
-    if (bgMesh) {
-      (bgMesh as THREE.Mesh).material = highlightMaterial;
-    } else {
-      console.warn('No background mesh found with name "bg".');
-    }
-
-    // const newMaterial = await createMaterial(material)
+  protected async changeMaterial(mesh: THREE.Mesh, material: ICustomMaterial): Promise<void> {
+    const newMaterial = await createMaterial(material)
+    mesh.material = newMaterial;
   }
 
   protected getGeometryByName(name: string): Object3D | null {

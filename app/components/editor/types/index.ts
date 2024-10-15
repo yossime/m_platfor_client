@@ -107,8 +107,8 @@ export enum ContentDataType {
 
 
 export enum MaterialSlotName {
-  RIM = 'RIM',
-  BACKGROUND = 'BACKGROUND'
+  RIM = 'rim',
+  BACKGROUND = 'bg'
 }
 
 

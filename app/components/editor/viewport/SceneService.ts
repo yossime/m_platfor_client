@@ -26,7 +26,12 @@ export class SceneService {
   }
 
   async exportToJson(): Promise<string | null> {
-    return this.root ? this.root.exportToJson() : null;
+    if(!this.root) return null;
+    const data = JSON.parse(this.root.exportToJson());
+    return JSON.stringify({
+      // hdri: null,
+      architecture: data
+    });
   }
 
 }

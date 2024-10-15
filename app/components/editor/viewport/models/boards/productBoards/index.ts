@@ -4,6 +4,7 @@ import { BoardType } from "@/components/editor/types";
 import { Board } from '../Board';
 import { Product } from '@/components/dashboard/types/product.types';
 import { Stand } from '../../products';
+import { SUB_TITLE, TITLE } from '@/constants/editor/boards/text.constants';
 
 export abstract class ProductBoardABC extends Board implements ProductBoard {
     protected slotsMap: Map<number, Object3D> = new Map();
@@ -17,18 +18,19 @@ export abstract class ProductBoardABC extends Board implements ProductBoard {
 
     protected async loadModelAndDisplay(): Promise<void> {
         await super.loadModelAndDisplay();
+        this.initializeContentAreas()
         this.slots = this.getSlotsPosition();
         this.slots.forEach(slot => this.slotsMap.set(parseInt(slot.name.replace(/\D/g, ''), 10), slot));
     }
 
     initializeContentAreas(): void {
-        this.contentsData.set(ContentDataType.TITLE, {});
-        this.contentsData.set(ContentDataType.SUB_TITLE, {});
-        this.contentsData.set(ContentDataType.FRAME, {});
-        this.contentsData.set(ContentDataType.BUTTON, {});
+        // this.contentsData.set(ContentDataType.TITLE, {});
+        // this.contentsData.set(ContentDataType.SUB_TITLE, {});
+        // this.contentsData.set(ContentDataType.FRAME, {});
+        // this.contentsData.set(ContentDataType.BUTTON, {});
 
-        // this.initializeContentText(ContentDataType.TITLE, TITLE)
-        // this.initializeContentText(ContentDataType.SUB_TITLE, SUB_TITLE)
+        this.initializeContentText(ContentDataType.TITLE, TITLE)
+        this.initializeContentText(ContentDataType.SUB_TITLE, SUB_TITLE)
         // this.initializeContentText(ContentDataType.BUTTON, TITLE, `${ContentDataType.BUTTON}_text` as ContentDataType)
         // this.initializeContentFram()
     }

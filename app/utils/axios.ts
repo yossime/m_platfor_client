@@ -3,8 +3,8 @@ import axios from 'axios';
 import { auth } from '../services/firebase';
 
 const instance = axios.create({
-    baseURL: "https://server-cloud-run-service-kruirvrv6a-uc.a.run.app",
-    // baseURL: "http://localhost:3500",
+    // baseURL: "https://server-cloud-run-service-kruirvrv6a-uc.a.run.app",
+    baseURL: "http://localhost:3500",
 
     timeout: 300000, 
 });

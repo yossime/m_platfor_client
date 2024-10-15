@@ -20,9 +20,11 @@ export class ProductMaster extends ProductBoardABC {
     public setFormat(format: FormatBoard): void {
         switch (format) {
             case FormatBoard.Podium:
+                this.type = 'product';
                 this.maxStands = 6;
                 break;
             case FormatBoard.Duo:
+                this.type = 'duo';
                 this.maxStands = 2;
                 break;
         }

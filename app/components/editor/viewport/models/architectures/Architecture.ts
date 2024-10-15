@@ -92,6 +92,10 @@ export class Architecture extends SceneObject implements IArchitecture {
         return this;
     };
 
+    //  public exportToJson(): string {
+    //     const data= JSON.parse(super.exportToJson());
+    //    return JSON.stringify({architecture: data});
+    // }
 
     public buildFromJson(exportedObj: ExportedSceneObject) {
         super.buildFromJson(exportedObj);
