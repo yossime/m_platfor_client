@@ -18,6 +18,7 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${BackgroundColor.ALL_GREY_BACKGROUND};
+  /* background-color:rebeccapurple; */
   flex-grow: 1;
   bottom: 16px;
   right: 16px;
@@ -163,13 +164,15 @@ export const DomainContent = styled.div`
   padding: 16px 32px;
   width: 100%;
   background-color: white;
+  /* background-color: aqua; */
   overflow: hidden;
+
+  gap: 24px;
 `;
 
 export const DomainInputContent = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 24px;
   width: 100%;
 `;
 export const DividerDomain = styled.div`

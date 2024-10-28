@@ -77,7 +77,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
     <AvatarContainer
       $size={size}
       $backgroundColor={backgroundColor}
-      onClick={() => setShowPopup(true)}
+      onClick={() => setShowPopup(!showPopup)}
     >
       {imageUrl ? (
         <AvatarImage src={imageUrl} alt={name} />

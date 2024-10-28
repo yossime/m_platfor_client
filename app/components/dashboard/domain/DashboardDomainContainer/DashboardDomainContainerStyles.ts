@@ -8,4 +8,5 @@ export const ContainerWrapper = styled.div`
   justify-content: center;
   align-items: center;
   overflow: hidden;
+
 `;

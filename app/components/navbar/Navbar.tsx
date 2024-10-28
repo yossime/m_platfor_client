@@ -44,8 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isSubscriptionPage = pathname.startsWith("/pricing_plans");
   const isEditorPage = pathname.startsWith("/editor");
   const { userData } = useUserContext();
-  const subsc =  userData?.plan === "Plus" || userData?.plan === "business"
-  
+  const subsc = userData?.plan === "Plus" || userData?.plan === "business";
   return (
     <NavbarWrapper className="navbar">
       <NavbarContainer>
@@ -57,9 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               {!isSubscriptionPage && (
                 <>
                   {!subsc ? (
-                    <Tooltip
-                      content="Click here to upgrade account or review pricing plans"
-                    >
+                    <Tooltip content="Click here to upgrade account or review pricing plans">
                       <Button
                         type={ButtonType.PRIMARY}
                         variant={ButtonVariant.TERTIARY}
@@ -86,4 +83,4 @@ export const Navbar: React.FC<NavbarProps> = ({
       </NavbarContainer>
     </NavbarWrapper>
   );
-}
+};

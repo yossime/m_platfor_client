@@ -1,14 +1,13 @@
 
 import React, { useState } from "react";
 import Text from "@components/Library/text/Text";
-import { Container, TextContainer } from "./CommonStyles";
+import {  TextContainer } from "./CommonStyles";
 import { FontFamily, FontWeight, TextSize } from "@constants/text";
 
 const Domain: React.FC = () => {
 
 
   return (
-    <Container>
       <TextContainer>
         <Text
           size={TextSize.H3}
@@ -23,7 +22,6 @@ const Domain: React.FC = () => {
           and follow the instructions.
         </Text>
       </TextContainer>
-    </Container>
   );
 };
 

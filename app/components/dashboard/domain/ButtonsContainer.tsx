@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import React from 'react';
-import Button from '@components/Library/button/Button';
-import { ButtonType, ButtonVariant, ButtonSize } from '@constants/button';
-import styled from 'styled-components';
-import { DomainStatus, useDomainIndex } from '@/context/useDomain';
+import React from "react";
+import Button from "@components/Library/button/Button";
+import { ButtonType, ButtonVariant, ButtonSize } from "@constants/button";
+import styled from "styled-components";
+import { DomainStatus, useDomainIndex } from "@/context/useDomain";
 
 export const ButtonsWrapper = styled.div`
   height: 60px;
@@ -16,19 +16,25 @@ export const ButtonsWrapper = styled.div`
   right: 0;
 `;
 
-interface ButtonsContainerProps{
-  onBeforeNext: () => void;}
+interface ButtonsContainerProps {
+  onBeforeNext: () => void;
+  shouldContinue :boolean;
+}
 
-const ButtonsContainer: React.FC<ButtonsContainerProps> = ({onBeforeNext}) => {
+const ButtonsContainer: React.FC<ButtonsContainerProps> = ({
+  onBeforeNext, shouldContinue 
+}) => {
   const { setIndex, currentIndex } = useDomainIndex();
 
   const enumValues = Object.values(DomainStatus);
-  const currentDomainIndex = currentIndex ? enumValues.indexOf(currentIndex) : -1;
+  const currentDomainIndex = currentIndex
+    ? enumValues.indexOf(currentIndex)
+    : -1;
   const isLastPage = currentDomainIndex === enumValues.length - 1;
 
   const handleNext = () => {
-    onBeforeNext()
-    if (!isLastPage && currentDomainIndex >= 0) {
+    onBeforeNext();
+    if (shouldContinue  && !isLastPage && currentDomainIndex >= 0) {
       setIndex(enumValues[currentDomainIndex + 1] as DomainStatus);
     }
   };

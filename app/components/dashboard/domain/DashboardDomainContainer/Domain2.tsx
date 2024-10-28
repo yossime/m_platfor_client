@@ -1,29 +1,62 @@
-import React from 'react';
-import Text from '@components/Library/text/Text';
-import { Container, TextContainer, IndexContainer, WaitContainer } from './CommonStyles';
-import { FontFamily, FontWeight,  TextSize } from '@constants/text';
-import { TextColor } from '@constants/colors';
-import DashboardDomainIndexContainer from '../DashboardDomainIndexContainer/DashboardDomainIndexContainer';
-import Icon from '@/components/Library/icon/Icon';
-import { IconName } from '@constants/icon';
-
-
+import React from "react";
+import Text from "@components/Library/text/Text";
+import { TextContainer, TextContainerDomain } from "./CommonStyles";
+import { FontFamily, FontWeight, TextSize } from "@constants/text";
+import { TextColor } from "@constants/colors";
 
 const Domain2: React.FC = () => {
+  return (
+    <TextContainer>
+      <Text
+        size={TextSize.TEXT2}
+        $family={FontFamily.Poppins}
+        $weight={FontWeight.SEMI_BOLD}
+        color={TextColor.PRIMARY_TEXT}
+      >
+        On your domain provider's website, enter the required values, and verify
+        your connection
+      </Text>
 
+      <Text
+        size={TextSize.TEXT2}
+        $weight={FontWeight.BOLD}
+        color={TextColor.PRIMARY_TEXT}
+      >
+        CNAME
+      </Text>
+      <TextContainerDomain>
+        <Text
+          size={TextSize.TEXT2}
+          $weight={FontWeight.LIGHT}
+          color={TextColor.PRIMARY_TEXT}
+        >
+          Name
+        </Text>
+        <Text
+          size={TextSize.TEXT1}
+          $weight={FontWeight.LIGHT}
+          color={TextColor.PRIMARY_TEXT}
+        >
+          www
+        </Text>
 
-    return (
-        <Container>
-            <WaitContainer>
-                    <Icon name={IconName.SPINNERGAP} shouldRotate={true}/>
-                  <Text size={TextSize.TEXT1}>We’re finding your provider, it’ll take 30 seconds tops</Text>
-            </WaitContainer>
-            {/* <TextContainer>
-                <Text size={TextSize.TEXT2} $family={FontFamily.Poppins} $weight={FontWeight.SEMI_BOLD}
-                    color={TextColor.PRIMARY_TEXT}>cfgjdjdghjdgjh</Text>
-            </TextContainer> */}
-        </Container>
-    );
+        <Text
+          size={TextSize.TEXT2}
+          $weight={FontWeight.LIGHT}
+          color={TextColor.PRIMARY_TEXT}
+        >
+          Required value
+        </Text>
+        <Text
+          size={TextSize.TEXT1}
+          $weight={FontWeight.LIGHT}
+          color={TextColor.PRIMARY_TEXT}
+        >
+        websites.simkami.com
+        </Text>
+      </TextContainerDomain>
+    </TextContainer>
+  );
 };
 
 export default Domain2;

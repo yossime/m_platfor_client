@@ -44,7 +44,6 @@ const DashboardSideBar: React.FC = () => {
   };
 
   return (
-    <>
       <SideBarContainer>
         <ProjectContainer>
           <Text size={TextSize.TEXT2}>{currentProject?.projectName}</Text>
@@ -90,7 +89,6 @@ const DashboardSideBar: React.FC = () => {
           ))}
         </ScrollableContent>
       </SideBarContainer>
-    </>
   );
 };
 

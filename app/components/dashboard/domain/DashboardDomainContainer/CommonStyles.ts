@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-width: 100%;
-`;
 
 export const IndexContainer = styled.div`
   width: 580px;
@@ -29,6 +26,26 @@ export const TextContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
   text-align: start;
+  gap: 24px;
+`;
+
+
+export const TextContainerDomain = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: start;
+  gap: 40px;
+`;
+
+
+export const TextContainer1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: center;
   gap: 8px;
 `;
 

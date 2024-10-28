@@ -4,14 +4,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "GET") {
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
-
   const { domain } = req.query;
 
   if (!domain || typeof domain !== "string") {
-    console.log(domain,"oijhpiuhopiu")
     return res
       .status(400)
       .json({ error: "Bad Request: Domain parameter is required" });
@@ -19,11 +14,10 @@ export default async function handler(
 
   try {
     const response = await fetch(
-      `https://api.godaddy.com/v1/domains/available?domain=${domain}`,
+      `https://domain-availability.whoisxmlapi.com/api/v1?apiKey=${process.env.WHOISXML_API_KEY}&domainName=${domain}&outputFormat=JSON`,
       {
         method: "GET",
         headers: {
-            Authorization: `sso-key h1eGhXVwVMMU_T7QniqLaJcLxgzXpkWEa4J:TnjRPi7hcNBpM7zrrbeuNK`,
           "Content-Type": "application/json",
         },
       }
@@ -34,7 +28,12 @@ export default async function handler(
     }
 
     const data = await response.json();
-    res.status(200).json(data);
+
+
+    const domainAvailability = data.DomainInfo?.domainAvailability === "AVAILABLE";
+
+    res.status(200).json({ available: domainAvailability });
+
   } catch (error) {
     console.error("Error checking domain:", error);
     res.status(500).json({ error: "Internal Server Error" });

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   ButtonType,
   ButtonVariant,
@@ -14,20 +14,20 @@ import { createSoundManager } from "@/components/editor/utils/SoundManager";
 import Button from "../Library/button/Button";
 import Icon from "../Library/icon/Icon";
 import Tooltip from "../Library/general/Tooltip";
-
-
+import PublishPopup from "../editor/publish/PublishPopup";
+import PublishPopupContent from "../editor/publish/PublishPopupContent";
 
 const EditorButtons: React.FC = () => {
   const { editorMode, currentProject } = useProject();
   const { editorState, setEditorState, sceneModel } = useEditor();
-
+  const [showPopup, setShowPopup] = useState<boolean>(false);
   const { playNotificationSound, stopNotificationSound } = createSoundManager();
 
   const initiatePreview = async (): Promise<void> => {
     setEditorState(EditorState.LOADING);
     try {
       const dataParameters = await sceneModel?.exportToJson();
-      
+
       if (currentProject && dataParameters) {
         await axios.post(`preview/${currentProject.id}`, { dataParameters });
         checkPreviewStatus();
@@ -83,14 +83,14 @@ const EditorButtons: React.FC = () => {
   document.addEventListener("click", stopNotificationSound);
 
   const handlePublishClick = () => {
-    console.log("button clicked");
+    setShowPopup(!showPopup);
   };
 
   return (
     <>
       <Tooltip content={"Preview your environment in play mode"}>
         <Icon
-          shouldRotate={editorState === EditorState.LOADING ? true :false }
+          shouldRotate={editorState === EditorState.LOADING ? true : false}
           name={getIcon()}
           size={IconSize.LARGE}
           onClick={handlePreviewClick}
@@ -107,6 +107,7 @@ const EditorButtons: React.FC = () => {
           icon={IconName.EXPORT}
         />
       </Tooltip>
+      {showPopup && <PublishPopup onClose={() => {handlePublishClick()}}><PublishPopupContent/></PublishPopup>}
     </>
   );
 };

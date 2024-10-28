@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
 export const IndexContainerWrapper = styled.div`
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
+  background-color: blue; */
+
 `;
 
 export const IndexWrapper = styled.div`
@@ -12,7 +14,8 @@ export const IndexWrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  max-width: 1200px;
+  width: 724px;
+  /* background-color: aquamarine; */
 `;
 
 export const StageWrapper = styled.div`
