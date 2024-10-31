@@ -1,14 +1,14 @@
-import { Product } from '@/components/dashboard/types/product.types';
-import { Object3D, Vector3, Euler, Material, Texture } from 'three';
-import { TextObject } from '../function/curveText';
-
+import { Product } from "@/components/dashboard/types/product.types";
+import { Object3D, Vector3, Euler, Material, Texture } from "three";
+import { TextObject } from "../function/curveText";
 
 export interface ISceneObjectOptions {
   name?: string | null;
+  modelParent?: Object3D | null;
   // position?: Vector3 | null;
   // rotation?: Euler | null;
   // scale?: Vector3;
-  exportedScenObj?: ExportedSceneObject,
+  exportedScenObj?: ExportedSceneObject;
   onLoad?: (model?: Object3D) => void;
 }
 
@@ -23,12 +23,17 @@ export interface ISceneObject {
   exportToJson(): string;
   getPosition(): Vector3 | null;
   getRotation(): Euler | null;
-
   isSelected(selected: boolean): void;
   getContentMaterial(type: ContentDataType): ContentMaterial | null;
   getContentText(type: ContentDataType): ContentText | null;
   setContentMaterial(type: ContentDataType, material: ContentMaterial): void;
   setContentText(type: ContentDataType, propertie: Partial<TextParams>): void;
+  getContentModels(type: ContentDataType): null;
+  setContentModels(
+    type: ContentDataType,
+    modelType: AssetModels,
+    modelName: string
+  ): void;
 }
 
 export interface IArchitecture extends ISceneObject {
@@ -48,7 +53,11 @@ export interface ProductBoard extends ISceneObject {
 
 export interface FormBoard extends ISceneObject {
   getFormInput(type: ContentDataType, label: InputLabelType): InputField | null;
-  setFormInput(type: ContentDataType, label: InputLabelType, contentFormInput: InputField): void;
+  setFormInput(
+    type: ContentDataType,
+    label: InputLabelType,
+    contentFormInput: InputField
+  ): void;
   getContentForm?(type: ContentDataType): ContentForm | null;
   setContentForm?(type: ContentDataType, contentForn: ContentForm): void;
 }
@@ -58,9 +67,12 @@ export interface ProductStand extends ISceneObject {
   getProduct(): Product | null;
 }
 
-
 export interface CustomObject3D extends Object3D {
   onPointerDown?: (event: any) => ISceneObject;
+  onPointerOver?: () => void;
+  onPointerOut?: () => void;
+  onPointerUp?: () => void; 
+
   interactive?: boolean;
   isEmpty?: boolean;
 }
@@ -71,55 +83,59 @@ export enum DisplayType {
 }
 
 export enum EConfigType {
-  HORIZONTAL = 'HORIZONTAL',
-  VERTICAL = 'VERTICAL',
+  HORIZONTAL = "HORIZONTAL",
+  VERTICAL = "VERTICAL",
 }
 
 export enum EConfiguration {
-  LEFT = 'LEFT',
-  RIGHT = 'RIGHT',
-  CENTER = 'CENTER',
-  TOP = 'TOP',
-  BOTTOM = 'BOTTOM',
+  LEFT = "LEFT",
+  RIGHT = "RIGHT",
+  CENTER = "CENTER",
+  TOP = "TOP",
+  BOTTOM = "BOTTOM",
 }
 
 export enum ContentDataType {
-  TITLE = 'title',
-  SUB_TITLE = 'subtitle',
-  BUTTON = 'button',
-  TEXT = 'text',
-  SELF = 'self',
-  FRAME = 'frame',
-  FRAME_0 = 'frame_0',
-  FRAME_1 = 'frame_1',
-  LOGO = 'logo',
-  FORM = 'form',
-  NAME = 'name',
-  DESCRIPTION = 'description',
-  PRICE = 'price',
-  PRICE_CURRENCY ='price_currency',
-  PRODUCT = 'product',
-  PRODUCT_MODEL = 'product_model',
-  EMAIL = 'email',
-
+  TITLE = "title",
+  SUB_TITLE = "subtitle",
+  BUTTON = "button",
+  TEXT = "text",
+  SELF = "self",
+  FRAME = "frame",
+  FRAME_0 = "frame_0",
+  FRAME_1 = "frame_1",
+  LOGO = "logo",
+  FORM = "form",
+  NAME = "name",
+  DESCRIPTION = "description",
+  PRICE = "price",
+  PRICE_CURRENCY = "price_currency",
+  PRODUCT = "product",
+  PRODUCT_MODEL = "product_model",
+  EMAIL = "email",
+  CUSTOMMODELS = "custom_models",
+  LIBRAYMODELS = "libray_models",
 }
 
-
+export enum AssetModels {
+  LIBRAY_MODEL = "librayModel",
+  CUSTOM_MODEL = "customModel",
+}
 
 export enum MaterialSlotName {
-  RIM = 'rim',
-  BACKGROUND = 'bg'
+  RIM = "rim",
+  BACKGROUND = "bg",
 }
-
 
 export interface ContentData {
   contentObjects?: ContentObjects;
   contentText?: ContentText;
-  contentMaterial?: ContentMaterial
+  contentMaterial?: ContentMaterial;
   contentForm?: ContentForm;
+  contentAsset?: ContentAsset[];
 }
 
-
+export interface ContentAsset {}
 
 export interface ContentForm {
   inputs?: Map<InputLabelType, InputField>;
@@ -133,11 +149,11 @@ export interface InputField {
 }
 
 export enum InputLabelType {
-  NAME = 'name',
-  EMAIL = 'email',
-  PHONE_NUMBER = 'phoneNumber',
-  COMPANY_NAME = 'companyName',
-  FREE_TEXT = 'freeText',
+  NAME = "name",
+  EMAIL = "email",
+  PHONE_NUMBER = "phoneNumber",
+  COMPANY_NAME = "companyName",
+  FREE_TEXT = "freeText",
 }
 
 export interface ContentObjects {
@@ -176,8 +192,8 @@ export interface ContentMaterial {
 }
 
 export enum ERendererType {
-  STONE = 'stone',
-  IRON = 'iron',
+  STONE = "stone",
+  IRON = "iron",
 }
 
 export enum ESkybox {
@@ -185,57 +201,52 @@ export enum ESkybox {
   DARK = "Dark",
 }
 
-
 export enum FontWeight {
-  Normal = 'normal',
-  Bold = 'bold',
-  Bolder = 'bolder',
-  Lighter = 'lighter',
+  Normal = "normal",
+  Bold = "bold",
+  Bolder = "bolder",
+  Lighter = "lighter",
 }
 
 export enum TextAlign {
-  Left = 'left',
-  Center = 'center',
-  Right = 'right',
-  Justify = 'justify',
+  Left = "left",
+  Center = "center",
+  Right = "right",
+  Justify = "justify",
 }
-
 
 export enum Font {
-  Fetiosh = 'fetiosh',
-  Felipe = 'felipe',
-  Federo = 'federo',
+  Fetiosh = "fetiosh",
+  Felipe = "felipe",
+  Federo = "federo",
 }
 
-
 export enum LineHeight {
-  Fetiosh = 'fetiosh',
-  Felipe = 'felipe',
-  Federo = 'federo',
+  Fetiosh = "fetiosh",
+  Felipe = "felipe",
+  Federo = "federo",
 }
 //   export type Font = 'Arial' | 'Helvetica' | 'Times New Roman' | 'Courier New' | 'Custom';
 
-
 export interface TextParams {
-    text: string;
-    font?: string;
-    fontSize: number;
-    maxWidth: number;
-    anchorX: 'left' | 'center' | 'right';
-    anchorY: 'top' | 'middle' | 'bottom';
-    fontWeight: FontWeight;
-    textAlign: TextAlign;
-    lineHeight: number;
-    letterSpacing: number;
-    outlineColor?: string;
-    color: string;
-    position?: { x: number; y: number; z: number };
+  text: string;
+  font?: string;
+  fontSize: number;
+  maxWidth: number;
+  anchorX: "left" | "center" | "right";
+  anchorY: "top" | "middle" | "bottom";
+  fontWeight: FontWeight;
+  textAlign: TextAlign;
+  lineHeight: number;
+  letterSpacing: number;
+  outlineColor?: string;
+  color: string;
+  position?: { x: number; y: number; z: number };
 }
 export interface ContentText extends TextParams {
   // textObject?: TextObject;
   // textPaerms?: TextParams;
 }
-
 
 export interface ExportedSceneObject {
   name?: string | null;
@@ -316,7 +327,7 @@ export interface IRenderer {
 }
 
 export interface ICameraManager {
-  setActiveCamera(cameraType: 'perspective' | 'orthographic'): void;
+  setActiveCamera(cameraType: "perspective" | "orthographic"): void;
   zoomToObject(object: ISceneObject): void;
   resetView(): void;
 }
@@ -333,10 +344,6 @@ export interface IPluginManager {
   unregisterPlugin(pluginName: string): void;
   getPlugin(pluginName: string): IPlugin | undefined;
 }
-
-
-
-
 
 export enum BaseSize {
   SMALL = "Small",
@@ -361,16 +368,14 @@ export enum ImageStyle {
   FILL = "Fill",
 }
 
-
 export enum FormatBoard {
   Model = "model",
   Frame = "frame",
   Simple = "simple",
   Podium = "podium",
-  Duo ="duo",
-  Side ="side",
+  Duo = "duo",
+  Side = "side",
 }
-
 
 // export enum FormatBoard {
 //   HeaderModel = "Model",
@@ -385,32 +390,30 @@ export enum FormatBoard {
 
 // }
 
-
 export enum BoardType {
-  Video = 'video',
-  Header = 'header',
-  Image = 'image',
-  Product = 'product',
-  Form = 'form',
-  Subscription = 'subscription',
-  Slider = 'SliderBoard',
-  Testimonials = 'TestimonialsBoard',
-  Services = 'ServicesBoard',
-  Gamification = 'GamificationBoard',
-  Socials = 'SocialsBoard',
-  Article = 'ArticleBoard',
+  Video = "video",
+  Header = "header",
+  Image = "image",
+  Product = "product",
+  Form = "form",
+  Subscription = "subscription",
+  Slider = "SliderBoard",
+  Testimonials = "TestimonialsBoard",
+  Services = "ServicesBoard",
+  Gamification = "GamificationBoard",
+  Socials = "SocialsBoard",
+  Article = "ArticleBoard",
 }
 
 export enum ArchitectureType {
-  TWO_CIRCLES = 'two_circles'
+  TWO_CIRCLES = "two_circles",
+}
+
+export enum ModelType {
+  Test = "test",
 }
 
 export enum StandType {
-  Podium = 'podium',
-  Duo = 'duo',
+  Podium = "podium",
+  Duo = "duo",
 }
-
-
-
-
-

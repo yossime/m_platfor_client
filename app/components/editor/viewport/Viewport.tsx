@@ -1,27 +1,32 @@
+
+
 "use client";
-import React, { useState, useEffect } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
+import React, { useState } from "react";
+import { Canvas } from "@react-three/fiber";
 import styled from "styled-components";
 import SceneComponent from "./SceneComponent";
+import DragControlComponent from "./DragControlComponent";
 import { EnvironmentLoader } from "./EnvironmentLoader";
 
-export const ViewportContainer = styled.div`
-margin-top: 55px;
+const ViewportContainer = styled.div`
+  margin-top: 55px;
   flex-grow: 1;
   overflow: hidden;
   background-color: #717074;
 `;
 
+
 const Viewport: React.FC = () => {
+  const [isDragging, setIsDragging] = useState(false);
+
   return (
-    <ViewportContainer className="viewport">
-      <Canvas linear camera={{ position: [0, 0, 5] }}>
-        {/* <CameraControls /> */}
+    <ViewportContainer>
+      <Canvas linear camera={{ position: [0, 2, 5] }}>
         <EnvironmentLoader />
         <ambientLight />
-        <directionalLight position={[10, 10, 5]} intensity={2} />
-        {/* <directionalLight intensity={2} position={[1, 1, 1]} castShadow /> */}
-        <SceneComponent />
+        <directionalLight intensity={2} position={[1, 1, 1]} castShadow />
+        <SceneComponent isdragging={isDragging} />
+        <DragControlComponent setIsDragging={setIsDragging} />
       </Canvas>
     </ViewportContainer>
   );

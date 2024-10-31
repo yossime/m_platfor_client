@@ -1,17 +1,50 @@
-import { Object3D, Vector3, Euler, Mesh, Material, TextureLoader, MeshStandardMaterial, Texture, MeshPhongMaterial, MeshBasicMaterial } from 'three';
-import { v4 as uuidv4 } from 'uuid';
-import { ISceneObject, ISceneObjectOptions, CustomObject3D, ICustomMaterial, ContentMaterial, ContentText, ContentObjects, ContentDataType, ContentData, ExportedSceneObject, TextAlign, FontWeight, TextParams } from '../../types';
-import { FBXLoader, Font, FontLoader, GLTFLoader, TextGeometry } from 'three/examples/jsm/Addons.js';
-import { TextureManager } from '../utils/TextureManager';
-import { ModelLoader } from '../loaderes/ModelLoader';
-import { Text as TroikaText } from 'troika-three-text';
-import * as THREE from 'three';
-import { CommandManager } from '../commands/CommandManager';
-import { ChangeTextCommand } from '../commands/ChangeTextCommand';
-import { TextObject } from '../../function/curveText';
-import { createMaterial } from '../../material/createMaterialSphere';
-import { AssetLoader } from '../loaderes/AssetLoader';
-
+import {
+  Object3D,
+  Vector3,
+  Euler,
+  Mesh,
+  Material,
+  TextureLoader,
+  MeshStandardMaterial,
+  Texture,
+  MeshPhongMaterial,
+  MeshBasicMaterial,
+} from "three";
+import { v4 as uuidv4 } from "uuid";
+import {
+  ISceneObject,
+  ISceneObjectOptions,
+  CustomObject3D,
+  ICustomMaterial,
+  ContentMaterial,
+  ContentText,
+  ContentObjects,
+  ContentDataType,
+  ContentData,
+  ExportedSceneObject,
+  TextAlign,
+  FontWeight,
+  TextParams,
+  ModelType,
+  AssetModels,
+} from "../../types";
+import {
+  FBXLoader,
+  Font,
+  FontLoader,
+  GLTFLoader,
+  TextGeometry,
+} from "three/examples/jsm/Addons.js";
+import { TextureManager } from "../utils/TextureManager";
+import { ModelLoader } from "../loaderes/ModelLoader";
+import { Text as TroikaText } from "troika-three-text";
+import * as THREE from "three";
+import { CommandManager } from "../commands/CommandManager";
+import { ChangeTextCommand } from "../commands/ChangeTextCommand";
+import { TextObject } from "../../function/curveText";
+import { createMaterial } from "../../material/createMaterialSphere";
+import { AssetLoader } from "../loaderes/AssetLoader";
+import { CustomModel } from "./assetModels/CustomModel";
 
 export abstract class SceneObject implements ISceneObject {
   public id: string = uuidv4();
@@ -23,25 +56,31 @@ export abstract class SceneObject implements ISceneObject {
   protected position: Vector3 | null = null;
   protected rotation: Euler | null = null;
   protected scale: Vector3 = new Vector3(1, 1, 1);
-  protected modelParent: Object3D | null = null;
-  protected contentsData: Map<ContentDataType, ContentData> = new Map<ContentDataType, ContentData>();
+  public modelParent: Object3D | null = null;
+  protected contentsData: Map<ContentDataType, ContentData> = new Map<
+    ContentDataType,
+    ContentData
+  >();
   protected readonly libraryUrl: string;
+  protected readonly userAssetsUrl: string;
+
   protected commandManager = CommandManager.getInstance();
   protected modelPath: string;
   // protected static getModelPath: () => string;
 
-
   constructor(type: string, modelPath: string, options?: ISceneObjectOptions) {
-    this.libraryUrl = 'https://storage.googleapis.com/library-all-test';
+    this.libraryUrl = "https://storage.googleapis.com/library-all-test";
+    this.userAssetsUrl = "https://storage.googleapis.com/users-assets-a";
+
     this.type = type;
     this.modelPath = modelPath;
 
     if (options) {
       this.name = options.exportedScenObj?.name || options.name || this.name;
+      this.modelParent = options.modelParent || null;
       // this.position = options.position ?? this.position;
       // this.rotation = options.rotation ?? this.rotation;
     }
-
 
     this.loadModelAndDisplay(options?.onLoad);
     // this.loadModelAndDisplay(options?.onLoad).then(() => {
@@ -50,38 +89,60 @@ export abstract class SceneObject implements ISceneObject {
     //   }
     // });
   }
+
   // protected abstract loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void>;
+  getContentModels(type: ContentDataType): null {
+    return null;
+  }
 
+  setContentModels(
+    type: ContentDataType,
+    modelType: AssetModels,
+    modelName: string
+  ): void {}
 
-  protected async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
-    const modelUrl = `${this.libraryUrl}/${this.modelPath}.glb`;
+  protected async loadModelAndDisplay(
+    onLoad?: (model: Object3D) => void
+  ): Promise<void> {
+    let modelUrl;
+    if (this.type === AssetModels.CUSTOM_MODEL) {
+      modelUrl = `${this.userAssetsUrl}/${this.modelPath}.glb`;
+    } else {
+      modelUrl = `${this.libraryUrl}/${this.modelPath}.glb`;
+    }
     try {
       const model = await AssetLoader.loadModel(modelUrl);
       model?.traverse((child: CustomObject3D) => {
         // child.onPointerDown = () => { console.log('this.handleSelected(model)'); return this };
         child.onPointerDown = () => this.handleSelected(model);
+        child.onPointerOver = () => this.handleHover();
         child.interactive = true;
+        child.userData.draggable = false;
       });
       this.model = model;
-      if (this.model && this.modelParent && this.position && this.rotation) {
+      if (this.model && this.modelParent) {
         this.modelParent.attach(this.model);
+      }
+      if (this.model && this.position && this.rotation) {
         this.model.position.copy(this.position);
         this.model.rotation.copy(this.rotation);
       }
-
       onLoad && onLoad(this.model!);
     } catch (error) {
-      console.error('Error loading model:', error);
-      throw new Error('Failed to load architecture model');
+      console.error("Error loading model:", error);
+      // throw new Error('Failed to load architecture model');
     }
   }
 
-  getModel() { return this.model }
+  getModel() {
+    return this.model;
+  }
+
   addChild(sceneObject: ISceneObject): void {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
   removeChild(sceneObject: ISceneObject): void {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
   getPosition(): Vector3 | null {
     return this.position;
@@ -91,28 +152,29 @@ export abstract class SceneObject implements ISceneObject {
   }
 
 
-  protected initializeContentText(type: ContentDataType, initproperties: TextParams, meshName?: string): void {
+  protected initializeContentText(
+    type: ContentDataType,
+    initproperties: TextParams,
+    meshName?: string
+  ): void {
     const mesh = this.getGeometryByName(meshName || type);
     if (mesh instanceof THREE.Mesh) {
       const textObject = new TextObject(mesh, initproperties);
 
-      this.contentsData.set(type,
-        {
-          contentText: {
-            ...textObject.getParams(),
-          }
-        });
+      this.contentsData.set(type, {
+        contentText: {
+          ...textObject.getParams(),
+        },
+      });
     }
   }
 
   protected initializeContentFram(type?: ContentDataType): void {
-    this.model?.traverse(
-      (child) => {
-        if (child.name.startsWith('ph_')) {
-          child.visible = false;
-        }
+    this.model?.traverse((child) => {
+      if (child.name.startsWith("ph_")) {
+        child.visible = false;
       }
-    )
+    });
     // const mesh = this.getGeometryByName(type);
 
     // if (mesh instanceof THREE.Mesh) {
@@ -130,22 +192,34 @@ export abstract class SceneObject implements ISceneObject {
     return null;
   }
 
-  public setContentText(type: ContentDataType, newParams: Partial<TextParams>): void {
+  public setContentText(
+    type: ContentDataType,
+    newParams: Partial<TextParams>
+  ): void {
     if (!this.model) return;
     const textObject = this.getTextObject(type);
     if (!textObject) return;
 
-    const oldProperties = { ...textObject.getParams() }
-    const command = new ChangeTextCommand(this, type, textObject, newParams, oldProperties);
+    const oldProperties = { ...textObject.getParams() };
+    const command = new ChangeTextCommand(
+      this,
+      type,
+      textObject,
+      newParams,
+      oldProperties
+    );
     this.commandManager.execute(command);
   }
 
-  public updateContentData(type: ContentDataType, updatedData: ContentData): void {
+  public updateContentData(
+    type: ContentDataType,
+    updatedData: ContentData
+  ): void {
     this.contentsData.set(type, updatedData);
   }
 
   public displayEmptySlots(visible: boolean = true): void {
-    this.slots.forEach(slot => {
+    this.slots.forEach((slot) => {
       if (slot.isEmpty) {
         slot.visible = visible;
       }
@@ -153,23 +227,24 @@ export abstract class SceneObject implements ISceneObject {
   }
 
   protected setSlotsVisible(visible: boolean): void {
-    this.slots.forEach(slot => {
+    this.slots.forEach((slot) => {
       if (slot.isEmpty) {
         slot.visible = visible;
       }
     });
-  };
+  }
 
-
-  public setName(name: string): void { this.name = name };
+  public setName(name: string): void {
+    this.name = name;
+  }
 
   public getContentMaterial(type: ContentDataType): ContentMaterial | null {
     return this.contentsData.get(type)?.contentMaterial ?? null;
-  };
+  }
 
   public getContentText(type: ContentDataType): ContentText | null {
     return this.contentsData.get(type)?.contentText ?? null;
-  };
+  }
 
   public getChildren(): ISceneObject[] | null {
     return this.children.length > 0 ? this.children : null;
@@ -181,8 +256,7 @@ export abstract class SceneObject implements ISceneObject {
 
   // public setContentText(type: ContentDataType, text: ContentText): void { }
 
-  public setContentMaterial(type: ContentDataType, material: ContentMaterial) { }
-
+  public setContentMaterial(type: ContentDataType, material: ContentMaterial) {}
 
   protected setPosition(position: Vector3): void {
     this.position = position;
@@ -190,10 +264,6 @@ export abstract class SceneObject implements ISceneObject {
       this.model.position.copy(position);
     }
   }
-
-
-
-
 
   protected setRotation(rotation: Euler): void {
     this.rotation = rotation;
@@ -214,7 +284,6 @@ export abstract class SceneObject implements ISceneObject {
     const slots: Object3D[] = [];
     // const slotsGroups: THREE.Object3D[] = [];
 
-
     // this.model?.traverse((child) => {
     //   if (child.name.startsWith('Group')) {
     //     slotsGroups.push(child)
@@ -226,22 +295,30 @@ export abstract class SceneObject implements ISceneObject {
     //   group.parent?.attach(clonedGroup);
     // });
     this.model?.traverse((child) => {
-      if (child.name.startsWith('slot_')) {
-        slots.push(child)
+      if (child.name.startsWith("slot_")) {
+        slots.push(child);
       }
     });
     return slots;
   }
-
-  protected async loadPlaceholders(placeholderPath: string, handleSelectSlot: (object: CustomObject3D) => any): Promise<void> {
+  protected async loadPlaceholders(
+    placeholderPath: string,
+    handleSelectSlot: (object: CustomObject3D) => any,
+    handleHoverSlot: (object: CustomObject3D) => void,
+    handleEndHover: (object: CustomObject3D) => void,
+    handleEndPointerDown: (object: CustomObject3D) => void
+  ): Promise<void> {
     if (!this.model) return;
     const placeholder = await AssetLoader.loadModel(placeholderPath);
     const slots = this.getSlotsPosition();
 
-    slots.forEach(slotMesh => {
+    slots.forEach((slotMesh) => {
       const placeholderClone = placeholder?.clone() as CustomObject3D;
       placeholderClone.traverse((child: CustomObject3D) => {
         child.onPointerDown = () => handleSelectSlot(placeholderClone);
+        child.onPointerOver = () => handleHoverSlot(placeholderClone);
+        child.onPointerOut = () => handleEndHover(placeholderClone);
+        child.onPointerUp = () => handleEndPointerDown(placeholderClone); 
         child.interactive = true;
       });
 
@@ -254,11 +331,12 @@ export abstract class SceneObject implements ISceneObject {
       slotMesh.parent?.remove(slotMesh);
       this.slots.push(placeholderClone);
     });
-  } catch(error: any) {
-    console.error('Error setting placeholders:', error);
-    throw new Error('Failed to set placeholders');
   }
 
+  catch(error: any) {
+    console.error("Error setting placeholders:", error);
+    throw new Error("Failed to set placeholders");
+  }
 
   public exportToJson(): string {
     const exportObject = {
@@ -267,18 +345,19 @@ export abstract class SceneObject implements ISceneObject {
       // position: this.position,
       // rotation: this.rotation,
       // scale: this.scale,
-      children: this.children.map(child => JSON.parse(child.exportToJson()))
+      children: this.children.map((child) => JSON.parse(child.exportToJson())),
     };
     return JSON.stringify(exportObject, null, 2);
   }
 
-
   public buildFromJson(exportedObj: ExportedSceneObject) {
     if (exportedObj.contentsData) {
       for (const [key, value] of Object.entries(exportedObj.contentsData)) {
-
         if (value.contentMaterial) {
-          this.setContentMaterial(key as ContentDataType, value.contentMaterial)
+          this.setContentMaterial(
+            key as ContentDataType,
+            value.contentMaterial
+          );
         }
         if (value.contentText) {
           // this.setContentText(key as ContentDataType, value.contentText)
@@ -290,9 +369,12 @@ export abstract class SceneObject implements ISceneObject {
     }
   }
 
-  protected async applyVideoMaterial(mesh: Object3D, src: string | File): Promise<void> {
+  protected async applyVideoMaterial(
+    mesh: Object3D,
+    src: string | File
+  ): Promise<void> {
     if (!(mesh instanceof Mesh)) {
-      console.warn('Attempted to apply video material to non-Mesh object');
+      console.warn("Attempted to apply video material to non-Mesh object");
       return;
     }
     const newMaterial = new MeshBasicMaterial();
@@ -305,8 +387,11 @@ export abstract class SceneObject implements ISceneObject {
     }
   }
 
-  protected async changeMaterial(mesh: THREE.Mesh, material: ICustomMaterial): Promise<void> {
-    const newMaterial = await createMaterial(material)
+  protected async changeMaterial(
+    mesh: THREE.Mesh,
+    material: ICustomMaterial
+  ): Promise<void> {
+    const newMaterial = await createMaterial(material);
     mesh.material = newMaterial;
   }
 
@@ -340,20 +425,26 @@ export abstract class SceneObject implements ISceneObject {
     // }
   }
 
+  protected addModelToParent(): void {
+    this.modelParent?.attach(this.model!);
+  }
+
   protected handleSelected = (object: CustomObject3D) => {
     this.highlightMesh(object);
 
     // sceneModel?.setSelectedObject(this)
     // console.log('this.eventManager.getSelectedObject.name', this.name)
-    return this
+    return this;
   };
 
+  protected handleHover = () => {};
+
   public isSelected = (selected: boolean): void => {
-    const selectedMesh = this.getGeometryByName('selected');
+    const selectedMesh = this.getGeometryByName("selected");
     if (!selectedMesh) return;
 
     selectedMesh.visible = selected;
-  }
+  };
 
   protected highlightMesh = (object: Object3D): void => {
     // object.traverse((child) => {
@@ -369,10 +460,13 @@ export abstract class SceneObject implements ISceneObject {
   };
 
   protected applyText(mesh: Mesh, text: ContentText): void {
-    this.straightText(mesh, text)
+    this.straightText(mesh, text);
   }
 
-  protected async applyRenderMaterial(mesh: Mesh, renderType: string): Promise<void> {
+  protected async applyRenderMaterial(
+    mesh: Mesh,
+    renderType: string
+  ): Promise<void> {
     const textureManager = TextureManager.getInstance();
     const textureUrl = `https://storage.googleapis.com/library-materials-test-all/${renderType}.jpg`;
 
@@ -395,15 +489,12 @@ export abstract class SceneObject implements ISceneObject {
     //     size: 0.5,
     //     depth: 0.1,
     //   });
-
     //   const material = new MeshPhongMaterial({ color: 0xffffff });
     //   const newMesh = new Mesh(geometry, material);
     //   newMesh.position.copy(mesh.position);
-
     //   mesh.geometry.dispose();
     //   mesh.geometry = geometry;
     //   mesh = newMesh;
-
     // } catch (error) {
     //   console.error('Error replacing text:', error);
     // }

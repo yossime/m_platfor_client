@@ -58,7 +58,6 @@ const Sidebar: React.FC = () => {
   const handleBackOrAdd = () => {
     if (activeSidebarHeader === "World") {
       setActiveSidebarHeader("Choose Board Widget");
-      sceneModel?.root?.displayEmptySlots();
     } else if (activeSidebarHeader === "Choose Board Widget") {
       setActiveSidebarHeader("World");
     } else {
@@ -71,7 +70,6 @@ const Sidebar: React.FC = () => {
 
   const handleAdd = () => {
     setActiveSidebarHeader("Choose Board Widget");
-    sceneModel?.root?.displayEmptySlots();
   };
 
   const handleBack = () => {
@@ -91,7 +89,9 @@ const Sidebar: React.FC = () => {
               {activeSidebarHeader !== "World" && (
                 <Icon name={IconName.GLOBESIMPAL} onClick={handleBack} />
               )}
+              {activeSidebarHeader !== "Choose Board Widget" && (
               <Icon name={IconName.PLUS} onClick={handleAdd} />
+            )}
             </ProjectIcon>
             <ProjectTitle>
               <Collapsible title={currentProject?.projectName || ""}>

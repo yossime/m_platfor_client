@@ -45,8 +45,8 @@ export const EnvironmentLoader: React.FC = () => {
     <Suspense fallback={null}>
       {processedEnvMap ? (
         <Environment
-          backgroundIntensity={0.5}
-          environmentIntensity={0.5}
+          backgroundIntensity={0.4}
+          environmentIntensity={0.2}
           map={processedEnvMap}
           background
           backgroundBlurriness={0}

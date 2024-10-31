@@ -1,5 +1,9 @@
-import styled from 'styled-components';
-import { BackgroundColor, BorderColor, SemanticColors } from '@constants/colors';
+import styled from "styled-components";
+import {
+  BackgroundColor,
+  BorderColor,
+  SemanticColors,
+} from "@constants/colors";
 
 export const WidgetContainer = styled.div`
   display: flex;
@@ -7,6 +11,14 @@ export const WidgetContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
+`;
+
+export const DraggedWidgetContainer = styled.div`
+  position: absolute;
+
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
 `;
 
 export const WidgetButton = styled.button<{ $clicked: boolean }>`
@@ -31,12 +43,13 @@ export const WidgetButton = styled.button<{ $clicked: boolean }>`
   }
 
   &:active:not(:disabled),
-  ${props => props.$clicked && `
+  ${(props) =>
+      props.$clicked &&
+      `
     background-color: ${SemanticColors.PRIMARY_SELECTED};
     border-color: ${SemanticColors.PRIMARY};
   `}
-
-  &:disabled {
+    &:disabled {
     background-color: ${BackgroundColor.DISABLED_BACKGROUND};
   }
 `;
