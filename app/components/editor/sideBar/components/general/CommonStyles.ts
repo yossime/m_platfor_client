@@ -7,9 +7,11 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
   gap: 32px;
   overflow: visible;
+
 `;
 
 export const ContainerStyle = styled.div`
@@ -20,6 +22,15 @@ export const ContainerStyle = styled.div`
   gap: 8px;
   overflow: visible;
 `;
+export const ContainerGlobalStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:30px;
+  overflow: visible;
+`;
+
 
 
 export const Divider = styled.div`

@@ -4,7 +4,6 @@ import {
   ButtonType,
   ButtonVariant,
   ButtonSize,
-  ButtonMode,
 } from "@constants/button";
 import LogoIcon from "./LogoIcon.svg";
 import {
@@ -21,6 +20,9 @@ import Tooltip from "../Library/general/Tooltip";
 import { usePathname, useRouter } from "next/navigation";
 import Icon from "../Library/icon/Icon";
 import { useUserContext } from "@/context/useUserContext";
+import Text from "../Library/text/Text";
+import { useEditor } from "@/context/useEditorContext";
+import { useAuth } from "@/context/AuthContext";
 
 interface NavbarProps {
   userName?: string | null;
@@ -36,6 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   imageUrl,
 }) => {
   const router = useRouter();
+  const { user } = useAuth();
 
   const handlePlus = () => {
     router.push("/pricing_plans");
@@ -44,13 +47,26 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isSubscriptionPage = pathname.startsWith("/pricing_plans");
   const isEditorPage = pathname.startsWith("/editor");
   const { userData } = useUserContext();
+  const { setIsWalkthroughEnabled } = useEditor();
   const subsc = userData?.plan === "Plus" || userData?.plan === "business";
+  const clearTourMemory = () => {
+    console.log(`${user?.uid}hasSeenEditorTour`)
+    localStorage.removeItem( `${user?.uid}hasSeenEditorTour` );
+  };
+
+  const resetTour = () => {
+    clearTourMemory();
+    setIsWalkthroughEnabled(true);
+  };
   return (
     <NavbarWrapper className="navbar">
       <NavbarContainer>
-        <LogoContainer>{logo != null ? logo : <LogoIcon />}</LogoContainer>
+        <LogoContainer>
+          {logo != null ? logo : <LogoIcon />}
+          {isEditorPage && <Text onClick={resetTour}>help</Text>}
+        </LogoContainer>
         <UserContainer>
-          {isEditorPage && <EditorButtons />}{" "}
+          {isEditorPage && <EditorButtons />}
           {userName && (
             <>
               {!isSubscriptionPage && (

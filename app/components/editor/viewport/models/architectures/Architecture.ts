@@ -11,17 +11,14 @@ import {
   ModelType,
   AssetModels,
 } from "../../../types";
-import { ArchitectureType } from "@/components/editor/types";
 import { BoardType } from "@/components/editor/types";
 import { Board } from "../boards/Board";
-import { ProductMaster } from "../boards/productBoards/ProductMaster.board";
 import { createBoardByType } from "@/components/editor/utils/CraeteBoard";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import { AddChildCommand } from "../../commands/AddChildCommand";
-import { AssetLoader } from "../../loaderes/AssetLoader";
 import { CustomModel } from "../assetModels/CustomModel";
 import { LibrayModel } from "../assetModels/LibrayModel";
+import { GLTFModelLoader } from "../../loaderes/AssetLoader";
 
 export class Architecture extends SceneObject implements IArchitecture {
   private placeholderPath: string;
@@ -29,11 +26,11 @@ export class Architecture extends SceneObject implements IArchitecture {
   private childToAdd: Board | null = null;
   private boardAddSuccess: boolean = false;
 
-
-  constructor(type: ArchitectureType, options?: ISceneObjectOptions) {
+  constructor(type: string, options?: ISceneObjectOptions) {
     const architecturePath = `architectures/${type}`;
-    super(type, architecturePath, options);
-    this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}.glb`;
+    const loader = new GLTFModelLoader();
+    super(type, architecturePath, options, loader);
+    this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}`;
     this.name = "architectures";
   }
 
@@ -54,14 +51,14 @@ export class Architecture extends SceneObject implements IArchitecture {
   }
 
   public addBoard(board: Board): void {
-    this.boardAddSuccess = false
+    this.boardAddSuccess = false;
     this.childToAdd = board;
   }
 
   public finishDraging(): boolean {
     this.childToAdd = null;
     this.selectedSlot = null;
-    return this.boardAddSuccess
+    return this.boardAddSuccess;
   }
 
   public addChild(sceneObject: Board, slotNumber?: number): void {
@@ -81,7 +78,7 @@ export class Architecture extends SceneObject implements IArchitecture {
       this.selectedSlot.isEmpty = false;
       sceneObject.exchangeSlot(this.selectedSlot);
       this.children.push(sceneObject as SceneObject);
-      this.boardAddSuccess = true
+      this.boardAddSuccess = true;
       this.setSlotsVisible(false);
     } else {
       this.displayEmptySlots();

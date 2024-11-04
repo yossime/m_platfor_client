@@ -388,7 +388,7 @@ const HelperText = styled(Text)`
 `;
 
 type SelectInputProps = {
-  value: string;
+  value?: string;
   onChange: (value: string | any | ChangeEvent<HTMLInputElement>) => void;
   inputSize: InputSize;
   mode: InputMode;

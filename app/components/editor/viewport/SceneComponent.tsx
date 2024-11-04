@@ -29,19 +29,6 @@ const SceneComponent: React.FC<{ isdragging: boolean }> = ({ isdragging }) => {
 
   const { selectedObject, setSelectedObject } = useSelectedObject();
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-  //       const confirmationMessage = 'You have unsaved changes. Are you sure you want to leave?';
-  //       event.returnValue = confirmationMessage;
-  //       return confirmationMessage;
-  //   };
-
-  //   window.addEventListener('beforeunload', handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener('beforeunload', handleBeforeUnload);
-  //   };
-  // }, []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

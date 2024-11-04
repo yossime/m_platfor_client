@@ -20,7 +20,6 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-// const DEV_API = 'http://localhost:3500';
 
 const App: React.FC = () => {
     const [files, setFiles] = useState<{ [key: string]: any }>({});

@@ -50,7 +50,7 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
           >{`$${price}`}</Text>
                   <Text
             size={TextSize.H1}
-            $weight={FontWeight.LIGHT}
+            $weight={FontWeight.NORMAL}
             color={TextColor.PRIMARY}
           >/</Text>
              <Text
@@ -111,7 +111,7 @@ const SubscriptionBox: React.FC<TemplateProps> = ({
           </Text>
           <Text
             $cursorStyle="pointer"
-            $weight={FontWeight.LIGHT}
+            $weight={FontWeight.NORMAL}
             size={TextSize.H3}
             $family={FontFamily.Poppins}
           >

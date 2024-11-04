@@ -12,7 +12,6 @@ import {
 } from "@/components/editor/types/index";
 import { BoardType } from "@/components/editor/types";
 import { SceneObject } from "../SceneObject";
-import { AssetLoader } from "../../loaderes/AssetLoader";
 
 export abstract class Board extends SceneObject {
   public slotNumber = -1;
@@ -36,6 +35,7 @@ export abstract class Board extends SceneObject {
     boardType: string,
     options?: ISceneObjectOptions
   ) {
+    
     const categoryPath = `boards/${boardType}`
     super(type, categoryPath, options);
   }

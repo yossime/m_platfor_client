@@ -34,6 +34,8 @@ interface EditorContextType {
   // setSceneModel: (model: SceneModel) => void;
   editorState: EditorState;
   setEditorState: (state: EditorState) => void;
+  walkthroughEnabled:boolean;
+  setIsWalkthroughEnabled:(status:boolean)=>void;
 }
 
 const EditorContext = createContext<EditorContextType | undefined>(undefined);
@@ -41,6 +43,8 @@ const EditorContext = createContext<EditorContextType | undefined>(undefined);
 export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([0, 5, 0]);
   const [cameraDirection, setCameraDirection] = useState<[number, number, number]>([0, 0, 0]);
+  const [walkthroughEnabled, setIsWalkthroughEnabled] = useState(true);
+
   // const [dataParameters, setDataParameters] = useState<IParams | null>(null);
   const [currentMode, setCurrentMode] = useState<EMode>(EMode.View);
   const [activeBoardIndex, setActiveBoardIndex]= useState<number>(-1);
@@ -51,6 +55,8 @@ export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
 
   const value: EditorContextType = { 
+    setIsWalkthroughEnabled,
+    walkthroughEnabled,
     editorState,
     setEditorState,
     activeBoardIndex,

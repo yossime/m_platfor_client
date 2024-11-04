@@ -44,7 +44,7 @@ export const SecondaryText: Story = {
   args: {
     ...Default.args,
     size: TextSize.TEXT2,
-    $weight: FontWeight.LIGHT,
+    $weight: FontWeight.NORMAL,
     color: TextColor.SECONDARY_TEXT,
     children: 'This is a secondary text example',
   },

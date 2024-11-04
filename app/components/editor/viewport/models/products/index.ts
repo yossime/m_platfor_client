@@ -1,29 +1,46 @@
-import * as THREE from 'three';
-import { ISceneObjectOptions, ISceneObject, ProductBoard, ProductStand, FormatBoard, CustomObject3D, ContentDataType, ContentText, FontWeight, TextAlign, TextParams, ContentObjects } from '@/components/editor/types/index';
+import * as THREE from "three";
+import {
+  ISceneObjectOptions,
+  ISceneObject,
+  ProductBoard,
+  ProductStand,
+  FormatBoard,
+  CustomObject3D,
+  ContentDataType,
+  ContentText,
+  FontWeight,
+  TextAlign,
+  TextParams,
+  ContentObjects,
+} from "@/components/editor/types/index";
 import { StandType } from "@/components/editor/types";
-import { SceneObject } from '../SceneObject';
-import { Product } from '@/components/dashboard/types/product.types';
-import { TITLE } from '@/constants/editor/boards/text.constants';
-import { ModelLoader } from '../../loaderes/ModelLoader';
-
-
+import { SceneObject } from "../SceneObject";
+import { Product } from "@/components/dashboard/types/product.types";
+import { AutoModelLoader, ModelLoader } from "../../loaderes/AssetLoader";
 
 export abstract class Stand extends SceneObject {
   // abstract maxStands: number;
   protected productData: Product;
-  private modelLoader: ModelLoader = new ModelLoader();
+  private modelLoaderStand: ModelLoader = new AutoModelLoader();
 
-
-  constructor(type: StandType, productData: Product, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
-    const categoryPath = `products/${type}`
+  constructor(
+    type: StandType,
+    productData: Product,
+    options?: ISceneObjectOptions,
+    onBoardLoaded?: () => void
+  ) {
+    const categoryPath = `products/${type}`;
     super(type, categoryPath, options);
     this.productData = productData;
-
   }
   // protected getModelUrl(): string { return `https://storage.googleapis.com/library-all-test/stands/podium.fbx`; };
-  protected getModelUrl(): string { return `${this.libraryUrl}/stands/${this.type}.fbx` };
+  protected getModelUrl(): string {
+    return `${this.libraryUrl}/stands/${this.type}.fbx`;
+  }
 
-  protected async loadModelAndDisplay(onLoad?: (model: THREE.Object3D) => void): Promise<void> {
+  protected async loadModelAndDisplay(
+    onLoad?: (model: THREE.Object3D) => void
+  ): Promise<void> {
     try {
       // const model = await this.loader.loadModel(this.getModelUrl());
 
@@ -53,30 +70,43 @@ export abstract class Stand extends SceneObject {
 
   protected async initializeContentAreas(): Promise<void> {
     const { price, title, currencyType, SKU, model } = this.productData;
-    this.setContentText(ContentDataType.PRICE, { text: price.toString() })
-    this.setContentText(ContentDataType.TITLE, { text: title })
-    this.setContentText(ContentDataType.PRICE_CURRENCY, { text: currencyType || '$' })
-    this.contentsData.set(ContentDataType.PRODUCT, { contentObjects: { SKU: SKU, model: model || '' } })
+    this.setContentText(ContentDataType.PRICE, { text: price.toString() });
+    this.setContentText(ContentDataType.TITLE, { text: title });
+    this.setContentText(ContentDataType.PRICE_CURRENCY, {
+      text: currencyType || "$",
+    });
+    this.contentsData.set(ContentDataType.PRODUCT, {
+      contentObjects: { SKU: SKU, model: model || "" },
+    });
 
     const textParams: TextParams = {
       text: "Title",
       font: "Poppins",
       fontSize: 0.5,
       fontWeight: FontWeight.Normal,
-      anchorX: 'center',
-      anchorY: 'middle',
+      anchorX: "center",
+      anchorY: "middle",
       textAlign: TextAlign.Center,
       lineHeight: 1.4,
       letterSpacing: 0,
       maxWidth: 300,
-      color: '#212121',
+      color: "#212121",
       // glyphGeometryDetail: 1
-    }
-    this.initializeContentText(ContentDataType.TITLE, { ...textParams, text: title })
-    this.initializeContentText(ContentDataType.PRICE, { ...textParams, text: price.toString() })
-    this.initializeContentText(ContentDataType.PRICE_CURRENCY, { ...textParams, text: currencyType || '$' })
+    };
+    this.initializeContentText(ContentDataType.TITLE, {
+      ...textParams,
+      text: title,
+    });
+    this.initializeContentText(ContentDataType.PRICE, {
+      ...textParams,
+      text: price.toString(),
+    });
+    this.initializeContentText(ContentDataType.PRICE_CURRENCY, {
+      ...textParams,
+      text: currencyType || "$",
+    });
 
-    await this.initializeContentObjects()
+    await this.initializeContentObjects();
   }
 
   private async initializeContentObjects() {
@@ -84,16 +114,16 @@ export abstract class Stand extends SceneObject {
     if (!modelUrl) return;
 
     const geometry = this.getGeometryByName(ContentDataType.PRODUCT_MODEL);
-    const model = (await this.modelLoader.loadModel(modelUrl));
+    const model = await this.modelLoaderStand.loadModel(modelUrl);
     if (geometry && model) {
-      setScaleToMatch(model, geometry)
+      setScaleToMatch(model, geometry);
       geometry.visible = false;
     }
-    model.parent = geometry?.parent!;
-    geometry?.parent?.attach(model);
+    if (model) {
+      model.parent = geometry?.parent!;
+      geometry?.parent?.attach(model);
+    }
   }
-
-
 
   public exportToJson(): string {
     const exportObject = {
@@ -105,7 +135,6 @@ export abstract class Stand extends SceneObject {
     return JSON.stringify(exportObject, null, 2);
   }
 }
-
 
 function setScaleToMatch(source: THREE.Object3D, target: THREE.Object3D) {
   const sourceBox = new THREE.Box3().setFromObject(source);
@@ -125,12 +154,11 @@ function setScaleToMatch(source: THREE.Object3D, target: THREE.Object3D) {
 
   source.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
-  
   source?.traverse((child) => {
     if (child instanceof THREE.Mesh) {
-        if (child.geometry) {
-            child.geometry.center();
-        }
+      if (child.geometry) {
+        child.geometry.center();
+      }
     }
   });
 }

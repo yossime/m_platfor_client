@@ -71,7 +71,7 @@ export interface CustomObject3D extends Object3D {
   onPointerDown?: (event: any) => ISceneObject;
   onPointerOver?: () => void;
   onPointerOut?: () => void;
-  onPointerUp?: () => void; 
+  onPointerUp?: () => void;
 
   interactive?: boolean;
   isEmpty?: boolean;
@@ -407,6 +407,13 @@ export enum BoardType {
 
 export enum ArchitectureType {
   TWO_CIRCLES = "two_circles",
+  ELIPTIC = "Eliptic",
+  CIRCLE = "circle",
+}
+
+export enum LandscapeType {
+  FOREST = "Forest",
+
 }
 
 export enum ModelType {

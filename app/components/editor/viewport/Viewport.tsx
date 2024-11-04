@@ -20,7 +20,7 @@ const Viewport: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
 
   return (
-    <ViewportContainer>
+    <ViewportContainer className="viewport">
       <Canvas linear camera={{ position: [0, 2, 5] }}>
         <EnvironmentLoader />
         <ambientLight />

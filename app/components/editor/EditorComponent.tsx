@@ -5,12 +5,12 @@ import styled from "styled-components";
 import SideBar from "@/components/editor/sideBar/SideBar";
 import { EditorState, useEditor } from "@/context/useEditorContext";
 import UnityViewer from "./preView/UnityViewer";
-import JoyrideEditor from "../Library/Joyride/JoyrideEditor";
 import { CameraProvider } from "@/context/CameraContext";
 import { SidebarProvider } from "@/context/SidebarContext ";
 import Viewport from "./viewport/Viewport";
 import { EnvironmentProvider } from "@/context/EnvironmentContext";
 import { SelectedObjectProvider } from "./context/Selected.context";
+import WalkthroughEditor from "../Library/walkthrough/WalkthroughEditor";
 
 const EditorLayout = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const EditorComponent: React.FC = () => {
     <>
       {editorState !== EditorState.PREVIEW ? (
         <EditorLayout>
-          <JoyrideEditor />
+          <WalkthroughEditor />
           <SelectedObjectProvider>
             <EnvironmentProvider>
               <CameraProvider>

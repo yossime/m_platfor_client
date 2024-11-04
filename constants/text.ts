@@ -31,8 +31,8 @@ export enum FontFamily {
 export enum FontWeight {
     BOLD = 700,
     SEMI_BOLD = 600,
-    NORMAL = 500,
-    LIGHT = 400,
+    MEDIUM = 500,
+    NORMAL = 400,
 }
 
 

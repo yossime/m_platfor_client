@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import {  NAVBAR_HEIGHTS } from '@constants/screenSizes';
+import styled from "styled-components";
+import { NAVBAR_HEIGHTS } from "@constants/screenSizes";
 
 export const NavbarWrapper = styled.nav`
   position: fixed;
@@ -19,11 +19,17 @@ export const NavbarContainer = styled.div`
   height: 100%;
   margin: 0 auto;
   padding: 0 20px;
-
 `;
 
 export const LogoContainer = styled.div`
-  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* flex: 1; */
+  gap: 42px;
+  left: 0;
 `;
 
 export const InfoContainer = styled.div`
@@ -41,7 +47,7 @@ export const WelcomeText = styled.div`
   align-items: center;
 
   @media (max-width: 480px) {
-    display: none; 
+    display: none;
   }
 `;
 

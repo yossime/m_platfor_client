@@ -186,7 +186,7 @@ export const Controls: React.FC<ControlsProps> = ({
       // enableRotate={!isFocusing}
       // enableZoom={!isFocusing}
       minDistance={5}
-      maxDistance={100}
+      maxDistance={10000}
     />
   );
 };

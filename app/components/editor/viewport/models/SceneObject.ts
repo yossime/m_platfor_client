@@ -3,11 +3,6 @@ import {
   Vector3,
   Euler,
   Mesh,
-  Material,
-  TextureLoader,
-  MeshStandardMaterial,
-  Texture,
-  MeshPhongMaterial,
   MeshBasicMaterial,
 } from "three";
 import { v4 as uuidv4 } from "uuid";
@@ -18,33 +13,23 @@ import {
   ICustomMaterial,
   ContentMaterial,
   ContentText,
-  ContentObjects,
   ContentDataType,
   ContentData,
   ExportedSceneObject,
-  TextAlign,
-  FontWeight,
   TextParams,
-  ModelType,
   AssetModels,
 } from "../../types";
 import {
-  FBXLoader,
   Font,
   FontLoader,
-  GLTFLoader,
-  TextGeometry,
 } from "three/examples/jsm/Addons.js";
 import { TextureManager } from "../utils/TextureManager";
-import { ModelLoader } from "../loaderes/ModelLoader";
-import { Text as TroikaText } from "troika-three-text";
 import * as THREE from "three";
 import { CommandManager } from "../commands/CommandManager";
 import { ChangeTextCommand } from "../commands/ChangeTextCommand";
 import { TextObject } from "../../function/curveText";
 import { createMaterial } from "../../material/createMaterialSphere";
-import { AssetLoader } from "../loaderes/AssetLoader";
-import { CustomModel } from "./assetModels/CustomModel";
+import { GLTFModelLoader, ModelLoader } from "../loaderes/AssetLoader";
 
 export abstract class SceneObject implements ISceneObject {
   public id: string = uuidv4();
@@ -57,24 +42,29 @@ export abstract class SceneObject implements ISceneObject {
   protected rotation: Euler | null = null;
   protected scale: Vector3 = new Vector3(1, 1, 1);
   public modelParent: Object3D | null = null;
+  protected modelLoader: ModelLoader | null = null;
   protected contentsData: Map<ContentDataType, ContentData> = new Map<
     ContentDataType,
     ContentData
   >();
-  protected readonly libraryUrl: string;
-  protected readonly userAssetsUrl: string;
+  protected  libraryUrl: string;
+  // protected readonly userAssetsUrl: string;
 
   protected commandManager = CommandManager.getInstance();
   protected modelPath: string;
   // protected static getModelPath: () => string;
 
-  constructor(type: string, modelPath: string, options?: ISceneObjectOptions) {
+  constructor(
+    type: string,
+    modelPath: string,
+    options?: ISceneObjectOptions,
+    modelLoader?: ModelLoader
+  ) {
     this.libraryUrl = "https://storage.googleapis.com/library-all-test";
-    this.userAssetsUrl = "https://storage.googleapis.com/users-assets-a";
 
     this.type = type;
     this.modelPath = modelPath;
-
+    this.modelLoader = modelLoader || new GLTFModelLoader();
     if (options) {
       this.name = options.exportedScenObj?.name || options.name || this.name;
       this.modelParent = options.modelParent || null;
@@ -104,22 +94,16 @@ export abstract class SceneObject implements ISceneObject {
   protected async loadModelAndDisplay(
     onLoad?: (model: Object3D) => void
   ): Promise<void> {
-    let modelUrl;
-    if (this.type === AssetModels.CUSTOM_MODEL) {
-      modelUrl = `${this.userAssetsUrl}/${this.modelPath}.glb`;
-    } else {
-      modelUrl = `${this.libraryUrl}/${this.modelPath}.glb`;
-    }
+   const modelUrl = `${this.libraryUrl}/${this.modelPath}`
     try {
-      const model = await AssetLoader.loadModel(modelUrl);
+      const model = await this.modelLoader?.loadModel(modelUrl);
       model?.traverse((child: CustomObject3D) => {
-        // child.onPointerDown = () => { console.log('this.handleSelected(model)'); return this };
         child.onPointerDown = () => this.handleSelected(model);
         child.onPointerOver = () => this.handleHover();
         child.interactive = true;
         child.userData.draggable = false;
       });
-      this.model = model;
+      if (model) this.model = model;
       if (this.model && this.modelParent) {
         this.modelParent.attach(this.model);
       }
@@ -130,7 +114,6 @@ export abstract class SceneObject implements ISceneObject {
       onLoad && onLoad(this.model!);
     } catch (error) {
       console.error("Error loading model:", error);
-      // throw new Error('Failed to load architecture model');
     }
   }
 
@@ -150,7 +133,6 @@ export abstract class SceneObject implements ISceneObject {
   getRotation(): Euler | null {
     return this.rotation;
   }
-
 
   protected initializeContentText(
     type: ContentDataType,
@@ -309,7 +291,7 @@ export abstract class SceneObject implements ISceneObject {
     handleEndPointerDown: (object: CustomObject3D) => void
   ): Promise<void> {
     if (!this.model) return;
-    const placeholder = await AssetLoader.loadModel(placeholderPath);
+    const placeholder = await this.modelLoader?.loadModel(placeholderPath);
     const slots = this.getSlotsPosition();
 
     slots.forEach((slotMesh) => {
@@ -318,7 +300,7 @@ export abstract class SceneObject implements ISceneObject {
         child.onPointerDown = () => handleSelectSlot(placeholderClone);
         child.onPointerOver = () => handleHoverSlot(placeholderClone);
         child.onPointerOut = () => handleEndHover(placeholderClone);
-        child.onPointerUp = () => handleEndPointerDown(placeholderClone); 
+        child.onPointerUp = () => handleEndPointerDown(placeholderClone);
         child.interactive = true;
       });
 

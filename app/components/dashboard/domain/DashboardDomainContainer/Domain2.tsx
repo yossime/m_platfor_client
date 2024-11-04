@@ -27,14 +27,14 @@ const Domain2: React.FC = () => {
       <TextContainerDomain>
         <Text
           size={TextSize.TEXT2}
-          $weight={FontWeight.LIGHT}
+          $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}
         >
           Name
         </Text>
         <Text
           size={TextSize.TEXT1}
-          $weight={FontWeight.LIGHT}
+          $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}
         >
           www
@@ -42,14 +42,14 @@ const Domain2: React.FC = () => {
 
         <Text
           size={TextSize.TEXT2}
-          $weight={FontWeight.LIGHT}
+          $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}
         >
           Required value
         </Text>
         <Text
           size={TextSize.TEXT1}
-          $weight={FontWeight.LIGHT}
+          $weight={FontWeight.NORMAL}
           color={TextColor.PRIMARY_TEXT}
         >
         websites.simkami.com

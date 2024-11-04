@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components";
-import JoyrideComponent, { TourStep } from "./JoyrideComponent";
+import Button from "../button/Button";
+import { useEditor } from "@/context/useEditorContext";
+import WalkthroughComponent, { TourStep } from "./WalkthroughComponent";
+import { useAuth } from "@/context/AuthContext";
 
 const Layout = styled.div`
   position: fixed;
@@ -13,9 +16,9 @@ const Layout = styled.div`
 `;
 
 
-const JoyrideEditor: React.FC = () => {
-  const [isJoyrideEnabled, setIsJoyrideEnabled] = useState(true);
+const WalkthroughEditor: React.FC = () => {
   const [isTourReady, setIsTourReady] = useState(false);
+  const { setIsWalkthroughEnabled, walkthroughEnabled } = useEditor();
 
   const tourSteps: TourStep[] = [ 
     {
@@ -54,11 +57,11 @@ const JoyrideEditor: React.FC = () => {
       disableBeacon: true,
     },
   ];
+  const { user } = useAuth();
 
   useEffect(() => {
-    const hasSeenTour = localStorage.getItem("hasSeenEditorTour") === "true";
-    setIsJoyrideEnabled(!hasSeenTour);
-    // resetTour();
+    const hasSeenTour = localStorage.getItem(`${user?.uid}hasSeenEditorTour`) === "true";
+    setIsWalkthroughEnabled(!hasSeenTour);
   }, []);
 
   useLayoutEffect(() => {
@@ -69,14 +72,7 @@ const JoyrideEditor: React.FC = () => {
     return () => clearTimeout(timeout); 
   }, []);
 
-  const clearTourMemory = () => {
-    localStorage.removeItem('hasSeenEditorTour');
-  };
 
-  const resetTour = () => {
-    clearTourMemory();
-    setIsJoyrideEnabled(true);
-  };
 
   useLayoutEffect(() => {
     const navbarExists = document.querySelector(".navbar");
@@ -90,11 +86,11 @@ const JoyrideEditor: React.FC = () => {
 
   return (
     <Layout>
-      {isJoyrideEnabled && isTourReady && (
-          <JoyrideComponent isEnabled={isJoyrideEnabled} steps={tourSteps} />
-      )}
+      {walkthroughEnabled && isTourReady && (
+          <WalkthroughComponent isEnabled={true} steps={tourSteps} />
+     )} 
     </Layout>
   );
 };
 
-export default JoyrideEditor;
+export default WalkthroughEditor;
