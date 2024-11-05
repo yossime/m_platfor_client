@@ -1,4 +1,3 @@
-"use client"
 import Onboarding from '@/components/onboarding/Onboarding';
 
 

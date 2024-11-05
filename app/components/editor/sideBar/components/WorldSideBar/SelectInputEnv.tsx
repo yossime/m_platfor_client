@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { FontFamily, TextSize, FontWeight } from "@constants/text";

@@ -1,3 +1,5 @@
+"use client"
+
 import React, { ReactNode, useState, useEffect, useCallback, useRef, forwardRef, useImperativeHandle } from 'react';
 import styled from 'styled-components';
 import Icon from '@/components/Library/icon/Icon';

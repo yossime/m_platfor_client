@@ -1,4 +1,4 @@
-
+"use client"
 import React, { useEffect, useState } from "react";
 import Text from "@/components/Library/text/Text";
 import { FontFamily, FontWeight, TextSize } from "@constants/text";

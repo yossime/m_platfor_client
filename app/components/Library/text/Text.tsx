@@ -1,4 +1,4 @@
-
+"use client"
 import { TextColor } from "@constants/colors";
 import {
   FontFamily,

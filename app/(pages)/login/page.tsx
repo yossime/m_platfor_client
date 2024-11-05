@@ -1,4 +1,3 @@
-"use client"
 import ClientLoginWrapper from "./ClientLoginWrapper";
 
 const LoginPage = () => {

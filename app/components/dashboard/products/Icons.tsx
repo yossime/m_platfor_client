@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import Icon from "@/components/Library/icon/Icon";
 import { IconName } from "@constants/icon";

@@ -2,7 +2,7 @@ import ProtectedRoute from '@/utils/ProtectedRoute';
 import React from 'react';
 
 
-const EditorLayout = ({ children }: { children: React.ReactNode }) => {
+const NewLayout = ({ children }: { children: React.ReactNode }) => {
   return (
   
 
@@ -15,4 +15,4 @@ const EditorLayout = ({ children }: { children: React.ReactNode }) => {
 
 
 
-export default EditorLayout;
+export default NewLayout;

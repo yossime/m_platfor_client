@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import styled from "styled-components";
 import { useProducts } from "../../../context/useProducts";

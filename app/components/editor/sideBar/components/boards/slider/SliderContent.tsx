@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useCallback } from 'react';
 import { useDropzone, FileRejection, DropEvent } from 'react-dropzone';
 import Button from '@/components/Library/button/Button';

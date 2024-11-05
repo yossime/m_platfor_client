@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import Input from "@/components/Library/input/Input";
 import Text from "@components/Library/text/Text";

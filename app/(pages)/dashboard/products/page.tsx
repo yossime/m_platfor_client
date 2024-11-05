@@ -1,4 +1,3 @@
-"use client"
 import DashboardProducts from '@/components/dashboard/products/DashboardProducts';
 import React from 'react';
 

@@ -1,4 +1,4 @@
-"use client"
+
 // import { useRouter } from 'next/navigation';
 
 const CreateProject = () => {
@@ -9,7 +9,8 @@ const CreateProject = () => {
     };
 
     return (
-            <button onClick={handleButtonClick}>create project</button>
+        "fdfd"
+            // <button onClick={handleButtonClick}>create project</button>
     );
 };
 

@@ -1,3 +1,5 @@
+"use client"
+
 import { GripVertical, Trash2 } from "lucide-react";
 import { useRef } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";

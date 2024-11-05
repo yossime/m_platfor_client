@@ -1,4 +1,3 @@
-"use client"
 import ProjectList from "@/components/userPage/ProjectList";
 
 

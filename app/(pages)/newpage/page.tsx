@@ -2,11 +2,11 @@ import EditorComponent from "@/components/editor/EditorComponent";
 
 
 
-const EditorPage = () => {
+const NewPage = () => {
 
     return (
          <EditorComponent/>
     );
 };
 
-export default EditorPage;
+export default NewPage;

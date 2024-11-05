@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useState } from "react";
 import { useEditor } from "@/context/useEditorContext";
 import { InputMode, InputSize } from "@constants/input";

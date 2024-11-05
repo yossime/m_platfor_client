@@ -1,3 +1,5 @@
+"use client"
+
 import React, { ChangeEvent, useRef, useState } from "react";
 import Input from "@/components/Library/input/Input";
 import SelectInput from "@/components/Library/input/SelectInput";

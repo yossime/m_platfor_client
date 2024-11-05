@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useRef, useCallback, useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
 import { InputSize, InputMode, InputSizeConfig, getInputColors } from "@constants/input";

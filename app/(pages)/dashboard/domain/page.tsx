@@ -1,4 +1,4 @@
-"use client"
+
 import DashboardDomain from '@/components/dashboard/domain/DashboardDomain';
 import React from 'react';
 

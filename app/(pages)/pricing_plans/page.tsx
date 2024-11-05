@@ -1,4 +1,3 @@
-"use client"
 import Subscription from "../../components/Subscription/Subscription";
 
 

@@ -1,3 +1,5 @@
+"use client"
+
 import React, { ChangeEvent, useCallback, useState } from 'react';
 import Input from '@/components/Library/input/Input';
 import { InputMode, InputSize } from '@constants/input';

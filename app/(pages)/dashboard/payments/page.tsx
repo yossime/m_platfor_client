@@ -1,4 +1,4 @@
-"use client"
+
 import DashboardPayments from '@/components/dashboard/payments/DashboardPayments';
 import React from 'react';
 

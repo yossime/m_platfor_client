@@ -36,7 +36,9 @@ const ButtonsContainer: React.FC = () => {
       projectName: contextData.Name.value,
       projectParams: contextData
     };
-    router.push('/editor');
+    router.push('/newpage');
+    // router.push('/editor');
+
     try {
       const result = await createProject(newProject, user);
       toast.success('Project created successfully!');
