@@ -4,7 +4,7 @@ import Icon from "@/components/Library/icon/Icon";
 import Text from "@/components/Library/text/Text";
 import { IconColor, TextColor } from "@constants/colors";
 import { FontWeight, TextSize } from "@constants/text";
-import { IconSize } from "@constants/icon";
+import { IconName, IconSize } from "@constants/icon";
 import Tooltip from "@/components/Library/general/Tooltip";
 import { useSidebarContext } from "@/context/SidebarContext ";
 import { createBoardByType } from "@/components/editor/utils/CraeteBoard";
@@ -77,18 +77,6 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
     }
   }, [sceneModel]);
 
-  const handleWidgetClick = async () => {
-    // if (availableSlots === 0) return;
-    // setSelectedWidget(widget.name);
-    // const newBoard = createBoardByType(widget.type, { name: widget.name });
-    // if (sceneModel?.root && newBoard && sceneModel.root.architecture) {
-    //   sceneModel.root.architecture.addBoard(newBoard);
-    //   setSelectedObject(newBoard);
-    //   // sceneModel.setSelectedObject(newBoard);
-    //   setShowFormatBoard(true);
-    //   setActiveSidebarHeader(widget.name as HeaderType);
-    // }
-  };
 
   return (
     <WidgetContainer>
@@ -122,6 +110,33 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
           </WidgetButton>
         </Tooltip>
       ))}
+      <Tooltip delay={800} key={"Model"} content={"?????????"}>
+        <WidgetButton
+            onClick={()=>{}}
+            disabled={availableSlots === 0}
+            $clicked={selectedWidget === "Model"}
+          >
+            <Icon
+              name={IconName.ALIGNTOP}
+              size={IconSize.MEDIUM}
+              color={
+                availableSlots === 0 ? IconColor.DISABLED : IconColor.ICONCOLOR
+              }
+            />
+            <Text
+              $cursorStyle="pointer"
+              size={TextSize.TEXT2}
+              $weight={FontWeight.NORMAL}
+              color={
+                availableSlots === 0
+                  ? TextColor.DISABLED_TEXT
+                  : TextColor.PRIMARY_TEXT
+              }
+            >
+              {"Model"}
+            </Text>
+          </WidgetButton>
+        </Tooltip>
       {draggedWidget && (
         <DraggedWidgetContainer
           style={{
