@@ -7,7 +7,6 @@ import { Navbar } from "./Navbar";
 
 const NavbarWithAuth = () => {
   const { user } = useAuth();
-
   function setError(error: string): void {
     console.error("Sign out error:", error);
   }

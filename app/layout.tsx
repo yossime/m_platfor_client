@@ -7,6 +7,7 @@ import { poppins, figtree } from "./fonts";
 import StyledComponentsRegistry from "./registry";
 import { EditorProvider } from "./context/useEditorContext";
 import { UserProvider } from "./context/useUserContext";
+import { AuthProvider } from "./context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,13 +27,17 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.variable} ${figtree.variable}`}>
       <body className={inter.className}>
         <StyledComponentsRegistry>
+        <AuthProvider>
           <UserProvider>
             <ProjectProvider>
               <EditorProvider>
-                <AuthWrapper>{children}</AuthWrapper>
+                <AuthWrapper>
+               {children}
+                </AuthWrapper>
               </EditorProvider>
             </ProjectProvider>
           </UserProvider>
+          </AuthProvider>
         </StyledComponentsRegistry>
       </body>
     </html>
