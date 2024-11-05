@@ -1,3 +1,4 @@
+"use client"
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Texture } from "three";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";

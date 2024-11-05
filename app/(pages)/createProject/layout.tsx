@@ -1,12 +1,16 @@
-import ProtectedRoute from "@/utils/ProtectedRoute";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+import ProtectedRoute from '@/utils/ProtectedRoute';
+import React from 'react';
+
+
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      <ProtectedRoute>
-        {children}
-      </ProtectedRoute>
 
-    </>
-  )
-}
+        <ProtectedRoute>
+          {children}
+          </ProtectedRoute>
+  );
+};
+
+
+export default Layout;

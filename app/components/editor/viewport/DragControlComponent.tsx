@@ -3,55 +3,40 @@ import React, { useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import { DragControls } from "three/addons/controls/DragControls.js";
 import { Mesh, MeshStandardMaterial } from "three";
+import { CustomObject3D } from "../types";
 
 const DragControlComponent: React.FC<{
   setIsDragging: (dragging: boolean) => void;
 }> = ({ setIsDragging }) => {
   const { camera, gl, scene } = useThree();
+  const { raycaster, mouse } = useThree();
   
-//   useEffect(() => {
 
-// // רשימה של אירועים נפוצים
-// const commonEvents = [
-//   "click", "dblclick", "mousedown", "mouseup", "mouseover", "mouseout",
-//   "keydown", "keyup", "keypress", "scroll", "resize", "focus", "blur", "change",
-//   "input", "submit", "load", "unload", "error", "contextmenu","dragstart"
-// ];
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(scene.children, true);
 
-// // להאזין לכל אירוע ברשימה ולהדפיס אותו לקונסול
-// commonEvents.forEach((eventType) => {
-//   gl.domElement.addEventListener(eventType, (event) => {
-//     event.stopPropagation()
-//     // console.log(`Event triggered: ${event.type}`, event);
-//     switch (event.type) {
-//       case "dragstart":
-//         console.log("dragstart")
-//         break;
-    
-//       default:
-//         break;
-//     }
-//   });
-// });
+      if (intersects.length > 0) {
+        const clickedObject = intersects[0].object as CustomObject3D;
+        
+        if (clickedObject.userData?.draggable === false) {
+          event.stopPropagation();
+        } 
+      }
+    };
 
+    gl.domElement.addEventListener('pointerdown', handlePointerDown, true);
+    return () => {
+      gl.domElement.removeEventListener('pointerdown', handlePointerDown, true);
+    };
+  }, [camera, gl, mouse, raycaster, scene]);
 
-//   // return () => document.removeEventListener("dragstart", );
-// }, []);
 
   useEffect(() => {
     const controls = new DragControls(scene.children, camera, gl.domElement);
-    controls.addEventListener("dragstart", (event) => {
-      // event.stopPropagation(); 
-
-
-      const object = event.object as Mesh;
+    controls.addEventListener("dragstart", () => {
       setIsDragging(true);
-      if (!object.userData?.draggable) {
-        controls.enabled = false;
-        // controls.dispatchEvent({ type: "dragend",object:object });
-        setIsDragging(false);
-      } else {
-      }
     });
 
     controls.addEventListener("drag", (event) => {

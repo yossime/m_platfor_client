@@ -1,5 +1,4 @@
 
-
 import * as THREE from 'three';
 import { Text as TroikaText } from 'troika-three-text';
 import { TextParams } from '../types';

@@ -1,12 +1,11 @@
+
 import React, { useEffect, useState } from "react";
 import Text from "@/components/Library/text/Text";
 import { FontFamily, FontWeight, TextSize } from "@constants/text";
 import {
   ContentContainer,
-  ProjectContainer,
+  
   DashboardTitle,
-  ScrollableContent,
-  PaymentContent,
   DomainContent,
   DomainInputContent,
   DividerDomain,
@@ -19,24 +18,7 @@ import { TextContainer } from "./DashboardDomainContainer/CommonStyles";
 import Input from "@/components/Library/input/Input";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 
-// const UpgradeDomain: React.FC = () => {
-//   return (
-//     <DomainProvider>
-//       <ContentContainer>
-//         <DashboardTitle>
-//           <Text $weight={FontWeight.SEMI_BOLD} size={TextSize.D3}>
-//             {"Connect a domain"}
-//           </Text>
-//         </DashboardTitle>
-//         <DomainContent>
-//           <DashboardDomainIndexContainer />
-//           <DashboardDomainContainer />
-//           <ButtonsContainer onBeforeNext={() => {}} />
-//         </DomainContent>
-//       </ContentContainer>
-//     </DomainProvider>
-//   );
-// };
+
 
 interface ConnectDomainProps {
   isFirstTime: boolean;

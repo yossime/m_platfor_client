@@ -139,7 +139,7 @@ export const Controls: React.FC<ControlsProps> = ({
 
   const cameraControls = useMemo(() => {
     const cc = new CameraControls(camera, gl.domElement);
-    cc.dampingFactor = transitionSpeed;
+    cc.smoothTime = transitionSpeed;
     cameraControlsRef.current = cc;
     return cc;
   }, [camera, gl.domElement, transitionSpeed]);

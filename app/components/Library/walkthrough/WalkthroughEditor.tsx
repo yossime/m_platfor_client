@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components";
-import Button from "../button/Button";
 import { useEditor } from "@/context/useEditorContext";
 import WalkthroughComponent, { TourStep } from "./WalkthroughComponent";
 import { useAuth } from "@/context/AuthContext";
@@ -64,7 +63,7 @@ const WalkthroughEditor: React.FC = () => {
     setIsWalkthroughEnabled(!hasSeenTour);
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setIsTourReady(true);
     }, 500); 
@@ -74,7 +73,7 @@ const WalkthroughEditor: React.FC = () => {
 
 
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const navbarExists = document.querySelector(".navbar");
     const sidebarExists = document.querySelector(".sidebar");
   

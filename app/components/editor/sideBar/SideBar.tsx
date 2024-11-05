@@ -1,5 +1,6 @@
+"use client"
+
 import React, { useEffect, useState } from "react";
-import { Euler, Vector3 } from "three";
 import { HeaderMenu } from "./HeaderMenu";
 import { ContentArea } from "./ContentArea";
 import {

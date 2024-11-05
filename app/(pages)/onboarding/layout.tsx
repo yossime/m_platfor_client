@@ -6,14 +6,14 @@ import {OnboardingProvider} from '@/context/useOnboarding'
 
 const EditorLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
+    
 
         <ProtectedRoute>
             <OnboardingProvider>
           {children}
             </OnboardingProvider>
           </ProtectedRoute>
-    </>
+  
   );
 };
 

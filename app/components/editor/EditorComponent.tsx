@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import SideBar from "@/components/editor/sideBar/SideBar";
 import { EditorState, useEditor } from "@/context/useEditorContext";
@@ -22,7 +22,6 @@ const EditorLayout = styled.div`
 
 const EditorComponent: React.FC = () => {
   const { editorState } = useEditor();
-
   return (
     <>
       {editorState !== EditorState.PREVIEW ? (

@@ -1,3 +1,5 @@
+"use client"
+
 import { useAuth } from '@/context/AuthContext';
 import { useProject } from '@/context/useProjectContext';
 import React from 'react';

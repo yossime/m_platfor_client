@@ -1,5 +1,6 @@
+"use client"
 import { createContext, useState, useContext, ReactNode } from 'react';
-import { Camera, Vector3 } from 'three';
+import {  Vector3 } from 'three';
 
 interface CameraContextProps {
   cameraPosition: Vector3;

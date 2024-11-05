@@ -1,4 +1,9 @@
-import React, { createContext, useState, ReactNode, useContext } from "react";
+
+
+import React, { createContext, useState, ReactNode, useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useUserContext } from "@/context/useUserContext";
+import { useAuth } from "./AuthContext";
 
 interface LoginContextType {
   email: string;
@@ -20,6 +25,25 @@ export const LoginProvider: React.FC<{ children: ReactNode }> = ({
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<any>(null);
+  const router = useRouter();
+  const { userData,refreshUserData } = useUserContext();
+  const {user } = useAuth()
+
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      if (user) {
+        await refreshUserData(); 
+        if (userData?.isNew) {
+          router.push("/onboarding");
+        } else {
+          router.push("/userPage");
+        }
+      }
+    };
+    checkUserStatus();
+  }, [user, router]); 
+  
+  
 
   const value: LoginContextType = {
     email,
@@ -40,7 +64,7 @@ export const LoginProvider: React.FC<{ children: ReactNode }> = ({
 export const useLogin = () => {
   const context = useContext(LoginContext);
   if (!context) {
-    throw new Error("useEditor must be used within an EditorProvider");
+    throw new Error("useLogin must be used within a LoginProvider");
   }
   return context;
 };

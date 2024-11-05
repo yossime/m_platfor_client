@@ -11,6 +11,7 @@ import { GoogleAuthProvider } from "firebase/auth";
 
 
 
+
 export const handleGoogleLogin = async (
   setErrors: React.Dispatch<React.SetStateAction<string>>
 ) => {

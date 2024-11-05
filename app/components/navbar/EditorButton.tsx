@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useState } from "react";
 import {
   ButtonType,
@@ -18,7 +18,7 @@ import PublishPopup from "../editor/publish/PublishPopup";
 import PublishPopupContent from "../editor/publish/PublishPopupContent";
 
 const EditorButtons: React.FC = () => {
-  const { editorMode, currentProject } = useProject();
+  const {  currentProject } = useProject();
   const { editorState, setEditorState, sceneModel } = useEditor();
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const { playNotificationSound, stopNotificationSound } = createSoundManager();
@@ -78,7 +78,7 @@ const EditorButtons: React.FC = () => {
     }
   };
 
-  if (!editorMode) return null;
+  // if (!editorMode) return null;
 
   document.addEventListener("click", stopNotificationSound);
 

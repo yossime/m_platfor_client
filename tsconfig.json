@@ -30,6 +30,14 @@
       "@constants/*":["./constants/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/_app.tsx","svgr.d.ts",],
+"include": [
+  "next-env.d.ts",
+  "**/*.ts",
+  "**/*.tsx",
+  ".next/types/**/*.ts",
+  "app/**/*.ts",
+  "app/**/*.tsx",
+  "svgr.d.ts"
+],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 
@@ -32,3 +32,31 @@ export const getAuthDownloadUrl = async (filePath: string): Promise<string | nul
         return null;
     }
 }
+
+
+
+
+
+
+export const checkAndRefreshToken = async () => {
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      const idTokenResult = await user.getIdTokenResult(true);
+
+      if (idTokenResult.expirationTime) {
+        const expirationDate = new Date(idTokenResult.expirationTime);
+        const currentDate = new Date();
+        if (expirationDate.getTime() - currentDate.getTime() < 5 * 60 * 1000) { 
+          console.log("Refreshing token...");
+          await user.getIdToken(true); 
+        }
+      }
+    } else {
+      console.log("No user is currently logged in.");
+    }
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+  }
+};
+
