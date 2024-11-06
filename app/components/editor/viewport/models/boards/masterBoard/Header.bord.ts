@@ -10,6 +10,7 @@ export class HeaderBoard extends MasterBoardABC {
     initializeContentAreas(): void {
         this.contentsData.set(ContentDataType.LOGO, {});
         super.initializeContentAreas();
+        this.name = "Headr"
     }
 
     // initializeContentAreas(): void {

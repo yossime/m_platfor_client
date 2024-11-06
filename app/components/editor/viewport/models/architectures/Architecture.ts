@@ -6,18 +6,12 @@ import {
   CustomObject3D,
   ExportedSceneObject,
   IArchitecture,
-  IBoard,
-  ContentDataType,
-  ModelType,
-  AssetModels,
 } from "../../../types";
 import { BoardType } from "@/components/editor/types";
 import { Board } from "../boards/Board";
 import { createBoardByType } from "@/components/editor/utils/CraeteBoard";
 import * as THREE from "three";
 import { AddChildCommand } from "../../commands/AddChildCommand";
-import { CustomModel } from "../assetModels/CustomModel";
-import { LibrayModel } from "../assetModels/LibrayModel";
 import { GLTFModelLoader } from "../../loaderes/AssetLoader";
 
 export class Architecture extends SceneObject implements IArchitecture {
@@ -30,8 +24,10 @@ export class Architecture extends SceneObject implements IArchitecture {
     const architecturePath = `architectures/${type}`;
     const loader = new GLTFModelLoader();
     super(type, architecturePath, options, loader);
+    this.name = "World";
     this.placeholderPath = `https://storage.googleapis.com/library-all-test/placeholders/${this.type}`;
-    this.name = "architectures";
+    this.loadModelAndDisplay(options?.onLoad);
+
   }
 
   async loadModelAndDisplay(onLoad?: (model: Object3D) => void): Promise<void> {
@@ -96,16 +92,6 @@ export class Architecture extends SceneObject implements IArchitecture {
   }
 
   protected handleSelectSlot = (slet: CustomObject3D): ISceneObject => {
-    // super.handleSelectSlot(object);
-    // this.selectedSlot = slet;
-
-    // if (this.childToAdd) {
-    //   const command = new AddChildCommand(this, this.childToAdd);
-    //   this.commandManager.execute(command);
-    //   // this.addChild(this.childToAdd);
-    //   return this.childToAdd;
-    // }
-    // this.highlightMesh(slet);
     return this;
   };
 
@@ -138,11 +124,6 @@ export class Architecture extends SceneObject implements IArchitecture {
     }
   };
 
-  //  public exportToJson(): string {
-  //     const data= JSON.parse(super.exportToJson());
-  //    return JSON.stringify({architecture: data});
-  // }
-
   public buildFromJson(exportedObj: ExportedSceneObject) {
     super.buildFromJson(exportedObj);
 
@@ -154,15 +135,5 @@ export class Architecture extends SceneObject implements IArchitecture {
     });
   }
 
-  setContentModels(
-    type: ContentDataType,
-    modelType: AssetModels,
-    modelName: string
-  ): void {
-    if (modelType === AssetModels.CUSTOM_MODEL) {
-      new CustomModel(modelType, modelName, { modelParent: this.model });
-    } else {
-      new LibrayModel(modelType, modelName, { modelParent: this.model });
-    }
-  }
+
 }

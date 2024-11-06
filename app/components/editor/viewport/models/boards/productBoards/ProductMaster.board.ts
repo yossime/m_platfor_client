@@ -13,6 +13,8 @@ export class ProductMaster extends ProductBoardABC {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         const difFormat  = FormatBoard.Podium;
         super(type, difFormat, options);
+            this.name = "Product"
+
         this.maxStands = 6;
         this.format = difFormat;
     }

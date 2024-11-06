@@ -8,38 +8,40 @@ import { IconName, IconSize } from "@constants/icon";
 import Tooltip from "@/components/Library/general/Tooltip";
 import { useSidebarContext } from "@/context/SidebarContext ";
 import { createBoardByType } from "@/components/editor/utils/CraeteBoard";
-import { HeaderType, WidgetData, widgets } from "../../types";
+import {  WidgetData, widgets } from "../../types";
 import {
   DraggedWidgetContainer,
   WidgetButton,
   WidgetContainer,
 } from "./ChooseBoardWidgetStyles";
 import { useSelectedObject } from "@/components/editor/context/Selected.context";
+import { Board } from "@/components/editor/viewport/models/boards/Board";
 
 export const ChooseBoardWidgetComponent: React.FC = () => {
   const { sceneModel } = useEditor();
   const [selectedWidget, setSelectedWidget] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<number>(0);
   const { setShowFormatBoard, setActiveSidebarHeader } = useSidebarContext();
-  const { selectedObject, setSelectedObject } = useSelectedObject();
+  const { setSelectedObject } = useSelectedObject();
   const [draggedWidget, setDraggedWidget] = useState<WidgetData | null>(null);
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [initialPosition, setInitialPosition] = useState({ x: 0, y: 0 });
 
   const draggingWidgetRef = useRef<WidgetData | null>(null);
+  const board = useRef<Board | null>(null);
+
 
   const handleMouseDown = (widget: WidgetData, event: React.MouseEvent) => {
     sceneModel?.root?.architecture?.displayEmptySlots();
 
     setSelectedWidget(widget.name);
-    const newBoard =  createBoardByType(widget.type, { name: widget.name });
+    const newBoard = createBoardByType(widget.type, { name: widget.name });
     if (sceneModel?.root && newBoard && sceneModel.root.architecture) {
       sceneModel.root.architecture.addBoard(newBoard);
-      setSelectedObject(newBoard);
-      // sceneModel.setSelectedObject(newBoard);
+      board.current =  newBoard;
       setShowFormatBoard(true);
     }
-
     draggingWidgetRef.current = widget;
     setInitialPosition({ x: event.pageX, y: event.pageY });
     document.addEventListener("mousemove", handleMouseMove);
@@ -59,14 +61,22 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
     setDraggedWidget(null);
     setSelectedWidget(null);
     sceneModel?.root?.architecture?.displayEmptySlots(false);
-    if(sceneModel?.root?.architecture?.finishDraging()  && draggingWidgetRef.current)
-      {
-        setActiveSidebarHeader(draggingWidgetRef.current.name as HeaderType);
-      }
-      draggingWidgetRef.current = null;
+    if (
+      sceneModel?.root?.architecture?.finishDraging() &&
+      draggingWidgetRef.current &&
+      board.current
+    ) {
+      setSelectedObject(board.current);
+      // if (board.current.name) setActiveSidebarHeader(board.current.name);
+    }
+    draggingWidgetRef.current = null;
 
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleModelClick = () => {
+    setActiveSidebarHeader("Add 3D model");
   };
 
   useEffect(() => {
@@ -76,7 +86,6 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
       setAvailableSlots(emptySlotCount);
     }
   }, [sceneModel]);
-
 
   return (
     <WidgetContainer>
@@ -112,31 +121,31 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
       ))}
       <Tooltip delay={800} key={"Model"} content={"?????????"}>
         <WidgetButton
-            onClick={()=>{}}
-            disabled={availableSlots === 0}
-            $clicked={selectedWidget === "Model"}
+          onClick={handleModelClick}
+          disabled={availableSlots === 0}
+          $clicked={selectedWidget === "Model"}
+        >
+          <Icon
+            name={IconName.ALIGNTOP}
+            size={IconSize.MEDIUM}
+            color={
+              availableSlots === 0 ? IconColor.DISABLED : IconColor.ICONCOLOR
+            }
+          />
+          <Text
+            $cursorStyle="pointer"
+            size={TextSize.TEXT2}
+            $weight={FontWeight.NORMAL}
+            color={
+              availableSlots === 0
+                ? TextColor.DISABLED_TEXT
+                : TextColor.PRIMARY_TEXT
+            }
           >
-            <Icon
-              name={IconName.ALIGNTOP}
-              size={IconSize.MEDIUM}
-              color={
-                availableSlots === 0 ? IconColor.DISABLED : IconColor.ICONCOLOR
-              }
-            />
-            <Text
-              $cursorStyle="pointer"
-              size={TextSize.TEXT2}
-              $weight={FontWeight.NORMAL}
-              color={
-                availableSlots === 0
-                  ? TextColor.DISABLED_TEXT
-                  : TextColor.PRIMARY_TEXT
-              }
-            >
-              {"Model"}
-            </Text>
-          </WidgetButton>
-        </Tooltip>
+            {"Model"}
+          </Text>
+        </WidgetButton>
+      </Tooltip>
       {draggedWidget && (
         <DraggedWidgetContainer
           style={{

@@ -21,7 +21,6 @@ import { getLandscapesName } from "@/services/landscape.service";
 import { getarchitecturesName } from "@/services/architectures.service";
 import { getHdrisName } from "@/services/hdri.service";
 import { useEnvironmentContext } from "@/context/EnvironmentContext";
-import Button from "@/components/Library/button/Button";
 
 
 const SectionComponent = styled.div`
@@ -98,16 +97,11 @@ export const GlobalComponent: React.FC = () => {
   const handleMaterialChange = (material: ContentMaterial) => {
     setContentMaterial(ContentDataType.SELF, material);
   };
-  const handleTest = () => {
-    if (sceneModel?.root?.architecture) {
-      sceneModel.root.changeTest();
-    }
-  };
+
 
   return (
     <Container>
       <ContainerGlobalStyle>
-        {/* <Button onClick={handleTest}/> */}
         <SectionComponent>
           <Text>Sky</Text>
           <SelectInput
@@ -118,7 +112,6 @@ export const GlobalComponent: React.FC = () => {
             placeholder="Sky"
             fullWidth={true}
           />
-          {/* <SelectInputSky /> */}
         </SectionComponent>
         <Divider />
         <SectionComponent>

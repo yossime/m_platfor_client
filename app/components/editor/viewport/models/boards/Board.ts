@@ -2,7 +2,6 @@
 import * as THREE from "three";
 import {
   ISceneObjectOptions,
-  ISceneObject,
   CustomObject3D,
   ContentMaterial,
   EConfigType,
@@ -26,9 +25,6 @@ export abstract class Board extends SceneObject {
     [EConfigType.HORIZONTAL, EConfiguration.CENTER],
     [EConfigType.VERTICAL, EConfiguration.CENTER],
   ]);
-
-  // protected abstract boardUrl: string;
-
   protected abstract getBoardUrl(): string;
 
   constructor(
@@ -39,8 +35,8 @@ export abstract class Board extends SceneObject {
     
     const categoryPath = `boards/${boardType}`
     super(type, categoryPath, options);
+    this.loadModelAndDisplay(options?.onLoad);
   }
-
 
   public getConfiguration(): Map<EConfigType, EConfiguration> | null { return this.configuration };
 
@@ -82,7 +78,6 @@ export abstract class Board extends SceneObject {
       // contentObjects: updatedObjects,
     });
   }
-
 
   public async setContentMaterial(
     type: ContentDataType,
@@ -129,7 +124,6 @@ export abstract class Board extends SceneObject {
     }
   }
 
-
   protected getPlaceholder(type: ContentDataType) {
     const configV = this.configuration.get(EConfigType.VERTICAL);
     const configH = this.configuration.get(EConfigType.HORIZONTAL);
@@ -137,7 +131,6 @@ export abstract class Board extends SceneObject {
     const placeholder = this.getGeometryByName(placeholderName);
     return placeholder;
   }
-
 
   protected async updateContentPositions(): Promise<void> {
     const entries = Array.from(this.contentsData.entries());
@@ -172,8 +165,6 @@ export abstract class Board extends SceneObject {
       }
     }
   }
-
-
 
   protected calculatePosition(contentType: string): THREE.Vector3 {
     // Implement position calculation based on configuration

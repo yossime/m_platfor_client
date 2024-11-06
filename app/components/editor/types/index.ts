@@ -13,6 +13,8 @@ export interface ISceneObjectOptions {
 }
 
 export interface ISceneObject {
+  type:string;
+  name: string | null;
   children: ISceneObject[];
   addChild?(sceneObject: ISceneObject): void;
   removeChild?(sceneObject: ISceneObject): void;
@@ -28,12 +30,9 @@ export interface ISceneObject {
   getContentText(type: ContentDataType): ContentText | null;
   setContentMaterial(type: ContentDataType, material: ContentMaterial): void;
   setContentText(type: ContentDataType, propertie: Partial<TextParams>): void;
-  getContentModels(type: ContentDataType): null;
-  setContentModels(
-    type: ContentDataType,
-    modelType: AssetModels,
-    modelName: string
-  ): void;
+  updateScale?(newPosition: Vector3): void;
+  updateRotation?(newRotation: Euler): void
+  updatePosition?(newScale: Vector3): void;
 }
 
 export interface IArchitecture extends ISceneObject {
@@ -41,7 +40,6 @@ export interface IArchitecture extends ISceneObject {
 }
 
 export interface IBoard extends ISceneObject {
-  // addBoard(board: IBoard): void;
 }
 
 export interface ProductBoard extends ISceneObject {
@@ -377,18 +375,7 @@ export enum FormatBoard {
   Side = "side",
 }
 
-// export enum FormatBoard {
-//   HeaderModel = "Model",
-//   HeaderFrame = "Frame",
-//   HeaderSimpal = "Simple",
-//   ArticleSimple = "articl Simple",
-//   Podiums = "podiums",
-//   Duo ="duo",
-//   FormSide ="FormSide",
-//   VideoSimple = "videoSimple",
-//   SubscriptionSimpal = "subscriptionSimple",
 
-// }
 
 export enum BoardType {
   Video = "video",

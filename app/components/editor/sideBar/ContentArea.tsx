@@ -1,11 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { GlobalComponent } from './components/WorldSideBar/GlobalComponent';
-import { ContentComponent } from './components/subSidbar/ContentComponent';
-import { useSidebarContext } from '@/context/SidebarContext ';
-import { ChooseBoardWidgetComponent } from './components/chooseBoard/ChooseBoardWidgetComponent';
-import { StyleComponent } from './components/subSidbar/StyleComponent';
-import ArchitectureComponent from './components/WorldSideBar/ArchitectureComponent';
+import React from "react";
+import styled from "styled-components";
+import { ContentComponent } from "./components/subSidbar/ContentComponent";
+import { useSidebarContext } from "@/context/SidebarContext ";
+import { StyleComponent } from "./components/subSidbar/StyleComponent";
+import { ModelLibrary } from "./components/model/ModelLibrary";
+import { ModelProduct } from "./components/model/ModelProduct";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -14,40 +13,32 @@ const ContentContainer = styled.div`
   justify-content: center;
   text-align: center;
   padding: 40px 24px;
-  gap:32px;
+  gap: 32px;
 `;
 
-interface ContentAreaProps {
-  handleBackOrAdd: () => void;
-}
 
-export const ContentArea: React.FC<ContentAreaProps> = ({ handleBackOrAdd }) => {
-  const {activeSidebarHeader,activeSidebarSubMenu} = useSidebarContext()
+export const ContentArea: React.FC = ({
+}) => {
+  const {  activeSidebarSubMenu } = useSidebarContext();
 
   const renderComponent = () => {
-    if (activeSidebarHeader === 'Choose Board Widget') {
-      return <ChooseBoardWidgetComponent />;
-    }
+ 
 
     switch (activeSidebarSubMenu) {
-      case 'Design':
-        if (activeSidebarHeader === 'World') {
-          return <GlobalComponent />;
-        }
-        else  return <StyleComponent/>;
-      case 'Edit':
-        if (activeSidebarHeader === 'World') {
-          return <ArchitectureComponent handleBackOrAdd={handleBackOrAdd} />;
-        }
-        else  return <ContentComponent  />;
+      case "Design":
+        return <StyleComponent />;
+      case "Edit":
+        return <ContentComponent />;
+      case "Library":
+        return <ModelLibrary />;
+      case "Products":
+        return <ModelProduct />;
+      case "Local":
+        return <ContentComponent />;
       default:
         return <div>No component available for this selection.</div>;
     }
   };
 
-  return (
-    <ContentContainer>
-      {renderComponent()}
-    </ContentContainer>
-  );
+  return <ContentContainer>{renderComponent()}</ContentContainer>;
 };

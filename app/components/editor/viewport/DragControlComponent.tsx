@@ -19,10 +19,18 @@ const DragControlComponent: React.FC<{
 
       if (intersects.length > 0) {
         const clickedObject = intersects[0].object as CustomObject3D;
-        
+
         if (clickedObject.userData?.draggable === false) {
           event.stopPropagation();
-        } 
+
+          const customEvent = new CustomEvent("mypointerdown", {
+            detail: { originalEvent: event },
+            bubbles: true,
+            cancelable: true,
+          });
+
+          // gl.domElement.dispatchEvent(customEvent);
+        }
       }
     };
 

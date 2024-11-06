@@ -16,19 +16,15 @@ import { useSelectedObject } from "../context/Selected.context";
 import { OrbitControls } from "@react-three/drei";
 import { SceneObject } from "./models/SceneObject";
 
-const SceneComponent: React.FC<{ isdragging: boolean }> = ({ isdragging }) => {
-  const { sceneModel, setSceneModel } = useEditor();
-  const { currentProject } = useProject();
+const SceneComponent: React.FC = () => {
+  const {  setSceneModel } = useEditor();
   const { raycaster, camera, mouse } = useThree();
-  const [hoveredObject, setHoveredObject] = useState<CustomObject3D | null>(null);
   const commandManager = CommandManager.getInstance();
   const [model, setModel] = useState<Object3D | undefined>(undefined);
   const [selectedModels, setSelectedModels] = useState<THREE.Object3D[]>([]);
-  const [selectedModel, setSelectedModel] = useState<THREE.Object3D>();
-  const hoveredObjectRef = useRef<CustomObject3D | null>(null);  
+  const hoveredObjectRef = useRef<CustomObject3D | null>(null);
 
   const { selectedObject, setSelectedObject } = useSelectedObject();
-
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -80,9 +76,9 @@ const SceneComponent: React.FC<{ isdragging: boolean }> = ({ isdragging }) => {
     const intersects = raycaster.intersectObject(model!, true);
     if (intersects.length > 0) {
       const hoverModel = intersects[0].object as CustomObject3D;
-      if (hoveredObjectRef.current !== hoverModel) { 
-        handleEndHover();  
-        hoveredObjectRef.current = hoverModel; 
+      if (hoveredObjectRef.current !== hoverModel) {
+        handleEndHover();
+        hoveredObjectRef.current = hoverModel;
         if (hoverModel.interactive && hoverModel.onPointerOver) {
           hoverModel.onPointerOver();
         }
@@ -91,19 +87,26 @@ const SceneComponent: React.FC<{ isdragging: boolean }> = ({ isdragging }) => {
   };
 
   const handleEndHover = () => {
-    if (hoveredObjectRef.current && hoveredObjectRef.current.interactive && hoveredObjectRef.current.onPointerOut) {
+    if (
+      hoveredObjectRef.current &&
+      hoveredObjectRef.current.interactive &&
+      hoveredObjectRef.current.onPointerOut
+    ) {
       hoveredObjectRef.current.onPointerOut();
       hoveredObjectRef.current = null;
     }
   };
 
   const handleEndClick = () => {
-    if (hoveredObjectRef.current && hoveredObjectRef.current.interactive && hoveredObjectRef.current.onPointerUp) {
+    if (
+      hoveredObjectRef.current &&
+      hoveredObjectRef.current.interactive &&
+      hoveredObjectRef.current.onPointerUp
+    ) {
       hoveredObjectRef.current.onPointerUp();
       hoveredObjectRef.current = null;
     }
   };
-
 
   const AnimatedLights = () => {
     useFrame(({ clock }) => {
@@ -119,26 +122,16 @@ const SceneComponent: React.FC<{ isdragging: boolean }> = ({ isdragging }) => {
   };
 
   return (
-    <group onClick={handleClick} onPointerOver={handleHover} onPointerUp={handleEndClick} >
+    <group
+      onClick={handleClick}
+      onPointerOver={handleHover}
+      onPointerUp={handleEndClick}
+    >
       <AnimatedLights />
       <Suspense fallback={<span>Loading...</span>}>
         {model && <primitive object={model} />}
       </Suspense>
-
-      {/* <OrbitControls
-    // ref={controlsRef}
-    enablePan={true}
-    enableRotate={true}
-    enableZoom={true}
-    // minDistance={5}
-    // maxDistance={100}
-    // onChange={() => setIsTransitioning(false)}
-  /> */}
-
       <OutlineEffect selectedModels={selectedModels} />
-      {!isdragging && (
-        <Controls selectedModel={selectedObject as unknown as THREE.Object3D} />
-      )}
     </group>
   );
 };

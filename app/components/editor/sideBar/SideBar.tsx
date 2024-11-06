@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { HeaderMenu } from "./HeaderMenu";
@@ -56,6 +56,13 @@ const Sidebar: React.FC = () => {
     setActiveSidebarSubMenu("Edit");
   }, [activeSidebarHeader]);
 
+  useEffect(() => {
+    if(selectedObject?.name)
+     { console.log(selectedObject.name);
+    setActiveSidebarHeader(selectedObject.name)
+  }
+  }, [selectedObject]);
+
   const handleBackOrAdd = () => {
     if (activeSidebarHeader === "World") {
       setActiveSidebarHeader("Choose Board Widget");
@@ -91,8 +98,8 @@ const Sidebar: React.FC = () => {
                 <Icon name={IconName.GLOBESIMPAL} onClick={handleBack} />
               )}
               {activeSidebarHeader !== "Choose Board Widget" && (
-              <Icon name={IconName.PLUS} onClick={handleAdd} />
-            )}
+                <Icon name={IconName.PLUS} onClick={handleAdd} />
+              )}
             </ProjectIcon>
             <ProjectTitle>
               <Collapsible title={currentProject?.projectName || ""}>
@@ -115,9 +122,7 @@ const Sidebar: React.FC = () => {
               />
             </ProjectIcon>
           </ProjectContainer>
-
           <Divider2 />
-
           <HeaderContainer>
             <HeaderIcon>
               {activeSidebarHeader !== "World" && (
@@ -141,12 +146,10 @@ const Sidebar: React.FC = () => {
           <Divider />
 
           <ScrollableContent>
-            {activeSidebarHeader !== "Choose Board Widget" && (
               <SubHeaderContainer>
                 <HeaderMenu />
               </SubHeaderContainer>
-            )}
-            <ContentArea handleBackOrAdd={handleBackOrAdd} />
+            <ContentArea  />
           </ScrollableContent>
         </SideBarContainer>
       ) : (

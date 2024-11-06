@@ -30,7 +30,6 @@ export interface WidgetData {
 
 
 
-
 export const widgets = [
   { type: BoardType.Header, name: 'Header', icon: IconName.ALIGNTOP , body: "Clickable social media icons"},
   { type: BoardType.Product, name: 'Product', icon: IconName.BASKET,  body: "Create and display your products"},
@@ -54,16 +53,20 @@ export interface SubMenuData {
   body: string;
 }
 
-export type SubMenuType =  'Edit' | 'Design';
+export type SubMenuType =  'Edit' | 'Design'| 'Library' | 'Products' |'Local';
 
 export const subMenus: SubMenuData[] = [
   { name: 'Edit', icon: IconName.EDIT, body: "Edit content" },
-  { name: 'Design', icon: IconName.ARTICLE, body: "Make design changes" }
+  { name: 'Design', icon: IconName.ARTICLE, body: "Make design changes" },
+  { name: 'Local', icon: IconName.ARTICLE, body: "Make design changes" },
+  { name: 'Library', icon: IconName.ARTICLE, body: "Make design changes" },
+  { name: 'Products', icon: IconName.ARTICLE, body: "Make design changes" }
+
 ];
 
 export const headers: Record<HeaderType, SubMenuData[]> = {
   'World': subMenus.filter(menu => [ 'Edit','Design'].includes(menu.name)),
-  'Choose Board Widget': [],
+  'Add 3D model': subMenus.filter(menu => [ 'Library','Products','Local'].includes(menu.name)),
   ...Object.fromEntries(
     widgets.map(widget => [
       widget.name,
@@ -72,20 +75,8 @@ export const headers: Record<HeaderType, SubMenuData[]> = {
   ),
 };
 
-// export const formats: Record<BoardType, FormatBoard[]> = {
-//   [BoardType.Video]: [FormatBoard.VideoSimple, FormatBoard.HeaderFrame],
-//   [BoardType.Header]: [FormatBoard.HeaderSimpal, FormatBoard.HeaderFrame,FormatBoard.HeaderModel],
-//   [BoardType.Image]:  [FormatBoard.HeaderSimpal, FormatBoard.HeaderFrame],
-//   [BoardType.Product]: [FormatBoard.Podiums, FormatBoard.Duo],
-//   [BoardType.Form]: [FormatBoard.FormSide],
-//   [BoardType.Subscription]: [FormatBoard.SubscriptionSimpal],
-//   [BoardType.Slider]: [FormatBoard.HeaderSimpal],
-//   [BoardType.Testimonials]:[FormatBoard.HeaderSimpal],
-//   [BoardType.Services]: [FormatBoard.HeaderSimpal],
-//   [BoardType.Gamification]:[FormatBoard.HeaderSimpal],
-//   [BoardType.Socials]: [FormatBoard.HeaderSimpal],
-//   [BoardType.Article]: [FormatBoard.HeaderSimpal],
-// };
+
+
 export const formats: Record<BoardType, FormatBoard[]> = {
   [BoardType.Video]: [FormatBoard.Simple, FormatBoard.Frame],
   [BoardType.Header]: [FormatBoard.Simple, FormatBoard.Frame,FormatBoard.Model],
@@ -130,6 +121,5 @@ export const imageStyleOptions = [
 export const BackgroundOptions = [
   { value: "Wood", label: "Wood" },
   { value: "Gold", label: "Gold" },
-  // { value: "Create new", label: "Create new" },
-  // { value: "Add from library", label: "Add from library" },
+
 ];

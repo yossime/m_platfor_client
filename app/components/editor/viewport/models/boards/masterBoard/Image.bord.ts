@@ -6,6 +6,8 @@ import { MasterBoardABC } from '.';
 export class ImageBoard extends MasterBoardABC {
     constructor(type: BoardType, options?: ISceneObjectOptions, onBoardLoaded?: () => void) {
         super(type, '' as FormatBoard, options);
+        this.name = "Image"
+
     }
 
 }

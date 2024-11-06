@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useEditor } from "@/context/useEditorContext";
-import { InputMode, InputSize } from "@constants/input";
 import {
   ButtonMode,
   ButtonSize,
@@ -20,35 +19,13 @@ import {
   SubContainer,
   SubWrapper,
   Container,
-  Divider,
 } from "../general/CommonStyles";
 import { useSidebarContext } from "@/context/SidebarContext ";
-import {
-  AssetModels,
-  ContentDataType,
-  ESkybox,
-  ModelType,
-} from "@/components/editor/types";
-import { useSelectedObject } from "@/components/editor/context/Selected.context";
-import DragAndDrop from "@/components/Library/general/DragAndDrop";
-import { uploadFile } from "@/services/upload.service";
-import { CustomModel } from "@/components/editor/viewport/models/assetModels/CustomModel";
 
-const options = [
-  { value: ESkybox.DEFAULT, label: "Default" },
-  { value: ESkybox.DARK, label: "Dark" },
-];
 
-interface ArchitectureComponentProps {
-  handleBackOrAdd: () => void;
-}
-
-export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({
-  handleBackOrAdd,
+export const ArchitectureComponent: React.FC= ({
 }) => {
   const { setActiveSidebarHeader } = useSidebarContext();
-  const { selectedObject, setSelectedObject } = useSelectedObject();
-
   const { sceneModel } = useEditor();
   const [panels, setPanels] = useState<any[]>([]);
 
@@ -61,44 +38,6 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({
 
   const handleSelect = (panel: any) => {
     setActiveSidebarHeader(panel.name);
-    // sceneModel?.setSelectedObject(panel);
-  };
-
-  const handleModelUpload = async (file: File) => {
-    try {
-      const modelResponse = await uploadFile(file);
-
-      const extractModelPath = (url: string) => {
-        const parts = url.split("/");
-        const userId = parts[parts.length - 2];
-        const fileName = parts[parts.length - 1].split(".")[0];
-
-        return `${userId}/${fileName}`;
-      };
-
-      const modelPath = extractModelPath(modelResponse);
-
-      if (sceneModel?.root?.architecture) {
-        sceneModel.root.architecture.setContentModels(
-          ContentDataType.BUTTON,
-          AssetModels.CUSTOM_MODEL,
-          modelPath
-        );
-        console.log(modelPath);
-      }
-    } catch (error) {
-      console.error("Error uploading files:", error);
-    }
-  };
-
-  const handlAddModel = () => {
-    if (sceneModel?.root?.architecture) {
-      sceneModel.root.architecture.setContentModels(
-        ContentDataType.BUTTON,
-        AssetModels.LIBRAY_MODEL,
-        "test1"
-      );
-    }
   };
 
   return (
@@ -137,20 +76,10 @@ export const ArchitectureComponent: React.FC<ArchitectureComponentProps> = ({
         variant={ButtonVariant.SECONDARY}
         size={ButtonSize.LARGE}
         icon={IconName.PLUS}
-        onClick={handleBackOrAdd}
+        onClick={()=>setActiveSidebarHeader("Choose Board Widget")}
         mode={ButtonMode.NORMAL}
         fullWidth={true}
       />
-      <Button
-        type={ButtonType.PRIMARY}
-        variant={ButtonVariant.SECONDARY}
-        size={ButtonSize.LARGE}
-        text="add model from libray"
-        onClick={handlAddModel}
-        mode={ButtonMode.NORMAL}
-        fullWidth={true}
-      />
-      <DragAndDrop buttonOnly type="model" onFileAdded={handleModelUpload} />
     </Container>
   );
 };

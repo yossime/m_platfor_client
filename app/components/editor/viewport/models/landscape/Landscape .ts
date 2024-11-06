@@ -7,12 +7,12 @@ import { FBXModelLoader, GLTFModelLoader } from '../../loaderes/AssetLoader';
 export class Landscape  extends SceneObject   {
 
 
-
   constructor(type: string, options?: ISceneObjectOptions) {
     const landscapePath = `Landscape/${type}`;
     const loader = new GLTFModelLoader();
     super(type, landscapePath, options, loader);
-
+    this.loadModelAndDisplay(options?.onLoad);
+    this.name = "World"
   }
 
   async loadModelAndDisplay(
@@ -29,7 +29,6 @@ export class Landscape  extends SceneObject   {
         child.userData.draggable = false;
       });
       if (model) {
-        // model.scale.set(0.05, 0.05, 0.05); 
         this.model = model;
       }      if (this.model && this.modelParent) {
         this.modelParent.attach(this.model);

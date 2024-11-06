@@ -61,35 +61,15 @@ export abstract class SceneObject implements ISceneObject {
     modelLoader?: ModelLoader
   ) {
     this.libraryUrl = "https://storage.googleapis.com/library-all-test";
-
     this.type = type;
     this.modelPath = modelPath;
     this.modelLoader = modelLoader || new GLTFModelLoader();
     if (options) {
       this.name = options.exportedScenObj?.name || options.name || this.name;
       this.modelParent = options.modelParent || null;
-      // this.position = options.position ?? this.position;
-      // this.rotation = options.rotation ?? this.rotation;
     }
-
-    this.loadModelAndDisplay(options?.onLoad);
-    // this.loadModelAndDisplay(options?.onLoad).then(() => {
-    //   if (options?.exportedScenObj !== undefined) {
-    //     this.buildFromJson(options.exportedScenObj);
-    //   }
-    // });
   }
 
-  // protected abstract loadModelAndDisplay(onLoad?: (model?: Object3D) => void): Promise<void>;
-  getContentModels(type: ContentDataType): null {
-    return null;
-  }
-
-  setContentModels(
-    type: ContentDataType,
-    modelType: AssetModels,
-    modelName: string
-  ): void {}
 
   protected async loadModelAndDisplay(
     onLoad?: (model: Object3D) => void
@@ -302,6 +282,7 @@ export abstract class SceneObject implements ISceneObject {
         child.onPointerOut = () => handleEndHover(placeholderClone);
         child.onPointerUp = () => handleEndPointerDown(placeholderClone);
         child.interactive = true;
+        child.userData.draggable =false;
       });
 
       slotMesh.parent?.attach(placeholderClone);
