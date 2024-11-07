@@ -162,7 +162,9 @@ const AddProduct: React.FC<AddProductProps> = ({
   }, [product, onSetTitle, formData.title]);
 
   const generateRandomSKU = useCallback(() => {
-    setFormData((prev) => ({ ...prev, SKU: uuidv4() }));
+    const uuid = uuidv4().replace(/-/g, ''); 
+    const shortenedSKU = uuid.substring(0, 8);
+    setFormData((prev) => ({ ...prev, SKU: shortenedSKU }));
   }, []);
 
   const handleSubmit = useCallback(
@@ -243,6 +245,8 @@ const AddProduct: React.FC<AddProductProps> = ({
           value={formData.description}
           onChange={handleInputChange}
           placeholder="Description"
+          autoComplete="off"
+
         />
 
         <DragContainer>

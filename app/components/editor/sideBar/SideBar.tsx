@@ -39,12 +39,11 @@ const Sidebar: React.FC = () => {
   const {
     setActiveSidebarHeader,
     activeSidebarHeader,
-    setActiveSidebarSubMenu,
     showformatBoard,
     setShowFormatBoard,
   } = useSidebarContext();
 
-  const { selectedObject, setSelectedObject } = useSelectedObject();
+  const { selectedObject } = useSelectedObject();
 
   useEffect(() => {
     if (selectedObject && selectedObject instanceof Board) {
@@ -52,9 +51,7 @@ const Sidebar: React.FC = () => {
     }
   }, [sceneModel]);
 
-  useEffect(() => {
-    setActiveSidebarSubMenu("Edit");
-  }, [activeSidebarHeader]);
+
 
   useEffect(() => {
     if(selectedObject?.name)
@@ -62,17 +59,6 @@ const Sidebar: React.FC = () => {
     setActiveSidebarHeader(selectedObject.name)
   }
   }, [selectedObject]);
-
-  const handleBackOrAdd = () => {
-    if (activeSidebarHeader === "World") {
-      setActiveSidebarHeader("Choose Board Widget");
-    } else if (activeSidebarHeader === "Choose Board Widget") {
-      setActiveSidebarHeader("World");
-    } else {
-      setActiveSidebarHeader("Choose Board Widget");
-      setSelectedObject(null);
-    }
-  };
 
   const handleFocus = () => {};
 

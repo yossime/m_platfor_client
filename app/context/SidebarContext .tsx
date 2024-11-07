@@ -39,15 +39,10 @@ export const SidebarProvider = ({ children }: { children: ReactNode }) => {
     return localStorage.getItem("showformatBoard") === "true";
   });
 
-  // useEffect(() => {
-
-  //   localStorage.setItem("activeSidebarHeader", activeSidebarHeader);
-
-  // }, [activeSidebarHeader]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("activeSidebarSubMenu", activeSidebarSubMenu);
-  // }, [activeSidebarSubMenu]);
+  useEffect(() => {
+    if(activeSidebarHeader !== "Add 3D model")
+    setActiveSidebarSubMenu("Edit");
+  }, [activeSidebarHeader]);
 
   useEffect(() => {
     localStorage.setItem("isOpen", JSON.stringify(isOpen));

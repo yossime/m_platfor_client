@@ -4,35 +4,75 @@ import { Product } from '@/components/dashboard/types/product.types';
 
 export const useProducts = (storeId: string) => {
   const [products, setProducts] = useState<Product[]>([]);
-    const [currStoreId, setCurrStoreId] = useState<string>(storeId);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setCurrStoreId(storeId);
     fetchProducts();
   }, [storeId]);
 
   const fetchProducts = async () => {
-    const fetchedProducts = await getProducts(currStoreId);
-    setProducts(fetchedProducts);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const fetchedProducts = await getProducts(storeId);
+      setProducts(fetchedProducts);
+    } catch (err) {
+      setError('Failed to fetch products');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAddProduct = async (product: Product) => {
-    await addProduct(currStoreId, product);
-    setProducts([...products, product]);
+    setIsLoading(true);
+    setError(null);
+    try {
+      await addProduct(storeId, product);
+      setProducts(prevProducts => [...prevProducts, product]);
+    } catch (err) {
+      setError('Failed to add product');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleUpdateProduct = async (updatedProduct: Product) => {
-    await updateProduct(currStoreId, updatedProduct);
-    setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+    setIsLoading(true);
+    setError(null);
+    try {
+      await updateProduct(storeId, updatedProduct);
+      setProducts(prevProducts =>
+        prevProducts.map(p => (p.id === updatedProduct.id ? updatedProduct : p))
+      );
+    } catch (err) {
+      setError('Failed to update product');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDeleteProduct = async (productId: string) => {
-    await deleteProduct(currStoreId, productId);
-    setProducts(products.filter(p => p.id !== productId));
+    setIsLoading(true);
+    setError(null);
+    try {
+      await deleteProduct(storeId, productId);
+      setProducts(prevProducts => prevProducts.filter(p => p.id !== productId));
+    } catch (err) {
+      setError('Failed to delete product');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return {
     products,
+    isLoading,
+    error,
     addProduct: handleAddProduct,
     updateProduct: handleUpdateProduct,
     deleteProduct: handleDeleteProduct,

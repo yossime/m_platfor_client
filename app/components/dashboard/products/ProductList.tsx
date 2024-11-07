@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import styled from "styled-components";
@@ -8,35 +8,44 @@ import { Product } from "../types/product.types";
 import Icon from "@/components/Library/icon/Icon";
 import { IconName } from "@constants/icon";
 import Text from "@/components/Library/text/Text";
+import LoadingSpinner from "@/components/Library/general/LoadingSpinner";
 
 const Container = styled.div`
-  width: 786px;
-  gap:2px;
+  width: 100%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
 `;
 
 const HeaderRow = styled.div`
   display: flex;
-  font-weight: bold;
-  min-height: 40px;
+  font-weight: 600;
+  color: #333;
+  min-height: 50px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px solid #eee;
   padding: 0 16px;
+  background-color: #f7f8fa;
 `;
 
 const Row = styled.div`
   display: flex;
-  
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  background-color: #ffffff;
-  min-height: 64px;
-  padding: 0 16px;
+  transition: background-color 0.3s ease;
+  padding: 12px 16px;
   &:hover {
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
+  }
+  &:nth-child(even) {
+    background-color: #fafafa;
   }
 `;
 
@@ -46,30 +55,34 @@ const Cell = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const ImageCell = styled(Cell)`
-  justify-content: flex-start;
+  font-size: 14px;
+  color: #555;
+  &:first-child {
+    justify-content: flex-start;
+  }
 `;
 
 const ProductImage = styled.img`
-  width: 64px;
-  height: 64px;
+  width: 50px;
+  height: 50px;
   object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const CenteredMessage = styled.div`
-  word-wrap: break-word;
   display: flex;
   flex-direction: column;
-  gap: 8px;
   justify-content: center;
   align-items: center;
   text-align: center;
   font-size: 18px;
-  color: #555;
-  height: 100%;
+  color: #777;
+  padding: 20px;
+  gap: 10px;
 `;
+
+
 
 interface ProductListProps {
   handleProductClick: (product: Product) => void;
@@ -77,11 +90,15 @@ interface ProductListProps {
 
 const ProductList: React.FC<ProductListProps> = ({ handleProductClick }) => {
   const { currentProject } = useProject();
-  const { products } = useProducts(currentProject?.id!);
+  const { products, isLoading } = useProducts(currentProject?.id!);
 
   return (
     <>
-      {products.length ? (
+      {isLoading ? (
+        <Container>
+        <LoadingSpinner />
+        </Container>
+      ) : products.length ? (
         <Container>
           <HeaderRow>
             <Cell></Cell>
@@ -95,9 +112,9 @@ const ProductList: React.FC<ProductListProps> = ({ handleProductClick }) => {
               key={`${product.SKU}-${index}`}
               onClick={() => handleProductClick(product)}
             >
-              <ImageCell>
+              <Cell>
                 <ProductImage src={product.image} alt={product.title} />
-              </ImageCell>
+              </Cell>
               <Cell>{product.title}</Cell>
               <Cell>{product.SKU}</Cell>
               <Cell>{product.barcode}</Cell>
@@ -108,7 +125,7 @@ const ProductList: React.FC<ProductListProps> = ({ handleProductClick }) => {
       ) : (
         <CenteredMessage>
           <Icon name={IconName.EMPTY} />
-          <Text>Seems like you haven't added any products yet</Text>
+          <Text>It looks like no products have been added yet.</Text>
         </CenteredMessage>
       )}
     </>

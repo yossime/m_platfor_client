@@ -1,10 +1,12 @@
 import { SceneObject } from "../SceneObject";
 import { CustomObject3D, ISceneObjectOptions } from "../../../types";
 import { Euler, Object3D, Vector3 } from "three";
+import { ModelLoader } from "../../loaderes/AssetLoader";
 
 export abstract class AssetModel extends SceneObject {
-  constructor(type: string, modelPath: string, options?: ISceneObjectOptions) {
-    super(type, modelPath, options);
+  constructor(type: string, modelPath: string, options?: ISceneObjectOptions,  modelLoader?: ModelLoader
+  ) {
+    super(type, modelPath, options,modelLoader);
     this.name = "Model";
   }
 

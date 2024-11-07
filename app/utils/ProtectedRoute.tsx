@@ -1,34 +1,21 @@
-"use client"
+"use client";
+import LoadingSpinner from '@/components/Library/general/LoadingSpinner';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const LoadingContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+const FullScreenContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
-  background-color: rgba(255, 255, 255, 0.8);
-`;
-
-const LoadingSpinner = styled.div`
-  width: 50px;
-  height: 50px;
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #3498db;
-  border-radius: 50%;
-  animation: ${rotate} 1s linear infinite;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8); 
+  z-index: 9999;
 `;
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -43,9 +30,9 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 
   if (loading) {
     return (
-      <LoadingContainer>
+      <FullScreenContainer>
         <LoadingSpinner />
-      </LoadingContainer>
+      </FullScreenContainer>
     );
   }
 

@@ -86,15 +86,14 @@ export class World extends SceneObject {
   }
 
   addModels(modelType: AssetModels, modelName: string): void {
-    if (modelType === AssetModels.CUSTOM_MODEL) {
-      new CustomModel(modelName, { modelParent: this.model });
-    } else {
-      new LibrayModel(modelName, { modelParent: this.model });
-    }
+    // if (modelType === AssetModels.CUSTOM_MODEL) {
+    //   new CustomModel(modelName, { modelParent: this.model });
+    // } else {
+    //   new LibrayModel(modelName, { modelParent: this.model });
+    // }
   }
 
   addAssets(asset: AssetModel): void {
-    console.log("()")
     if (asset.getModel()) {
       const model = asset.getModel();
       if (this.model && model) {

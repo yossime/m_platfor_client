@@ -88,32 +88,10 @@ export const ModelLibrary: React.FC = () => {
     document.removeEventListener("mouseup", handleMouseUp);
   };
 
-  const handleModelUpload = async (file: File) => {
-    try {
-      const modelResponse = await uploadFile(file);
 
-      const extractModelPath = (url: string) => {
-        const parts = url.split("/");
-        const userId = parts[parts.length - 2];
-        const fileName = parts[parts.length - 1].split(".")[0];
-
-        return `${userId}/${fileName}`;
-      };
-
-      const modelPath = extractModelPath(modelResponse);
-
-      if (sceneModel?.root?.architecture) {
-        sceneModel.root.addModels(AssetModels.CUSTOM_MODEL, modelPath);
-        console.log(modelPath);
-      }
-    } catch (error) {
-      console.error("Error uploading files:", error);
-    }
-  };
 
   return (
     <Container>
-      <DragAndDrop buttonOnly type="model" onFileAdded={handleModelUpload} />
 
       <WidgetContainer>
         {models.map((model) => (

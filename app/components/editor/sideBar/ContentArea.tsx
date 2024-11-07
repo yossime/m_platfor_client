@@ -5,6 +5,7 @@ import { useSidebarContext } from "@/context/SidebarContext ";
 import { StyleComponent } from "./components/subSidbar/StyleComponent";
 import { ModelLibrary } from "./components/model/ModelLibrary";
 import { ModelProduct } from "./components/model/ModelProduct";
+import { ModelLocal } from "./components/model/ModelLocal";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -34,7 +35,7 @@ export const ContentArea: React.FC = ({
       case "Products":
         return <ModelProduct />;
       case "Local":
-        return <ContentComponent />;
+        return <ModelLocal />;
       default:
         return <div>No component available for this selection.</div>;
     }

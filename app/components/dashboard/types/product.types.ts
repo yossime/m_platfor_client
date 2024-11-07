@@ -23,3 +23,6 @@ export interface Product {
   model?:string;
   images?: string[];
 }
+
+
+

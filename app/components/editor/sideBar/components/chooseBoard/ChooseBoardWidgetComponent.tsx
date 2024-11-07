@@ -21,7 +21,7 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
   const { sceneModel } = useEditor();
   const [selectedWidget, setSelectedWidget] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<number>(0);
-  const { setShowFormatBoard, setActiveSidebarHeader } = useSidebarContext();
+  const { setShowFormatBoard, setActiveSidebarHeader,setActiveSidebarSubMenu } = useSidebarContext();
   const { setSelectedObject } = useSelectedObject();
   const [draggedWidget, setDraggedWidget] = useState<WidgetData | null>(null);
 
@@ -77,6 +77,7 @@ export const ChooseBoardWidgetComponent: React.FC = () => {
 
   const handleModelClick = () => {
     setActiveSidebarHeader("Add 3D model");
+    setActiveSidebarSubMenu("Local")
   };
 
   useEffect(() => {

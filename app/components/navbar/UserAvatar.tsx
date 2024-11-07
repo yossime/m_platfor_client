@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Button from "../Library/button/Button";
 import { ButtonSize, ButtonType, ButtonVariant } from "@constants/button";
 import SignUpPopup from "../Library/general/SingUpPopup";
+import ValidatedImage from "./ValidateImage";
 
 interface UserAvatarProps {
   name: string;
@@ -58,7 +59,7 @@ const AvatarImage = styled.img`
 
 const UserAvatar: React.FC<UserAvatarProps> = ({
   name,
-  imageUrl,
+  imageUrl = "",
   size = 40,
   backgroundColor = "#1a73e8",
   color = "#ffffff",
@@ -79,6 +80,9 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
       $backgroundColor={backgroundColor}
       onClick={() => setShowPopup(!showPopup)}
     >
+      {/* <ValidatedImage src={imageUrl} alt={name}  fallback={<AvatarText $size={size} $color={color}>
+{initials}
+</AvatarText>}/> */}
       {imageUrl ? (
         <AvatarImage src={imageUrl} alt={name} />
       ) : (
