@@ -1,3 +1,4 @@
+"use client"
 import React, { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 
 export enum Plans {

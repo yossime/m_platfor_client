@@ -1,4 +1,4 @@
-
+"use client"
 
 import React, { createContext, useState, ReactNode, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
