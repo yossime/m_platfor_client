@@ -36,7 +36,7 @@ const ButtonsContainer: React.FC = () => {
       projectName: contextData.Name.value,
       projectParams: contextData
     };
-    router.push('/newpage');
+    router.push('/editor');
     // router.push('/editor');
 
     try {

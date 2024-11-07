@@ -46,7 +46,7 @@ const ProjectList: React.FC = () => {
 
   const selectProject = async (projectId: string, projectName:string) => {
     // router.push("/editor");
-    router.push("/newpage");
+    router.push("/editor");
     setCurrentProject({id:projectId,projectName:projectName});
     try {
       const project = await fetchProject(projectId, user?.uid as string);

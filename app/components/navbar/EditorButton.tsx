@@ -1,10 +1,9 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ButtonType,
   ButtonVariant,
   ButtonSize,
-  ButtonMode,
 } from "@constants/button";
 import { useProject } from "@/context/useProjectContext";
 import axios from "@/utils/axios";
@@ -78,9 +77,16 @@ const EditorButtons: React.FC = () => {
     }
   };
 
-  // if (!editorMode) return null;
 
-  document.addEventListener("click", stopNotificationSound);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      document.addEventListener("click", stopNotificationSound);
+    }
+    return () => {
+      document.removeEventListener("click", stopNotificationSound);
+    };
+  }, []);
+
 
   const handlePublishClick = () => {
     setShowPopup(!showPopup);

@@ -6,6 +6,6 @@ export class CustomModel extends AssetModel {
   constructor(type: string, userID:string,  options?: ISceneObjectOptions) {
     const loader = new AutoModelLoader();
     super(type, type, options,loader);
-    this.libraryUrl = `https://storage.googleapis.com/users-assets-a${userID}`        
+    this.libraryUrl = `https://storage.googleapis.com/users-assets-a/${userID}`        
   }
 }

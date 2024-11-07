@@ -51,7 +51,7 @@ const DashboardSideBar: React.FC = () => {
             <Icon
               name={IconName.EDIT}
               onClick={() => {
-                router.push("/newpage");
+                router.push("/editor");
               }}
             />
           </ProjectIcon>

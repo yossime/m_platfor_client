@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Texture } from "three";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
+import * as THREE from 'three';
 
 interface Environment {
   name: string;
@@ -107,13 +108,57 @@ export const EnvironmentProvider: React.FC<{ children: ReactNode }> = ({
     setEnvironment(updatedTextures);
   };
 
-  const loadTextureByName = async (name: string) => {
+  // const loadTextureByName = async (name: string) => {
+  //   const loader = new RGBELoader();
+  //   const basePath = "https://storage.googleapis.com/library-all-test/hdri/";
+  //   const fullPath = `${basePath}${name}.hdr`;
+
+  //   try {
+  //     const texture = await loader.loadAsync(fullPath);
+  //     const newEnvironment: Environment = {
+  //       name: name,
+  //       image: `${name}.jpg`,
+  //       texture: texture,
+  //     };
+  //     setCurrentEnvironment(newEnvironment);
+  //   } catch (error) {
+  //     console.error(`Error loading texture from path: ${fullPath}`, error);
+  //   }
+  // };
+
+
+
+  const loadTextureByName = async (
+    name: string,
+    options: {
+      mapping?: THREE.Mapping;
+      wrapS?: THREE.Wrapping;
+      wrapT?: THREE.Wrapping;
+      repeat?: THREE.Vector2;
+      rotation?: number;
+      intensity?: number;
+    } = {}
+  ) => {
     const loader = new RGBELoader();
     const basePath = "https://storage.googleapis.com/library-all-test/hdri/";
     const fullPath = `${basePath}${name}.hdr`;
-
+  
     try {
       const texture = await loader.loadAsync(fullPath);
+  
+      // Apply texture settings based on options
+      texture.mapping = options.mapping || THREE.EquirectangularReflectionMapping;
+      texture.wrapS = options.wrapS || THREE.ClampToEdgeWrapping;
+      texture.wrapT = options.wrapT || THREE.ClampToEdgeWrapping;
+      texture.repeat?.copy(options.repeat || new THREE.Vector2(2, 2));
+      texture.rotation = options.rotation || 0;
+      texture.colorSpace = "srgb-linear"
+  
+      // Optional intensity setting
+      if (options.intensity !== undefined) {
+        texture.userData = { intensity: options.intensity };
+      }
+  
       const newEnvironment: Environment = {
         name: name,
         image: `${name}.jpg`,
@@ -124,6 +169,7 @@ export const EnvironmentProvider: React.FC<{ children: ReactNode }> = ({
       console.error(`Error loading texture from path: ${fullPath}`, error);
     }
   };
+  
 
   return (
     <EnvironmentContext.Provider

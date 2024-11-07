@@ -22,6 +22,15 @@ export const EnvironmentLoader: React.FC = () => {
   }, [textures, currentEnvironment, setCurrentEnvironment]);
 
   useEffect(() => {
+    if (currentEnvironment?.texture) {
+      setCurrentEnvironment(textures[0]);
+    }
+  }, [ currentEnvironment, setCurrentEnvironment]);
+
+
+
+
+  useEffect(() => {
     const loadEnvironmentTexture = async () => {
       if (currentEnvironment?.texture) {
         const pmremGenerator = new THREE.PMREMGenerator(gl);
@@ -45,11 +54,11 @@ export const EnvironmentLoader: React.FC = () => {
     <Suspense fallback={null}>
       {processedEnvMap ? (
         <Environment
-          backgroundIntensity={0.4}
+          backgroundIntensity={0.75}
           environmentIntensity={0.2}
           map={processedEnvMap}
           background
-          backgroundBlurriness={0}
+    
         />
       ) : null}
     </Suspense>

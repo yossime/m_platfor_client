@@ -75,17 +75,15 @@ export const ModelProduct: React.FC = () => {
   const handleMouseDown = async (model: Product, event: React.MouseEvent) => {
     setSelectedModel(model);
     
-    const extractModelPath = (url: string) => {
+    const filenameAndType = (url: string) => {
       const parts = url.split("/");
       const fileName = parts[parts.length - 1];
-console.log(fileName)
       return fileName;}
 
       
-      console.log(model)
       if (model.model && user?.uid) {
-      const modelPath = extractModelPath(model.model);
-      const newModel = new CustomModel(modelPath,user?.uid);
+      const fileNme = filenameAndType(model.model);
+      const newModel = new CustomModel(fileNme,user?.uid);
       await newModel.loadModelAndDisplay();
       if (sceneModel?.root && newModel.getModel() && sceneModel.root) {
         sceneModel.root.addAssets(newModel);
