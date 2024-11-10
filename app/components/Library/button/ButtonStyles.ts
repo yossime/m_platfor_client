@@ -23,6 +23,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;
   text-align: center;
   justify-content: center;
+  gap: 8px;
   cursor:pointer ;
   border-radius: 4px;
   min-width: ${(props) => (props.$fullWidth ? "100%" : "auto")};
@@ -51,14 +52,15 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
     return css`
       height: ${height};
-      padding: ${props.$iconOnly ? "0" : padding};
+      padding: ${props.$iconOnly ? "6px 8px" : padding};
       width: ${props.$iconOnly
         ? height
-        : "auto"}; // Make width equal to height for icon-only buttons
+        : "auto"}; 
       font-size: ${fontSize};
       background-color: ${background};
       color: ${text};
       border: 1px solid ${border};
+
     `;
   }}
 `;
@@ -66,18 +68,18 @@ export const StyledButton = styled.button<StyledButtonProps>`
 export const IconWrapper = styled.span<{
   $position: "left" | "right" | "center";
 }>`
-  display: inline-flex;
-
+  
   ${(props) => {
     switch (props.$position) {
       case "left":
         return css`
           margin-right: 8px;
-        `;
+          background-color: blanchedalmond;
+          `;
       case "right":
         return css`
           margin-left: 8px;
-        `;
+          `;
       case "center":
         return css`
           margin: 0;

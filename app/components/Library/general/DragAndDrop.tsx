@@ -10,6 +10,7 @@ interface FileUploadProps {
   onFileAdded: (file: File) => void;
   type: 'image' | 'model' | 'any' | 'video';
   buttonOnly?: boolean; 
+  iconOnly?:boolean;
 }
 
 const acceptedTypes = {
@@ -27,7 +28,7 @@ const acceptedTypes = {
   any: {}
 };
 
-const DragAndDrop: React.FC<FileUploadProps> = ({ onFileAdded, type, buttonOnly = false }) => {
+const DragAndDrop: React.FC<FileUploadProps> = ({ onFileAdded, type, buttonOnly = false ,iconOnly}) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -49,16 +50,31 @@ const DragAndDrop: React.FC<FileUploadProps> = ({ onFileAdded, type, buttonOnly 
   };
 
   const renderButton = () => (
-    <Button
-      type={ButtonType.PRIMARY}
-      variant={ButtonVariant.SECONDARY}
-      size={ButtonSize.MEDIUM}
-      text={`Upload ${type}`}
-      icon={IconName.CLOUDARROWUP}
-      onClick={handleButtonClick}
-      mode={ButtonMode.NORMAL}
-      fullWidth={buttonOnly ? true : false}    />
+    !iconOnly ? (
+      <Button
+        type={ButtonType.PRIMARY}
+        variant={ButtonVariant.SECONDARY}
+        size={ButtonSize.MEDIUM}
+        text={`Upload ${type}`}
+        icon={IconName.CLOUDARROWUP}
+        onClick={handleButtonClick}
+        mode={ButtonMode.NORMAL}
+        fullWidth={buttonOnly ? true : false}
+      />
+    ) : (
+      <Button
+        type={ButtonType.PRIMARY}
+        variant={ButtonVariant.SECONDARY}
+        size={ButtonSize.LARGE}
+        icon={IconName.CLOUDARROWUP}
+        iconOnly={true}
+        onClick={handleButtonClick}
+        mode={ButtonMode.NORMAL}
+        fullWidth={false}
+      />
+    )
   );
+  
 
   if (buttonOnly) {
     return (

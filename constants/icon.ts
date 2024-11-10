@@ -114,6 +114,7 @@ export enum IconName {
 
 export const IconComponents: { [key in IconName]: IconType } = {
     [IconName.CUBE]: PiIcons.PiCubeThin,
+
     [IconName.GLOBESIMPAL]: PiIcons.PiGlobeSimple,
     [IconName.BROWSER]: PiIcons.PiBrowserThin,
     [IconName.PIGGYBUNK]: PiIcons.PiPiggyBankThin,

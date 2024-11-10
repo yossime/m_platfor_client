@@ -49,8 +49,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const getIconSize = (buttonSize: ButtonSize): IconSize => {
       switch (buttonSize) {
         case ButtonSize.LARGE:
+          return IconSize.LARGE;
         case ButtonSize.MEDIUM:
-          return IconSize.SMALL;
+          return IconSize.MEDIUM;
         case ButtonSize.SMALL:
         case ButtonSize.XS:
           return IconSize.SMALL;
@@ -97,14 +98,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         onClick={mode !== ButtonMode.DISABLED ? onClick : undefined}
         {...props}
       >
-        {icon && (iconOnly || iconPosition === "left") && (
-          <IconWrapper $position={iconOnly ? "center" : "left"}>
+        {icon  && (
             <Icon
               name={icon}
               size={getIconSize(size)}
               color={getIconColor(mode, variant)}
             />
-          </IconWrapper>
         )}
         {text && !iconOnly && (
           <Text
