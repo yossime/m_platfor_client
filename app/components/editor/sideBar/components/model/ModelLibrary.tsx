@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Container } from "../general/CommonStyles";
-import { getModelsName } from "@/services/model.service";
 import { useEditor } from "@/context/useEditorContext";
 import Icon from "@/components/Library/icon/Icon";
 import Text from "@/components/Library/text/Text";
@@ -17,9 +16,8 @@ import {
 } from "../chooseBoard/ChooseBoardWidgetStyles";
 import { LibrayModel } from "@/components/editor/viewport/models/assetModels/LibrayModel";
 import { AssetModel } from "@/components/editor/viewport/models/assetModels/AssetModel";
-import DragAndDrop from "@/components/Library/general/DragAndDrop";
-import { AssetModels } from "@/components/editor/types";
-import { uploadFile } from "@/services/upload.service";
+import { getModels } from "@/services/libModel.service";
+
 
 export const ModelLibrary: React.FC = () => {
   const { sceneModel } = useEditor();
@@ -36,7 +34,7 @@ export const ModelLibrary: React.FC = () => {
 
   useEffect(() => {
     const fetchLandscapes = async () => {
-      const data = await getModelsName();
+      const data = await getModels();
       if (data.files) {
         setModels(data.files);
       }

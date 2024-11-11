@@ -173,3 +173,34 @@ export class AutoModelLoader extends ModelLoader {
     
 }
 
+export class TestLoader extends ModelLoader {
+    private gltfLoader = new GLTFLoader();
+
+    async loadModel(url: string): Promise<THREE.Object3D | null> {
+        return new Promise((resolve, reject) => {
+            console.log("urlurlurlurl", url)
+
+            const fixUrl = `${url}`
+            this.gltfLoader.load(
+                fixUrl,
+                (gltf) => {
+                    console.log("gltf", gltf)
+                    const model = gltf.scene.children[0];
+                    if (model && model instanceof THREE.Object3D) {
+                        resolve(model);
+                    } else {
+                        reject(new Error("Loaded model is not a valid Object3D."));
+                    }
+                },
+                undefined,
+                (error) => {
+                    if (error instanceof Error) {
+                        reject(new Error(`Failed to load GLTF model: ${error.message}`));
+                    } else {
+                        reject(new Error("An unknown error occurred during model loading."));
+                    }
+                }
+            );
+        });
+    }
+}

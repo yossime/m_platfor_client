@@ -1,19 +1,21 @@
+import React, { Dispatch, SetStateAction, useMemo, useState } from "react";
+import styled from "styled-components";
 import Button from "@/components/Library/button/Button";
 import DragAndDrop from "@/components/Library/general/DragAndDrop";
 import Input from "@/components/Library/input/Input";
 import Text from "@/components/Library/text/Text";
 import TripoClient from "@/services/tripo.service";
-import { ButtonSize, ButtonType, ButtonVariant } from "@constants/button";
-import React, { useState } from "react";
-import styled from "styled-components";
+import { ButtonMode, ButtonSize, ButtonType, ButtonVariant } from "@constants/button";
 import { Divider } from "../general/CommonStyles";
 import { InputSize } from "@constants/input";
+import { UserModel } from "./models.types";
 
-const GeneratorContiner = styled.div`
+const GeneratorContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  overflow: hidden;
 `;
 
 const Status = styled.div`
@@ -47,18 +49,15 @@ const ProgressBar = styled.div<{ progress: number }>`
 `;
 
 const ModelPreview = styled.div`
-  height: 350px;
-  width: 350px;
+  height: 360px;
+  width: 100%;
   text-align: center;
-  background-color: azure;
+  justify-content: center;
+
   img {
-    max-height: 240px;
-    max-width: 100%;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-  }
-  p {
-    color: #888;
+    max-width: 328px;
+    max-height: 328px;
+    object-fit: contain;
   }
 `;
 
@@ -67,31 +66,68 @@ const ControlsContainer = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 24px;
+  height: 96px;
   width: 100%;
   gap: 10px;
 `;
 
-const GeneratorComponent: React.FC = () => {
+const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  height: 96px;
+  width: 100%;
+  gap: 10px;
+`;
+
+const SubtitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  justify-content: space-between;
+`;
+
+interface GeneratorComponentProps {
+  setModels: Dispatch<SetStateAction<UserModel[]>>;
+  handleCloseGenerator: () => void;
+}
+
+const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, handleCloseGenerator }) => {
   const [progress, setProgress] = useState<number>(0);
-  const [status, setStatus] = useState<string>("Idle");
+  const [status, setStatus] = useState<string>("Ai 3D Generator");
   const [modelPreview, setModelPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [textInput, setTextInput] = useState<string>("");
-  const [isTextInput, setIsTextInput] = useState<boolean>(true);
-  const [imageToken, setImageToken] = useState<any>("");
-  const [imageFormat, setImageformat] = useState<string>("");
+  const [imageToken, setImageToken] = useState<string | null>(null);
+  const [imageFormat, setImageFormat] = useState<string>("png");
+  const [newModel, setNewModel] = useState<UserModel>({});
+  const [buttons, setButtons] = useState<boolean>(true);
+  const [regenerat, setRegenrat] = useState<boolean>(false);
 
-  const tripoClient = new TripoClient();
+
+
+  const tripoClient = useMemo(() => new TripoClient(), []);
 
   const watchTaskProgress = (taskId: string) => {
-    setStatus("Tracking task progress...");
+    setStatus("progress...");
     tripoClient.watchTask(taskId, {
       onProgress: setProgress,
       onStatusChange: setStatus,
       onComplete: (task) => {
         setStatus("Generation completed!");
+        setButtons(true)
         setProgress(100);
-        setModelPreview(task.output.rendered_image);
+        setModelPreview(task.rendered_image.url);
+        setNewModel((prev) => ({
+          ...prev,
+          image: task.rendered_image.url,
+          model: task.model.url,
+          name: textInput,
+        }));
       },
       onError: (error) => {
         setError(error.message);
@@ -102,23 +138,27 @@ const GeneratorComponent: React.FC = () => {
 
   const generateFromText = async () => {
     setStatus("Generating from text...");
+    setButtons(false)
+    setRegenrat(true)
     try {
       const taskId = await tripoClient.generateFromText(textInput);
       watchTaskProgress(taskId);
     } catch (error: any) {
+      console.log("asaa")
+
       setError(error.message);
       setStatus("Error occurred");
     }
   };
 
-
   const generateFromImage = async () => {
-    setStatus("Generating from text...");
+    setStatus("Generating from image...");
+    setRegenrat(true)
     try {
-      const taskId = await tripoClient.generateFromImage(
-        imageToken,
-        imageFormat
-      );      watchTaskProgress(taskId);
+      if (imageToken) {
+        const taskId = await tripoClient.generateFromImage(imageToken, imageFormat);
+        watchTaskProgress(taskId);
+      }
     } catch (error: any) {
       setError(error.message);
       setStatus("Error occurred");
@@ -126,14 +166,15 @@ const GeneratorComponent: React.FC = () => {
   };
 
   const uploadImage = async (imageFile: File) => {
-    setTextInput("")
-    setIsTextInput(false)
     setStatus("Uploading image...");
     try {
-      const imageToken = await tripoClient.uploadImage(imageFile);
-      const imageFormat = imageFile.name.split(".").pop()?.toLowerCase() || "png";
-      setImageToken(imageToken)
-      setImageformat(imageFormat)
+      const token = await tripoClient.uploadImage(imageFile);
+      const format = imageFile.name.split(".").pop()?.toLowerCase() || "png";
+      setImageToken(token);
+      setImageFormat(format);
+      setModelPreview(URL.createObjectURL(imageFile));
+      setStatus("Ai 3D Generator");
+
     } catch (error: any) {
       setError(error.message);
       setStatus("Error occurred");
@@ -141,58 +182,80 @@ const GeneratorComponent: React.FC = () => {
   };
 
   const handleGenerate = () => {
-    if (isTextInput) {
+    if (textInput.length > 0) {
       generateFromText();
+    } else if (imageToken) {
+      generateFromImage();
     }
-    else{
-      generateFromImage()
+  };
+
+  const handleAddModel = () => {
+    handleCloseGenerator();
+    if (newModel.image && newModel.model) {
+      setModels((prevModels) => [...prevModels, newModel]);
     }
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextInput(e.target.value);
-    setIsTextInput(e.target.value.length > 0);
   };
 
   return (
-    <GeneratorContiner>
-      <Text>Ai 3D Generator</Text>
-      <Divider />
-      {error && <Error>Error: {error}</Error>}
+    <GeneratorContainer>
+      <SubtitleContainer>
+        <Divider />
+        <Text>{status}</Text>
+        <Divider />
+      </SubtitleContainer>
+      {/* {error && <Error>Error: {error}</Error>} */}
       <ModelPreview>
-        {modelPreview ? (
-          <div>
-            <Status>Status: {status}</Status>
-            <ProgressBar progress={progress} />
-            <img src={modelPreview} alt="Generated Model Preview" />
-          </div>
-        ) : (
-          <p>No preview available</p>
-        )}
+        {modelPreview && <img src={modelPreview} alt="Generated Model Preview" />}
       </ModelPreview>
-      <ControlsContainer>
-        <Input
-          inputSize={InputSize.LARGE}
-          value={textInput}
-          onChange={handleTextChange}
-          placeholder="Enter text for generation"
-          disabled={!isTextInput}
-        />
-        <DragAndDrop
-          iconOnly
-          buttonOnly
-          type="image"
-          onFileAdded={(file) => uploadImage(file)}
-        />
-        <Button
-          type={ButtonType.PRIMARY}
-          variant={ButtonVariant.PRIMARY}
-          size={ButtonSize.LARGE}
-          text="Generate"
-          onClick={handleGenerate}
-        />
-      </ControlsContainer>
-    </GeneratorContiner>
+      {!regenerat ? (
+        <ControlsContainer>
+          <Input
+            inputSize={InputSize.LARGE}
+            value={textInput}
+            onChange={handleTextChange}
+            placeholder="Enter text for generation"
+          />
+          <DragAndDrop
+            onClick={() => setTextInput("")}
+            iconOnly
+            buttonOnly
+            type="image"
+            onFileAdded={uploadImage}
+          />
+          <Button
+            type={ButtonType.PRIMARY}
+            variant={ButtonVariant.PRIMARY}
+            size={ButtonSize.LARGE}
+            text="Generate"
+            onClick={handleGenerate}
+            
+          />
+        </ControlsContainer>
+      ) : (
+        <ButtonsContainer>
+          <Button
+            type={ButtonType.PRIMARY}
+            variant={ButtonVariant.SECONDARY}
+            size={ButtonSize.LARGE}
+            text="Regenerate"
+            onClick={handleGenerate}
+            mode={buttons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
+          />
+          <Button
+            type={ButtonType.PRIMARY}
+            variant={ButtonVariant.PRIMARY}
+            size={ButtonSize.LARGE}
+            text="Claim"
+            onClick={handleAddModel}
+            mode={buttons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
+          />
+        </ButtonsContainer>
+      )}
+    </GeneratorContainer>
   );
 };
 

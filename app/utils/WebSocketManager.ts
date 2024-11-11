@@ -12,27 +12,30 @@ export class WebSocketManager {
       onError?: (error: Error) => void;
     }
   ) {
-    // this.disconnect();
-
-    const wsUrl = "ws://localhost:3500";
+    const wsUrl = "ws://server-cloud-run-service-kruirvrv6a-uc.a.run.app";
     this.socket = new WebSocket(`${wsUrl}/task/watch/${taskId}`);
-    console.log(this.socket);
     this.socket.onopen = () => {
-      console.log("Connected to WebSocket server");
-      this.socket?.send(JSON.stringify({ type: "SUBSCRIBE_TASK", taskId }));
+      this.socket?.send(
+        JSON.stringify({ type: "SUBSCRIBE_TASK", taskId: taskId })
+      );
     };
 
     this.socket.onmessage = (event) => {
       const update = JSON.parse(event.data);
 
-      if (update.event === "update") {
-        console.log("event",update)
-        callbacks.onProgress?.(update.data.progress);
-        callbacks.onStatusChange?.(update.data.status);
-      } else if (update.event === "finalized") {
-        callbacks.onComplete?.(update.data);
+
+      if (update.status === "success") {
+        callbacks.onComplete?.(update.result);
         this.disconnect();
       }
+
+      // if (update.event === "update") {
+      //   callbacks.onProgress?.(update.data.progress);
+      //   callbacks.onStatusChange?.(update.data.status);
+      // } else if (update.event === "finalized") {
+      //   callbacks.onComplete?.(update.data);
+      //   this.disconnect();
+      // }
     };
 
     this.socket.onerror = (error) => {

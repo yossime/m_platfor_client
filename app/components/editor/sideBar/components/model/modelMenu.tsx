@@ -24,16 +24,16 @@ export const Container = styled.div`
   padding: 16px;
 
 `;
+interface AddModelMenuProps{
+  handleOpenGenerator:()=>void
+  onClose:()=>void
+}
 
-
-export const AddModelMenu: React.FC = () => {
+export const AddModelMenu: React.FC<AddModelMenuProps> = ({onClose,handleOpenGenerator}) => {
   const { sceneModel } = useEditor();
   const { user } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
   const parentRef = useRef(null);
 
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
 
   const handleModelUpload = async (file: File) => {
     try {
@@ -61,26 +61,15 @@ export const AddModelMenu: React.FC = () => {
   };
 
   return (
-    <Container>
-      <DragAndDrop buttonOnly type="model" onFileAdded={handleModelUpload} />
-      {isOpen && (
-          <Popup
-          onClose={handleClose}
-          title="Sample Popup"
-          isCentered
-          height={558}
-          width={565}
-          >
-          <GeneratorComponent />
-        </Popup>
-      )}
+    <Container ref={parentRef}>
+      <DragAndDrop tertiary={true} onClick={onClose} buttonOnly type="model" onFileAdded={handleModelUpload} />
       <Button
         type={ButtonType.PRIMARY}
-        variant={ButtonVariant.SECONDARY}
-        size={ButtonSize.LARGE}
+        variant={ButtonVariant.TERTIARY}
+        size={ButtonSize.MEDIUM}
         text="Ai 3D Generator"
         icon={IconName.PLUS}
-        onClick={handleOpen}
+        onClick={handleOpenGenerator}
       />
     </Container>
   );

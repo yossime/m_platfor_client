@@ -9,38 +9,40 @@ class TripoClient {
     }
 
     async generateFromText(prompt: string): Promise<string> {
-        const response = await axios.post(`/modelGenerator/generate/text`, {
+        const response = await axios.post(`/modelGenerator/generate/text`,{prompt:  prompt }, {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ prompt })
+            
         });
-
-        if (response.status !== 201) {
-            throw new Error(`Generation failed: ${response.statusText}`);
-        }
+        if (response.request.status !== 200) {
+          console.log(response.request.status)
+          throw new Error(`Generation failed: ${response.statusText}`);
+      }
 
         return response.data.taskId;
     }
 
     async generateFromImage(imageToken: string, imageFormat: string): Promise<string> {
-          console.log("imageee",imageFormat,imageToken)
-        const response = await axios.post(
-          `/modelGenerator/generate/image`, 
-          JSON.stringify({ imageToken, imageFormat }), 
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-      
-        if (response.status !== 201) {
-          throw new Error(`Generation failed: ${response.statusText}`);
+
+      const response = await axios.post(
+        `/modelGenerator/generate/image`,
+        { imageToken, imageFormat },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
-      
-        return response.data.taskId;
+      );
+      if (response.request.status !== 200) {
+        console.log(response)
+        
+        throw new Error(`Generation failed: ${response.statusText}`);
       }
+    
+      return response.data.taskId;
+    }
+    
 
     async uploadImage(imageFile: File): Promise<any> {
         const formData = new FormData();
@@ -69,3 +71,6 @@ class TripoClient {
 }
 
 export default TripoClient;
+
+
+

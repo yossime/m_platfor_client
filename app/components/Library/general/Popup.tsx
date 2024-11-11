@@ -13,6 +13,8 @@ import { IconName, IconSize } from "@constants/icon";
 import { BackgroundColor, IconColor } from "@constants/colors";
 import Button from "@/components/Library/button/Button";
 import { ButtonType, ButtonVariant, ButtonSize } from "@constants/button";
+import Text from "@components/Library/text/Text";
+import { FontWeight, TextSize } from "@constants/text";
 
 interface PopupProps {
   children: ReactNode;
@@ -27,7 +29,7 @@ interface PopupProps {
 }
 
 const PopupContent = styled.div<{
-  isDragging: boolean;
+  $isDragging: boolean;
   $width?: number;
   $height?: number;
 }>`
@@ -38,31 +40,32 @@ const PopupContent = styled.div<{
   border-radius: 8px;
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  cursor: ${({ isDragging }) => (isDragging ? "grabbing" : "grab")};
+  overflow:hidden;
 `;
 const PopupContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const CloseButton = styled.div`
-  cursor: pointer;
-  padding: 16px;
+
+const Title = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const ButtonContainer = styled.div`
-  /* display: flex;
-  justify-content: flex-end; */
+
 `;
 const CloseButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: end;
-  height: 50px;
+  height: 64px;
   width: 100%;
   margin-top: 0;
+  padding: 16px;
 `;
 
 const ChildrenContent = styled.div`
@@ -172,8 +175,8 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(
           onClose();
         }
       };
-
-      document.addEventListener("mousedown", handleClickOutside);
+      if (!closeButton)
+        document.addEventListener("mousedown", handleClickOutside);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
@@ -185,20 +188,24 @@ const Popup = forwardRef<HTMLDivElement, PopupProps>(
           ref={internalRef}
           style={{ left: `${position.x}px`, top: `${position.y}px` }}
           onMouseDown={handleMouseDown}
-          isDragging={isDragging}
+          $isDragging={isDragging}
           $width={width}
           $height={height}
         >
           <PopupContainer>
             {closeButton && (
               <CloseButtonContainer>
-                <CloseButton onClick={onClose}>
+                <Title>
+                <Text size={TextSize.TEXT1} $weight={FontWeight.SEMI_BOLD}>
+                  {title}
+                </Text>
+                </Title>
                   <Icon
+                    onClick={onClose}
                     name={IconName.X}
-                    size={IconSize.SMALL}
+                    size={IconSize.MEDIUM}
                     color={IconColor.ICONCOLOR}
                   />
-                </CloseButton>
               </CloseButtonContainer>
             )}
             <ChildrenContent>{children}</ChildrenContent>

@@ -11,6 +11,8 @@ interface FileUploadProps {
   type: 'image' | 'model' | 'any' | 'video';
   buttonOnly?: boolean; 
   iconOnly?:boolean;
+  onClick?:()=>void;
+  tertiary?:boolean;
 }
 
 const acceptedTypes = {
@@ -28,7 +30,7 @@ const acceptedTypes = {
   any: {}
 };
 
-const DragAndDrop: React.FC<FileUploadProps> = ({ onFileAdded, type, buttonOnly = false ,iconOnly}) => {
+const DragAndDrop: React.FC<FileUploadProps> = ({tertiary, onClick,onFileAdded, type, buttonOnly = false ,iconOnly}) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -45,6 +47,7 @@ const DragAndDrop: React.FC<FileUploadProps> = ({ onFileAdded, type, buttonOnly 
   });
 
   const handleButtonClick = (event: React.MouseEvent) => {
+    if(onClick) onClick()
     event.stopPropagation();
     fileInputRef.current?.click();
   };
@@ -53,7 +56,7 @@ const DragAndDrop: React.FC<FileUploadProps> = ({ onFileAdded, type, buttonOnly 
     !iconOnly ? (
       <Button
         type={ButtonType.PRIMARY}
-        variant={ButtonVariant.SECONDARY}
+        variant={tertiary ? ButtonVariant.TERTIARY: ButtonVariant.SECONDARY}
         size={ButtonSize.MEDIUM}
         text={`Upload ${type}`}
         icon={IconName.CLOUDARROWUP}
