@@ -8,6 +8,8 @@ import React, {
   useContext,
   useEffect,
 } from "react";
+import { useAuth } from "./AuthContext";
+import { fetchProjects } from "@/services/projectService";
 
 export interface Project {
   projectName: string;
@@ -21,8 +23,6 @@ interface ProjectContextType {
   setCurrentProject: (project: Project | null) => void;
   projects: Project[];
   setProjects: (projects: Project[]) => void;
-  // editorMode: boolean;
-  // setEditorMode: (mode: boolean) => void;
 }
 
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
@@ -49,10 +49,28 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({
   );
 
   const [projects, setProjects] = useState<Project[]>(() =>
-    getFromLocalStorage(PROJECTS_STORAGE_KEY) || []
+    getFromLocalStorage(PROJECTS_STORAGE_KEY) ||[]
   );
 
-  // const [editorMode, setEditorMode] = useState<boolean>(false);
+
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const loadProjects = async () => {
+      if (!user) return;
+      try {
+        const fetchedProjects = await fetchProjects();
+        localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
+
+        setProjects(fetchedProjects);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadProjects();
+  }, [user, setProjects]);
+
 
   useEffect(() => {
     if (currentProject !== null) {
@@ -74,8 +92,7 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({
     setCurrentProject,
     projects,
     setProjects,
-    // editorMode,
-    // setEditorMode,
+
   };
 
   return (

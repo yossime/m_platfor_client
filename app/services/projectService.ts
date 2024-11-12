@@ -2,9 +2,9 @@ import axios from "@/utils/axios";
 import { User } from "firebase/auth";
 import { registerStore } from "./storeService";
 
-export const fetchProjects = async (userId: string): Promise<any[]> => {
+export const fetchProjects = async (): Promise<any[]> => {
   try {
-    const response = await axios.get("/projects", { params: { userId } });
+    const response = await axios.get("/projects");
     return response.data.projects;
   } catch (error) {
     console.error("Error fetching projects:", error);

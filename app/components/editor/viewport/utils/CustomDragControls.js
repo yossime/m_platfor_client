@@ -317,62 +317,62 @@ function onPointerMove( event ) {
 
 }
 
-// function onPointerDown( event ) {
+function onPointerDown( event ) {
 
-// 	const camera = this.object;
-// 	const domElement = this.domElement;
-// 	const raycaster = this.raycaster;
+	const camera = this.object;
+	const domElement = this.domElement;
+	const raycaster = this.raycaster;
 
-// 	if ( this.enabled === false ) return;
+	if ( this.enabled === false ) return;
 
-// 	this._updatePointer( event );
-// 	this._updateState( event );
+	this._updatePointer( event );
+	this._updateState( event );
 
-// 	_intersections.length = 0;
+	_intersections.length = 0;
 
-// 	raycaster.setFromCamera( _pointer, camera );
-// 	raycaster.intersectObjects( this.objects, this.recursive, _intersections );
+	raycaster.setFromCamera( _pointer, camera );
+	raycaster.intersectObjects( this.objects, this.recursive, _intersections );
 
-// 	if ( _intersections.length > 0 ) {
+	if ( _intersections.length > 0 ) {
 
-// 		if ( this.transformGroup === true ) {
+		if ( this.transformGroup === true ) {
 
-// 			_selected = findGroup( _intersections[ 0 ].object );
+			_selected = findGroup( _intersections[ 0 ].object );
 
-// 		} else {
+		} else {
 
-// 			_selected = _intersections[ 0 ].object;
+			_selected = _intersections[ 0 ].object;
 
-// 		}
+		}
 
-// 		_plane.setFromNormalAndCoplanarPoint( camera.getWorldDirection( _plane.normal ), _worldPosition.setFromMatrixPosition( _selected.matrixWorld ) );
+		_plane.setFromNormalAndCoplanarPoint( camera.getWorldDirection( _plane.normal ), _worldPosition.setFromMatrixPosition( _selected.matrixWorld ) );
 
-// 		if ( raycaster.ray.intersectPlane( _plane, _intersection ) ) {
+		if ( raycaster.ray.intersectPlane( _plane, _intersection ) ) {
 
-// 			if ( this.state === STATE.PAN ) {
+			if ( this.state === STATE.PAN ) {
 
-// 				_inverseMatrix.copy( _selected.parent.matrixWorld ).invert();
-// 				_offset.copy( _intersection ).sub( _worldPosition.setFromMatrixPosition( _selected.matrixWorld ) );
+				_inverseMatrix.copy( _selected.parent.matrixWorld ).invert();
+				_offset.copy( _intersection ).sub( _worldPosition.setFromMatrixPosition( _selected.matrixWorld ) );
 
-// 			} else if ( this.state === STATE.ROTATE ) {
+			} else if ( this.state === STATE.ROTATE ) {
 
-// 				// the controls only support Y+ up
-// 				_up.set( 0, 1, 0 ).applyQuaternion( camera.quaternion ).normalize();
-// 				_right.set( 1, 0, 0 ).applyQuaternion( camera.quaternion ).normalize();
+				// the controls only support Y+ up
+				_up.set( 0, 1, 0 ).applyQuaternion( camera.quaternion ).normalize();
+				_right.set( 1, 0, 0 ).applyQuaternion( camera.quaternion ).normalize();
 
-// 			}
+			}
 
-// 		}
+		}
 
-// 		domElement.style.cursor = 'move';
+		domElement.style.cursor = 'move';
 
-// 		this.dispatchEvent( { type: 'dragstart', object: _selected } );
+		this.dispatchEvent( { type: 'dragstart', object: _selected } );
 
-// 	}
+	}
 
-// 	_previousPointer.copy( _pointer );
+	_previousPointer.copy( _pointer );
 
-// }
+}
 
 function onPointerDown(event) {
     const camera = this.object;
@@ -457,7 +457,32 @@ function isMeshMovable(mesh) {
     return mesh.userData.draggable === true;
 }
 
-export { DragControls };
+export default DragControls ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // export default class CustomDragControls extends DragControls {
 //     constructor(objects, camera, domElement) {
@@ -547,10 +572,14 @@ export { DragControls };
 //   constructor(objects, camera, domElement = null) {
 //     super(objects, camera, domElement);
 
-//     this._onPointerDown = this._customPointerDown.bind(this);
-//   }
-
-//   _customPointerDown(event) {
-//     console.log("Custom onPointerDown action:");
-//   }
+// 	  this._onPointerDown = this.onPointerDown.bind(this); 
+	
 // }
+// onPointerDown(event) {
+//   console.log("Custom pointer down behavior");
+// }
+
+
+// }
+
+

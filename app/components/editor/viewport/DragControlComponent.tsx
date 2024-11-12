@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import { Mesh, MeshStandardMaterial } from "three";
 import { CustomObject3D } from "../types";
-import { DragControls } from "./utils/CustomDragControls";
+import DragControls  from "./utils/CustomDragControls";
 
 const DragControlComponent: React.FC<{
   setIsDragging: (dragging: boolean) => void;

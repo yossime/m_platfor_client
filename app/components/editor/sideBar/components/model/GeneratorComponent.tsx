@@ -24,7 +24,7 @@ const Status = styled.div`
   margin: 10px 0;
 `;
 
-const Error = styled.div`
+const ErrorMessage = styled.div`
   color: red;
   font-size: 14px;
   margin: 10px 0;
@@ -98,65 +98,59 @@ interface GeneratorComponentProps {
 
 const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, handleCloseGenerator }) => {
   const [progress, setProgress] = useState<number>(0);
-  const [status, setStatus] = useState<string>("Ai 3D Generator");
+  const [status, setStatus] = useState<string>("AI 3D Generator");
   const [modelPreview, setModelPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [textInput, setTextInput] = useState<string>("");
   const [imageToken, setImageToken] = useState<string | null>(null);
   const [imageFormat, setImageFormat] = useState<string>("png");
   const [newModel, setNewModel] = useState<UserModel>({});
-  const [towbuttons, setTowButtons] = useState<boolean>(true);
-  const [regenerat, setRegenrat] = useState<boolean>(false);
-  const [disablegenerat, setDisablegenerat] = useState<boolean>(false);
-
-
-
+  const [showButtons, setShowButtons] = useState<boolean>(true);
+  const [isRegenerating, setIsRegenerating] = useState<boolean>(false);
+  const [isGenerateDisabled, setIsGenerateDisabled] = useState<boolean>(false);
 
   const tripoClient = useMemo(() => new TripoClient(), []);
 
   const watchTaskProgress = (taskId: string) => {
-    setStatus("progress...");
+    setStatus("In progress...");
     tripoClient.watchTask(taskId, {
       onProgress: setProgress,
       onStatusChange: setStatus,
       onComplete: (task) => {
         setStatus("Generation completed!");
-        setTowButtons(true)
+        setShowButtons(true);
         setProgress(100);
         setModelPreview(task.rendered_image.url);
-        setNewModel((prev) => ({
-          ...prev,
+        setNewModel({
           image: task.rendered_image.url,
           model: task.model.url,
           name: textInput,
-        }));
+        });
       },
       onError: (error) => {
         setError(error.message);
-        setStatus("Error occurred");
+        setStatus("An error occurred");
       },
     });
   };
 
   const generateFromText = async () => {
     setStatus("Generating from text...");
-    setTowButtons(false)
-    setRegenrat(true)
+    setShowButtons(false);
+    setIsRegenerating(true);
     try {
       const taskId = await tripoClient.generateFromText(textInput);
       watchTaskProgress(taskId);
     } catch (error: any) {
-      console.log("asaa")
-
       setError(error.message);
-      setStatus("Error occurred");
+      setStatus("An error occurred");
     }
   };
 
   const generateFromImage = async () => {
     setStatus("Generating from image...");
-    setRegenrat(true)
-    setTowButtons(false)
+    setIsRegenerating(true);
+    setShowButtons(false);
 
     try {
       if (imageToken) {
@@ -165,7 +159,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
       }
     } catch (error: any) {
       setError(error.message);
-      setStatus("Error occurred");
+      setStatus("An error occurred");
     }
   };
 
@@ -178,12 +172,11 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
       setImageToken(token);
       setImageFormat(format);
       setModelPreview(URL.createObjectURL(imageFile));
-      setDisablegenerat(true) 
-      setStatus("Ai 3D Generator");
-
+      setIsGenerateDisabled(true);
+      setStatus("AI 3D Generator");
     } catch (error: any) {
       setError(error.message);
-      setStatus("Error occurred");
+      setStatus("An error occurred");
     }
   };
 
@@ -204,7 +197,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextInput(e.target.value);
-    if(e.target.value.length > 0){ setDisablegenerat(true) }else setDisablegenerat(false)
+    setIsGenerateDisabled(e.target.value.length > 0);
   };
 
   return (
@@ -214,18 +207,17 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
         <Text>{status}</Text>
         <Divider />
       </SubtitleContainer>
-      {/* {error && <Error>Error: {error}</Error>} */}
+      {/* {error && <ErrorMessage>Error: {error}</ErrorMessage>} */}
       <ModelPreview>
         {modelPreview && <img src={modelPreview} alt="Generated Model Preview" />}
       </ModelPreview>
-      {!regenerat ? (
+      {!isRegenerating ? (
         <ControlsContainer>
           <Input
             inputSize={InputSize.LARGE}
             value={textInput}
             onChange={handleTextChange}
             placeholder="Enter text for generation"
-            
           />
           <DragAndDrop
             onClick={() => setTextInput("")}
@@ -240,8 +232,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
             size={ButtonSize.LARGE}
             text="Generate"
             onClick={handleGenerate}
-            mode={disablegenerat ? ButtonMode.NORMAL : ButtonMode.DISABLED}
-
+            mode={isGenerateDisabled ? ButtonMode.NORMAL : ButtonMode.DISABLED}
           />
         </ControlsContainer>
       ) : (
@@ -252,7 +243,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
             size={ButtonSize.LARGE}
             text="Regenerate"
             onClick={handleGenerate}
-            mode={towbuttons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
+            mode={showButtons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
           />
           <Button
             type={ButtonType.PRIMARY}
@@ -260,7 +251,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
             size={ButtonSize.LARGE}
             text="Claim"
             onClick={handleAddModel}
-            mode={towbuttons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
+            mode={showButtons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
           />
         </ButtonsContainer>
       )}

@@ -22,39 +22,22 @@ import { TextColor } from "@constants/colors";
 
 
 const ProjectList: React.FC = () => {
-  const {currentProject, setCurrentProject, projects, setProjects } = useProject();
+  const { setCurrentProject, projects, setProjects } = useProject();
   const [error, setError] = useState<string>("");
 
   const { user } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    const loadProjects = async () => {
-      if (!user?.uid) return;
-      try {
-        const fetchedProjects = await fetchProjects(user.uid);
-        setProjects(fetchedProjects);
-      } catch (error) {
-        setError("Error fetching projects");
-        console.error(error);
-      }
-    };
-
-    loadProjects();
-  }, [user, setProjects]);
-
 
   const selectProject = async (projectId: string, projectName:string) => {
-    // router.push("/editor");
     router.push("/editor");
     setCurrentProject({id:projectId,projectName:projectName});
-    try {
-      const project = await fetchProject(projectId, user?.uid as string);
-      // console.log(project)
-    } catch (error) {
-      console.error("Error selecting project:", error);
-      setError("Failed to select project");
-    }
+    // try {
+    //   const project = await fetchProject(projectId, user?.uid as string);
+    // } catch (error) {
+    //   console.error("Error selecting project:", error);
+    //   setError("Failed to select project");
+    // }
   };
 
   const handleCreateProject = () => {
