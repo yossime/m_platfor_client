@@ -105,8 +105,10 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
   const [imageToken, setImageToken] = useState<string | null>(null);
   const [imageFormat, setImageFormat] = useState<string>("png");
   const [newModel, setNewModel] = useState<UserModel>({});
-  const [buttons, setButtons] = useState<boolean>(true);
+  const [towbuttons, setTowButtons] = useState<boolean>(true);
   const [regenerat, setRegenrat] = useState<boolean>(false);
+  const [disablegenerat, setDisablegenerat] = useState<boolean>(false);
+
 
 
 
@@ -119,7 +121,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
       onStatusChange: setStatus,
       onComplete: (task) => {
         setStatus("Generation completed!");
-        setButtons(true)
+        setTowButtons(true)
         setProgress(100);
         setModelPreview(task.rendered_image.url);
         setNewModel((prev) => ({
@@ -138,7 +140,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
 
   const generateFromText = async () => {
     setStatus("Generating from text...");
-    setButtons(false)
+    setTowButtons(false)
     setRegenrat(true)
     try {
       const taskId = await tripoClient.generateFromText(textInput);
@@ -154,6 +156,8 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
   const generateFromImage = async () => {
     setStatus("Generating from image...");
     setRegenrat(true)
+    setTowButtons(false)
+
     try {
       if (imageToken) {
         const taskId = await tripoClient.generateFromImage(imageToken, imageFormat);
@@ -167,12 +171,14 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
 
   const uploadImage = async (imageFile: File) => {
     setStatus("Uploading image...");
+
     try {
       const token = await tripoClient.uploadImage(imageFile);
       const format = imageFile.name.split(".").pop()?.toLowerCase() || "png";
       setImageToken(token);
       setImageFormat(format);
       setModelPreview(URL.createObjectURL(imageFile));
+      setDisablegenerat(true) 
       setStatus("Ai 3D Generator");
 
     } catch (error: any) {
@@ -198,6 +204,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextInput(e.target.value);
+    if(e.target.value.length > 0){ setDisablegenerat(true) }else setDisablegenerat(false)
   };
 
   return (
@@ -218,6 +225,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
             value={textInput}
             onChange={handleTextChange}
             placeholder="Enter text for generation"
+            
           />
           <DragAndDrop
             onClick={() => setTextInput("")}
@@ -232,7 +240,8 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
             size={ButtonSize.LARGE}
             text="Generate"
             onClick={handleGenerate}
-            
+            mode={disablegenerat ? ButtonMode.NORMAL : ButtonMode.DISABLED}
+
           />
         </ControlsContainer>
       ) : (
@@ -243,7 +252,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
             size={ButtonSize.LARGE}
             text="Regenerate"
             onClick={handleGenerate}
-            mode={buttons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
+            mode={towbuttons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
           />
           <Button
             type={ButtonType.PRIMARY}
@@ -251,7 +260,7 @@ const GeneratorComponent: React.FC<GeneratorComponentProps> = ({ setModels, hand
             size={ButtonSize.LARGE}
             text="Claim"
             onClick={handleAddModel}
-            mode={buttons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
+            mode={towbuttons ? ButtonMode.NORMAL : ButtonMode.DISABLED}
           />
         </ButtonsContainer>
       )}

@@ -12,7 +12,7 @@ export class WebSocketManager {
       onError?: (error: Error) => void;
     }
   ) {
-    const wsUrl = "ws://server-cloud-run-service-kruirvrv6a-uc.a.run.app";
+    const wsUrl = "wss://server-cloud-run-service-kruirvrv6a-uc.a.run.app";
     this.socket = new WebSocket(`${wsUrl}/task/watch/${taskId}`);
     this.socket.onopen = () => {
       this.socket?.send(

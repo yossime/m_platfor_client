@@ -55,7 +55,7 @@ const Sidebar: React.FC = () => {
 
   useEffect(() => {
     if(selectedObject?.name)
-     { console.log(selectedObject.name);
+     { 
     setActiveSidebarHeader(selectedObject.name)
   }
   }, [selectedObject]);

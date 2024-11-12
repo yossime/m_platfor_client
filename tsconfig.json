@@ -38,6 +38,6 @@
   "app/**/*.ts",
   "app/**/*.tsx",
   "svgr.d.ts"
-],
+, "app/components/editor/viewport/utils/CustomDragControlsTest.ts"],
   "exclude": ["node_modules"]
 }
