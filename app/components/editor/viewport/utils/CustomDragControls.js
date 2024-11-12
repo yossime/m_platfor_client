@@ -317,62 +317,6 @@ function onPointerMove( event ) {
 
 }
 
-function onPointerDown( event ) {
-
-	const camera = this.object;
-	const domElement = this.domElement;
-	const raycaster = this.raycaster;
-
-	if ( this.enabled === false ) return;
-
-	this._updatePointer( event );
-	this._updateState( event );
-
-	_intersections.length = 0;
-
-	raycaster.setFromCamera( _pointer, camera );
-	raycaster.intersectObjects( this.objects, this.recursive, _intersections );
-
-	if ( _intersections.length > 0 ) {
-
-		if ( this.transformGroup === true ) {
-
-			_selected = findGroup( _intersections[ 0 ].object );
-
-		} else {
-
-			_selected = _intersections[ 0 ].object;
-
-		}
-
-		_plane.setFromNormalAndCoplanarPoint( camera.getWorldDirection( _plane.normal ), _worldPosition.setFromMatrixPosition( _selected.matrixWorld ) );
-
-		if ( raycaster.ray.intersectPlane( _plane, _intersection ) ) {
-
-			if ( this.state === STATE.PAN ) {
-
-				_inverseMatrix.copy( _selected.parent.matrixWorld ).invert();
-				_offset.copy( _intersection ).sub( _worldPosition.setFromMatrixPosition( _selected.matrixWorld ) );
-
-			} else if ( this.state === STATE.ROTATE ) {
-
-				// the controls only support Y+ up
-				_up.set( 0, 1, 0 ).applyQuaternion( camera.quaternion ).normalize();
-				_right.set( 1, 0, 0 ).applyQuaternion( camera.quaternion ).normalize();
-
-			}
-
-		}
-
-		domElement.style.cursor = 'move';
-
-		this.dispatchEvent( { type: 'dragstart', object: _selected } );
-
-	}
-
-	_previousPointer.copy( _pointer );
-
-}
 
 function onPointerDown(event) {
     const camera = this.object;
